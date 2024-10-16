@@ -8,6 +8,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "secretlint": "secretlint --maskSecrets --secretlintignore .gitignore '**/*'",
+    "check-types": "tsc --project tsconfig.json --pretty --noEmit",
     "prepare": "husky install"
   },
   "dependencies": {
