@@ -18,8 +18,17 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ja">
-      <body className={cn(zen_maru_gothic.className, 'min-h-dvh')}>
-        {children}
+      <body
+        className={cn(
+          zen_maru_gothic.className,
+          'grid grid-cols-custom-layout',
+        )}
+      >
+        <div className="col-span-3 grid grid-cols-custom-layout gap-custom-gap">
+          <div className="col-start-2 grid min-h-dvh grid-rows-[auto_1fr_auto]">
+            {children}
+          </div>
+        </div>
       </body>
     </html>
   );

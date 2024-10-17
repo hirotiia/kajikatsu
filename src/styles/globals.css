@@ -3,8 +3,30 @@
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /** Colors */
+  --background: #fafafa;
+  --foreground: #222222;
+  --ring: #010816;
+
+  --primary: #005691;
+  --primary-foreground: #fafafa;
+
+  --login: #fafafa;
+  --login-foreground: #222222;
+
+  /** Viewport */
+  --viewport-max: 1280px;
+  --viewport-min: 330px;
+
+  /** Margin */
+  --screen-margin-max: 2.5rem;
+  --screen-margin-min: 1rem;
+  --screen-margin: 0
+    clamp(
+      var(--screen-margin-min),
+      0.591rem + 2.182vw,
+      var(--screen-margin-max)
+    );
 }
 
 @media (prefers-color-scheme: dark) {

@@ -1,3 +1,11 @@
+import { Button } from '@/components/ui/button';
+
 export default function Home() {
-  return <main>aaa </main>;
+  return (
+    <div>
+      <Button rounded="md" variant="login">
+        クリック
+      </Button>
+    </div>
+  );
 }
