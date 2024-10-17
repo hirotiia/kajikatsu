@@ -8,14 +8,19 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "supabase": "npx supabase start",
     "secretlint": "secretlint --maskSecrets --secretlintignore .gitignore '**/*'",
     "check-types": "tsc --project tsconfig.json --pretty --noEmit",
     "prepare": "husky install"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.45.4",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.1.1",
     "next": "^14.2.15",
     "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react-dom": "^18.3.1",
+    "tailwind-merge": "^2.5.4"
   },
   "devDependencies": {
     "@secretlint/secretlint-rule-preset-recommend": "^9.0.0",
