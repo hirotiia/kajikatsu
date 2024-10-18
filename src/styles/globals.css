@@ -11,8 +11,8 @@
   --primary: #005691;
   --primary-foreground: #fafafa;
 
-  --login: #fafafa;
-  --login-foreground: #222222;
+  --base: #fafafa;
+  --base-foreground: #222222;
 
   /** Viewport */
   --viewport-max: 1280px;
@@ -36,9 +36,26 @@
   }
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
+@layer base {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  body {
+    @apply text-foreground;
+    margin: 0;
+    color: var(--foreground);
+    background: var(--background);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1,
+  h2 {
+    font-weight: bold;
+  }
 }
 
 @layer utilities {
