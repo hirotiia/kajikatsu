@@ -13,13 +13,13 @@ const config: Config = {
         background: 'var(--background)',
         foreground: 'var(--foreground)',
         ring: 'var(--ring)',
+        base: {
+          DEFAULT: 'var(--base)',
+          foreground: 'var(--base-foreground)',
+        },
         primary: {
           DEFAULT: 'var(--primary)',
           foreground: 'var(--primary-foreground)',
-        },
-        login: {
-          DEFAULT: 'var(--login)',
-          foreground: 'var(--login-foreground)',
         },
       },
       minWidth: {
