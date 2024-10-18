@@ -21,7 +21,7 @@ const Logo = () => {
 export const BaseLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <>
-      <header className="flex items-center justify-between">
+      <header className="flex items-center justify-between border-b border-base-foreground py-4">
         <Logo />
         <nav className="flex items-center justify-center">
           <ul>
@@ -40,7 +40,7 @@ export const BaseLayout = ({ children }: { children: React.ReactNode }) => {
           </ul>
         </nav>
       </header>
-      <main>{children}</main>
+      <main className="pb-24 pt-20">{children}</main>
       <footer className="py-4">
         <p className="text-right">
           <small>©2024 nakano hiroya</small>
