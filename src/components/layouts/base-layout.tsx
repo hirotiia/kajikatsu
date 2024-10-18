@@ -9,7 +9,7 @@ const Logo = () => {
       <Image
         className="h-10 w-auto md:h-12"
         alt="チャートレアイコン"
-        src="/logo.svg"
+        src="/images/logo.svg"
         width="80"
         height="80"
       />
@@ -40,8 +40,8 @@ export const BaseLayout = ({ children }: { children: React.ReactNode }) => {
           </ul>
         </nav>
       </header>
-      <main className="mt-20">{children}</main>
-      <footer className="mt-10 py-4">
+      <main>{children}</main>
+      <footer className="py-4">
         <p className="text-right">
           <small>©2024 nakano hiroya</small>
         </p>
