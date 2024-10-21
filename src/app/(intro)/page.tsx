@@ -15,19 +15,19 @@ export default function Home() {
         <h1 className="text-4xl md:text-6xl">{config.APP_NAME}</h1>
       </hgroup>
 
-      <Text className="text-center mt-0">
+      <Text className="mt-0 text-center">
         夫婦やカップルの家事分担を可視化・共有するためのアプリです。
         <br />
         以下のような機能があります。
       </Text>
 
-      <div className="max-w-inline-custom mx-auto mt-10 md:mt-12 grid grid-cols-custom gap-custom-gap">
+      <div className="max-w-inline-custom mx-auto mt-10 grid grid-cols-custom gap-custom-gap md:mt-12">
         <article
           className="row-span-2 grid grid-rows-subgrid gap-custom-gutter rounded-md bg-primary p-4 text-primary-foreground"
           aria-labelledby="article1"
         >
-          <h2 id="article1" className="text-center grid gap-y-2">
-            <span className="block text-sm md:text-md">
+          <h2 id="article1" className="grid gap-y-2 text-center">
+            <span className="md:text-md block text-sm">
               家事を簡単に管理できる
             </span>
             <span className="block text-xl md:text-2xl">ペアリング機能</span>
@@ -44,8 +44,8 @@ export default function Home() {
           className="row-span-2 grid grid-rows-subgrid gap-custom-gutter rounded-md bg-primary p-4 text-primary-foreground"
           aria-labelledby="article2"
         >
-          <h2 id="article2" className="text-center grid gap-y-2">
-            <span className="block text-sm md:text-md">進捗状況を</span>
+          <h2 id="article2" className="grid gap-y-2 text-center">
+            <span className="md:text-md block text-sm">進捗状況を</span>
             <span className="block text-xl md:text-2xl">グラフで可視化</span>
           </h2>
           <p>
@@ -58,8 +58,8 @@ export default function Home() {
           className="row-span-2 grid grid-rows-subgrid gap-custom-gutter rounded-md bg-primary p-4 text-primary-foreground"
           aria-labelledby="article1"
         >
-          <h2 id="article1" className="text-center grid gap-y-2">
-            <span className="block text-sm md:text-md">詳細な</span>
+          <h2 id="article1" className="grid gap-y-2 text-center">
+            <span className="md:text-md block text-sm">詳細な</span>
             <span className="block text-xl md:text-2xl">
               統計＆レポート機能
             </span>

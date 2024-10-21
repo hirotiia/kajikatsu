@@ -1,11 +1,12 @@
 'use client';
 
-import { config } from '@/config/config';
-import { zen_maru_gothic } from '@/font/font';
-import { cn } from '@/utils/cn';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+
+import { config } from '@/config/config';
+import { zen_maru_gothic } from '@/font/font';
+import { cn } from '@/utils/cn';
 
 const Logo = () => {
   return (
