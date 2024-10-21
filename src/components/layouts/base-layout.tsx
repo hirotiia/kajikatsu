@@ -25,7 +25,7 @@ export const BaseLayout = ({ children }: { children: React.ReactNode }) => {
     <body
       className={cn(zen_maru_gothic.className, 'grid grid-cols-custom-layout')}
     >
-      <div className="col-span-3 grid grid-cols-custom-layout gap-custom-gap">
+      <div className="col-span-3 grid grid-cols-custom-layout gap-layout-gap">
         <div className="col-start-2 grid min-h-dvh grid-rows-[auto_1fr_auto]">
           <header className="flex items-center justify-between border-b border-base-foreground py-4">
             <Logo />

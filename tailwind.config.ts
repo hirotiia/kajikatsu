@@ -25,12 +25,19 @@ const config: Config = {
       minWidth: {
         custom: 'min(90%, 500px)',
       },
+      gridTemplateRows: {
+        subgrid: 'subgrid',
+      },
       gridTemplateColumns: {
+        custom:
+          'repeat(auto-fill, minmax(min(var(--column-min-size), 100%), 1fr))',
         'custom-layout':
           '1fr minmax(var(--viewport-min), var(--viewport-max)) 1fr',
       },
       gap: {
-        'custom-gap': 'var(--screen-margin)',
+        'custom-gap': 'var(--gap)',
+        'layout-gap': 'var(--layout-gap)',
+        'custom-gutter': 'var(--gutter)',
       },
     },
   },

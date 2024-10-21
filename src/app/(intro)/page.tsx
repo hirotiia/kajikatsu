@@ -18,6 +18,33 @@ export default function Home() {
       <Text className="text-center">
         夫婦やカップルの家事分担を可視化・共有するためのアプリです。
       </Text>
+
+      <div className="mt-20 grid grid-cols-custom gap-custom-gap max-w-inline-custom mx-auto">
+        <article
+          className="grid grid-rows-subgrid row-span-4 gap-custom-gutter bg-primary rounded-md text-primary-foreground p-4"
+          aria-labelledby="article1"
+        >
+          <h2 id="article1" className="text-xl md:text-2xl text-center">
+            機能タイトル
+          </h2>
+        </article>
+        <article
+          className="grid grid-rows-subgrid row-span-4 gap-custom-gutter bg-primary rounded-md text-primary-foreground p-4"
+          aria-labelledby="article1"
+        >
+          <h2 id="article1" className="text-xl md:text-2xl text-center">
+            機能タイトル
+          </h2>
+        </article>
+        <article
+          className="grid grid-rows-subgrid row-span-4 gap-custom-gutter bg-primary rounded-md text-primary-foreground p-4"
+          aria-labelledby="article1"
+        >
+          <h2 id="article1" className="text-xl md:text-2xl text-center">
+            機能タイトル
+          </h2>
+        </article>
+      </div>
     </>
   );
 }
