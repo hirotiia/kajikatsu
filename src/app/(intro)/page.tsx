@@ -11,38 +11,64 @@ export const metadata: Metadata = {
 export default function Home() {
   return (
     <>
-      <hgroup className="mb-6 flex flex-col-reverse items-center justify-center gap-4 md:mb-12 md:gap-6">
+      <hgroup className="mb-4 flex flex-col-reverse items-center justify-center gap-4 md:mb-6 md:gap-6">
         <h1 className="text-4xl md:text-6xl">{config.APP_NAME}</h1>
       </hgroup>
 
-      <Text className="text-center">
+      <Text className="text-center mt-0">
         夫婦やカップルの家事分担を可視化・共有するためのアプリです。
+        <br />
+        以下のような機能があります。
       </Text>
 
-      <div className="mt-20 grid grid-cols-custom gap-custom-gap max-w-inline-custom mx-auto">
+      <div className="max-w-inline-custom mx-auto mt-10 md:mt-12 grid grid-cols-custom gap-custom-gap">
         <article
-          className="grid grid-rows-subgrid row-span-4 gap-custom-gutter bg-primary rounded-md text-primary-foreground p-4"
+          className="row-span-2 grid grid-rows-subgrid gap-custom-gutter rounded-md bg-primary p-4 text-primary-foreground"
           aria-labelledby="article1"
         >
-          <h2 id="article1" className="text-xl md:text-2xl text-center">
-            機能タイトル
+          <h2 id="article1" className="text-center grid gap-y-2">
+            <span className="block text-sm md:text-md">
+              家事を簡単に管理できる
+            </span>
+            <span className="block text-xl md:text-2xl">ペアリング機能</span>
           </h2>
+          <p>
+            パートナーと一緒に家事を分担！
+            <br />
+            招待コードを使って簡単にペアリングし、二人で家事リストを共有。
+            <br />
+            片方が家事を完了させると、すぐに相手にも通知が届きます。
+          </p>
         </article>
         <article
-          className="grid grid-rows-subgrid row-span-4 gap-custom-gutter bg-primary rounded-md text-primary-foreground p-4"
-          aria-labelledby="article1"
+          className="row-span-2 grid grid-rows-subgrid gap-custom-gutter rounded-md bg-primary p-4 text-primary-foreground"
+          aria-labelledby="article2"
         >
-          <h2 id="article1" className="text-xl md:text-2xl text-center">
-            機能タイトル
+          <h2 id="article2" className="text-center grid gap-y-2">
+            <span className="block text-sm md:text-md">進捗状況を</span>
+            <span className="block text-xl md:text-2xl">グラフで可視化</span>
           </h2>
+          <p>
+            誰がどれだけ家事をしているか一目瞭然！
+            <br />
+            家事の進捗や分担比率をグラフやポイントシステムで可視化し、不満の溜まりにくいバランスの取れた生活をサポートします。
+          </p>
         </article>
         <article
-          className="grid grid-rows-subgrid row-span-4 gap-custom-gutter bg-primary rounded-md text-primary-foreground p-4"
+          className="row-span-2 grid grid-rows-subgrid gap-custom-gutter rounded-md bg-primary p-4 text-primary-foreground"
           aria-labelledby="article1"
         >
-          <h2 id="article1" className="text-xl md:text-2xl text-center">
-            機能タイトル
+          <h2 id="article1" className="text-center grid gap-y-2">
+            <span className="block text-sm md:text-md">詳細な</span>
+            <span className="block text-xl md:text-2xl">
+              統計＆レポート機能
+            </span>
           </h2>
+          <p>
+            毎週・毎月の家事の貢献度を統計データで確認。
+            <br />
+            レポート機能で自分とパートナーの家事パフォーマンスを振り返り、未来の計画を立てるヒントに。
+          </p>
         </article>
       </div>
     </>

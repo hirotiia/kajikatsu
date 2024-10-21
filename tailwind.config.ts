@@ -30,7 +30,7 @@ const config: Config = {
       },
       gridTemplateColumns: {
         custom:
-          'repeat(auto-fill, minmax(min(var(--column-min-size), 100%), 1fr))',
+          'repeat(auto-fit, minmax(min(var(--column-min-size), 100%), 1fr))',
         'custom-layout':
           '1fr minmax(var(--viewport-min), var(--viewport-max)) 1fr',
       },

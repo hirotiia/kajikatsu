@@ -1,9 +1,11 @@
-import Image from 'next/image';
-import Link from 'next/link';
+'use client';
 
 import { config } from '@/config/config';
 import { zen_maru_gothic } from '@/font/font';
 import { cn } from '@/utils/cn';
+import Image from 'next/image';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 const Logo = () => {
   return (
@@ -21,6 +23,7 @@ const Logo = () => {
 };
 
 export const BaseLayout = ({ children }: { children: React.ReactNode }) => {
+  const pathname = usePathname();
   return (
     <body
       className={cn(zen_maru_gothic.className, 'grid grid-cols-custom-layout')}
@@ -41,11 +44,15 @@ export const BaseLayout = ({ children }: { children: React.ReactNode }) => {
                     url: '/login',
                   },
                 ].map(({ title, url }) => {
+                  const isCurrent = pathname === url;
                   return (
                     <li key={title}>
                       <Link
                         href={url}
-                        className="p-4 text-lg transition-colors duration-300 ease-in-out hover:text-primary"
+                        className={cn(
+                          'p-4 text-lg transition-colors duration-300 ease-in-out hover:text-primary font-bold',
+                          isCurrent && 'text-primary',
+                        )}
                       >
                         {title}
                       </Link>
