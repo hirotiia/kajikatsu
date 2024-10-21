@@ -5,12 +5,7 @@
     "sourceType": "module"
   },
   "ignorePatterns": ["node_modules/*"],
-  "extends": [
-    "next/core-web-vitals",
-    "next/typescript",
-    "eslint:recommended",
-    "plugin:storybook/recommended"
-  ],
+  "extends": ["next/core-web-vitals", "next/typescript", "eslint:recommended"],
   "settings": {
     "react": {
       "version": "detect"
