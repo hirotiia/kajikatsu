@@ -3,6 +3,12 @@ import { HeadingLv2 } from '@/components/ui/heading';
 import { List } from '@/components/ui/list';
 import { Text } from '@/components/ui/text';
 import { config } from '@/config/config';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: config.APP_NAME,
+  description: '家事負荷分担アプリ”カジ活”',
+};
 
 export default function Home() {
   return (

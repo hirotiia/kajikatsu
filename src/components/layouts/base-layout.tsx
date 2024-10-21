@@ -1,7 +1,8 @@
+import { config } from '@/config/config';
+import { zen_maru_gothic } from '@/font/font';
+import { cn } from '@/utils/cn';
 import Image from 'next/image';
 import Link from 'next/link';
-
-import { config } from '@/config/config';
 
 const Logo = () => {
   return (
@@ -20,32 +21,47 @@ const Logo = () => {
 
 export const BaseLayout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <>
-      <header className="flex items-center justify-between border-b border-base-foreground py-4">
-        <Logo />
-        <nav className="flex items-center justify-center">
-          <ul>
-            {[
-              {
-                title: 'ログイン',
-                url: '/login',
-              },
-            ].map(({ title, url }) => {
-              return (
-                <li key={title}>
-                  <Link href={url}>{title}</Link>
-                </li>
-              );
-            })}
-          </ul>
-        </nav>
-      </header>
-      <main className="pb-24 pt-20">{children}</main>
-      <footer className="py-4">
-        <p className="text-right">
-          <small>©2024 nakano hiroya</small>
-        </p>
-      </footer>
-    </>
+    <body
+      className={cn(zen_maru_gothic.className, 'grid grid-cols-custom-layout')}
+    >
+      <div className="col-span-3 grid grid-cols-custom-layout gap-custom-gap">
+        <div className="col-start-2 grid min-h-dvh grid-rows-[auto_1fr_auto]">
+          <header className="flex items-center justify-between border-b border-base-foreground py-4">
+            <Logo />
+            <nav className="flex items-center justify-center">
+              <ul className="flex gap-3">
+                {[
+                  {
+                    title: 'about',
+                    url: '/about',
+                  },
+                  {
+                    title: 'login',
+                    url: '/login',
+                  },
+                ].map(({ title, url }) => {
+                  return (
+                    <li key={title}>
+                      <Link
+                        href={url}
+                        className="p-4 text-lg transition-colors duration-300 ease-in-out hover:text-primary"
+                      >
+                        {title}
+                      </Link>
+                    </li>
+                  );
+                })}
+              </ul>
+            </nav>
+          </header>
+          <main className="pb-24 pt-20">{children}</main>
+          <footer className="py-4">
+            <p className="text-right">
+              <small>©2024 nakano hiroya</small>
+            </p>
+          </footer>
+        </div>
+      </div>
+    </body>
   );
 };

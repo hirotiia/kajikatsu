@@ -44,7 +44,7 @@
   }
 
   body {
-    @apply text-foreground;
+    @apply text-foreground overflow-y-scroll;
     margin: 0;
     color: var(--foreground);
     background: var(--background);
