@@ -1,51 +1,48 @@
-import Image from 'next/image';
+'use client';
+
+import { Search, Home, NotebookText } from 'lucide-react';
 import Link from 'next/link';
-
-import { config } from '@/config/config';
-
-const Logo = () => {
-  return (
-    <Link className="flex items-center gap-3" href="/">
-      <Image
-        className="h-10 w-auto md:h-12"
-        alt="チャートレアイコン"
-        src="/images/logo.svg"
-        width="80"
-        height="80"
-      />
-      <span>{config.APP_NAME}</span>
-    </Link>
-  );
-};
 
 export const BaseAppLayout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <>
-      <header className="flex items-center justify-between border-b border-base-foreground py-4">
-        <Logo />
-        <nav className="flex items-center justify-center">
-          <ul>
-            {[
-              {
-                title: 'ログイン',
-                url: '/login',
-              },
-            ].map(({ title, url }) => {
-              return (
-                <li key={title}>
-                  <Link href={url}>{title}</Link>
-                </li>
-              );
-            })}
+    <div className="grid min-h-screen grid-cols-1 grid-rows-[auto_auto_1fr_auto] md:grid-cols-[auto_1fr] md:grid-rows-[auto_1fr_auto]">
+      <header className="col-start-1 row-start-1 md:col-start-2 md:row-start-1">
+        <form action="">
+          <label className="relative">
+            <Search
+              size={20}
+              className="absolute left-0 top-1/2 -translate-y-1/2 text-base"
+            />
+            <input type="text" className="p-2 pl-8" />
+          </label>
+        </form>
+      </header>
+      <main className="col-start-1 row-start-3 pb-24 pt-20 md:col-start-2 md:row-start-2">
+        <div>{children}</div>
+      </main>
+      <aside className="col-start-1 row-start-2 p-4 md:col-start-1 md:row-span-3 md:row-start-1">
+        <nav>
+          <ul className="grid gap-3">
+            <li>
+              <Link href="/dashbord" className="flex items-center gap-2">
+                <Home size={20} />
+                <span>ダッシュボード</span>
+              </Link>
+            </li>
+            <li>
+              <Link href="/todos" className="flex items-center gap-2">
+                <NotebookText size={20} />
+                <span>家事リスト</span>
+              </Link>
+            </li>
           </ul>
         </nav>
-      </header>
-      <main className="pb-24 pt-20">{children}</main>
-      <footer className="py-4">
+      </aside>
+      <footer className="col-start-1 row-start-4 py-4 md:col-start-2 md:row-start-3">
         <p className="text-right">
           <small>©2024 nakano hiroya</small>
         </p>
       </footer>
-    </>
+    </div>
   );
 };
