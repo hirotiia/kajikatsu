@@ -1,6 +1,7 @@
+import { Metadata } from 'next';
+
 import { Text } from '@/components/ui/text';
 import { config } from '@/config/config';
-import { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: config.APP_NAME,

@@ -1,5 +1,6 @@
-import { config } from '@/config/config';
 import { Metadata } from 'next';
+
+import { config } from '@/config/config';
 
 import '@/styles/globals.css';
 

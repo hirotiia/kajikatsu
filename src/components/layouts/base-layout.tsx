@@ -1,8 +1,9 @@
+import Image from 'next/image';
+import Link from 'next/link';
+
 import { config } from '@/config/config';
 import { zen_maru_gothic } from '@/font/font';
 import { cn } from '@/utils/cn';
-import Image from 'next/image';
-import Link from 'next/link';
 
 const Logo = () => {
   return (

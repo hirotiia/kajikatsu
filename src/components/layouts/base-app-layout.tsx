@@ -1,6 +1,7 @@
-import { config } from '@/config/config';
 import Image from 'next/image';
 import Link from 'next/link';
+
+import { config } from '@/config/config';
 
 const Logo = () => {
   return (

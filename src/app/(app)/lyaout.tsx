@@ -1,6 +1,7 @@
+import { Metadata } from 'next';
+
 import { BaseAppLayout } from '@/components/layouts/base-app-layout';
 import { config } from '@/config/config';
-import { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: config.APP_NAME,
