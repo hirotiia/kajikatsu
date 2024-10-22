@@ -1,7 +1,7 @@
 import 'server-only';
 import { cache } from 'react';
 
-import { createClient } from './server';
+import { createClient } from '@/lib/supabase/server';
 
 export const currentUser = cache(async () => {
   const supabase = createClient();
