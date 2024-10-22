@@ -1,7 +1,16 @@
+import { redirect } from 'next/navigation';
+
 import { Button } from '@/components/ui/button';
 import { config } from '@/config/config';
+import { currentUser } from '@/utils/auth';
 
-export default function Login() {
+export default async function Login() {
+  const user = await currentUser();
+
+  if (user) {
+    redirect('/dashbord');
+  }
+
   return (
     <>
       <hgroup className="mb-14 flex flex-col-reverse items-center justify-center gap-4 md:mb-24 md:gap-6">
