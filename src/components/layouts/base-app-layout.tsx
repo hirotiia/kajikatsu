@@ -1,34 +1,50 @@
 'use client';
 
-import { Home, NotebookText } from 'lucide-react';
+import {
+  ChartPie,
+  Home,
+  LucideProps,
+  NotebookText,
+  Settings,
+  UserRoundPlus,
+} from 'lucide-react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
 
 import { Header } from './header/header';
 
+interface SideNavigationItem {
+  name: string;
+  to: string;
+  icon: React.ComponentType<LucideProps>;
+}
+
 export const BaseAppLayout = ({ children }: { children: React.ReactNode }) => {
-  const pathname = usePathname();
+  const navigation = [
+    { name: 'ダッシュボード', to: '/dashboard', icon: Home },
+    { name: '家事リスト', to: '/todos', icon: NotebookText },
+    { name: 'ペアリング', to: '/pairing', icon: UserRoundPlus },
+    { name: '統計・レポート', to: '/report', icon: ChartPie },
+    { name: '設定', to: '/settings', icon: Settings },
+  ].filter(Boolean) as SideNavigationItem[];
   return (
     <div className="grid min-h-screen grid-cols-1 grid-rows-[auto_auto_1fr_auto] md:grid-cols-[auto_1fr] md:grid-rows-[auto_1fr_auto]">
-      <Header currentPath={pathname} className="col-start-1 col-end-3" />
+      <Header className="col-start-1 col-end-3" />
       <main className="col-start-1 row-start-3 pb-24 pt-20 md:col-start-2 md:row-start-2">
         <div>{children}</div>
       </main>
       <aside className="col-start-1 row-start-2 bg-primary p-4 text-primary-foreground md:col-start-1 md:row-span-3">
         <nav>
           <ul className="grid gap-3">
-            <li>
-              <Link href="/dashbord" className="flex items-center gap-2">
-                <Home size={20} />
-                <span>ダッシュボード</span>
-              </Link>
-            </li>
-            <li>
-              <Link href="/todos" className="flex items-center gap-2">
-                <NotebookText size={20} />
-                <span>家事リスト</span>
-              </Link>
-            </li>
+            {navigation.map(({ name, to, icon: Icon }) => {
+              return (
+                <li key={name}>
+                  <Link href={to} className="flex items-center gap-2">
+                    <Icon size={20} />
+                    <span>{name}</span>
+                  </Link>
+                </li>
+              );
+            })}
           </ul>
         </nav>
       </aside>

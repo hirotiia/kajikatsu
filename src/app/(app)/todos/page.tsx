@@ -1,6 +1,6 @@
 import { config } from '@/config/config';
 
-export default function Todos() {
+export default function TodosPage() {
   return (
     <>
       <hgroup className="mb-14 flex flex-col-reverse items-center justify-center gap-4 md:mb-24 md:gap-6">
