@@ -1,26 +1,20 @@
 'use client';
 
-import { Search, Home, NotebookText } from 'lucide-react';
+import { Home, NotebookText } from 'lucide-react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+
+import { Header } from './header/header';
 
 export const BaseAppLayout = ({ children }: { children: React.ReactNode }) => {
+  const pathname = usePathname();
   return (
     <div className="grid min-h-screen grid-cols-1 grid-rows-[auto_auto_1fr_auto] md:grid-cols-[auto_1fr] md:grid-rows-[auto_1fr_auto]">
-      <header className="col-start-1 row-start-1 md:col-start-2 md:row-start-1">
-        <form action="">
-          <label className="relative">
-            <Search
-              size={20}
-              className="absolute left-0 top-1/2 -translate-y-1/2 text-base"
-            />
-            <input type="text" className="p-2 pl-8" />
-          </label>
-        </form>
-      </header>
+      <Header currentPath={pathname} className="col-start-1 col-end-3" />
       <main className="col-start-1 row-start-3 pb-24 pt-20 md:col-start-2 md:row-start-2">
         <div>{children}</div>
       </main>
-      <aside className="col-start-1 row-start-2 p-4 md:col-start-1 md:row-span-3 md:row-start-1">
+      <aside className="col-start-1 row-start-2 bg-primary p-4 text-primary-foreground md:col-start-1 md:row-span-3">
         <nav>
           <ul className="grid gap-3">
             <li>

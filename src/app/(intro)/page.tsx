@@ -1,5 +1,7 @@
 import { Metadata } from 'next';
 
+import { Button } from '@/components/ui/button';
+import { HeadingLv2 } from '@/components/ui/heading';
 import { Text } from '@/components/ui/text';
 import { config } from '@/config/config';
 
@@ -68,6 +70,12 @@ export default function Home() {
             レポート機能で自分とパートナーの家事パフォーマンスを振り返り、未来の計画を立てるヒントに。
           </p>
         </article>
+      </div>
+      <HeadingLv2 className="text-center">ログインして始める</HeadingLv2>
+      <div className="mt-10 text-center">
+        <Button as="a" rounded="md" variant="login" href="/login">
+          ログインページへ
+        </Button>
       </div>
     </>
   );
