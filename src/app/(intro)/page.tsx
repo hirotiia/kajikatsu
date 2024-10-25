@@ -21,15 +21,13 @@ export default function Home() {
         以下のような機能があります。
       </Text>
 
-      <div className="max-w-inline-custom mx-auto mt-10 grid grid-cols-custom gap-custom-gap md:mt-12">
+      <div className="mx-auto mt-10 grid grid-cols-custom gap-custom-gap md:mt-12">
         <article
           className="row-span-2 grid grid-rows-subgrid gap-custom-gutter rounded-md bg-primary p-4 text-primary-foreground"
           aria-labelledby="article1"
         >
           <h2 id="article1" className="grid gap-y-2 text-center">
-            <span className="md:text-md block text-sm">
-              家事を簡単に管理できる
-            </span>
+            <span className="block text-sm">家事を簡単に管理できる</span>
             <span className="block text-xl md:text-2xl">ペアリング機能</span>
           </h2>
           <p>
@@ -45,7 +43,7 @@ export default function Home() {
           aria-labelledby="article2"
         >
           <h2 id="article2" className="grid gap-y-2 text-center">
-            <span className="md:text-md block text-sm">進捗状況を</span>
+            <span className="block text-sm">進捗状況を</span>
             <span className="block text-xl md:text-2xl">グラフで可視化</span>
           </h2>
           <p>
@@ -59,7 +57,7 @@ export default function Home() {
           aria-labelledby="article1"
         >
           <h2 id="article1" className="grid gap-y-2 text-center">
-            <span className="md:text-md block text-sm">詳細な</span>
+            <span className="block text-sm">詳細な</span>
             <span className="block text-xl md:text-2xl">
               統計＆レポート機能
             </span>
