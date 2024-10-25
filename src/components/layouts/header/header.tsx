@@ -31,8 +31,25 @@ const Logo = () => {
 export const Header = ({ className }: HeaderProps) => {
   const [isOpen, setOpen] = useState(false);
   const pathname = usePathname();
-  const applicationPage = ['/dashbord', '/list'];
+  const applicationPage = [
+    '/dashboard',
+    '/pairing',
+    'report',
+    'settings',
+    '/todos',
+  ];
   const isAppPage = applicationPage.some((page) => pathname.includes(page));
+
+  const globalNavigation = [
+    {
+      title: 'about',
+      url: '/about',
+    },
+    {
+      title: 'login',
+      url: '/login',
+    },
+  ];
 
   const clickHandler = () => {
     setOpen(!isOpen);
@@ -54,11 +71,11 @@ export const Header = ({ className }: HeaderProps) => {
       >
         <span className="sr-only">メニュー</span>
         {isOpen ? (
-          <span className="relative inline-block size-6 before:absolute before:left-1/2 before:top-1/2 before:block before:h-0.5 before:w-6 before:-translate-x-1/2 before:-translate-y-1/2 before:rotate-45 before:bg-black before:transition-transform before:duration-300 after:absolute after:left-1/2 after:top-1/2 after:block after:h-0.5 after:w-6 after:-translate-x-1/2 after:-translate-y-1/2 after:-rotate-45 after:bg-black after:transition-transform after:duration-300"></span>
+          <span className="relative inline-block size-6 before:absolute before:left-1/2 before:top-1/2 before:block before:h-0.5 before:w-6 before:-translate-x-1/2 before:-translate-y-1/2 before:rotate-45 before:bg-foreground before:transition-transform before:duration-300 after:absolute after:left-1/2 after:top-1/2 after:block after:h-0.5 after:w-6 after:-translate-x-1/2 after:-translate-y-1/2 after:-rotate-45 after:bg-foreground after:transition-transform after:duration-300"></span>
         ) : (
           <span
             className={
-              'relative block h-0.5 w-6 bg-black transition duration-300 ease-in-out before:absolute before:h-0.5 before:w-6 before:-translate-y-2 before:bg-black before:transition before:duration-300 before:ease-in-out after:absolute after:h-0.5 after:w-6 after:translate-y-2 after:bg-black after:transition after:duration-300 after:ease-in-out'
+              'relative block h-0.5 w-6 bg-foreground transition duration-300 ease-in-out before:absolute before:h-0.5 before:w-6 before:-translate-y-2 before:bg-foreground before:transition before:duration-300 before:ease-in-out after:absolute after:h-0.5 after:w-6 after:translate-y-2 after:bg-foreground after:transition after:duration-300 after:ease-in-out'
             }
           ></span>
         )}
@@ -83,24 +100,17 @@ export const Header = ({ className }: HeaderProps) => {
         )}
         <nav className="flex items-center justify-center">
           <ul className="flex gap-3">
-            {[
-              {
-                title: 'about',
-                url: '/about',
-              },
-              {
-                title: 'login',
-                url: '/login',
-              },
-            ].map(({ title, url }) => {
+            {globalNavigation.map(({ title, url }, i) => {
               const isCurrent = pathname === url;
+              const isLastItem = i + 1 === globalNavigation.length;
               return (
                 <li key={title}>
                   <Link
                     href={url}
                     className={cn(
-                      'p-4 text-lg transition-colors duration-300 ease-in-out hover:text-primary font-bold',
+                      'text-lg transition-colors duration-300 ease-in-out hover:text-primary font-bold',
                       isCurrent && 'text-primary',
+                      isLastItem ? 'py-4 pl-4' : 'p-4',
                     )}
                   >
                     {title}
