@@ -4,7 +4,7 @@ import { Search } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { config } from '@/config/config';
 import { cn } from '@/utils/cn';
@@ -29,7 +29,19 @@ const Logo = () => {
 };
 
 export const Header = ({ className }: HeaderProps) => {
-  const [isOpen, setOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const headerRef = useRef<HTMLElement | null>(null);
+  useEffect(() => {
+    console.log(headerRef.current);
+    if (headerRef.current) {
+      const contentHeight = headerRef.current.scrollHeight + 'px';
+      headerRef.current.style.setProperty(
+        '--accordion-content-height',
+        contentHeight,
+      );
+      console.log('CSS変数 --accordion-content-height の値:', contentHeight);
+    }
+  }, [isOpen]);
   const pathname = usePathname();
   const applicationPage = [
     '/dashboard',
@@ -51,11 +63,10 @@ export const Header = ({ className }: HeaderProps) => {
     },
   ];
 
-  const clickHandler = () => {
-    setOpen(!isOpen);
-  };
+  const toggleAccordion = () => setIsOpen((prev) => !prev);
   return (
     <header
+      ref={headerRef}
       className={cn(
         'flex items-center justify-between border-b border-base-foreground p-4',
         className,
@@ -67,7 +78,7 @@ export const Header = ({ className }: HeaderProps) => {
         aria-controls="hamburger-menu"
         aria-expanded={isOpen}
         className="relative flex h-10 w-12 items-center justify-center md:hidden"
-        onClick={clickHandler}
+        onClick={toggleAccordion}
       >
         <span className="sr-only">メニュー</span>
         {isOpen ? (
@@ -81,7 +92,12 @@ export const Header = ({ className }: HeaderProps) => {
         )}
       </button>
       <div
-        className={cn('gap-3 md:flex', isOpen ? 'block' : 'hidden')}
+        className={cn(
+          'overflow-hidden max-md:absolute max-md:top-[72px] max-md:w-full max-md:bg-white max-md:left-0 max-md:right-0 gap-3 md:flex min-h-[500px]',
+          isOpen
+            ? 'block animate-accordion-down'
+            : 'hidden animate-accordion-up',
+        )}
         id="hamburger-menu"
       >
         {isAppPage && (
