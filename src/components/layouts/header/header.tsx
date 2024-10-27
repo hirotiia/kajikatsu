@@ -93,7 +93,7 @@ export const Header = ({ className }: HeaderProps) => {
       </button>
       <div
         className={cn(
-          'overflow-hidden max-md:absolute max-md:top-[72px] max-md:w-full max-md:bg-white max-md:left-0 max-md:right-0 gap-3 md:flex min-h-[500px]',
+          'overflow-hidden max-md:absolute max-md:top-[72px] max-md:w-full max-md:bg-white max-md:left-0 max-md:right-0 gap-3 md:flex max-md:min-h-[500px]',
           isOpen
             ? 'block animate-accordion-down'
             : 'hidden animate-accordion-up',
