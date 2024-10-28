@@ -4,6 +4,7 @@ import { SecondaryHeading } from '@/components/ui/heading';
 import { InfoList } from '@/components/ui/list';
 
 export default function Dashbord() {
+  /** リダイレクト設定する */
   return (
     <>
       <Content>
