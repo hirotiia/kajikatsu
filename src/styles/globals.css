@@ -18,6 +18,11 @@
   --base: #fafafa;
   --base-foreground: #222222;
 
+  --destructive: #ee4444;
+  --destructive-foreground: #f7f9fb;
+
+  --muted: #e8f1f5;
+
   /** Viewport */
   --viewport-max: 1280px;
   --viewport-min: 330px;
