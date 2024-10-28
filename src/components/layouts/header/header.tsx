@@ -62,9 +62,9 @@ export const Header = ({ className }: HeaderProps) => {
         <DrawerTrigger className="relative flex h-10 w-12 items-center justify-center md:hidden">
           <span className="sr-only">メニュー</span>
         </DrawerTrigger>
-        <DrawerContent className="gap-3 overflow-hidden max-md:absolute max-md:inset-x-0 max-md:top-[72px] max-md:min-h-[500px] max-md:w-full max-md:bg-white md:flex">
+        <DrawerContent className="gap-3 overflow-hidden px-4 max-md:absolute max-md:inset-x-0 max-md:top-[72px] max-md:min-h-[500px] max-md:w-full max-md:bg-white md:flex">
           {isAppPage && (
-            <form action="/dummy">
+            <form action="/dummy" className="hidden">
               <label className="relative">
                 <button className="absolute left-1 top-1/2 block -translate-y-1/2">
                   <Search size={20} className="text-primary" />
@@ -77,8 +77,8 @@ export const Header = ({ className }: HeaderProps) => {
               </label>
             </form>
           )}
-          <nav className="flex items-center justify-center">
-            <ul className="flex gap-3">
+          <nav className="items-center justify-center md:flex">
+            <ul className="gap-3 md:flex">
               {globalNavigation.map(({ title, url }, i) => {
                 const isCurrent = pathname === url;
                 const isLastItem = i + 1 === globalNavigation.length;
@@ -87,9 +87,9 @@ export const Header = ({ className }: HeaderProps) => {
                     <Link
                       href={url}
                       className={cn(
-                        'text-lg transition-colors duration-300 ease-in-out hover:text-primary font-bold',
+                        'md:border-none block py-4 border-b border-foreground text-lg transition-colors duration-300 ease-in-out hover:text-primary font-bold',
                         isCurrent && 'text-primary',
-                        isLastItem ? 'py-4 pl-4' : 'p-4',
+                        isLastItem ? 'md:py-4 md:pl-4' : 'md:p-4',
                       )}
                     >
                       {title}

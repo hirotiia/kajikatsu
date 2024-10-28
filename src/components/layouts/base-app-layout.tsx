@@ -10,6 +10,8 @@ import {
 } from 'lucide-react';
 import Link from 'next/link';
 
+import { useMediaQuery } from '@/hooks/use-media-query';
+
 import { Header } from './header/header';
 
 interface SideNavigationItem {
@@ -26,24 +28,28 @@ export const BaseAppLayout = ({ children }: { children: React.ReactNode }) => {
     { name: '統計・レポート', to: '/report', icon: ChartPie },
     { name: '設定', to: '/settings', icon: Settings },
   ].filter(Boolean) as SideNavigationItem[];
+
+  const isMobile = useMediaQuery('(max-width: 768px)');
   return (
     <div className="grid min-h-screen grid-cols-1 grid-rows-[auto_auto_1fr_auto] md:grid-cols-[250px_1fr] md:grid-rows-[auto_1fr_auto]">
       <Header className="col-start-1 col-end-3" />
-      <main className="col-start-1 row-start-3 pb-24 pt-20 md:col-start-2 md:row-start-2">
-        <div>{children}</div>
+      <main className="col-start-1 row-start-3 grid grid-cols-[auto_1fr_auto] gap-4 pt-4 md:col-start-2 md:row-start-2">
+        <div className="col-start-2">{children}</div>
       </main>
       <aside className="col-start-1 row-start-2 bg-primary text-primary-foreground md:col-start-1 md:row-span-3">
         <nav>
-          <ul className="">
+          <ul className="items-center justify-center gap-10 max-md:flex max-md:p-3">
             {navigation.map(({ name, to, icon: Icon }) => {
               return (
                 <li key={name}>
                   <Link
                     href={to}
-                    className="flex items-center gap-2 p-4 transition ease-out hover:bg-secondary"
+                    className="flex items-center gap-2 transition ease-out hover:bg-secondary max-md:flex-col md:p-4"
                   >
-                    <Icon size={20} />
-                    <span>{name}</span>
+                    <Icon size={isMobile ? 30 : 20} />
+                    {!isMobile && (
+                      <span className="max-md:text-sm">{name}</span>
+                    )}
                   </Link>
                 </li>
               );

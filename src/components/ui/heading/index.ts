@@ -1,1 +1,2 @@
-export * from './heading-lv-2';
+export * from './primary-heading';
+export * from './secondary-heading';

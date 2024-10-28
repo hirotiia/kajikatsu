@@ -1,14 +1,12 @@
-import { config } from '@/config/config';
+import { Content } from '@/components/layouts/content/content';
+import { SecondaryHeading } from '@/components/ui/heading';
 
 export default function Dashbord() {
   return (
     <>
-      <hgroup className="mb-14 flex flex-col-reverse items-center justify-center gap-4 md:mb-24 md:gap-6">
-        <h1 className="text-4xl md:text-6xl">ダッシュボード</h1>
-        <p className="text-xl md:text-2xl">
-          ~{config.APP_NAME}で家事の負荷を分散しよう~
-        </p>
-      </hgroup>
+      <Content>
+        <SecondaryHeading>全体</SecondaryHeading>
+      </Content>
     </>
   );
 }

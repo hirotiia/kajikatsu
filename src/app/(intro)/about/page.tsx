@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 
 import { Button } from '@/components/ui/button';
-import { HeadingLv2 } from '@/components/ui/heading';
+import { PrimaryHeading } from '@/components/ui/heading';
 import { List } from '@/components/ui/list';
 import { Text } from '@/components/ui/text';
 import { config } from '@/config/config';
@@ -19,15 +19,15 @@ export default function Home() {
         <p className="text-xl md:text-2xl">~家事負荷分散アプリ~</p>
       </hgroup>
 
-      <HeadingLv2 className="mt-0">{config.APP_NAME}とは？</HeadingLv2>
+      <PrimaryHeading className="mt-0">{config.APP_NAME}とは？</PrimaryHeading>
 
       <Text className="mt-10 pl-4">
         カジ活は、夫婦やカップルの家事分担を可視化・共有するためのアプリです。
       </Text>
 
-      <HeadingLv2 className="mt-24">
+      <PrimaryHeading className="mt-24">
         {config.APP_NAME}が解決したい課題
-      </HeadingLv2>
+      </PrimaryHeading>
 
       <List
         listItems={[
@@ -43,7 +43,7 @@ export default function Home() {
         ]}
       />
 
-      <HeadingLv2>このアプリの目的</HeadingLv2>
+      <PrimaryHeading>このアプリの目的</PrimaryHeading>
 
       <Text>
         家事の負担が一方に偏ることによる不満やストレスを解消し、夫婦やカップルが互いに協力して家事を分担できる環境を作ることを目指しています。
@@ -53,7 +53,7 @@ export default function Home() {
         このアプリを通じて、いつまでも仲良く過ごせる関係をサポートします。
       </Text>
 
-      <HeadingLv2>対象</HeadingLv2>
+      <PrimaryHeading>対象</PrimaryHeading>
 
       <List
         listItems={[
@@ -75,7 +75,9 @@ export default function Home() {
         ]}
       />
 
-      <HeadingLv2 className="text-center">ログインして始める</HeadingLv2>
+      <PrimaryHeading className="text-center">
+        ログインして始める
+      </PrimaryHeading>
       <div className="mt-10 text-center">
         <Button as="a" rounded="md" variant="login" href="/login">
           ログインページへ

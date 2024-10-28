@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 
 import { Button } from '@/components/ui/button';
-import { HeadingLv2 } from '@/components/ui/heading';
+import { PrimaryHeading } from '@/components/ui/heading';
 import { Text } from '@/components/ui/text';
 import { config } from '@/config/config';
 
@@ -71,7 +71,9 @@ export default function Home() {
           </p>
         </article>
       </div>
-      <HeadingLv2 className="text-center">ログインして始める</HeadingLv2>
+      <PrimaryHeading className="text-center">
+        ログインして始める
+      </PrimaryHeading>
       <div className="mt-10 text-center">
         <Button as="a" rounded="md" variant="login" href="/login">
           ログインページへ

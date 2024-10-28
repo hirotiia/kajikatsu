@@ -1,7 +1,10 @@
+import { Content } from '@/components/layouts/content/content';
+import { SecondaryHeading } from '@/components/ui/heading';
+
 export default function ReportPage() {
   return (
-    <div className="">
-      <div className="">統計・レポート</div>
-    </div>
+    <Content bg="secondary">
+      <SecondaryHeading variant="secondary">統計・レポート</SecondaryHeading>
+    </Content>
   );
 }
