@@ -9,7 +9,7 @@ export default function Dashbord() {
     <>
       <Content>
         <SecondaryHeading>全体</SecondaryHeading>
-        <SecondaryHeading className="mt-4">これお願い</SecondaryHeading>
+        <SecondaryHeading className="mt-4">これお願い!</SecondaryHeading>
         <Box variant="secondary" className="mt-4">
           <InfoList
             items={[

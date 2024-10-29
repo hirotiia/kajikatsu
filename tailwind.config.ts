@@ -64,6 +64,12 @@ const config: Config = {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
       },
+      backgroundImage: {
+        'custom-gradient-1':
+          'linear-gradient(90deg, rgba(103, 126, 250, 1), rgba(142, 84, 219, 1))',
+        'custom-gradient-2':
+          'linear-gradient(90deg, rgba(65, 164, 253, 1), rgba(14, 244, 255, 1))',
+      },
     },
   },
   plugins: [],
