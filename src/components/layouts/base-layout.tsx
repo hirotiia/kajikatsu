@@ -9,8 +9,10 @@ import {
   LucideProps,
 } from 'lucide-react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 import { useMediaQuery } from '@/hooks/use-media-query';
+import { cn } from '@/utils/cn';
 
 import { Header } from './header/header';
 
@@ -30,6 +32,7 @@ export const BaseLayout = ({ children }: { children: React.ReactNode }) => {
   ].filter(Boolean) as SideNavigationItem[];
 
   const isMobile = useMediaQuery('(max-width: 768px)');
+  const pathname = usePathname();
   const isLogin = true;
 
   return (
@@ -45,11 +48,16 @@ export const BaseLayout = ({ children }: { children: React.ReactNode }) => {
               <nav>
                 <ul className="items-center justify-center gap-10 max-md:flex max-md:p-2">
                   {navigation.map(({ name, to, icon: Icon }) => {
+                    const isCurrent = pathname === to;
+
                     return (
                       <li key={name}>
                         <Link
                           href={to}
-                          className="flex items-center gap-2 transition ease-out hover:bg-secondary max-md:flex-col md:p-4"
+                          className={cn(
+                            'flex items-center gap-2 transition ease-out hover:text-primary max-md:flex-col md:p-4',
+                            isCurrent && 'text-primary',
+                          )}
                         >
                           <Icon
                             size={isMobile ? 30 : 20}
