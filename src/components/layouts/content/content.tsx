@@ -3,7 +3,7 @@ import React from 'react';
 
 import { cn } from '@/utils/cn';
 
-const ContentVariant = cva('min-h-dvh rounded-md p-5', {
+const ContentVariant = cva('min-h-dvh rounded-md', {
   variants: {
     bg: {
       default: 'bg-transparent',

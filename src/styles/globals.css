@@ -85,3 +85,15 @@
     text-wrap: balance;
   }
 }
+
+@layer components {
+  .glassmorphism {
+    @apply bg-white25
+      shadow-glass
+      backdrop-blur-4xl
+      rounded-custom
+      border-1
+      border-white18
+      border-solid;
+  }
+}

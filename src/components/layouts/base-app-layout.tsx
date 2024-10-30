@@ -31,12 +31,12 @@ export const BaseAppLayout = ({ children }: { children: React.ReactNode }) => {
 
   const isMobile = useMediaQuery('(max-width: 768px)');
   return (
-    <div className="grid min-h-screen grid-cols-1 grid-rows-[auto_auto_1fr_auto] md:grid-cols-[250px_1fr] md:grid-rows-[auto_1fr_auto]">
-      <Header className="col-start-1 col-end-3" />
+    <div className="grid min-h-screen grid-cols-1 grid-rows-[auto_auto_1fr_auto] bg-custom-gradient md:grid-cols-[250px_1fr] md:grid-rows-[auto_1fr_auto]">
+      <Header className="fixed top-2 col-start-1 col-end-3" />
       <main className="col-start-1 row-start-3 grid grid-cols-[auto_1fr_auto] gap-4 pt-4 md:col-start-2 md:row-start-2">
         <div className="col-start-2">{children}</div>
       </main>
-      <aside className="col-start-1 row-start-2 bg-custom-gradient text-primary-foreground md:col-start-1 md:row-span-3">
+      <aside className="glassmorphism col-start-1 row-start-2 text-primary-foreground md:col-start-1 md:row-span-3">
         <nav>
           <ul className="items-center justify-center gap-10 max-md:flex max-md:p-3">
             {navigation.map(({ name, to, icon: Icon }) => {

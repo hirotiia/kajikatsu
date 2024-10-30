@@ -13,6 +13,8 @@ const config: Config = {
         background: 'var(--background)',
         foreground: 'var(--foreground)',
         ring: 'var(--ring)',
+        white25: 'rgba(255, 255, 255, 0.25)',
+        white18: 'rgba(255, 255, 255, 0.18)',
         base: {
           DEFAULT: 'var(--base)',
           foreground: 'var(--base-foreground)',
@@ -66,6 +68,18 @@ const config: Config = {
       },
       backgroundImage: {
         'custom-gradient': 'var(--gradient)',
+      },
+      boxShadow: {
+        glass: '0 8px 32px 0 rgba(31, 38, 135, 0.37)',
+      },
+      backdropBlur: {
+        '4xl': '4px',
+      },
+      borderRadius: {
+        custom: '10px',
+      },
+      borderWidth: {
+        '1': '1px',
       },
     },
   },

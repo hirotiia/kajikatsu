@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 
-import { BaseAppLayout } from '@/components/layouts/base-app-layout';
+import { BaseLayout } from '@/components/layouts/base-layout';
 import { config } from '@/config/config';
 
 export const metadata: Metadata = {
@@ -9,5 +9,5 @@ export const metadata: Metadata = {
 };
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
-  return <BaseAppLayout>{children}</BaseAppLayout>;
+  return <BaseLayout>{children}</BaseLayout>;
 }

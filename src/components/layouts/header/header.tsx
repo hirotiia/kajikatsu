@@ -53,7 +53,7 @@ export const Header = ({ className }: HeaderProps) => {
   return (
     <header
       className={cn(
-        'flex items-center justify-between border-b border-base-foreground p-4',
+        'sticky top-2 mt-2 flex items-center justify-between p-4 glassmorphism z-50',
         className,
       )}
     >
