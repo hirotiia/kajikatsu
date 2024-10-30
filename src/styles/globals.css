@@ -23,6 +23,13 @@
 
   --muted: #e8f1f5;
 
+  /** gradient */
+  --gradient: linear-gradient(
+    90deg,
+    rgba(65, 164, 253, 1),
+    rgba(14, 244, 255, 1)
+  );
+
   /** Viewport */
   --viewport-max: 1280px;
   --viewport-min: 330px;
@@ -43,6 +50,11 @@
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
+    --gradient: linear-gradient(
+      90deg,
+      rgba(103, 126, 250, 1),
+      rgba(142, 84, 219, 1)
+    );
   }
 }
 

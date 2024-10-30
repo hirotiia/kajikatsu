@@ -36,7 +36,7 @@ export const BaseAppLayout = ({ children }: { children: React.ReactNode }) => {
       <main className="col-start-1 row-start-3 grid grid-cols-[auto_1fr_auto] gap-4 pt-4 md:col-start-2 md:row-start-2">
         <div className="col-start-2">{children}</div>
       </main>
-      <aside className="col-start-1 row-start-2 bg-primary text-primary-foreground md:col-start-1 md:row-span-3">
+      <aside className="col-start-1 row-start-2 bg-custom-gradient text-primary-foreground md:col-start-1 md:row-span-3">
         <nav>
           <ul className="items-center justify-center gap-10 max-md:flex max-md:p-3">
             {navigation.map(({ name, to, icon: Icon }) => {
