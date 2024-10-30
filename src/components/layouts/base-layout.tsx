@@ -41,7 +41,7 @@ export const BaseLayout = ({ children }: { children: React.ReactNode }) => {
             {children}
           </main>
           {isLogin && (
-            <aside className="glassmorphism col-start-1 row-start-2 mt-6 text-primary-foreground md:col-start-1 md:row-span-1">
+            <aside className="glassmorphism col-start-1 row-start-2 text-primary-foreground max-md:mt-6 md:col-start-1 md:row-span-1 md:max-w-[250px]">
               <nav>
                 <ul className="items-center justify-center gap-10 max-md:flex max-md:p-2">
                   {navigation.map(({ name, to, icon: Icon }) => {
@@ -51,7 +51,10 @@ export const BaseLayout = ({ children }: { children: React.ReactNode }) => {
                           href={to}
                           className="flex items-center gap-2 transition ease-out hover:bg-secondary max-md:flex-col md:p-4"
                         >
-                          <Icon size={isMobile ? 30 : 20} />
+                          <Icon
+                            size={isMobile ? 30 : 20}
+                            className="shrink-0"
+                          />
                           {!isMobile && (
                             <span className="max-md:text-sm">{name}</span>
                           )}
