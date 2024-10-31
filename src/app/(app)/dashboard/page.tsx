@@ -1,10 +1,17 @@
+import { redirect } from 'next/navigation';
+
 import { Content } from '@/components/layouts/content/content';
 import { Box } from '@/components/ui/box/box';
 import { SecondaryHeading } from '@/components/ui/heading';
 import { InfoList } from '@/components/ui/list';
+import { currentUser } from '@/utils/auth';
 
-export default function Dashbord() {
-  /** リダイレクト設定する */
+export default async function Dashbord() {
+  const user = await currentUser();
+  if (!user) {
+    redirect('/login');
+  }
+
   return (
     <>
       <Content>
