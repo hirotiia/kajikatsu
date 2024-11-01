@@ -9,7 +9,7 @@ export default async function Login() {
   const user = await currentUser();
 
   if (user) {
-    redirect('/dashbord');
+    redirect('/dashboard');
   }
 
   return (

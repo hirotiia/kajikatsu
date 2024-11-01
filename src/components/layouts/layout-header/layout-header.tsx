@@ -28,7 +28,7 @@ const Logo = () => {
   );
 };
 
-export const Header = ({ className }: HeaderProps) => {
+export const LayoutHeader = ({ className }: HeaderProps) => {
   const pathname = usePathname();
   const applicationPage = [
     '/dashboard',
@@ -48,6 +48,10 @@ export const Header = ({ className }: HeaderProps) => {
       title: 'login',
       to: '/login',
     },
+    {
+      title: 'logout',
+      to: '/logout',
+    },
   ];
 
   return (
@@ -62,7 +66,7 @@ export const Header = ({ className }: HeaderProps) => {
         <DrawerTrigger className="relative flex h-10 w-12 items-center justify-center md:hidden">
           <span className="sr-only">メニュー</span>
         </DrawerTrigger>
-        <DrawerContent className="glassmorphism gap-3 overflow-hidden px-4 max-md:absolute max-md:inset-x-0 max-md:top-[72px] max-md:min-h-[500px] max-md:w-full md:flex">
+        <DrawerContent className="max-md:glassmorphism gap-3 overflow-hidden px-4 max-md:absolute max-md:inset-x-0 max-md:top-[72px] max-md:min-h-[500px] max-md:w-full md:flex">
           {isAppPage && (
             <form action="/dummy" className="hidden">
               <label className="relative">
