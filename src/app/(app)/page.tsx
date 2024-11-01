@@ -1,16 +1,24 @@
 import { Metadata } from 'next';
+import { redirect } from 'next/navigation';
 
 import { Button } from '@/components/ui/button';
 import { PrimaryHeading } from '@/components/ui/heading';
 import { Text } from '@/components/ui/text';
 import { config } from '@/config/config';
 
+import { currentUser } from '../data/auth';
+
 export const metadata: Metadata = {
   title: config.APP_NAME,
   description: '家事負荷分担アプリ”カジ活”のTOPページ',
 };
 
-export default function Home() {
+export default async function Home() {
+  const user = await currentUser();
+
+  if (user) {
+    redirect('/dashboard');
+  }
   return (
     <>
       <hgroup className="mb-4 flex flex-col-reverse items-center justify-center gap-4 md:mb-6 md:gap-6">
