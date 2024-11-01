@@ -42,11 +42,11 @@ export const Header = ({ className }: HeaderProps) => {
   const globalNavigation = [
     {
       title: 'about',
-      url: '/about',
+      to: '/about',
     },
     {
       title: 'login',
-      url: '/login',
+      to: '/login',
     },
   ];
 
@@ -79,13 +79,13 @@ export const Header = ({ className }: HeaderProps) => {
           )}
           <nav className="items-center justify-center md:flex">
             <ul className="gap-3 md:flex">
-              {globalNavigation.map(({ title, url }, i) => {
-                const isCurrent = pathname === url;
+              {globalNavigation.map(({ title, to }, i) => {
+                const isCurrent = pathname === to;
                 const isLastItem = i + 1 === globalNavigation.length;
                 return (
                   <li key={title}>
                     <Link
-                      href={url}
+                      href={to}
                       className={cn(
                         'md:border-none block py-4 border-b border-foreground text-lg transition-colors duration-300 ease-in-out hover:text-primary font-bold',
                         isCurrent && 'text-primary',
