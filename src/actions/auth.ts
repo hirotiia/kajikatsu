@@ -3,11 +3,11 @@
 import { createClient } from '@/lib/supabase/server';
 
 export const signIn = async () => {
-  const supabase = createClient();
+  const supabase = await createClient();
   await supabase.auth.signInAnonymously();
 };
 
 export const signOut = async () => {
-  const supabase = createClient();
+  const supabase = await createClient();
   await supabase.auth.signOut();
 };
