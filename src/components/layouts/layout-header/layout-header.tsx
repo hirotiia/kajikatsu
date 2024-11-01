@@ -1,13 +1,12 @@
-'use client';
-
-import { Search } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
 
 import { Drawer, DrawerContent, DrawerTrigger } from '@/components/ui/drawer';
 import { config } from '@/config/config';
+import { currentUser } from '@/utils/auth';
 import { cn } from '@/utils/cn';
+
+import { LayoutHeaderNavigation } from './layout-navigation';
 
 interface HeaderProps {
   className?: string;
@@ -28,32 +27,9 @@ const Logo = () => {
   );
 };
 
-export const LayoutHeader = ({ className }: HeaderProps) => {
-  const pathname = usePathname();
-  const applicationPage = [
-    '/dashboard',
-    '/pairing',
-    'report',
-    'settings',
-    '/todos',
-  ];
-  const isAppPage = applicationPage.some((page) => pathname.includes(page));
-
-  const globalNavigation = [
-    {
-      title: 'about',
-      to: '/about',
-    },
-    {
-      title: 'login',
-      to: '/login',
-    },
-    {
-      title: 'logout',
-      to: '/logout',
-    },
-  ];
-
+export const LayoutHeader = async ({ className }: HeaderProps) => {
+  const user = await currentUser();
+  const isLogin = user ? true : false;
   return (
     <header
       className={cn(
@@ -67,42 +43,7 @@ export const LayoutHeader = ({ className }: HeaderProps) => {
           <span className="sr-only">メニュー</span>
         </DrawerTrigger>
         <DrawerContent className="max-md:glassmorphism gap-3 overflow-hidden px-4 max-md:absolute max-md:inset-x-0 max-md:top-[72px] max-md:min-h-[500px] max-md:w-full md:flex">
-          {isAppPage && (
-            <form action="/dummy" className="hidden">
-              <label className="relative">
-                <button className="absolute left-1 top-1/2 block -translate-y-1/2">
-                  <Search size={20} className="text-primary" />
-                </button>
-                <input
-                  type="text"
-                  className="border border-primary bg-base p-2 pl-8"
-                  placeholder="タスクを検索"
-                />
-              </label>
-            </form>
-          )}
-          <nav className="items-center justify-center md:flex">
-            <ul className="gap-3 md:flex">
-              {globalNavigation.map(({ title, to }, i) => {
-                const isCurrent = pathname === to;
-                const isLastItem = i + 1 === globalNavigation.length;
-                return (
-                  <li key={title}>
-                    <Link
-                      href={to}
-                      className={cn(
-                        'md:border-none block py-4 border-b border-foreground text-lg transition-colors duration-300 ease-in-out hover:text-primary font-bold',
-                        isCurrent && 'text-primary',
-                        isLastItem ? 'md:py-4 md:pl-4' : 'md:p-4',
-                      )}
-                    >
-                      {title}
-                    </Link>
-                  </li>
-                );
-              })}
-            </ul>
-          </nav>
+          <LayoutHeaderNavigation isLogin={isLogin} />
         </DrawerContent>
       </Drawer>
     </header>
