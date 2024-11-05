@@ -5,8 +5,7 @@ import { Button } from '@/components/ui/button';
 import { PrimaryHeading } from '@/components/ui/heading';
 import { Text } from '@/components/ui/text';
 import { config } from '@/config/config';
-
-import { currentUser } from '../data/auth';
+import { currentUser } from '@/utils/auth';
 
 export const metadata: Metadata = {
   title: config.APP_NAME,

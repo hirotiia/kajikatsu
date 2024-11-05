@@ -7,7 +7,7 @@ import { FormInput } from '@/components/ui/form/';
 import { PrimaryHeading } from '@/components/ui/heading';
 import { currentUser } from '@/utils/auth';
 
-export default async function LoginPage() {
+export default async function RegisterPage() {
   const user = await currentUser();
 
   if (user) {
@@ -18,7 +18,7 @@ export default async function LoginPage() {
     <>
       <div className="m-auto mt-10 max-w-screen-md">
         <div className="glassmorphism grid place-items-center px-6 pb-20 pt-10">
-          <PrimaryHeading className="mt-3">ログイン</PrimaryHeading>
+          <PrimaryHeading className="mt-3">ユーザー登録</PrimaryHeading>
           <form action={signIn} className="mt-20 grid w-full gap-6">
             <FormInput
               label="ユーザー名"
@@ -30,6 +30,15 @@ export default async function LoginPage() {
               required
             />
             <FormInput
+              label="メールアドレス"
+              id="e-mail"
+              name="e-mail"
+              type="email"
+              className=""
+              error="メールアドレスが入力されていません"
+              required
+            />
+            <FormInput
               label="パスワード"
               id="password"
               name="password"
@@ -38,19 +47,14 @@ export default async function LoginPage() {
               error="パスワードが入力されていません"
               required
             />
-            <Button className="mx-auto max-w-screen-sm">ログイン</Button>
+            <Button className="mx-auto max-w-screen-sm">登録</Button>
           </form>
           <p className="mt-6 text-primary">
-            パスワードを忘れましたか？
-            <Link href="/reset" className="underline hover:no-underline">
-              <b>パスワードをリセットする</b>
-            </Link>
-          </p>
-          <p className="mt-2 text-primary">
-            すでにアカウントはお持ちですか？
+            すでにアカウントを持っている方は
             <Link href="/login" className="underline hover:no-underline">
-              <b>新規アカウントを登録する</b>
+              <b>ログインページ</b>
             </Link>
+            へ
           </p>
           <p className="relative mt-6 flex w-full items-center text-primary before:absolute before:left-0 before:right-[calc(50%+2rem)] before:top-1/2 before:h-px before:bg-primary before:content-[''] after:absolute after:left-[calc(50%+2rem)] after:right-0 after:top-1/2 after:h-px after:bg-primary after:content-['']">
             <span className="mx-auto">または</span>
