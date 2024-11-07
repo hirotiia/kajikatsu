@@ -16,14 +16,14 @@ export const signUp = async (formData: FormData): Promise<void> => {
     },
   };
 
-  const { data, error } = await supabase.auth.signUp(userData);
+  const { error } = await supabase.auth.signUp(userData);
 
   if (error) {
+    console.error(`${error.status}: ${error.code}`);
     redirect('/error');
   }
 
   revalidatePath('/', 'layout');
-  console.log(data);
   redirect('/dashboard');
 };
 
@@ -37,6 +37,7 @@ export const signIn = async (formData: FormData): Promise<void> => {
   const { error } = await supabase.auth.signInWithPassword(userData);
 
   if (error) {
+    console.error(`${error.status}: ${error.code}`);
     redirect('/error');
   }
 
