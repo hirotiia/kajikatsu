@@ -47,8 +47,8 @@ export default async function LoginPage() {
             </Link>
           </p>
           <p className="mt-2 text-primary">
-            すでにアカウントはお持ちですか？
-            <Link href="/login" className="underline hover:no-underline">
+            アカウントはお持ちですか？
+            <Link href="/register" className="underline hover:no-underline">
               <b>新規アカウントを登録する</b>
             </Link>
           </p>

@@ -1,29 +1,47 @@
 'use server';
 
+import { revalidatePath } from 'next/cache';
+import { redirect } from 'next/navigation';
+
 import { createClient } from '@/lib/supabase/server';
 
-// 新規ユーザーのサインアップして結果を返す
-export const signUp = async (
-  username: string,
-  email: string,
-  password: string,
-): Promise<{ data: any; error: any }> => {
+export const signUp = async (formData: FormData): Promise<void> => {
   const supabase = await createClient();
-  const { data, error } = await supabase.auth.signUp({
-    email,
-    password,
+  const userData = {
+    email: formData.get('email') as string,
+    password: formData.get('password') as string,
     options: {
-      data: { username },
+      data: { username: formData.get('username') },
       emailRedirectTo: process.env.SIGNUP_REDIRECT_URL,
     },
-  });
+  };
 
-  return { data, error };
+  const { data, error } = await supabase.auth.signUp(userData);
+
+  if (error) {
+    redirect('/error');
+  }
+
+  revalidatePath('/', 'layout');
+  console.log(data);
+  redirect('/dashboard');
 };
 
-export const signIn = async () => {
+export const signIn = async (formData: FormData): Promise<void> => {
   const supabase = await createClient();
-  await supabase.auth.signInAnonymously();
+  const userData = {
+    email: formData.get('email') as string,
+    password: formData.get('password') as string,
+  };
+
+  const { error } = await supabase.auth.signInWithPassword(userData);
+
+  if (error) {
+    redirect('/error');
+  }
+
+  revalidatePath('/', 'layout');
+  redirect('/dashboard');
 };
 
 export const signOut = async () => {

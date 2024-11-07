@@ -24,18 +24,17 @@ export const FormInput = ({
 }: FormInputProps) => (
   <div className="grid items-center gap-1 md:grid-cols-[150px_1fr] md:grid-rows-[auto_auto] md:gap-x-3">
     <label htmlFor={id}>{label}</label>
-    <input
-      id={id}
-      name={name}
-      type={type}
-      aria-invalid="false"
-      aria-describedby={`${id}-error`}
-      className={cn(
-        'block min-h-[48px] rounded-md border border-muted',
-        className,
-      )}
-      {...props}
-    />
+    <div className="rounded-md border border-muted text-primary">
+      <input
+        id={id}
+        name={name}
+        type={type}
+        aria-invalid="false"
+        aria-describedby={`${id}-error`}
+        className={cn('block size-full h-[48px] p-4 text-primary', className)}
+        {...props}
+      />
+    </div>
     {error && (
       <p
         className="text-destructive md:col-start-2 md:row-start-2"

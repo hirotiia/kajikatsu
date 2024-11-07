@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
 
-import { signIn } from '@/actions/auth';
+import { signUp } from '@/actions/auth';
 import { Button } from '@/components/ui/button';
 import { FormInput } from '@/components/ui/form/';
 import { PrimaryHeading } from '@/components/ui/heading';
@@ -19,7 +19,7 @@ export default async function RegisterPage() {
       <div className="m-auto mt-10 max-w-screen-md">
         <div className="glassmorphism grid place-items-center px-6 pb-20 pt-10">
           <PrimaryHeading className="mt-3">ユーザー登録</PrimaryHeading>
-          <form action={signIn} className="mt-20 grid w-full gap-6">
+          <form action={signUp} className="mt-20 grid w-full gap-6">
             <FormInput
               label="ユーザー名"
               id="username"
@@ -31,8 +31,8 @@ export default async function RegisterPage() {
             />
             <FormInput
               label="メールアドレス"
-              id="e-mail"
-              name="e-mail"
+              id="email"
+              name="email"
               type="email"
               className=""
               error="メールアドレスが入力されていません"

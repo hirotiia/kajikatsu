@@ -78,6 +78,10 @@
   h2 {
     font-weight: bold;
   }
+
+  input {
+    background-color: transparent;
+  }
 }
 
 @layer utilities {
