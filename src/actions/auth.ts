@@ -11,7 +11,7 @@ export const signUp = async (formData: FormData): Promise<void> => {
     email: formData.get('email') as string,
     password: formData.get('password') as string,
     options: {
-      data: { username: formData.get('username') },
+      data: { username: formData.get('username'), avatar_url: '' },
       emailRedirectTo: process.env.SIGNUP_REDIRECT_URL,
     },
   };
