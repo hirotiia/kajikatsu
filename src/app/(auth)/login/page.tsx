@@ -13,12 +13,12 @@ export default async function LoginPage() {
           <PrimaryHeading className="mt-3">ログイン</PrimaryHeading>
           <form action={signIn} className="mt-20 grid w-full gap-6">
             <FormInput
-              label="ユーザー名"
-              id="username"
-              name="username"
+              label="メールアドレス"
+              id="email"
+              name="email"
               type="text"
               className=""
-              error="ユーザー名が入力されていません"
+              error="メールアドレスが入力されていません"
               required
             />
             <FormInput
