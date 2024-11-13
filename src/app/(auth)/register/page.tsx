@@ -1,19 +1,11 @@
 import Link from 'next/link';
-import { redirect } from 'next/navigation';
 
 import { signUp } from '@/actions/auth';
 import { Button } from '@/components/ui/button';
 import { FormInput } from '@/components/ui/form/';
 import { PrimaryHeading } from '@/components/ui/heading';
-import { currentUser } from '@/utils/auth';
 
 export default async function RegisterPage() {
-  const user = await currentUser();
-
-  if (user) {
-    redirect('/dashboard');
-  }
-
   return (
     <>
       <div className="m-auto mt-10 max-w-screen-md">
