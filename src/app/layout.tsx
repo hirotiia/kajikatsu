@@ -4,6 +4,8 @@ import { config } from '@/config/config';
 import '@/styles/globals.css';
 import { zen_maru_gothic } from '@/font/font';
 
+import { AppProvider } from './provider';
+
 export const metadata: Metadata = {
   title: config.APP_NAME,
   description: '家事負荷分担アプリ',
@@ -16,7 +18,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ja">
-      <body className={zen_maru_gothic.className}>{children}</body>
+      <body className={zen_maru_gothic.className}>
+        <AppProvider>{children}</AppProvider>
+      </body>
     </html>
   );
 }
