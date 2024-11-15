@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   description: '家事負荷分担アプリ”カジ活”',
 };
 
-export default function LoginLayout({
+export default function AuthenticationLayout({
   children,
 }: {
   children: React.ReactNode;
