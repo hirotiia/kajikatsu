@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 
-import { BaseLayout } from '@/components/layouts/base-layout';
+import { AppLayout } from '@/components/layouts/app-layout';
 import { config } from '@/config/config';
 
 export const metadata: Metadata = {
@@ -8,6 +8,10 @@ export const metadata: Metadata = {
   description: '家事負荷分担アプリ”カジ活”',
 };
 
-export default function AppLayout({ children }: { children: React.ReactNode }) {
-  return <BaseLayout>{children}</BaseLayout>;
+export default function ApplicationLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return <AppLayout>{children}</AppLayout>;
 }

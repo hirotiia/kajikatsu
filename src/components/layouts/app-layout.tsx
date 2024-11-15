@@ -3,7 +3,7 @@ import { currentUser } from '@/utils/auth';
 import { LayoutAside } from './layout-aside/layout-aside';
 import { LayoutHeader } from './layout-header/layout-header';
 
-export const BaseLayout = async ({
+export const AppLayout = async ({
   children,
 }: {
   children: React.ReactNode;
