@@ -21,7 +21,7 @@ type NotificationProps = {
 
 export const Notification = ({ notification, onClose }: NotificationProps) => {
   return (
-    <div className="ml-auto w-full max-w-sm overflow-hidden rounded-lg bg-white shadow-lg ring-1 ring-black/5">
+    <div className="pointer-events-auto ml-auto w-full max-w-sm overflow-hidden rounded-lg bg-white shadow-lg ring-1 ring-black/5">
       <div className="p-4" role="alert" aria-label={notification.title}>
         <div className="flex items-start">
           <div className="shrink-0">{icons[notification.type]}</div>

@@ -9,8 +9,8 @@ export const Notifications = () => {
     title: '200: success',
     message: 'ログイン成功しました。',
   };
-  const onClose = () => {
-    console.log('fuga');
+  const onClose = (id: string) => {
+    console.log(id);
   };
   return (
     <div
