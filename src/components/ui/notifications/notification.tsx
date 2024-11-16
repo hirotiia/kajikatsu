@@ -16,10 +16,13 @@ type NotificationProps = {
     title: string;
     message?: string;
   };
-  onClose: (id: string) => void;
+  deleteNotification: (id: string) => void;
 };
 
-export const Notification = ({ notification, onClose }: NotificationProps) => {
+export const Notification = ({
+  notification,
+  deleteNotification,
+}: NotificationProps) => {
   return (
     <div className="pointer-events-auto ml-auto w-full max-w-sm overflow-hidden rounded-lg bg-white shadow-lg ring-1 ring-black/5">
       <div className="p-4" role="alert" aria-label={notification.title}>
@@ -34,7 +37,7 @@ export const Notification = ({ notification, onClose }: NotificationProps) => {
           <div className="ml-4 flex shrink-0">
             <button
               onClick={() => {
-                onClose(notification.id);
+                deleteNotification(notification.id);
               }}
               className="inline-flex rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2"
             >

@@ -9,7 +9,7 @@ export const Notifications = () => {
     title: '200: success',
     message: 'ログイン成功しました。',
   };
-  const onClose = (id: string) => {
+  const deleteNotification = (id: string) => {
     console.log(id);
   };
   return (
@@ -22,7 +22,7 @@ export const Notifications = () => {
           <Notification
             key={notification.id}
             notification={notification}
-            onClose={onClose}
+            deleteNotification={deleteNotification}
           />
         </div>
       </div>
