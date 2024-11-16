@@ -1,4 +1,4 @@
-import { Notification } from '@/components/ui/notifications/notification';
+import { Notifications } from '@/components/ui/notifications';
 
 type AppProviderProps = {
   children: React.ReactNode;
@@ -7,12 +7,7 @@ type AppProviderProps = {
 export const AppProvider = ({ children }: AppProviderProps) => {
   return (
     <>
-      <Notification
-        id="1"
-        type="success"
-        title="200: success"
-        message="ログイン成功しました。"
-      />
+      <Notifications />
       {children}
     </>
   );

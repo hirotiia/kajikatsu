@@ -10,28 +10,39 @@ const icons = {
 };
 
 type NotificationProps = {
-  id: string;
-  type: keyof typeof icons;
-  title: string;
-  message?: string;
+  notification: {
+    id: string;
+    type: keyof typeof icons;
+    title: string;
+    message?: string;
+  };
+  onClose: (id: string) => void;
 };
 
-export const Notification = ({
-  id,
-  type,
-  title,
-  message,
-}: NotificationProps) => {
+export const Notification = ({ notification, onClose }: NotificationProps) => {
   return (
-    <div
-      aria-live="assertive"
-      className="pointer-events-none fixed inset-0 z-50 flex flex-col items-end space-y-4 px-4 py-6 sm:items-start sm:p-6"
-    >
-      <div className="">
-        <div className="">{id}</div>
-        <div className="">{icons[type]}</div>
-        <div className="">{title}</div>
-        <div className="">{message}</div>
+    <div className="ml-auto w-full max-w-sm overflow-hidden rounded-lg bg-white shadow-lg ring-1 ring-black/5">
+      <div className="p-4" role="alert" aria-label={notification.title}>
+        <div className="flex items-start">
+          <div className="shrink-0">{icons[notification.type]}</div>
+          <div className="ml-3 w-0 flex-1 pt-0.5">
+            <p className="text-sm font-medium text-gray-900">
+              {notification.title}
+            </p>
+            <p className="mt-1 text-sm text-gray-500">{notification.message}</p>
+          </div>
+          <div className="ml-4 flex shrink-0">
+            <button
+              onClick={() => {
+                onClose(notification.id);
+              }}
+              className="inline-flex rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2"
+            >
+              <span className="sr-only">Close</span>
+              <CircleX className="size-5" aria-hidden="true" />
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );
