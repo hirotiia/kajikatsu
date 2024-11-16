@@ -1,3 +1,5 @@
+'use client';
+
 import { Notification } from '@/components/ui/notifications/notification';
 
 export const Notifications = () => {
