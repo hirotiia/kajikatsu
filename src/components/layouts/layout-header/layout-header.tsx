@@ -33,7 +33,7 @@ export const LayoutHeader = async ({ className }: HeaderProps) => {
   return (
     <header
       className={cn(
-        'sticky top-6 mt-6 flex items-center justify-between p-4 glassmorphism z-50',
+        'sticky top-6 mt-6 flex items-center justify-between p-4 glassmorphism z-49',
         className,
       )}
     >
