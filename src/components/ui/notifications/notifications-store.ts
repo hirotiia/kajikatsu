@@ -8,7 +8,7 @@
  */
 
 import { nanoid } from 'nanoid';
-import { useReducer } from 'react';
+import { useCallback, useReducer } from 'react';
 
 type Notification = {
   id: string;
@@ -44,18 +44,23 @@ const reducer = (state: State, action: Action): State => {
 
 export const useNotifications = (): NotificationsStore => {
   const [state, dispatch] = useReducer(reducer, []);
-  const addNotification = (notification: Omit<Notification, 'id'>) => {
-    dispatch({
-      type: 'add',
-      payload: { id: nanoid(), ...notification },
-    });
-  };
-  const deleteNotification = (id: string) => {
+
+  const addNotification = useCallback(
+    (notification: Omit<Notification, 'id'>) => {
+      dispatch({
+        type: 'add',
+        payload: { id: nanoid(), ...notification },
+      });
+    },
+    [],
+  );
+
+  const deleteNotification = useCallback((id: string) => {
     dispatch({
       type: 'delete',
       payload: id,
     });
-  };
+  }, []);
 
   return { notifications: state, addNotification, deleteNotification };
 };

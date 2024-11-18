@@ -1,23 +1,13 @@
 'use client';
 
 import Link from 'next/link';
-import { useContext } from 'react';
 
 import { signIn } from '@/actions/auth';
-import { NotificationsContext } from '@/app/provider';
 import { Button } from '@/components/ui/button';
 import { FormInput } from '@/components/ui/form/';
 import { PrimaryHeading } from '@/components/ui/heading';
 
 export default function LoginPage() {
-  const addNotification = useContext(NotificationsContext);
-  if (addNotification) {
-    addNotification({
-      type: 'success',
-      title: '200: success',
-      message: 'ログイン成功しました。',
-    });
-  }
   return (
     <>
       <div className="m-auto mt-10 max-w-screen-md">
