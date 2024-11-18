@@ -1,17 +1,11 @@
 'use client';
 
 import { Notification } from '@/components/ui/notifications/notification';
+import { useNotifications } from '@/components/ui/notifications/notifications-store';
 
 export const Notifications = () => {
-  const notification = {
-    id: '1',
-    type: 'success' as const,
-    title: '200: success',
-    message: 'ログイン成功しました。',
-  };
-  const deleteNotification = (id: string) => {
-    console.log(id);
-  };
+  const { notifications, deleteNotification } = useNotifications();
+
   return (
     <div
       aria-live="assertive"
@@ -19,11 +13,13 @@ export const Notifications = () => {
     >
       <div className="col-span-2 grid grid-cols-custom-layout gap-layout-gap">
         <div className="col-start-2 inline-flex w-full flex-col items-start gap-y-3 py-4">
-          <Notification
-            key={notification.id}
-            notification={notification}
-            deleteNotification={deleteNotification}
-          />
+          {notifications.map((notification) => (
+            <Notification
+              key={notification.id}
+              notification={notification}
+              deleteNotification={deleteNotification}
+            />
+          ))}
         </div>
       </div>
     </div>

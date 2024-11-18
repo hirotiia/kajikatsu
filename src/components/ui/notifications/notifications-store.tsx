@@ -23,7 +23,7 @@ type Action =
   | { type: 'add'; payload: Notification }
   | { type: 'delete'; payload: string };
 
-type NotificationsStore = {
+export type NotificationsStore = {
   notifications: Notification[];
   addNotification: (notification: Omit<Notification, 'id'>) => void;
   deleteNotification: (id: string) => void;
@@ -33,16 +33,16 @@ const reducer = (state: State, action: Action): State => {
   switch (action.type) {
     case 'add':
       return [...state, action.payload];
-      break;
+
     case 'delete':
       return state.filter((notification) => notification.id !== action.payload);
-      break;
+
     default:
       throw new Error('Unhandled action type');
   }
 };
 
-export const NotificationsStore = (): NotificationsStore => {
+export const useNotifications = (): NotificationsStore => {
   const [state, dispatch] = useReducer(reducer, []);
   const addNotification = (notification: Omit<Notification, 'id'>) => {
     dispatch({
