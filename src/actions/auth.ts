@@ -1,11 +1,11 @@
 'use server';
 
-import { revalidatePath } from 'next/cache';
-import { redirect } from 'next/navigation';
-
 import { createClient } from '@/lib/supabase/server';
 
-export const signUp = async (formData: FormData): Promise<void> => {
+export const signUp = async (
+  state: any,
+  formData: FormData,
+): Promise<any | null> => {
   const supabase = await createClient();
   const userData = {
     email: formData.get('email') as string,
@@ -16,36 +16,49 @@ export const signUp = async (formData: FormData): Promise<void> => {
     },
   };
 
-  const { error } = await supabase.auth.signUp(userData);
+  const { error, data } = await supabase.auth.signUp(userData);
 
   if (error) {
-    console.error(`${error.status}: ${error.message}`);
-    redirect('/error');
+    console.log(error);
+    return { type: 'error', title: error.message, message: error.message };
   }
+  console.log(`state:${state}`);
+  console.log(`data:${data}`);
 
-  revalidatePath('/', 'layout');
-  redirect('/login');
+  return {
+    type: 'success',
+    title: '200:success',
+    message: 'sign up が完了しました。',
+  };
 };
 
-export const signIn = async (formData: FormData): Promise<void> => {
+export const signIn = async (
+  state: any,
+  formData: FormData,
+): Promise<any | null> => {
   const supabase = await createClient();
   const userData = {
     email: formData.get('email') as string,
     password: formData.get('password') as string,
   };
 
-  const { error } = await supabase.auth.signInWithPassword(userData);
+  const { error, data } = await supabase.auth.signInWithPassword(userData);
 
   if (error) {
-    console.error(`${error.status}: ${error.message}`);
-    redirect('/error');
+    console.log(error);
+    return { type: 'error', title: error.message, message: error.message };
   }
+  console.log(`state:${state}`);
+  console.log(`data:${data}`);
 
-  revalidatePath('/', 'layout');
-  redirect('/dashboard');
+  return {
+    type: 'success',
+    title: '200:success',
+    message: 'ログインに成功しました。',
+  };
 };
 
-export const signOut = async () => {
+export const signOut = async (): Promise<void> => {
   const supabase = await createClient();
   await supabase.auth.signOut();
 };

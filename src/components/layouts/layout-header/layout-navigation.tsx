@@ -1,9 +1,9 @@
 'use client';
-import { LogIn, LogOut, Search } from 'lucide-react';
+import { LogOut, Search } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
-import { signIn, signOut } from '@/actions/auth';
+import { signOut } from '@/actions/auth';
 import { cn } from '@/utils/cn';
 
 export const LayoutHeaderNavigation = ({ isLogin }: { isLogin: boolean }) => {
@@ -62,22 +62,17 @@ export const LayoutHeaderNavigation = ({ isLogin }: { isLogin: boolean }) => {
             );
           })}
           <li>
-            <form action={isLogin ? signOut : signIn}>
+            <form action={signOut}>
               <button
                 className={cn(
                   'flex items-center gap-2 md:p-4 transition-colors duration-300 ease-out',
                   isLogin ? 'hover:text-destructive' : 'hover:text-primary',
                 )}
               >
-                {isLogin ? (
+                {isLogin && (
                   <>
                     <LogOut className="text-lg" />
                     <span className="sr-only">ログアウト</span>
-                  </>
-                ) : (
-                  <>
-                    <LogIn className="text-lg" />
-                    <span className="sr-only">ログイン</span>
                   </>
                 )}
               </button>

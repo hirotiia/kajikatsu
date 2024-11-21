@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { useFormState } from 'react-dom';
 
 import { signIn } from '@/actions/auth';
 import { Button } from '@/components/ui/button';
@@ -8,12 +9,19 @@ import { FormInput } from '@/components/ui/form/';
 import { PrimaryHeading } from '@/components/ui/heading';
 
 export default function LoginPage() {
+  const initialState = {
+    type: '',
+    title: '',
+    message: '',
+  };
+  const [state, signInAction] = useFormState(signIn, initialState);
+  console.log(state);
   return (
     <>
       <div className="m-auto mt-10 max-w-screen-md">
         <div className="glassmorphism grid place-items-center px-6 pb-20 pt-10">
           <PrimaryHeading className="mt-3">ログイン</PrimaryHeading>
-          <form action={signIn} className="mt-20 grid w-full gap-6">
+          <form action={signInAction} className="mt-20 grid w-full gap-6">
             <FormInput
               label="メールアドレス"
               id="email"

@@ -1,17 +1,27 @@
+'use client';
+
 import Link from 'next/link';
+import { useFormState } from 'react-dom';
 
 import { signUp } from '@/actions/auth';
 import { Button } from '@/components/ui/button';
 import { FormInput } from '@/components/ui/form/';
 import { PrimaryHeading } from '@/components/ui/heading';
 
-export default async function RegisterPage() {
+export default function RegisterPage() {
+  const initialState = {
+    type: '',
+    title: '',
+    message: '',
+  };
+  const [state, signInAction] = useFormState(signUp, initialState);
+  console.log(state);
   return (
     <>
       <div className="m-auto mt-10 max-w-screen-md">
         <div className="glassmorphism grid place-items-center px-6 pb-20 pt-10">
           <PrimaryHeading className="mt-3">ユーザー登録</PrimaryHeading>
-          <form action={signUp} className="mt-20 grid w-full gap-6">
+          <form action={signInAction} className="mt-20 grid w-full gap-6">
             <FormInput
               label="ユーザー名"
               id="username"
