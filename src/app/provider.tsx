@@ -1,7 +1,9 @@
 'use client';
 
+import { Provider } from 'react-redux';
+
 import { Notifications } from '@/components/ui/notifications';
-import { NotificationContextProvider } from '@/components/ui/notifications/context/notification-context-provider';
+import { store } from '@/stores/index';
 
 type AppProviderProps = {
   children: React.ReactNode;
@@ -10,10 +12,10 @@ type AppProviderProps = {
 export const AppProvider = ({ children }: AppProviderProps) => {
   return (
     <>
-      <NotificationContextProvider>
+      <Provider store={store}>
         <Notifications />
         {children}
-      </NotificationContextProvider>
+      </Provider>
     </>
   );
 };

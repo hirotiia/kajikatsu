@@ -1,11 +1,11 @@
 'use client';
 
 import { Notification } from '@/components/ui/notifications/notification';
-import { useNotifications } from '@/components/ui/notifications/notifications-store';
+
+import { useNotifications } from './notifications-store';
 
 export const Notifications = () => {
   const { notifications, deleteNotification } = useNotifications();
-
   return (
     <div
       aria-live="assertive"
@@ -16,7 +16,7 @@ export const Notifications = () => {
           {notifications.map((notification) => (
             <Notification
               key={notification.id}
-              notification={notification}
+              notificationData={notification}
               deleteNotification={deleteNotification}
             />
           ))}
