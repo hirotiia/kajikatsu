@@ -11,7 +11,7 @@ type State = Notification[];
 
 const initialState: State = [];
 
-const notification = createSlice({
+export const notification = createSlice({
   name: 'notification',
   initialState,
   reducers: {
@@ -26,6 +26,3 @@ const notification = createSlice({
     },
   },
 });
-
-export const { add, remove } = notification.actions;
-export const { reducer } = notification;

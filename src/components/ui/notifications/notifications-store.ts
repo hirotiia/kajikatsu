@@ -1,11 +1,7 @@
 import { useSelector, useDispatch } from 'react-redux';
 
 import { RootState } from '@/stores';
-import {
-  add,
-  remove,
-  Notification,
-} from '@/stores/ducks/notifications/reducer';
+import { add, remove, Notification } from '@/stores/notifications';
 
 export const useNotifications = () => {
   const notifications = useSelector((state: RootState) => state.notifications);
