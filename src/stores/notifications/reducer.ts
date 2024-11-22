@@ -3,7 +3,7 @@ import { createSlice, nanoid, PayloadAction } from '@reduxjs/toolkit';
 export type Notification = {
   id: string;
   type: 'success' | 'error' | 'info' | 'warning';
-  title: string;
+  status: number;
   message?: string;
 };
 

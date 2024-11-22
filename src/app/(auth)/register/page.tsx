@@ -11,7 +11,7 @@ import { PrimaryHeading } from '@/components/ui/heading';
 export default function RegisterPage() {
   const initialState = {
     type: '',
-    title: '',
+    status: null,
     message: '',
   };
   const [state, signInAction] = useFormState(signUp, initialState);
