@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import { useFormState } from 'react-dom';
 
@@ -11,6 +12,7 @@ import { PrimaryHeading } from '@/components/ui/heading';
 import { useNotifications } from '@/components/ui/notifications/notifications-store';
 
 export default function LoginPage() {
+  const router = useRouter();
   const initialState = {
     type: '',
     status: null,
@@ -24,6 +26,12 @@ export default function LoginPage() {
       addNotification(state);
     }
   }, [state, addNotification]);
+
+  useEffect(() => {
+    if (state.type === 'success') {
+      router.push('/dashboard');
+    }
+  }, [state, router]);
 
   return (
     <>

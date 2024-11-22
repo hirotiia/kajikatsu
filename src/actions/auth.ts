@@ -25,7 +25,8 @@ export const signUp = async (
   return {
     type: 'success',
     status: 200,
-    message: 'sign up が完了しました。',
+    message:
+      'サインアップが完了しました。確認メールを送信しましたので、メールをご確認のうえログインしてください。',
   };
 };
 
