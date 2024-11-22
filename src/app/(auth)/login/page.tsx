@@ -7,6 +7,7 @@ import { signIn } from '@/actions/auth';
 import { Button } from '@/components/ui/button';
 import { FormInput } from '@/components/ui/form/';
 import { PrimaryHeading } from '@/components/ui/heading';
+import { useNotifications } from '@/components/ui/notifications/notifications-store';
 
 export default function LoginPage() {
   const initialState = {
@@ -15,7 +16,9 @@ export default function LoginPage() {
     message: '',
   };
   const [state, signInAction] = useFormState(signIn, initialState);
-  console.log(state);
+  const { addNotification } = useNotifications();
+  addNotification(state);
+
   return (
     <>
       <div className="m-auto mt-10 max-w-screen-md">

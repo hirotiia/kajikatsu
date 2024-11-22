@@ -16,15 +16,11 @@ export const signUp = async (
     },
   };
 
-  const { error, data } = await supabase.auth.signUp(userData);
+  const { error } = await supabase.auth.signUp(userData);
 
   if (error) {
-    console.log('----------エラーが発生----------');
-    console.log(error);
     return { type: 'error', status: error.status, message: error.message };
   }
-  console.log(`state:${state}`);
-  console.log(`data:${data}`);
 
   return {
     type: 'success',
@@ -43,17 +39,11 @@ export const signIn = async (
     password: formData.get('password') as string,
   };
 
-  const { error, data } = await supabase.auth.signInWithPassword(userData);
+  const { error } = await supabase.auth.signInWithPassword(userData);
 
   if (error) {
-    console.log('---------- start: error----------');
-    console.log(error.status);
-    console.log('---------- end: error----------');
-
     return { type: 'error', status: error.status, message: error.message };
   }
-  console.log(`state:${state}`);
-  console.log(`data:${data}`);
 
   return {
     type: 'success',
