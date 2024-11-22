@@ -5,6 +5,7 @@ import { useNotifications } from '@/components/ui/notifications/notifications-st
 
 export const Notifications = () => {
   const { notifications, deleteNotification } = useNotifications();
+
   return (
     <div
       aria-live="assertive"

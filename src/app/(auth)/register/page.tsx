@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { useEffect } from 'react';
 import { useFormState } from 'react-dom';
 
 import { signUp } from '@/actions/auth';
@@ -17,7 +18,12 @@ export default function RegisterPage() {
   };
   const [state, signInAction] = useFormState(signUp, initialState);
   const { addNotification } = useNotifications();
-  addNotification(state);
+
+  useEffect(() => {
+    if (state.status !== null) {
+      addNotification(state);
+    }
+  }, [state, addNotification]);
 
   return (
     <>

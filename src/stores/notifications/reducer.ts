@@ -22,7 +22,7 @@ export const notification = createSlice({
       });
     },
     remove(state, action: PayloadAction<{ id: string }>) {
-      state.filter((item) => item.id !== action.payload.id);
+      return state.filter((item) => item.id !== action.payload.id);
     },
   },
 });
