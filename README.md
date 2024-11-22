@@ -77,6 +77,7 @@
 | Next.js              | 14.2.15    |
 | Typescript           | 5.6.3      |
 | TailwindCSS          | 3.4.14     |
+| Redux                | 5.0.1      |
 
 | BaaS     | バージョン |
 | -------- | ---------- |
