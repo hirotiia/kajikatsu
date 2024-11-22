@@ -3,7 +3,7 @@ import { LogOut, Search } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
-import { signOut } from '@/actions/auth';
+import { signOut } from '@/actions/auth/auth';
 import { cn } from '@/utils/cn';
 
 export const LayoutHeaderNavigation = ({ isLogin }: { isLogin: boolean }) => {

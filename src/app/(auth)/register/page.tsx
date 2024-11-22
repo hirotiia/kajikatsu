@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useEffect } from 'react';
 import { useFormState } from 'react-dom';
 
-import { signUp } from '@/actions/auth';
+import { signUp } from '@/actions/auth/auth';
 import { Button } from '@/components/ui/button';
 import { FormInput } from '@/components/ui/form/';
 import { PrimaryHeading } from '@/components/ui/heading';
