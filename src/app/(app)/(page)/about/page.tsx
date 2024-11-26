@@ -53,7 +53,7 @@ export default function Home() {
         このアプリを通じて、いつまでも仲良く過ごせる関係をサポートします。
       </Text>
 
-      <PrimaryHeading>対象</PrimaryHeading>
+      <PrimaryHeading className="mt-24">対象</PrimaryHeading>
 
       <List
         listItems={[
@@ -75,7 +75,7 @@ export default function Home() {
         ]}
       />
 
-      <PrimaryHeading className="text-center">
+      <PrimaryHeading className="mt-24 text-center">
         ログインして始める
       </PrimaryHeading>
       <div className="mt-10 text-center">

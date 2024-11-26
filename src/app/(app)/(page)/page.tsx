@@ -78,7 +78,7 @@ export default async function Home() {
           </p>
         </article>
       </div>
-      <PrimaryHeading className="text-center">
+      <PrimaryHeading className="mt-24 text-center">
         ログインして始める
       </PrimaryHeading>
       <div className="mt-10 text-center">

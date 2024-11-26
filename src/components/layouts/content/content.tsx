@@ -23,6 +23,8 @@ type ContentProps = React.HTMLAttributes<HTMLDivElement> &
 
 export const Content = ({ children, bg, className }: ContentProps) => {
   return (
-    <div className={cn('', ContentVariant({ bg, className }))}>{children}</div>
+    <div className={cn('p-4', ContentVariant({ bg, className }))}>
+      {children}
+    </div>
   );
 };

@@ -12,7 +12,7 @@ export const PrimaryHeading = ({
   className,
 }: PrimaryHeading) => {
   return (
-    <hgroup className={cn('mt-24', className)}>
+    <hgroup className={cn(className)}>
       <Tag className="text-2xl md:text-4xl">{children}</Tag>
     </hgroup>
   );
