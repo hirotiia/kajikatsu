@@ -17,21 +17,25 @@
  * 新しい画像URLをpublic.users.avatar_urlに保存。
  */
 
+// route.ts
+
 import { NextResponse } from 'next/server';
 
 import { createClient } from '@/lib/supabase/server';
 
-type ApiResponse =
-  | {
-      message: string | undefined;
-      type: 'success';
-      avatar_url: string;
-    }
-  | {
-      message: string | undefined;
-      type: 'error';
-      error?: string;
-    };
+type SuccessResponse = {
+  message: string;
+  type: 'success';
+  avatar_url: string;
+};
+
+type ErrorResponse = {
+  message: string;
+  type: 'error';
+  errorDetails?: string;
+};
+
+type ApiResponse = SuccessResponse | ErrorResponse;
 
 export async function POST(
   request: Request,
@@ -39,78 +43,144 @@ export async function POST(
   const supabase = await createClient();
 
   try {
-    const formData = await request.formData();
-    const file = formData.get('file') as File | null;
-    const extension = file?.name.split('.').pop();
-    const { data, error, status } = await supabase.from('users').select('id');
+    // ユーザー情報を取得
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser();
 
-    const userId = data?.[0].id;
-
-    if (!file || !userId) {
-      return NextResponse.json<ApiResponse>(
+    if (authError || !user) {
+      return NextResponse.json<ErrorResponse>(
         {
-          message: error?.message,
+          message: 'ユーザー情報の取得に失敗しました。',
           type: 'error',
+          errorDetails: authError?.message,
         },
-        { status: status },
+        { status: 401 },
       );
     }
 
-    const fileName = `${userId}.${extension}`;
-    const filePath = fileName;
+    const userId = user.id;
 
-    // Supabase Storageにアップロード
-    const { error: uploadError } = await supabase.storage
-      .from('avatars')
-      .upload(filePath, file, { upsert: true });
+    // リクエストからファイルを取得
+    const formData = await request.formData();
+    const file = formData.get('file') as File | null;
 
-    if (uploadError) {
-      return NextResponse.json<ApiResponse>(
+    if (!file) {
+      return NextResponse.json<ErrorResponse>(
         {
-          message: uploadError.message,
+          message: 'ファイルが見つかりません。',
           type: 'error',
         },
         { status: 400 },
       );
     }
 
-    // 公開URLを取得
-    const { data: publicURL } = supabase.storage
-      .from('avatars')
-      .getPublicUrl(filePath, {
-        transform: {
-          resize: 'cover',
+    // ファイルの検証
+    const allowedExtensions = ['png', 'jpg', 'jpeg', 'gif'];
+    const maxFileSize = 5 * 1024 * 1024; // 5MB
+
+    const fileNameParts = file.name.split('.');
+    const extension = fileNameParts.pop()?.toLowerCase();
+
+    if (!extension || !allowedExtensions.includes(extension)) {
+      return NextResponse.json<ErrorResponse>(
+        {
+          message: 'サポートされていないファイル形式です。',
+          type: 'error',
         },
+        { status: 400 },
+      );
+    }
+
+    if (file.size > maxFileSize) {
+      return NextResponse.json<ErrorResponse>(
+        {
+          message:
+            'ファイルサイズが大きすぎます。5MB以下のファイルを選択してください。',
+          type: 'error',
+        },
+        { status: 400 },
+      );
+    }
+
+    const fileName = `${userId}.${extension}`;
+
+    // 既存のアバターを削除（必要に応じて）
+    const { data: files, error: listError } = await supabase.storage
+      .from('avatars')
+      .list(userId, {
+        limit: 5,
       });
 
-    const { publicUrl: avatar_url } = publicURL;
+    if (listError) {
+      console.error('Error listing files:', listError.message);
+    }
+
+    const filesToDelete = files?.map((file) => `${userId}/${file.name}`);
+
+    if (filesToDelete && filesToDelete.length > 0) {
+      const { error: deleteError } = await supabase.storage
+        .from('avatars')
+        .remove(filesToDelete);
+
+      if (deleteError) {
+        console.error('Error deleting files:', deleteError.message);
+      }
+    }
+
+    // ファイルをアップロード
+    const { error: uploadError } = await supabase.storage
+      .from('avatars')
+      .upload(fileName, file, { upsert: true });
+
+    if (uploadError) {
+      return NextResponse.json<ErrorResponse>(
+        {
+          message: 'ファイルのアップロードに失敗しました。',
+          type: 'error',
+          errorDetails: uploadError.message,
+        },
+        { status: 500 },
+      );
+    }
+
+    // 公開URLを取得
+    const {
+      data: { publicUrl: avatar_url },
+    } = supabase.storage.from('avatars').getPublicUrl(fileName);
 
     // usersテーブルのavatar_urlを更新
-    const { error: userUpdateError, status: userUpdateStatus } = await supabase
+    const { error: updateError } = await supabase
       .from('users')
       .update({ avatar_url })
       .eq('id', userId);
 
-    if (userUpdateError) {
-      return NextResponse.json<ApiResponse>(
+    if (updateError) {
+      return NextResponse.json<ErrorResponse>(
         {
-          message: userUpdateError.message,
+          message: 'ユーザープロフィールの更新に失敗しました。',
           type: 'error',
+          errorDetails: updateError.message,
         },
-        { status: userUpdateStatus },
+        { status: 500 },
       );
     }
 
-    return NextResponse.json({
-      message: 'アバターのアップが完了しました',
-      type: 'success',
-      avatar_url,
-    });
-  } catch (error: any) {
-    return NextResponse.json<ApiResponse>(
+    return NextResponse.json<SuccessResponse>(
       {
-        message: error.message,
+        message: 'アバターのアップロードが完了しました。',
+        type: 'success',
+        avatar_url,
+      },
+      { status: 200 },
+    );
+  } catch (error: any) {
+    return NextResponse.json<ErrorResponse>(
+      {
+        message: 'サーバーエラーが発生しました。',
         type: 'error',
+        errorDetails: error.message,
       },
       { status: 500 },
     );
