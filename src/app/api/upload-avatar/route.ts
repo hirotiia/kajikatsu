@@ -40,13 +40,17 @@ export async function POST(request: Request) {
     const filePath = fileName;
 
     // Supabase Storageにアップロード
-    const { error: uploadError } = await supabase.storage
+    const { error: uploadError, data } = await supabase.storage
       .from('avatars')
       .upload(filePath, file, { upsert: true });
+
+    console.log(`error:${uploadError}`);
 
     if (uploadError) {
       throw new Error(`Failed to upload file: ${uploadError.message}`);
     }
+
+    console.log(data);
 
     // 公開URLを取得
     const { data: publicURL } = supabase.storage

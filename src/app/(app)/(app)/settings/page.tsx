@@ -1,28 +1,32 @@
-import { CircleUserRound, Pen } from 'lucide-react';
-import { useState } from 'react';
+'use client';
 
-// import { uploadAvatar } from '@/actions/storage/upload-avatar';
+import { CircleUserRound, Pen } from 'lucide-react';
+
+import { uploadAvatar } from '@/actions/storage/upload-avatar';
 import { Content } from '@/components/layouts/content/content';
 import { Heading } from '@/components/ui/heading';
 import { useNotifications } from '@/components/ui/notifications';
 
 export default function SettingPage() {
-  const [file, setFile] = useState<File | null>(null);
   const { addNotification } = useNotifications();
-  const userId = '12345';
+  const userId = 'nakanohiroya';
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const selectedFile = e.target.files?.[0];
-    if (selectedFile) {
-      setFile(selectedFile);
+  const handleFileChange = async (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    const file = event.target.files?.[0] || null;
+
+    if (!file) {
+      addNotification({
+        type: 'error',
+        status: 300,
+        message: '画像がうまく読み込めませんでした。',
+      });
     }
 
-    try {
-      console.log(file);
-      console.log(userId);
-    } catch (error: any) {
-      addNotification({ type: 'error', status: 300, message: error.message });
-    }
+    const message = await uploadAvatar({ file, userId });
+    console.log(message);
+    addNotification({ type: 'success', status: 200, message });
   };
 
   return (
@@ -31,31 +35,41 @@ export default function SettingPage() {
         設定
       </Heading>
 
-      <p>アプリのカテゴリやプロフィールをカスタマイズできる設定画面です。</p>
-      <p>使いやすいように、必要な項目を調整してください。</p>
+      <p className="text-primary-foreground">
+        アプリのカテゴリやプロフィールをカスタマイズできる設定画面です。
+      </p>
+      <p className="text-primary-foreground">
+        使いやすいように、必要な項目を調整してください。
+      </p>
 
-      <div className="mt-20 flex gap-3">
-        <div className="">
-          <CircleUserRound className="shrink-0" size={50} />
+      <Heading as="h2" className="mb-12 mt-10">
+        プロフィール
+      </Heading>
+
+      <div className="grid gap-3">
+        <div className="flex items-center gap-3">
+          <CircleUserRound
+            className="shrink-0 text-primary-foreground"
+            size={50}
+          />
+          <p className="text-lg font-bold text-primary-foreground">中野寛也</p>
         </div>
-        <p>中野寛也</p>
+        <label
+          htmlFor="avatar"
+          className="flex cursor-pointer gap-3 text-primary-foreground hover:underline"
+        >
+          <Pen size={20} />
+          プロフィール画像を編集する
+        </label>
+        <input
+          id="avatar"
+          type="file"
+          accept="image/*"
+          name="avatar"
+          onChange={handleFileChange}
+          className="hidden"
+        />
       </div>
-
-      <label
-        htmlFor="avatar"
-        className="flex cursor-pointer gap-3 hover:underline"
-      >
-        <Pen size={20} />
-        プロフィール画像を編集する
-      </label>
-      <input
-        id="avatar"
-        type="file"
-        accept="image/*"
-        name="avatar"
-        onChange={handleFileChange}
-        className="hidden"
-      />
     </Content>
   );
 }
