@@ -15,7 +15,6 @@ export const useNotifications = () => {
   );
   const deleteNotification = useCallback(
     (id: string) => {
-      console.log(id);
       dispatch(remove({ id }));
     },
     [dispatch],

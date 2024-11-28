@@ -26,8 +26,11 @@ export async function POST(request: Request) {
 
   try {
     const formData = await request.formData();
-    const file = formData.get('file') as Blob | null;
-    const userId = formData.get('userId') as string;
+    const file = formData.get('file') as File | null;
+    const extension = file?.name.split('.').pop();
+    const { data } = await supabase.from('users').select('id');
+
+    const userId = data?.[0].id;
 
     if (!file || !userId) {
       return NextResponse.json(
@@ -36,21 +39,31 @@ export async function POST(request: Request) {
       );
     }
 
-    const fileName = `${userId}.png`;
+    const fileName = `${userId}.${extension}`;
     const filePath = fileName;
 
     // Supabase Storageにアップロード
-    const { error: uploadError, data } = await supabase.storage
+    const { error: uploadError, data: storageData } = await supabase.storage
       .from('avatars')
       .upload(filePath, file, { upsert: true });
 
-    console.log(`error:${uploadError}`);
-
     if (uploadError) {
-      throw new Error(`Failed to upload file: ${uploadError.message}`);
+      return NextResponse.json(
+        {
+          message: `Failed to upload file: ${uploadError.message}.`,
+        },
+        { status: 400 },
+      );
     }
 
-    console.log(data);
+    if (storageData) {
+      return NextResponse.json(
+        {
+          message: `Success to upload your avatar image.`,
+        },
+        { status: 200 },
+      );
+    }
 
     // 公開URLを取得
     const { data: publicURL } = supabase.storage
@@ -60,6 +73,8 @@ export async function POST(request: Request) {
           resize: 'cover',
         },
       });
+
+    console.log(publicURL);
 
     // usersテーブルのavatar_urlを更新
     const { error: userUpdateError } = await supabase

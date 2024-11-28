@@ -9,7 +9,6 @@ import { useNotifications } from '@/components/ui/notifications';
 
 export default function SettingPage() {
   const { addNotification } = useNotifications();
-  const userId = 'nakanohiroya';
 
   const handleFileChange = async (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -24,9 +23,8 @@ export default function SettingPage() {
       });
     }
 
-    const message = await uploadAvatar({ file, userId });
+    const message = await uploadAvatar({ file });
     console.log(message);
-    addNotification({ type: 'success', status: 200, message });
   };
 
   return (
