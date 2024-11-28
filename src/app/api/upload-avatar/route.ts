@@ -21,21 +21,38 @@ import { NextResponse } from 'next/server';
 
 import { createClient } from '@/lib/supabase/server';
 
-export async function POST(request: Request) {
+type ApiResponse =
+  | {
+      message: string | undefined;
+      type: 'success';
+      avatar_url: string;
+    }
+  | {
+      message: string | undefined;
+      type: 'error';
+      error?: string;
+    };
+
+export async function POST(
+  request: Request,
+): Promise<NextResponse<ApiResponse>> {
   const supabase = await createClient();
 
   try {
     const formData = await request.formData();
     const file = formData.get('file') as File | null;
     const extension = file?.name.split('.').pop();
-    const { data } = await supabase.from('users').select('id');
+    const { data, error, status } = await supabase.from('users').select('id');
 
     const userId = data?.[0].id;
 
     if (!file || !userId) {
-      return NextResponse.json(
-        { message: 'Invalid input: file and userId are required.' },
-        { status: 400 },
+      return NextResponse.json<ApiResponse>(
+        {
+          message: error?.message,
+          type: 'error',
+        },
+        { status: status },
       );
     }
 
@@ -43,25 +60,17 @@ export async function POST(request: Request) {
     const filePath = fileName;
 
     // Supabase Storageにアップロード
-    const { error: uploadError, data: storageData } = await supabase.storage
+    const { error: uploadError } = await supabase.storage
       .from('avatars')
       .upload(filePath, file, { upsert: true });
 
     if (uploadError) {
-      return NextResponse.json(
+      return NextResponse.json<ApiResponse>(
         {
-          message: `Failed to upload file: ${uploadError.message}.`,
+          message: uploadError.message,
+          type: 'error',
         },
         { status: 400 },
-      );
-    }
-
-    if (storageData) {
-      return NextResponse.json(
-        {
-          message: `Success to upload your avatar image.`,
-        },
-        { status: 200 },
       );
     }
 
@@ -74,24 +83,35 @@ export async function POST(request: Request) {
         },
       });
 
-    console.log(publicURL);
+    const { publicUrl: avatar_url } = publicURL;
 
     // usersテーブルのavatar_urlを更新
-    const { error: userUpdateError } = await supabase
+    const { error: userUpdateError, status: userUpdateStatus } = await supabase
       .from('users')
-      .update({ avatar_url: publicURL?.publicUrl })
+      .update({ avatar_url })
       .eq('id', userId);
 
     if (userUpdateError) {
-      throw new Error(
-        `Failed to update avatar URL: ${userUpdateError.message}`,
+      return NextResponse.json<ApiResponse>(
+        {
+          message: userUpdateError.message,
+          type: 'error',
+        },
+        { status: userUpdateStatus },
       );
     }
 
-    return NextResponse.json({ message: 'Avatar updated successfully' });
+    return NextResponse.json({
+      message: 'アバターのアップが完了しました',
+      type: 'success',
+      avatar_url,
+    });
   } catch (error: any) {
-    return NextResponse.json(
-      { message: error.message || 'Server error occurred' },
+    return NextResponse.json<ApiResponse>(
+      {
+        message: error.message,
+        type: 'error',
+      },
       { status: 500 },
     );
   }

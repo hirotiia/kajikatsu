@@ -27,6 +27,5 @@ export const uploadAvatar = async ({ file }: UploadProps) => {
     throw new Error(error.message || 'アップロードに失敗しました。');
   }
 
-  const result = await response.json();
-  return result.message || 'アップロードが成功しました。';
+  return await response.json();
 };

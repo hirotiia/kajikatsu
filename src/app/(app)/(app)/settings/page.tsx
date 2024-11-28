@@ -23,8 +23,15 @@ export default function SettingPage() {
       });
     }
 
-    const message = await uploadAvatar({ file });
-    console.log(message);
+    const {
+      message,
+      status = 200,
+      type,
+      avatar_url,
+    } = await uploadAvatar({ file });
+    addNotification({ type, status, message });
+
+    console.log(avatar_url);
   };
 
   return (
