@@ -1,14 +1,21 @@
 'use client';
-
 import { CircleUserRound, Pen } from 'lucide-react';
+import Image from 'next/image';
+import useSWR from 'swr';
 
 import { uploadAvatar } from '@/actions/storage/upload-avatar';
 import { Content } from '@/components/layouts/content/content';
 import { Heading } from '@/components/ui/heading';
 import { useNotifications } from '@/components/ui/notifications';
 
+const fetcher = (url: string) => fetch(url).then((res) => res.json());
+
 export default function SettingPage() {
   const { addNotification } = useNotifications();
+  const { data, error, isLoading } = useSWR('/api/get-avatar', fetcher);
+
+  if (error) return <div>failed to load</div>;
+  if (isLoading) return <div>loading...</div>;
 
   const handleFileChange = async (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -23,15 +30,8 @@ export default function SettingPage() {
       });
     }
 
-    const {
-      message,
-      status = 200,
-      type,
-      avatar_url,
-    } = await uploadAvatar({ file });
+    const { message, status = 200, type } = await uploadAvatar({ file });
     addNotification({ type, status, message });
-
-    console.log(avatar_url);
   };
 
   return (
@@ -53,10 +53,20 @@ export default function SettingPage() {
 
       <div className="grid gap-3">
         <div className="flex items-center gap-3">
-          <CircleUserRound
-            className="shrink-0 text-primary-foreground"
-            size={50}
-          />
+          {data.avatar_url ? (
+            <Image
+              src={data.avatar_url}
+              alt="ユーザーアイコン"
+              width={30}
+              height={30}
+            />
+          ) : (
+            <CircleUserRound
+              className="shrink-0 text-primary-foreground"
+              size={50}
+            />
+          )}
+
           <p className="text-lg font-bold text-primary-foreground">中野寛也</p>
         </div>
         <label

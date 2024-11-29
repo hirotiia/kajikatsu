@@ -26,7 +26,6 @@ import { createClient } from '@/lib/supabase/server';
 type SuccessResponse = {
   message: string;
   type: 'success';
-  avatar_url: string;
 };
 
 type ErrorResponse = {
@@ -77,7 +76,7 @@ export async function POST(
     }
 
     // ファイルの検証
-    const allowedExtensions = ['png', 'jpg', 'jpeg', 'gif'];
+    const allowedExtensions = ['png', 'jpg', 'jpeg', 'gif', 'svg'];
     const maxFileSize = 5 * 1024 * 1024; // 5MB
 
     const fileNameParts = file.name.split('.');
@@ -150,11 +149,15 @@ export async function POST(
       data: { publicUrl: avatar_url },
     } = supabase.storage.from('avatars').getPublicUrl(fileName);
 
+    // キャッシュ対策
+    const avatarUrlWithQuery = `${avatar_url}?t=${Date.now()}`;
+
     // usersテーブルのavatar_urlを更新
     const { error: updateError } = await supabase
       .from('users')
-      .update({ avatar_url })
-      .eq('id', userId);
+      .update({ avatar_url: avatarUrlWithQuery })
+      .eq('id', userId)
+      .single();
 
     if (updateError) {
       return NextResponse.json<ErrorResponse>(
@@ -171,7 +174,6 @@ export async function POST(
       {
         message: 'アバターのアップロードが完了しました。',
         type: 'success',
-        avatar_url,
       },
       { status: 200 },
     );
