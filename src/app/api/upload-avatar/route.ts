@@ -116,7 +116,11 @@ export async function POST(
       console.error('Error listing files:', listError.message);
     }
 
+    console.log(`files: ${files}`);
+
     const filesToDelete = files?.map((file) => `${userId}/${file.name}`);
+
+    console.log(`filesToDelete: ${filesToDelete}`);
 
     if (filesToDelete && filesToDelete.length > 0) {
       const { error: deleteError } = await supabase.storage
@@ -132,6 +136,8 @@ export async function POST(
     const { error: uploadError } = await supabase.storage
       .from('avatars')
       .upload(fileName, file, { upsert: true });
+
+    console.log(`uploadError: ${uploadError?.message}`);
 
     if (uploadError) {
       return NextResponse.json<ErrorResponse>(

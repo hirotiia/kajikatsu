@@ -1,5 +1,6 @@
 'use client';
-import { CircleUserRound, Pen } from 'lucide-react';
+
+import { CircleUserRound, Loader2, Pen } from 'lucide-react';
 import Image from 'next/image';
 import useSWR from 'swr';
 
@@ -15,7 +16,6 @@ export default function SettingPage() {
   const { data, error, isLoading } = useSWR('/api/get-avatar', fetcher);
 
   if (error) return <div>failed to load</div>;
-  if (isLoading) return <div>loading...</div>;
 
   const handleFileChange = async (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -53,12 +53,18 @@ export default function SettingPage() {
 
       <div className="grid gap-3">
         <div className="flex items-center gap-3">
-          {data.avatar_url ? (
+          {isLoading ? (
+            <Loader2
+              className="animate-spin text-primary-foreground"
+              size={50}
+            />
+          ) : data?.avatar_url ? (
             <Image
               src={data.avatar_url}
               alt="ユーザーアイコン"
-              width={30}
-              height={30}
+              width={50}
+              height={50}
+              className="rounded-full border-1 border-primary-foreground"
             />
           ) : (
             <CircleUserRound
