@@ -17,7 +17,7 @@ export const uploadAvatar = async ({ file }: UploadProps) => {
   const formData = new FormData();
   formData.append('file', file);
 
-  const response = await fetch('/api/upload-avatar', {
+  const response = await fetch('/api/post/upload-avatar', {
     method: 'POST',
     body: formData,
   });

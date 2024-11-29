@@ -13,9 +13,14 @@ const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 export default function SettingPage() {
   const { addNotification } = useNotifications();
-  const { data, error, isLoading } = useSWR('/api/get-avatar', fetcher);
 
-  if (error) return <div>failed to load</div>;
+  const {
+    data: userData,
+    error: userError,
+    isLoading: isLoadingUserData,
+  } = useSWR('/api/get/get-user', fetcher);
+
+  if (userError) return <div>failed to load User data</div>;
 
   const handleFileChange = async (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -34,7 +39,7 @@ export default function SettingPage() {
     addNotification({ type, status, message });
 
     if (status === 200) {
-      mutate('/api/get-avatar');
+      mutate('/api/get/get-user');
     }
   };
 
@@ -57,14 +62,14 @@ export default function SettingPage() {
 
       <div className="grid gap-3">
         <div className="flex items-center gap-3">
-          {isLoading ? (
+          {isLoadingUserData ? (
             <Loader2
               className="animate-spin text-primary-foreground"
               size={50}
             />
-          ) : data?.avatar_url ? (
+          ) : userData?.avatar_url ? (
             <Image
-              src={data.avatar_url}
+              src={userData.avatar_url}
               alt="ユーザーアイコン"
               width={50}
               height={50}
@@ -77,7 +82,17 @@ export default function SettingPage() {
             />
           )}
 
-          <p className="text-lg font-bold text-primary-foreground">中野寛也</p>
+          {isLoadingUserData ? (
+            <p className="text-lg font-bold text-primary-foreground">
+              読み込み中です....
+            </p>
+          ) : userData?.username ? (
+            <p className="text-lg font-bold text-primary-foreground">
+              {userData?.username}
+            </p>
+          ) : (
+            <p className="text-lg font-bold text-primary-foreground">未設定</p>
+          )}
         </div>
         <label
           htmlFor="avatar"
