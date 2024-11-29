@@ -60,13 +60,10 @@ export default function SettingPage() {
         プロフィール
       </Heading>
 
-      <div className="grid gap-3">
+      <div className="grid gap-3 rounded-md bg-primary-foreground p-4">
         <div className="flex items-center gap-3">
           {isLoadingUserData ? (
-            <Loader2
-              className="animate-spin text-primary-foreground"
-              size={50}
-            />
+            <Loader2 className="animate-spin text-primary" size={50} />
           ) : userData?.avatar_url ? (
             <Image
               src={userData.avatar_url}
@@ -76,27 +73,22 @@ export default function SettingPage() {
               className="rounded-full border-1 border-primary-foreground"
             />
           ) : (
-            <CircleUserRound
-              className="shrink-0 text-primary-foreground"
-              size={50}
-            />
+            <CircleUserRound className="shrink-0 text-primary" size={50} />
           )}
 
           {isLoadingUserData ? (
-            <p className="text-lg font-bold text-primary-foreground">
-              読み込み中です....
-            </p>
+            <p className="text-lg font-bold text-primary">読み込み中です...</p>
           ) : userData?.username ? (
-            <p className="text-lg font-bold text-primary-foreground">
+            <p className="text-lg font-bold text-primary">
               {userData?.username}
             </p>
           ) : (
-            <p className="text-lg font-bold text-primary-foreground">未設定</p>
+            <p className="text-lg font-bold text-primary">未設定</p>
           )}
         </div>
         <label
           htmlFor="avatar"
-          className="flex cursor-pointer gap-3 text-primary-foreground hover:underline"
+          className="flex cursor-pointer gap-1 text-primary hover:underline"
         >
           <Pen size={20} />
           プロフィール画像を編集する
