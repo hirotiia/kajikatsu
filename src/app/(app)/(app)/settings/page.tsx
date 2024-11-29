@@ -2,7 +2,7 @@
 
 import { CircleUserRound, Loader2, Pen } from 'lucide-react';
 import Image from 'next/image';
-import useSWR from 'swr';
+import useSWR, { mutate } from 'swr';
 
 import { uploadAvatar } from '@/actions/storage/upload-avatar';
 import { Content } from '@/components/layouts/content/content';
@@ -32,6 +32,10 @@ export default function SettingPage() {
 
     const { message, status = 200, type } = await uploadAvatar({ file });
     addNotification({ type, status, message });
+
+    if (status === 200) {
+      mutate('/api/get-avatar');
+    }
   };
 
   return (
