@@ -7,6 +7,7 @@ import React, {
   createContext,
   SetStateAction,
   Dispatch,
+  useRef,
 } from 'react';
 
 import { cn } from '@/utils/cn';
@@ -49,11 +50,16 @@ const Dialog = ({ children }: DialogProps) => {
 };
 
 const DialogContent = ({ children }: DialogContentProps) => {
+  const dialogRef = useRef<HTMLDialogElement>(null);
   const { isOpen, openDialog, closeDialog } = useContext(DialogContext);
   console.log(isOpen);
   console.log(openDialog);
   console.log(closeDialog);
-  return <dialog className="">{children}</dialog>;
+  return (
+    <dialog className="" ref={dialogRef}>
+      {children}
+    </dialog>
+  );
 };
 
 const DialogTrriger = ({ children, className }: DialogTriggerProps) => {
