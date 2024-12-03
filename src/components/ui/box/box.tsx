@@ -13,8 +13,9 @@ const boxVariants = cva('border p-2 md:p-4', {
       default: 'border-transparent',
       secondary: 'border-secondary',
     },
-    bg: {
+    color: {
       default: 'bg-transparent',
+      primary: 'bg-base text-base-foreground',
       secondary: 'bg-secondary',
     },
     rounded: {
@@ -27,7 +28,7 @@ const boxVariants = cva('border p-2 md:p-4', {
   },
   defaultVariants: {
     variant: 'default',
-    bg: 'default',
+    color: 'default',
     rounded: 'default',
     size: 'default',
   },
@@ -37,8 +38,15 @@ type BoxVariantProps = React.HTMLAttributes<HTMLDivElement> &
   VariantProps<typeof boxVariants> &
   BoxProps;
 
-export const Box = ({ children, className, variant }: BoxVariantProps) => {
+export const Box = ({
+  children,
+  className,
+  variant,
+  color,
+}: BoxVariantProps) => {
   return (
-    <div className={cn(boxVariants({ className, variant }))}>{children}</div>
+    <div className={cn(boxVariants({ className, variant, color }))}>
+      {children}
+    </div>
   );
 };

@@ -23,7 +23,9 @@ export const FormInput = ({
   ...props
 }: FormInputProps) => (
   <div className="grid items-center gap-1 md:grid-cols-[150px_1fr] md:grid-rows-[auto_auto] md:gap-x-3">
-    <label htmlFor={id}>{label}</label>
+    <label htmlFor={id} className="text-left">
+      {label}
+    </label>
     <div className="rounded-md border border-muted text-primary">
       <input
         id={id}

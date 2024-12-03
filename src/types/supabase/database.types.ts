@@ -9,6 +9,395 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      actions: {
+        Row: {
+          action_name: string;
+          created_at: string | null;
+          description: string | null;
+          id: string;
+        };
+        Insert: {
+          action_name: string;
+          created_at?: string | null;
+          description?: string | null;
+          id?: string;
+        };
+        Update: {
+          action_name?: string;
+          created_at?: string | null;
+          description?: string | null;
+          id?: string;
+        };
+        Relationships: [];
+      };
+      group_invitations: {
+        Row: {
+          created_at: string | null;
+          created_by: string;
+          expires_at: string;
+          group_id: string;
+          id: string;
+          invitation_token: string;
+        };
+        Insert: {
+          created_at?: string | null;
+          created_by: string;
+          expires_at: string;
+          group_id: string;
+          id?: string;
+          invitation_token: string;
+        };
+        Update: {
+          created_at?: string | null;
+          created_by?: string;
+          expires_at?: string;
+          group_id?: string;
+          id?: string;
+          invitation_token?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'group_invitations_created_by_fkey';
+            columns: ['created_by'];
+            isOneToOne: false;
+            referencedRelation: 'users';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'group_invitations_group_id_fkey';
+            columns: ['group_id'];
+            isOneToOne: false;
+            referencedRelation: 'groups';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
+      groups: {
+        Row: {
+          created_at: string | null;
+          id: string;
+          name: string;
+          updated_at: string | null;
+        };
+        Insert: {
+          created_at?: string | null;
+          id?: string;
+          name: string;
+          updated_at?: string | null;
+        };
+        Update: {
+          created_at?: string | null;
+          id?: string;
+          name?: string;
+          updated_at?: string | null;
+        };
+        Relationships: [];
+      };
+      join_requests: {
+        Row: {
+          id: string;
+          invitation_id: string;
+          processed_at: string | null;
+          processed_by: string | null;
+          requested_at: string | null;
+          status: string;
+          user_id: string;
+        };
+        Insert: {
+          id?: string;
+          invitation_id: string;
+          processed_at?: string | null;
+          processed_by?: string | null;
+          requested_at?: string | null;
+          status: string;
+          user_id: string;
+        };
+        Update: {
+          id?: string;
+          invitation_id?: string;
+          processed_at?: string | null;
+          processed_by?: string | null;
+          requested_at?: string | null;
+          status?: string;
+          user_id?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'join_requests_invitation_id_fkey';
+            columns: ['invitation_id'];
+            isOneToOne: false;
+            referencedRelation: 'group_invitations';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'join_requests_processed_by_fkey';
+            columns: ['processed_by'];
+            isOneToOne: false;
+            referencedRelation: 'users';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'join_requests_user_id_fkey';
+            columns: ['user_id'];
+            isOneToOne: false;
+            referencedRelation: 'users';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
+      permissions: {
+        Row: {
+          action: string;
+          description: string | null;
+          id: string;
+        };
+        Insert: {
+          action: string;
+          description?: string | null;
+          id?: string;
+        };
+        Update: {
+          action?: string;
+          description?: string | null;
+          id?: string;
+        };
+        Relationships: [];
+      };
+      role_permissions: {
+        Row: {
+          created_at: string | null;
+          permission_id: string;
+          role_id: string;
+        };
+        Insert: {
+          created_at?: string | null;
+          permission_id: string;
+          role_id: string;
+        };
+        Update: {
+          created_at?: string | null;
+          permission_id?: string;
+          role_id?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'role_permissions_permission_id_fkey';
+            columns: ['permission_id'];
+            isOneToOne: false;
+            referencedRelation: 'permissions';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'role_permissions_role_id_fkey';
+            columns: ['role_id'];
+            isOneToOne: false;
+            referencedRelation: 'roles';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
+      roles: {
+        Row: {
+          created_at: string | null;
+          description: string | null;
+          id: string;
+          name: string;
+          updated_at: string | null;
+        };
+        Insert: {
+          created_at?: string | null;
+          description?: string | null;
+          id?: string;
+          name: string;
+          updated_at?: string | null;
+        };
+        Update: {
+          created_at?: string | null;
+          description?: string | null;
+          id?: string;
+          name?: string;
+          updated_at?: string | null;
+        };
+        Relationships: [];
+      };
+      statuses: {
+        Row: {
+          id: string;
+          status_name: string;
+        };
+        Insert: {
+          id?: string;
+          status_name: string;
+        };
+        Update: {
+          id?: string;
+          status_name?: string;
+        };
+        Relationships: [];
+      };
+      task_history: {
+        Row: {
+          action_id: string;
+          changed_at: string | null;
+          changed_by: string;
+          details: Json | null;
+          id: string;
+          task_id: string;
+        };
+        Insert: {
+          action_id: string;
+          changed_at?: string | null;
+          changed_by: string;
+          details?: Json | null;
+          id?: string;
+          task_id: string;
+        };
+        Update: {
+          action_id?: string;
+          changed_at?: string | null;
+          changed_by?: string;
+          details?: Json | null;
+          id?: string;
+          task_id?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'task_history_action_id_fkey';
+            columns: ['action_id'];
+            isOneToOne: false;
+            referencedRelation: 'actions';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'task_history_changed_by_fkey';
+            columns: ['changed_by'];
+            isOneToOne: false;
+            referencedRelation: 'users';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'task_history_task_id_fkey';
+            columns: ['task_id'];
+            isOneToOne: false;
+            referencedRelation: 'tasks';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
+      tasks: {
+        Row: {
+          created_at: string | null;
+          created_by: string;
+          description: string | null;
+          expires_at: string | null;
+          group_id: string;
+          id: string;
+          is_deleted: boolean;
+          status_id: string;
+          title: string;
+          updated_at: string | null;
+          updated_by: string;
+        };
+        Insert: {
+          created_at?: string | null;
+          created_by: string;
+          description?: string | null;
+          expires_at?: string | null;
+          group_id: string;
+          id?: string;
+          is_deleted?: boolean;
+          status_id: string;
+          title: string;
+          updated_at?: string | null;
+          updated_by: string;
+        };
+        Update: {
+          created_at?: string | null;
+          created_by?: string;
+          description?: string | null;
+          expires_at?: string | null;
+          group_id?: string;
+          id?: string;
+          is_deleted?: boolean;
+          status_id?: string;
+          title?: string;
+          updated_at?: string | null;
+          updated_by?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'tasks_created_by_fkey';
+            columns: ['created_by'];
+            isOneToOne: false;
+            referencedRelation: 'users';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'tasks_group_id_fkey';
+            columns: ['group_id'];
+            isOneToOne: false;
+            referencedRelation: 'groups';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'tasks_status_id_fkey';
+            columns: ['status_id'];
+            isOneToOne: false;
+            referencedRelation: 'statuses';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'tasks_updated_by_fkey';
+            columns: ['updated_by'];
+            isOneToOne: false;
+            referencedRelation: 'users';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
+      user_groups: {
+        Row: {
+          group_id: string;
+          joined_at: string;
+          role_id: string;
+          user_id: string;
+        };
+        Insert: {
+          group_id: string;
+          joined_at?: string;
+          role_id: string;
+          user_id: string;
+        };
+        Update: {
+          group_id?: string;
+          joined_at?: string;
+          role_id?: string;
+          user_id?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'user_groups_group_id_fkey';
+            columns: ['group_id'];
+            isOneToOne: false;
+            referencedRelation: 'groups';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'user_groups_role_id_fkey';
+            columns: ['role_id'];
+            isOneToOne: false;
+            referencedRelation: 'roles';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'user_groups_user_id_fkey';
+            columns: ['user_id'];
+            isOneToOne: false;
+            referencedRelation: 'users';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
       users: {
         Row: {
           avatar_url: string | null;

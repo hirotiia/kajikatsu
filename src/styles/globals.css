@@ -82,6 +82,10 @@
   input {
     background-color: transparent;
   }
+
+  dialog::backdrop {
+    background-color: rgba(0, 0, 0, 0.7);
+  }
 }
 
 @layer utilities {

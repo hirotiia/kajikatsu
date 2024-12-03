@@ -1,76 +1,59 @@
 'use client';
 
-import { Plus } from 'lucide-react';
-import React, {
-  useContext,
-  useState,
-  createContext,
-  SetStateAction,
-  Dispatch,
-  useRef,
-} from 'react';
+import { X } from 'lucide-react';
+import React, { useEffect, useRef } from 'react';
 
-import { cn } from '@/utils/cn';
-
-type DialogContextType = {
-  isOpen: boolean;
-  openDialog: Dispatch<SetStateAction<boolean>>;
-  closeDialog: Dispatch<SetStateAction<boolean>>;
-};
+import { Heading } from '@/components/ui/heading/index';
+import { OpenerProps } from '@/hooks/use-opener';
 
 type DialogProps = {
   children: React.ReactNode;
-};
-type DialogContentProps = {
-  children: React.ReactNode;
-};
-type DialogTriggerProps = {
-  children: React.ReactNode;
-  className?: string;
+  opener: OpenerProps;
+  id: `dialog-${string}`;
+  title: string;
 };
 
-const DialogContext = createContext<DialogContextType>({
-  isOpen: false,
-  openDialog: () => {},
-  closeDialog: () => {},
-});
-const Dialog = ({ children }: DialogProps) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const openDialog = () => {
-    setIsOpen(true);
-  };
-  const closeDialog = () => {
-    setIsOpen(false);
-  };
-  return (
-    <DialogContext.Provider value={{ isOpen, openDialog, closeDialog }}>
-      {children}
-    </DialogContext.Provider>
-  );
-};
+const Dialog = ({ children, opener, id, title }: DialogProps) => {
+  const dialog = useRef<HTMLDialogElement>(null);
+  const { isOpen, close, open } = opener;
 
-const DialogContent = ({ children }: DialogContentProps) => {
-  const dialogRef = useRef<HTMLDialogElement>(null);
-  const { isOpen, openDialog, closeDialog } = useContext(DialogContext);
-  console.log(isOpen);
-  console.log(openDialog);
-  console.log(closeDialog);
+  useEffect(() => {
+    if (isOpen) {
+      dialog.current?.showModal();
+      open();
+    } else {
+      dialog.current?.close();
+      close();
+    }
+  }, [isOpen, open, close]);
+
   return (
-    <dialog className="" ref={dialogRef}>
-      {children}
+    <dialog
+      ref={dialog}
+      id={id}
+      aria-labelledby={`${id}-title`}
+      className="bg-transparent"
+    >
+      <div className="rounded-lg bg-base p-4 shadow-lg">
+        <div className="text-right">
+          <button
+            onClick={() => {
+              close();
+            }}
+          >
+            <X>close</X>
+          </button>
+        </div>
+        <div className="mb-12 mt-3 text-center">
+          <Heading id={`${id}-title`} color="secondary">
+            {title}
+          </Heading>
+        </div>
+        <div>{children}</div>
+        <div className=""></div>
+      </div>
     </dialog>
   );
 };
 
-const DialogTrriger = ({ children, className }: DialogTriggerProps) => {
-  return (
-    <button
-      type="button"
-      className={cn('flex gap-4 items-center justify-center', className)}
-    >
-      <Plus />
-      {children}
-    </button>
-  );
-};
-export { Dialog, DialogContent, DialogTrriger };
+export { Dialog };

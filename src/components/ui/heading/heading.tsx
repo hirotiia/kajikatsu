@@ -17,6 +17,7 @@ const headingVariants = cva('font-bold', {
     },
     color: {
       default: 'text-primary-foreground',
+      primary: 'text-base-foreground',
       secondary: 'text-secondary-foreground',
     },
     size: {
@@ -44,9 +45,12 @@ export const Heading = ({
   children,
   className,
   variant,
+  color,
 }: Props) => {
   return (
-    <Tag className={cn(headingVariants({ variant, size: Tag, className }))}>
+    <Tag
+      className={cn(headingVariants({ variant, color, size: Tag, className }))}
+    >
       {children}
     </Tag>
   );
