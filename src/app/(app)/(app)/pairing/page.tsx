@@ -36,6 +36,10 @@ export default function ParingPage() {
       openerDialog1.close();
       openerDialog2.close();
     }
+
+    return () => {
+      state.status = null;
+    };
   }, [state, openerDialog1, openerDialog2]);
 
   return (
