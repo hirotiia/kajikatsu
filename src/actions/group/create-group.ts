@@ -12,5 +12,14 @@ export const createGroup = async (
   };
 
   const { error } = await supabase.from('groups').insert([groupData]);
-  console.log(error);
+
+  if (error) {
+    return { type: 'error', status: error.code, message: error.message };
+  }
+
+  return {
+    type: 'success',
+    status: 200,
+    message: '新しいグループを作成しました。',
+  };
 };
