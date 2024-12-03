@@ -30,6 +30,14 @@ export default function ParingPage() {
       addNotification(state);
     }
   }, [state, addNotification]);
+
+  useEffect(() => {
+    if (state.status !== null) {
+      openerDialog1.close();
+      openerDialog2.close();
+    }
+  }, [state, openerDialog1, openerDialog2]);
+
   return (
     <Content bg="secondary">
       <Heading as="h1" className="mb-12 mt-4">
