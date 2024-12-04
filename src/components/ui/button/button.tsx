@@ -13,6 +13,8 @@ const buttonVariants = cva(
           'border border-primary-foreground bg-primary text-primary-foreground transition-colors duration-300 ease-in-out hover:bg-primary-foreground hover:text-primary',
         login:
           'border border-base-foreground bg-base text-base-foreground transition-colors duration-300 ease-in-out hover:bg-base-foreground hover:text-base',
+        destructive:
+          'border border-destructive-foreground bg-destructive  text-destructive-foreground transition-colors duration-300 ease-in-out hover:bg-destructive-foreground hover:text-destructive',
       },
       size: {
         default: 'min-w-custom',

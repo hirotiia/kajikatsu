@@ -34,7 +34,7 @@ const Dialog = ({ children, opener, id, title }: DialogProps) => {
       aria-labelledby={`${id}-title`}
       className="bg-transparent"
     >
-      <div className="rounded-lg bg-base p-4 shadow-lg">
+      <div className="min-w-[200px] rounded-lg bg-base p-4 shadow-lg md:min-w-[350px]">
         <div className="text-right">
           <button
             onClick={() => {
