@@ -34,7 +34,7 @@ export type Database = {
         Row: {
           created_at: string | null;
           created_by: string;
-          expires_at: string;
+          expires_at: string | null;
           group_id: string;
           id: string;
           invitation_token: string;
@@ -42,27 +42,20 @@ export type Database = {
         Insert: {
           created_at?: string | null;
           created_by: string;
-          expires_at: string;
+          expires_at?: string | null;
           group_id: string;
           id?: string;
-          invitation_token: string;
+          invitation_token?: string;
         };
         Update: {
           created_at?: string | null;
           created_by?: string;
-          expires_at?: string;
+          expires_at?: string | null;
           group_id?: string;
           id?: string;
           invitation_token?: string;
         };
         Relationships: [
-          {
-            foreignKeyName: 'group_invitations_created_by_fkey';
-            columns: ['created_by'];
-            isOneToOne: false;
-            referencedRelation: 'users';
-            referencedColumns: ['id'];
-          },
           {
             foreignKeyName: 'group_invitations_group_id_fkey';
             columns: ['group_id'];
@@ -387,13 +380,6 @@ export type Database = {
             columns: ['role_id'];
             isOneToOne: false;
             referencedRelation: 'roles';
-            referencedColumns: ['id'];
-          },
-          {
-            foreignKeyName: 'user_groups_user_id_fkey';
-            columns: ['user_id'];
-            isOneToOne: false;
-            referencedRelation: 'users';
             referencedColumns: ['id'];
           },
         ];
