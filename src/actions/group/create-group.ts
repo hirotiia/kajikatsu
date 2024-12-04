@@ -90,7 +90,6 @@ export const createGroup = async (
     group_id,
     role_id,
   };
-  console.log(insertRelationData);
 
   const { error: setDataError } = await supabase
     .from('user_groups')
