@@ -3,6 +3,7 @@
 import { Plus } from 'lucide-react';
 import { useEffect } from 'react';
 import { useFormState } from 'react-dom';
+import useSWR from 'swr';
 
 import { createGroup } from '@/actions/group/create-group';
 import { Content } from '@/components/layouts/content/content';
@@ -14,16 +15,28 @@ import { Heading } from '@/components/ui/heading';
 import { useNotifications } from '@/components/ui/notifications';
 import { useOpener } from '@/hooks/use-opener';
 
+const fetcher = (url: string) => fetch(url).then((res) => res.json());
+
 export default function ParingPage() {
   const initialState = {
     type: '',
     status: null,
     message: '',
   };
+
   const [state, createGroupAction] = useFormState(createGroup, initialState);
   const openerDialog1 = useOpener();
   const openerDialog2 = useOpener();
   const { addNotification } = useNotifications();
+  const { data, error, isLoading } = useSWR('/api/get/get-group', fetcher);
+
+  if (error) {
+    addNotification({
+      type: 'error',
+      status: error.code,
+      message: error.message,
+    });
+  }
 
   useEffect(() => {
     if (state.status !== null) {
@@ -49,10 +62,32 @@ export default function ParingPage() {
       </Heading>
 
       <Box color="primary">
+        <dl>
+          <div className="">
+            <dt>グループ名</dt>
+            {isLoading ? (
+              <dd>読み込み中です...</dd>
+            ) : data?.group_name ? (
+              <dd>{data.group_name}</dd>
+            ) : (
+              <dd>グループには所属していません。</dd>
+            )}
+          </div>
+          <div className="">
+            <dt>権限</dt>
+            {isLoading ? (
+              <dd>読み込み中です...</dd>
+            ) : data?.role ? (
+              <dd> {data.role}</dd>
+            ) : (
+              <dd>グループには所属していません。</dd>
+            )}
+          </div>
+        </dl>
         <Heading as="h2" className="mb-12 mt-4" color="primary">
           グループ名
         </Heading>
-        <p>グループには所属していません</p>
+        <p>所属しているぐるーぷ名</p>
         <div className="text-right">
           <Button
             type="button"
