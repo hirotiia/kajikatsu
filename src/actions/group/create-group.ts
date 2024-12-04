@@ -49,7 +49,7 @@ export const createGroup = async (
   if (count && count > 0) {
     return {
       type: 'warning',
-      status: '失敗',
+      status: '警告',
       message: 'すでにグループに入っています。',
     };
   }
@@ -70,11 +70,27 @@ export const createGroup = async (
 
   const group_id = data[0]?.id;
 
+  const { data: roleData, error: roleError } = await supabase
+    .from('roles')
+    .select('id')
+    .eq('name', 'owner')
+    .single();
+
+  if (roleError) {
+    return {
+      type: 'error',
+      status: roleError.code,
+      message: roleError.message,
+    };
+  }
+  const role_id = roleData.id;
+
   const insertRelationData = {
     user_id,
     group_id,
-    role_id: 'owner',
+    role_id,
   };
+  console.log(insertRelationData);
 
   const { error: setDataError } = await supabase
     .from('user_groups')
