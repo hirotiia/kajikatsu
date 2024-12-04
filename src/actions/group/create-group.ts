@@ -70,6 +70,24 @@ export const createGroup = async (
 
   const group_id = data[0]?.id;
 
+  const { error: invitationError } = await supabase
+    .from('group_invitations')
+    .insert([
+      {
+        group_id,
+        created_by: user_id,
+        expires_at: null,
+      },
+    ]);
+
+  if (invitationError) {
+    return {
+      type: 'error',
+      status: invitationError.code,
+      message: invitationError.message,
+    };
+  }
+
   const { data: roleData, error: roleError } = await supabase
     .from('roles')
     .select('id')
