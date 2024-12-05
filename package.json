@@ -11,7 +11,8 @@
     "supabase": "npx supabase start",
     "secretlint": "secretlint --maskSecrets --secretlintignore .gitignore '**/*'",
     "check-types": "tsc --project tsconfig.json --pretty --noEmit",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "migrate": "supabase db diff --file local_schema"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.3.0",
