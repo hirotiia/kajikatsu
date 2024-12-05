@@ -1,20 +1,17 @@
 'use server';
 // TODO: ユーザー同士で共有するための招待用のグループコードを取得するAPI
 import { createClient } from '@/lib/supabase/server';
+import { getUser } from '@/lib/supabase/user/user';
 
 export const generateGroupCode = async (
   state: any,
   formData: FormData,
 ): Promise<any | null> => {
   const supabase = await createClient();
+  const { user, authError } = await getUser();
   const insertData = {
     name: formData.get('group') as string,
   };
-
-  const {
-    data: { user },
-    error: authError,
-  } = await supabase.auth.getUser();
 
   if (authError) {
     return {

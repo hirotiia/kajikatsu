@@ -1,12 +1,11 @@
 'use client';
 
-import { LoaderCircle, Plus, Trash2 } from 'lucide-react';
+import { LoaderCircle, Plus } from 'lucide-react';
 import { useEffect } from 'react';
 import { useFormState } from 'react-dom';
 import useSWR from 'swr';
 
 import { createGroup } from '@/actions/group/create-group';
-import { deleteGroup } from '@/actions/group/delete-group';
 import { generateGroupCode } from '@/actions/group/generate-group-code';
 import { Content } from '@/components/layouts/content/content';
 import { Box } from '@/components/ui/box';
@@ -15,6 +14,7 @@ import { Dialog } from '@/components/ui/dialog';
 import { FormInput } from '@/components/ui/form/';
 import { Heading } from '@/components/ui/heading';
 import { useNotifications } from '@/components/ui/notifications';
+import { DleteGroup } from '@/features/pairing/components/delete-group';
 import { useOpener } from '@/hooks/use-opener';
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
@@ -30,14 +30,10 @@ export default function ParingPage() {
     generateGroupCode,
     initialState,
   );
-  const [stateOfDeleteState, deleteGroupAction] = useFormState(
-    deleteGroup,
-    initialState,
-  );
-  console.log(stateOfGenerateGroupCode, stateOfDeleteState);
+
+  console.log(stateOfGenerateGroupCode);
   const [state, createGroupAction] = useFormState(createGroup, initialState);
   const openerDialog1 = useOpener();
-  const openerDialog2 = useOpener();
   const openerDialog3 = useOpener();
   const openerDialog4 = useOpener();
   const { addNotification } = useNotifications();
@@ -60,7 +56,6 @@ export default function ParingPage() {
   useEffect(() => {
     if (state.status !== null) {
       openerDialog1.close();
-      openerDialog2.close();
       openerDialog3.close();
       openerDialog4.close();
     }
@@ -68,7 +63,7 @@ export default function ParingPage() {
     return () => {
       state.status = null;
     };
-  }, [state, openerDialog1, openerDialog2, openerDialog3, openerDialog4]);
+  }, [state, openerDialog1, openerDialog3, openerDialog4]);
 
   return (
     <Content bg="secondary">
@@ -103,7 +98,7 @@ export default function ParingPage() {
             ) : data?.role ? (
               <dd> {data.role}</dd>
             ) : (
-              <dd>グループには所属していません。</dd>
+              <dd>なし</dd>
             )}
           </div>
         </dl>
@@ -137,34 +132,7 @@ export default function ParingPage() {
                   <Button>招待コードを取得する</Button>
                 </form>
               </Dialog>
-              <Button
-                type="button"
-                onClick={openerDialog2.open}
-                aria-controls="dialog-2"
-                aria-expanded={openerDialog2.isOpen}
-                size="small"
-                icon={<Trash2 />}
-                variant="destructive"
-              >
-                脱退
-              </Button>
-              <Dialog
-                opener={openerDialog2}
-                title="グループを脱退する"
-                id="dialog-2"
-              >
-                <p className="text-center">
-                  本当にグループを脱退しますか？
-                  <br />
-                  脱退した場合、グループは削除されメンバーは解散になります。
-                </p>
-                <form
-                  action={deleteGroupAction}
-                  className="mt-10 grid items-center"
-                >
-                  <Button variant="destructive">グループを脱退する</Button>
-                </form>
-              </Dialog>
+              <DleteGroup />
             </>
           ) : (
             <>

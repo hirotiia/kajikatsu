@@ -1,20 +1,17 @@
 'use server';
 
 import { createClient } from '@/lib/supabase/server';
+import { getUser } from '@/lib/supabase/user/user';
 
 export const createGroup = async (
   state: any,
   formData: FormData,
 ): Promise<any | null> => {
   const supabase = await createClient();
+  const { user, authError } = await getUser();
   const insertData = {
     name: formData.get('group') as string,
   };
-
-  const {
-    data: { user },
-    error: authError,
-  } = await supabase.auth.getUser();
 
   if (authError) {
     return {
