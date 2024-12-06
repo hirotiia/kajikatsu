@@ -6,7 +6,6 @@ import { useFormState } from 'react-dom';
 import useSWR from 'swr';
 
 import { createGroup } from '@/actions/group/create-group';
-import { generateGroupCode } from '@/actions/group/generate-group-code';
 import { Content } from '@/components/layouts/content/content';
 import { Box } from '@/components/ui/box';
 import { Button } from '@/components/ui/button';
@@ -15,6 +14,7 @@ import { FormInput } from '@/components/ui/form/';
 import { Heading } from '@/components/ui/heading';
 import { useNotifications } from '@/components/ui/notifications';
 import { DleteGroup } from '@/features/pairing/components/delete-group';
+import { InviteGroup } from '@/features/pairing/components/invite-group';
 import { useOpener } from '@/hooks/use-opener';
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
@@ -26,12 +26,6 @@ export default function ParingPage() {
     message: '',
   };
 
-  const [stateOfGenerateGroupCode, generateGroupCodeAction] = useFormState(
-    generateGroupCode,
-    initialState,
-  );
-
-  console.log(stateOfGenerateGroupCode);
   const [state, createGroupAction] = useFormState(createGroup, initialState);
   const openerDialog1 = useOpener();
   const openerDialog3 = useOpener();
@@ -105,33 +99,7 @@ export default function ParingPage() {
         <div className="text-right">
           {data?.group_name ? (
             <>
-              <Button
-                type="button"
-                onClick={openerDialog1.open}
-                aria-controls="dialog-1"
-                aria-expanded={openerDialog1.isOpen}
-                size="small"
-                icon={<Plus />}
-              >
-                招待
-              </Button>
-              <Dialog
-                opener={openerDialog1}
-                title="グループに招待する"
-                id="dialog-1"
-              >
-                <p className="text-center">
-                  招待したいメンバーにグループの招待コードを共有して、
-                  <br />
-                  メンバーに加えましょう！
-                </p>
-                <form
-                  action={generateGroupCodeAction}
-                  className="mt-10 grid items-center"
-                >
-                  <Button>招待コードを取得する</Button>
-                </form>
-              </Dialog>
+              <InviteGroup />
               <DleteGroup />
             </>
           ) : (
