@@ -31,8 +31,6 @@ export async function POST(
   // ユーザー情報を取得
   const { user, authError } = await getUser();
 
-  console.log(user, authError);
-
   if (authError || !user) {
     return NextResponse.json<ErrorResponse>(
       {
@@ -57,13 +55,11 @@ export async function POST(
   }
 
   // トークンに一致するグループを探す
-  const { data: invitaiton_id, error } = await supabase
+  const { data: invitationData, error } = await supabase
     .from('group_invitations')
     .select('id')
     .eq('invitation_token', invitation_token)
     .single();
-
-  console.log(`invitaiton_id: ${invitaiton_id}`);
 
   if (error) {
     return NextResponse.json<ErrorResponse>(
@@ -83,11 +79,18 @@ export async function POST(
   // 重複した申請がないか確認する
 
   // 参加リクエストテーブルにカラムを追加する
-  const { error: requestError } = await supabase.from('join_requests').update({
-    invitaiton_id,
-    user_id,
-    status: 'pendding',
-  });
+  const { data: requestData, error: requestError } = await supabase
+    .from('join_requests')
+    .insert({
+      invitation_id: invitationData.id,
+      user_id,
+      status: 'pending',
+    });
+
+  console.log('--------------------------');
+  console.log(invitationData.id, user_id);
+  console.log('--------------------------');
+  console.log(requestData, requestError);
 
   if (requestError) {
     return NextResponse.json<ErrorResponse>(
@@ -99,6 +102,10 @@ export async function POST(
       { status: 401 },
     );
   }
+
+  console.log('---------------------');
+  console.log('成功！！！');
+  console.log('---------------------');
 
   return NextResponse.json<SuccessResponse>({
     message: 'グループのオーナーにリクエストを申請しました。',

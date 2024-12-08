@@ -1,33 +1,41 @@
-export default async function JoinPage({
+'use client';
+
+import useSWR from 'swr';
+
+const fetcher = async ([url, body]: [
+  string,
+  { invitation_token: string; expires_at: string },
+]) => {
+  const response = await fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(body),
+  });
+
+  if (!response.ok) {
+    throw new Error('Request failed');
+  }
+
+  return response.json();
+};
+
+export default function JoinPage({
   searchParams,
 }: {
   searchParams: { [key: string]: string };
 }) {
   const { invitation_token, expires_at } = searchParams;
 
-  if (!invitation_token || !expires_at) {
-    return <p>Invalid or missing query parameters</p>;
-  }
-
-  const response = await fetch(
-    `${process.env.NEXT_PUBLIC_PROJECT_URL}/api/post/invite-request`,
-    {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        invitation_token,
-        expires_at,
-      }),
-    },
+  const { data, error, isValidating } = useSWR(
+    invitation_token && expires_at
+      ? ['/api/post/invite-request', { invitation_token, expires_at }]
+      : null,
+    fetcher,
   );
 
-  if (!response.ok) {
-    return <p>リクエストが失敗しました。</p>;
-  }
-
-  console.log(response);
+  console.log(data, error, isValidating);
 
   return (
     <div className="">

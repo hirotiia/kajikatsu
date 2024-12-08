@@ -5,7 +5,6 @@ import { Database } from '@/types/supabase/database.types';
 
 export async function createClient() {
   const cookieStore = cookies();
-  console.log(`cookiesStore: ${cookieStore}`);
 
   return createServerClient<Database>(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
