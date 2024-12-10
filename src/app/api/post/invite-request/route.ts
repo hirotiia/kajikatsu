@@ -72,7 +72,18 @@ export async function POST(
     );
   }
 
-  // グループにすでに入っているユーザーではないか確認する
+  // ユーザーがすでにグループに入っている場合、エラーを返す
+  const { count } = await supabase
+    .from('user_groups')
+    .select('*', { count: 'exact', head: true })
+    .eq('user_id', user_id);
+
+  if (count && count > 0) {
+    return NextResponse.json<ErrorResponse>({
+      message: 'すでにグループに参加しています。',
+      type: 'error',
+    });
+  }
 
   // 有効期限ないかどうか確認する
 
