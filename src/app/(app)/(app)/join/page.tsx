@@ -1,5 +1,6 @@
 'use client';
 
+import { LoaderCircle } from 'lucide-react';
 import useSWR from 'swr';
 
 const fetcher = async ([url, body]: [
@@ -35,11 +36,19 @@ export default function JoinPage({
     fetcher,
   );
 
-  console.log(data, error, isValidating);
-
   return (
     <div className="">
-      <p>jkjkfajioeuf</p>
+      <p>
+        {isValidating ? (
+          <LoaderCircle className="animate-spin text-primary" size={30}>
+            読み込み中...
+          </LoaderCircle>
+        ) : data ? (
+          data.message
+        ) : (
+          error.message
+        )}
+      </p>
     </div>
   );
 }

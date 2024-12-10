@@ -86,22 +86,60 @@ export async function POST(
   }
 
   // 有効期限ないかどうか確認する
+  const { data: result, error: resultError } = await supabase
+    .from('group_invitations')
+    .select('id, expires_at')
+    .eq('id', invitationData.id)
+    .gt('expires_at', new Date().toISOString());
 
+  if (resultError) {
+    return NextResponse.json<ErrorResponse>(
+      {
+        message: '有効期限の検証に失敗しました。',
+        type: 'error',
+        errorDetails: resultError?.message,
+      },
+      { status: 401 },
+    );
+  }
+
+  if (result && result.length === 0) {
+    return NextResponse.json<ErrorResponse>({
+      message: 'このリンクは有効期限切れのリンクです。',
+      type: 'error',
+    });
+  }
   // 重複した申請がないか確認する
+  const { count: duplicateRequestCount, error: countError } = await supabase
+    .from('join_requests')
+    .select('*', { count: 'exact', head: true })
+    .eq('invitation_id', invitationData.id)
+    .eq('user_id', user_id);
+
+  if (countError) {
+    return NextResponse.json<ErrorResponse>(
+      {
+        message: 'リクエストの重複確認処理が失敗しました。',
+        type: 'error',
+        errorDetails: countError?.message,
+      },
+      { status: 401 },
+    );
+  }
+
+  if (duplicateRequestCount && duplicateRequestCount > 0) {
+    return NextResponse.json<ErrorResponse>({
+      message: 'この参加リクエストはすでに送信済みです。',
+      type: 'error',
+    });
+  }
 
   // 参加リクエストテーブルにカラムを追加する
-  const { data: requestData, error: requestError } = await supabase
-    .from('join_requests')
-    .insert({
-      invitation_id: invitationData.id,
-      user_id,
-      status: 'pending',
-    });
-
-  console.log('--------------------------');
-  console.log(invitationData.id, user_id);
-  console.log('--------------------------');
-  console.log(requestData, requestError);
+  const { error: requestError } = await supabase.from('join_requests').insert({
+    invitation_id: invitationData.id,
+    user_id,
+    status: 'pending',
+  });
 
   if (requestError) {
     return NextResponse.json<ErrorResponse>(
@@ -113,10 +151,6 @@ export async function POST(
       { status: 401 },
     );
   }
-
-  console.log('---------------------');
-  console.log('成功！！！');
-  console.log('---------------------');
 
   return NextResponse.json<SuccessResponse>({
     message: 'グループのオーナーにリクエストを申請しました。',
