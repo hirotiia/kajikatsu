@@ -31,6 +31,7 @@ const getOwnerRoleId = async () => {
 export default function InformationPage() {
   const supabase = createClient();
   const [informations, setInformation] = useState<Information[]>([]);
+
   useEffect(() => {
     const channel = supabase
       .channel('join-requests-cahnnel')
@@ -42,7 +43,6 @@ export default function InformationPage() {
           table: 'join_requests',
         },
         async (payload) => {
-          // 追加されたリクエストのデータを取得
           const newRequest = payload.new;
           const { user_id, invitation_id } = newRequest;
           // 監視対象のテーブルへのアクションがINSERTの場合、ユーザーを確認して同じグループ内の権限が`owner`だった場合、通知を送る
@@ -65,17 +65,31 @@ export default function InformationPage() {
 
             const groupId = invitationData.group_id;
             const role_id = await getOwnerRoleId();
+            const sessionResult = await supabase.auth.getSession();
+            const userId = sessionResult.data.session?.user.id;
+
+            if (!userId) {
+              console.error('ログインセッションが存在しません。');
+              return;
+            }
 
             // グループ内の`owner`権限を持つユーザー一覧を取得
             if (typeof role_id === 'string') {
-              const { data: owners, error: ownerError } = await supabase
-                .from('user_groups')
-                .select('user_id')
-                .eq('group_id', groupId)
-                .eq('role_id', role_id);
+              // 現在のユーザーが指定されたグループの `owner` か確認
+              const { data: currentUserGroup, error: currentUserError } =
+                await supabase
+                  .from('user_groups')
+                  .select('user_id')
+                  .eq('group_id', groupId)
+                  .eq('role_id', role_id)
+                  .eq('user_id', userId);
 
-              if (ownerError || !owners || owners.length === 0) {
-                console.error('Error fetching group owners:', ownerError);
+              if (
+                currentUserError ||
+                !currentUserGroup ||
+                currentUserGroup.length === 0
+              ) {
+                console.log('現在のユーザーはオーナーではありません。');
                 return;
               }
             }
@@ -106,10 +120,6 @@ export default function InformationPage() {
                 },
               ]);
             }
-
-            // 各`owner`に対して、通知用のコンポーネントを作成。表示するものは誰（username）からグループへの参加リクエストが来ています。承認しますか？
-            // for (const owner of owners) {
-            // }
           } catch (error) {
             console.error('Error processing join request notification:', error);
           }
@@ -130,6 +140,7 @@ export default function InformationPage() {
         .update({
           status: 'approved',
           processed_at: new Date().toISOString(),
+          processed_by: userId,
         })
         .eq('group_id', groupId)
         .eq('user_id', userId);
@@ -150,6 +161,7 @@ export default function InformationPage() {
         .update({
           status: 'rejected',
           processed_at: new Date().toISOString(),
+          processed_by: userId,
         })
         .eq('group_id', groupId)
         .eq('user_id', userId);

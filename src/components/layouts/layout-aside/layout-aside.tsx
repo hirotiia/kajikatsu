@@ -3,6 +3,7 @@
 import {
   ChartPie,
   Home,
+  Info,
   LucideProps,
   NotebookText,
   Settings,
@@ -29,6 +30,7 @@ export const LayoutAside = () => {
     { name: 'ペアリング', to: '/pairing', icon: UserRoundPlus },
     { name: '統計・レポート', to: '/report', icon: ChartPie },
     { name: '設定', to: '/settings', icon: Settings },
+    { name: '通知', to: '/information', icon: Info },
   ].filter(Boolean) as SideNavigationItem[];
   return (
     <aside className="glassmorphism col-start-1 row-start-2 text-primary-foreground max-md:mt-6 md:col-start-1 md:row-span-1 md:max-w-[250px]">
