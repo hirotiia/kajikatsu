@@ -129,7 +129,8 @@ export async function POST(
 
   if (duplicateRequestCount && duplicateRequestCount > 0) {
     return NextResponse.json<ErrorResponse>({
-      message: 'この参加リクエストはすでに送信済みです。',
+      message:
+        '参加リクエストはすでに送信済みです。リクエストが承認されるまで少々お待ちください。',
       type: 'error',
     });
   }

@@ -29,108 +29,117 @@ const getOwnerRoleId = async () => {
 };
 
 export default function InformationPage() {
+  useEffect(() => {
+    const supabase = createClient();
+
+    const fetchSession = async () => {
+      const { data, error } = await supabase.auth.getSession();
+
+      if (error) {
+        console.error('Session fetch error:', error);
+      } else {
+        console.log('Current session:', data.session);
+      }
+    };
+
+    fetchSession();
+  }, []);
   const supabase = createClient();
   const [informations, setInformation] = useState<Information[]>([]);
 
-  useEffect(() => {
-    const channel = supabase
-      .channel('join-requests-cahnnel')
-      .on(
-        'postgres_changes',
-        {
-          event: 'INSERT',
-          schema: 'public',
-          table: 'join_requests',
-        },
-        async (payload) => {
-          const newRequest = payload.new;
-          const { user_id, invitation_id } = newRequest;
-          // 監視対象のテーブルへのアクションがINSERTの場合、ユーザーを確認して同じグループ内の権限が`owner`だった場合、通知を送る
-          try {
-            // 参加リクエストのグループを特定
-            const { data: invitationData, error: invitationError } =
-              await supabase
-                .from('group_invitations')
-                .select('group_id')
-                .eq('id', invitation_id)
-                .single();
-
-            if (invitationError || !invitationData) {
-              console.error(
-                'Error fetching group information:',
-                invitationError,
-              );
-              return;
-            }
-
-            const groupId = invitationData.group_id;
-            const role_id = await getOwnerRoleId();
-            const sessionResult = await supabase.auth.getSession();
-            const userId = sessionResult.data.session?.user.id;
-
-            if (!userId) {
-              console.error('ログインセッションが存在しません。');
-              return;
-            }
-
-            // グループ内の`owner`権限を持つユーザー一覧を取得
-            if (typeof role_id === 'string') {
-              // 現在のユーザーが指定されたグループの `owner` か確認
-              const { data: currentUserGroup, error: currentUserError } =
-                await supabase
-                  .from('user_groups')
-                  .select('user_id')
-                  .eq('group_id', groupId)
-                  .eq('role_id', role_id)
-                  .eq('user_id', userId);
-
-              if (
-                currentUserError ||
-                !currentUserGroup ||
-                currentUserGroup.length === 0
-              ) {
-                console.log('現在のユーザーはオーナーではありません。');
-                return;
-              }
-            }
-
-            // 参加リクエストユーザーの情報を取得
-            const { data: userData } = await supabase
-              .from('users')
-              .select('username')
-              .eq('id', user_id)
+  supabase
+    .channel('join-requests-cahnnel')
+    .on(
+      'postgres_changes',
+      {
+        event: 'INSERT',
+        schema: 'public',
+        table: 'join_requests',
+      },
+      async (payload) => {
+        const newRequest = payload.new;
+        const { user_id, invitation_id } = newRequest;
+        // 監視対象のテーブルへのアクションがINSERTの場合、ユーザーを確認して同じグループ内の権限が`owner`だった場合、通知を送る
+        try {
+          console.log('----------------------');
+          console.log('join-requestsテーブル監視開始');
+          console.log('----------------------');
+          // 参加リクエストのグループを特定
+          const { data: invitationData, error: invitationError } =
+            await supabase
+              .from('group_invitations')
+              .select('group_id')
+              .eq('id', invitation_id)
               .single();
 
-            // グループ名を取得
-            const { data: groupData } = await supabase
-              .from('groups')
-              .select('name')
-              .eq('id', groupId)
-              .single();
-
-            if (userData && groupData) {
-              // 通知を追加
-              setInformation((prev) => [
-                ...prev,
-                {
-                  username: userData.username,
-                  groupName: groupData.name,
-                  groupId,
-                  userId: user_id,
-                },
-              ]);
-            }
-          } catch (error) {
-            console.error('Error processing join request notification:', error);
+          if (invitationError || !invitationData) {
+            console.error('Error fetching group information:', invitationError);
+            return;
           }
-        },
-      )
-      .subscribe();
-    return () => {
-      // 購読解除
-      channel.unsubscribe();
-    };
-  }, [supabase]);
+
+          const groupId = invitationData.group_id;
+          const role_id = await getOwnerRoleId();
+          const sessionResult = await supabase.auth.getSession();
+          const userId = sessionResult.data.session?.user.id;
+          console.log(groupId, role_id, sessionResult, userId);
+
+          if (!userId) {
+            console.error('ログインセッションが存在しません。');
+            return;
+          }
+
+          if (typeof role_id === 'string') {
+            // 現在のユーザーが指定されたグループの `owner` か確認
+            const { data: currentUserGroup, error: currentUserError } =
+              await supabase
+                .from('user_groups')
+                .select('user_id')
+                .eq('group_id', groupId)
+                .eq('role_id', role_id)
+                .eq('user_id', userId);
+
+            if (
+              currentUserError ||
+              !currentUserGroup ||
+              currentUserGroup.length === 0
+            ) {
+              console.log('現在のユーザーはオーナーではありません。');
+              return;
+            }
+          }
+
+          // 参加リクエストユーザーの情報を取得
+          const { data: userData } = await supabase
+            .from('users')
+            .select('username')
+            .eq('id', user_id)
+            .single();
+
+          // グループ名を取得
+          const { data: groupData } = await supabase
+            .from('groups')
+            .select('name')
+            .eq('id', groupId)
+            .single();
+
+          if (userData && groupData) {
+            // 通知を追加
+            setInformation((prev) => [
+              ...prev,
+              {
+                username: userData.username,
+                groupName: groupData.name,
+                groupId,
+                userId: user_id,
+              },
+            ]);
+          }
+        } catch (error) {
+          console.error('Error processing join request notification:', error);
+        }
+      },
+    )
+    .subscribe();
 
   // 参加を承認する場合
   const handleApprove = async (groupId: string, userId: string) => {
