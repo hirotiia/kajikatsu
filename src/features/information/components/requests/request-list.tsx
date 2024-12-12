@@ -19,7 +19,7 @@ export const JoinRequestList = ({ userId }: JoinRequestListProps) => {
       body: JSON.stringify({ requestId }),
     });
     const json = await response.json();
-    console.log(json);
+
     addNotification({
       type: json.type as 'success' | 'error' | 'info' | 'warning',
       status: response.status,

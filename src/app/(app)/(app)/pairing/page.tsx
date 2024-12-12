@@ -31,6 +31,9 @@ export default function ParingPage() {
   const { addNotification } = useNotifications();
   const { data, error, isLoading } = useSWR('/api/get/get-group', fetcher);
 
+  const group_members = data?.group_members || [];
+  const group_name = data?.group_name;
+
   if (error) {
     addNotification({
       type: 'error',
@@ -58,8 +61,23 @@ export default function ParingPage() {
   return (
     <Content bg="secondary">
       <Heading as="h1" className="mb-12 mt-4">
-        ペアリング
+        グループ
       </Heading>
+
+      <dl>
+        <dt>グループ名</dt>
+        <dd>
+          {isLoading || !data ? (
+            <LoaderCircle className="animate-spin text-primary" size={30}>
+              読み込み中...
+            </LoaderCircle>
+          ) : group_members.length > 0 ? (
+            group_name
+          ) : (
+            '未加入'
+          )}
+        </dd>
+      </dl>
 
       <Box color="primary">
         <dl className="grid gap-4">
@@ -71,8 +89,8 @@ export default function ParingPage() {
                   読み込み中...
                 </LoaderCircle>
               </dd>
-            ) : data?.group_name ? (
-              <dd>{data.group_name}</dd>
+            ) : group_members?.group_name ? (
+              <dd>{group_members.group_name}</dd>
             ) : (
               <dd>グループには所属していません。</dd>
             )}
@@ -85,15 +103,15 @@ export default function ParingPage() {
                   読み込み中...
                 </LoaderCircle>
               </dd>
-            ) : data?.role ? (
-              <dd> {data.role}</dd>
+            ) : group_members?.role ? (
+              <dd> {group_members.role}</dd>
             ) : (
               <dd>なし</dd>
             )}
           </div>
         </dl>
         <div className="text-right">
-          {data?.group_name ? (
+          {group_members?.group_name ? (
             <>
               <InviteGroup />
               <DleteGroup />
