@@ -28,8 +28,6 @@ export default function ParingPage() {
 
   const [state, createGroupAction] = useFormState(createGroup, initialState);
   const openerDialog1 = useOpener();
-  const openerDialog3 = useOpener();
-  const openerDialog4 = useOpener();
   const { addNotification } = useNotifications();
   const { data, error, isLoading } = useSWR('/api/get/get-group', fetcher);
 
@@ -50,14 +48,12 @@ export default function ParingPage() {
   useEffect(() => {
     if (state.status !== null) {
       openerDialog1.close();
-      openerDialog3.close();
-      openerDialog4.close();
     }
 
     return () => {
       state.status = null;
     };
-  }, [state, openerDialog1, openerDialog3, openerDialog4]);
+  }, [state, openerDialog1]);
 
   return (
     <Content bg="secondary">
@@ -106,16 +102,16 @@ export default function ParingPage() {
             <>
               <Button
                 type="button"
-                onClick={openerDialog3.open}
+                onClick={openerDialog1.open}
                 aria-controls="dialog-3"
-                aria-expanded={openerDialog3.isOpen}
+                aria-expanded={openerDialog1.isOpen}
                 size="small"
                 icon={<Plus />}
               >
                 作成
               </Button>
               <Dialog
-                opener={openerDialog3}
+                opener={openerDialog1}
                 title="グループを作成する"
                 id="dialog-3"
               >
@@ -136,18 +132,6 @@ export default function ParingPage() {
           )}
         </div>
       </Box>
-
-      <Button
-        type="button"
-        onClick={openerDialog4.open}
-        aria-controls="dialog-4"
-        aria-expanded={openerDialog4.isOpen}
-      >
-        Open Dialog
-      </Button>
-      <Dialog opener={openerDialog4} title="メンバーを招待する" id="dialog-4">
-        <p>dialog4</p>
-      </Dialog>
     </Content>
   );
 }

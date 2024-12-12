@@ -182,7 +182,7 @@ export const UpdateRealtimeInfo = () => {
   };
   return (
     <div>
-      {informations.length > 0 ? (
+      {informations.length > 0 &&
         informations.map((information, index) => (
           <Information
             key={index}
@@ -195,10 +195,7 @@ export const UpdateRealtimeInfo = () => {
               handleReject(information.groupId, information.userId)
             }
           />
-        ))
-      ) : (
-        <p>お知らせはありません。</p>
-      )}
+        ))}
     </div>
   );
 };

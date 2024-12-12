@@ -1,8 +1,10 @@
+import { Button } from '../button';
+
 type InformationProps = {
   username: string | null;
   groupName: string;
-  onApprove: () => void;
-  onReject: () => void;
+  onApprove?: () => void;
+  onReject?: () => void;
 };
 
 export const Information = ({
@@ -12,18 +14,23 @@ export const Information = ({
   onReject,
 }: InformationProps) => {
   return (
-    <div className="">
+    <div className="flex items-center justify-between rounded-md bg-base p-4">
       <p>
-        <strong>{username}</strong> さんがグループ <strong>{groupName}</strong>{' '}
-        に参加リクエストを送信しました。
+        <b>{username}</b>さんからあなたのグループ<b>{groupName}</b>
+        への参加リクエストが届きました！
       </p>
       <div className="">
-        <button onClick={onApprove} className="">
+        <Button size="small" rounded="md" onClick={onApprove}>
           承認
-        </button>
-        <button onClick={onReject} className="">
+        </Button>
+        <Button
+          size="small"
+          rounded="md"
+          variant="destructive"
+          onClick={onReject}
+        >
           拒否
-        </button>
+        </Button>
       </div>
     </div>
   );
