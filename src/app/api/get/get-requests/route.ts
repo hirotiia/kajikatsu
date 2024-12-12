@@ -58,12 +58,10 @@ export async function GET(req: Request) {
   const { data: joinRequests, error: joinRequestError } = await supabase
     .from('join_requests')
     .select(
-      `id,invitation_id,user_id,requested_at,status,group_invitations (group_id,groups (name)),auth.users (id), users (username)`,
+      `id,invitation_id,user_id,requested_at,status,group_invitations (group_id,groups (name)), users (username)`,
     )
     .eq('group_invitations.group_id', group_id)
     .eq('status', 'pending');
-
-  console.log(`joinRequests: ${joinRequests}`);
 
   if (joinRequestError || !joinRequests) {
     return new Response(
@@ -76,8 +74,6 @@ export async function GET(req: Request) {
       },
     );
   }
-
-  console.log(`join-requests: ${joinRequests[0]}`);
 
   return new Response(JSON.stringify(joinRequests), {
     status: 200,

@@ -11,7 +11,6 @@ export const useJoinRequests = (userId: string) => {
     `/api/get/get-requests?userId=${userId}`,
     fetcher,
   );
-  console.log(data);
 
   return {
     joinRequests: data || [],
