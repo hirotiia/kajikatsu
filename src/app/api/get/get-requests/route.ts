@@ -1,5 +1,8 @@
 import { createClient } from '@/lib/supabase/server';
 
+/**
+ * 参加リクエストのステータスがpenndingのものを一覧で取得する
+ */
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
   const userId = searchParams.get('userId');
