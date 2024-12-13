@@ -130,9 +130,10 @@ export async function POST(
 
   if (duplicateRequestCount && duplicateRequestCount > 0) {
     return NextResponse.json<ErrorResponse>({
-      message:
-        '参加リクエストはすでに送信済みです。リクエストが承認されるまで少々お待ちください。',
+      message: 'リクエストが中断されました。',
       type: 'error',
+      errorDetails:
+        '参加リクエストはすでに送信済みか、すでにグループに入っています。',
     });
   }
 
