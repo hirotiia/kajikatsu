@@ -31,7 +31,7 @@ export default function JoinPage({
 
   const { data, error, isValidating } = useSWR(
     invitation_token && expires_at
-      ? ['/api/post/invite-request', { invitation_token, expires_at }]
+      ? ['/api/post/send-request', { invitation_token, expires_at }]
       : null,
     fetcher,
   );

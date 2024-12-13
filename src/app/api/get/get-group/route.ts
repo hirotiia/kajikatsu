@@ -3,6 +3,17 @@ import { NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { getUser } from '@/lib/supabase/user/user';
 
+type GroupMember = {
+  username: string;
+  avatar_url: string;
+  role: string;
+};
+
+export type GroupResponse = {
+  group_name: string | null;
+  group_members: GroupMember[];
+};
+
 export async function GET() {
   const supabase = await createClient();
   const { user, authError } = await getUser();
@@ -23,7 +34,7 @@ export async function GET() {
 
   if (userGroupError || !userGroupData) {
     return NextResponse.json(
-      { error: 'Failed to fetch user group data' },
+      { error: 'ユーザーのグループ情報の取得に失敗しました' },
       { status: 500 },
     );
   }
@@ -38,7 +49,7 @@ export async function GET() {
 
   if (groupMembersError || !groupMembersData) {
     return NextResponse.json(
-      { error: 'Failed to fetch group members data' },
+      { error: 'グループメンバーの取得に失敗しました。' },
       { status: 500 },
     );
   }
@@ -46,7 +57,7 @@ export async function GET() {
   const groupName = groupMembersData[0]?.groups?.name;
 
   // 整形
-  const members = groupMembersData.map((member: any) => ({
+  const members: GroupMember[] = groupMembersData.map((member: any) => ({
     username: member.users.username,
     avatar_url: member.users.avatar_url,
     role: member.roles.name,
