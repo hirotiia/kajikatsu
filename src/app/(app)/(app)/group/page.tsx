@@ -52,11 +52,7 @@ export default function ParingPage() {
           </div>
         </dl>
         <div className="text-right">
-          {isLoading ? (
-            <LoaderCircle className="animate-spin text-primary" size={30}>
-              読み込み中...
-            </LoaderCircle>
-          ) : group_name ? (
+          {group_name ? (
             <>
               <InviteGroup />
               <DleteGroup />
