@@ -114,7 +114,8 @@ export async function POST(
     .from('join_requests')
     .select('*', { count: 'exact', head: true })
     .eq('invitation_id', invitationData.id)
-    .eq('user_id', user_id);
+    .eq('user_id', user_id)
+    .or('status.eq.pending,status.eq.approved');
 
   if (countError) {
     return NextResponse.json<ErrorResponse>(
