@@ -33,7 +33,7 @@ export const LayoutAside = () => {
     { name: '通知', to: '/information', icon: Info },
   ].filter(Boolean) as SideNavigationItem[];
   return (
-    <aside className="glassmorphism fixed top-[150px] col-start-1 row-start-2 text-primary-foreground max-md:mt-6 md:col-start-1 md:row-span-1 md:max-w-[250px]">
+    <aside className="glassmorphism col-start-1 row-start-2 text-primary-foreground max-md:mt-6 md:fixed md:top-[142px] md:col-start-1 md:row-span-1 md:max-w-[250px]">
       <nav>
         <ul className="items-center justify-center gap-10 max-md:flex max-md:p-2">
           {navigation.map(({ name, to, icon: Icon }) => {
@@ -48,7 +48,7 @@ export const LayoutAside = () => {
                     isCurrent && 'text-primary',
                   )}
                 >
-                  <Icon size={isMobile ? 30 : 20} className="shrink-0" />
+                  <Icon size={20} className="shrink-0" />
                   {!isMobile && <span className="max-md:text-sm">{name}</span>}
                 </Link>
               </li>

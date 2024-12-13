@@ -15,7 +15,7 @@ export const AppLayout = async ({
       <div className="col-span-3 grid grid-cols-custom-layout gap-layout-gap">
         <div className="col-start-2 grid min-h-dvh grid-cols-1 grid-rows-[auto_auto_1fr] md:grid-cols-[auto_1fr] md:grid-rows-[auto_1fr_auto] md:gap-6">
           <LayoutHeader className="z-30 col-start-1 col-end-3" />
-          <main className="z-0 col-start-1 row-start-3 pb-24 pt-12 md:col-start-2 md:row-start-2 md:py-0 md:pl-40">
+          <main className="z-0 col-start-1 row-start-3 pb-24 pt-12 md:col-start-2 md:row-start-2 md:py-0 md:pl-48">
             {children}
           </main>
           {user && <LayoutAside />}
