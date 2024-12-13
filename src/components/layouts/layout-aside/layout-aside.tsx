@@ -27,7 +27,7 @@ export const LayoutAside = () => {
   const navigation = [
     { name: 'ダッシュボード', to: '/dashboard', icon: Home },
     { name: 'やることリスト', to: '/todos', icon: NotebookText },
-    { name: 'ペアリング', to: '/pairing', icon: UserRoundPlus },
+    { name: 'グループ', to: '/group', icon: UserRoundPlus },
     { name: '統計・レポート', to: '/report', icon: ChartPie },
     { name: '設定', to: '/settings', icon: Settings },
     { name: '通知', to: '/information', icon: Info },
