@@ -64,50 +64,21 @@ export default function ParingPage() {
         グループ
       </Heading>
 
-      <dl>
-        <dt>グループ名</dt>
-        <dd>
-          {isLoading || !data ? (
-            <LoaderCircle className="animate-spin text-primary" size={30}>
-              読み込み中...
-            </LoaderCircle>
-          ) : group_members.length > 0 ? (
-            group_name
-          ) : (
-            '未加入'
-          )}
-        </dd>
-      </dl>
-
       <Box color="primary">
         <dl className="grid gap-4">
           <div className="">
             <dt className="font-bold">グループ名</dt>
-            {isLoading ? (
-              <dd>
+            <dd>
+              {isLoading || !data ? (
                 <LoaderCircle className="animate-spin text-primary" size={30}>
                   読み込み中...
                 </LoaderCircle>
-              </dd>
-            ) : group_members?.group_name ? (
-              <dd>{group_members.group_name}</dd>
-            ) : (
-              <dd>グループには所属していません。</dd>
-            )}
-          </div>
-          <div className="">
-            <dt className="font-bold">権限</dt>
-            {isLoading ? (
-              <dd>
-                <LoaderCircle className="animate-spin text-primary" size={30}>
-                  読み込み中...
-                </LoaderCircle>
-              </dd>
-            ) : group_members?.role ? (
-              <dd> {group_members.role}</dd>
-            ) : (
-              <dd>なし</dd>
-            )}
+              ) : group_members.length > 0 ? (
+                group_name
+              ) : (
+                '未加入'
+              )}
+            </dd>
           </div>
         </dl>
         <div className="text-right">
