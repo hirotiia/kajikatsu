@@ -12,6 +12,7 @@ import {
 } from '@/components/ui/drawer';
 import { FormInput, FormSelect, FormTextarea } from '@/components/ui/form';
 import { Heading } from '@/components/ui/heading';
+import { SelectUsers } from '@/features/todos/components/select/select-users';
 
 export default function TodosPage() {
   return (
@@ -61,6 +62,7 @@ export default function TodosPage() {
                   layout="vertical"
                   className="mt-4"
                 />
+                <SelectUsers />
                 <Button className="mt-10" size="full">
                   作成
                 </Button>
