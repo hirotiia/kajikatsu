@@ -10,6 +10,7 @@ import {
   DrawerTitle,
   DrawerBody,
 } from '@/components/ui/drawer';
+import { FormInput, FormSelect, FormTextarea } from '@/components/ui/form';
 import { Heading } from '@/components/ui/heading';
 
 export default function TodosPage() {
@@ -29,10 +30,33 @@ export default function TodosPage() {
             <DrawerTitle className="mt-10">新しいタスクを作成</DrawerTitle>
             <DrawerBody>
               <form action="">
-                <label>
-                  タスク名：
-                  <input type="text" />
-                </label>
+                <FormInput
+                  label="タイトル"
+                  id="title"
+                  name="title"
+                  type="text"
+                  className=""
+                  error="タイトルが入力されていません"
+                  required
+                />
+                <FormTextarea
+                  label="タスクの詳細"
+                  id="title"
+                  name="title"
+                  className=""
+                />
+                <FormSelect
+                  id="status"
+                  name="status"
+                  label="ステータス"
+                  error="タスクのステータスを選択してください。"
+                  options={[
+                    { value: 'completed', title: '完了' },
+                    { value: 'pending', title: '未対応' },
+                    { value: 'onGoing', title: '対応中' },
+                    { value: 'onHold', title: '保留中' },
+                  ]}
+                />
                 <Button>作成</Button>
               </form>
             </DrawerBody>
