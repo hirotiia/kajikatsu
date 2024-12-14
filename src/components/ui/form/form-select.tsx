@@ -11,9 +11,11 @@ interface FormSelectProps {
   id: string;
   name: string;
   label: string;
+  defaultValue?: string;
   error?: string;
   options: Option[];
   className?: string;
+  layout?: 'horizontal' | 'vertical';
 }
 
 export const FormSelect: React.FC<FormSelectProps> = ({
@@ -23,13 +25,17 @@ export const FormSelect: React.FC<FormSelectProps> = ({
   error,
   options,
   className,
+  layout = 'horizontal',
 }) => {
   const hasError = Boolean(error);
 
   return (
     <div
       className={cn(
-        'grid w-full items-center gap-1 md:grid-cols-[150px_1fr] md:grid-rows-[auto_auto] md:gap-x-3',
+        'grid w-full items-center gap-1',
+        layout === 'horizontal'
+          ? 'md:grid-cols-[150px_1fr] md:grid-rows-[auto_auto] md:gap-x-3'
+          : 'grid-cols-1',
         className,
       )}
     >
@@ -50,7 +56,6 @@ export const FormSelect: React.FC<FormSelectProps> = ({
           className="block h-12 w-full px-4 text-primary"
           required
         >
-          <option value="">時間を選択してください</option>
           {options.map(({ value, title }) => (
             <option value={value} key={value}>
               {title}

@@ -50,11 +50,12 @@ export default function TodosPage() {
                   name="status"
                   label="ステータス"
                   error="タスクのステータスを選択してください。"
+                  layout="vertical"
                   options={[
-                    { value: 'completed', title: '完了' },
+                    { value: 'onHold', title: '保留' },
                     { value: 'pending', title: '未対応' },
                     { value: 'onGoing', title: '対応中' },
-                    { value: 'onHold', title: '保留中' },
+                    { value: 'completed', title: '完了' },
                   ]}
                 />
                 <Button>作成</Button>
