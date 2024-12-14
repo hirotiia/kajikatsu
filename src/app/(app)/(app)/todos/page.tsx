@@ -35,15 +35,10 @@ export default function TodosPage() {
                   id="title"
                   name="title"
                   type="text"
+                  layout="vertical"
                   className=""
                   error="タイトルが入力されていません"
                   required
-                />
-                <FormTextarea
-                  label="タスクの詳細"
-                  id="title"
-                  name="title"
-                  className=""
                 />
                 <FormSelect
                   id="status"
@@ -51,6 +46,7 @@ export default function TodosPage() {
                   label="ステータス"
                   error="タスクのステータスを選択してください。"
                   layout="vertical"
+                  className="mt-4"
                   options={[
                     { value: 'onHold', title: '保留' },
                     { value: 'pending', title: '未対応' },
@@ -58,7 +54,16 @@ export default function TodosPage() {
                     { value: 'completed', title: '完了' },
                   ]}
                 />
-                <Button>作成</Button>
+                <FormTextarea
+                  label="タスクの詳細"
+                  id="title"
+                  name="title"
+                  layout="vertical"
+                  className="mt-4"
+                />
+                <Button className="mt-10" size="full">
+                  作成
+                </Button>
               </form>
             </DrawerBody>
           </DrawerContent>

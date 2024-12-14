@@ -11,7 +11,6 @@ interface FormSelectProps {
   id: string;
   name: string;
   label: string;
-  defaultValue?: string;
   error?: string;
   options: Option[];
   className?: string;
@@ -42,12 +41,7 @@ export const FormSelect: React.FC<FormSelectProps> = ({
       <label htmlFor={id} className="text-left">
         {label}
       </label>
-      <div
-        className={cn(
-          'rounded-md border border-muted text-primary w-full',
-          hasError && 'border-destructive',
-        )}
-      >
+      <div className="w-full rounded-md border border-muted text-primary">
         <select
           id={id}
           name={name}
@@ -66,7 +60,12 @@ export const FormSelect: React.FC<FormSelectProps> = ({
       {hasError && (
         <p
           id={`${id}-error`}
-          className="text-destructive md:col-start-2 md:row-start-2"
+          className={cn(
+            'text-destructive',
+            layout === 'horizontal'
+              ? 'md:col-start-2 md:row-start-2'
+              : 'col-start-1 row-start-2',
+          )}
           aria-live="assertive"
         >
           {error}
