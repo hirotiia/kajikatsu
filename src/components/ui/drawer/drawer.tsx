@@ -1,5 +1,7 @@
 'use client';
-import {
+
+import { cva, VariantProps } from 'class-variance-authority';
+import React, {
   createContext,
   Dispatch,
   SetStateAction,
@@ -7,126 +9,252 @@ import {
   useEffect,
   useRef,
   useState,
+  ElementType,
+  ComponentPropsWithoutRef,
+  useId,
 } from 'react';
 
 import { cn } from '@/utils/cn';
 
+import { Button } from '../button';
+
 type DrawerContextType = {
   name: string;
-  state: [boolean, Dispatch<SetStateAction<boolean>>];
+  side: DrawerSide;
+  isOpen: boolean;
+  setIsOpen: Dispatch<SetStateAction<boolean>>;
+  drawerTitleId?: string;
+  setDrawerTitleId: Dispatch<SetStateAction<string | undefined>>;
 };
 
 const DrawerContext = createContext<DrawerContextType>({
   name: '',
-  state: [false, () => {}],
+  side: 'right',
+  isOpen: false,
+  setIsOpen: () => {},
+  drawerTitleId: undefined,
+  setDrawerTitleId: () => {},
 });
 
-/**
- * Drawer: 状態を管理
- * DrawerTrigger: ボタンを押下するとDrawerContentを表示非表示制御するコンポーネントを２つ受け取り、開閉の時に表示を切り替える
- * DrawerContent: DrawerTriggerに制御されるコンテンツ、左右前後で位置指定もできる
- * DrawerCloseTrigger: ボタンを押下すると閉じる
- */
-// const drawerVariants = cva(
-//   'fixed z-50 gap-4 bg-background p-6 shadow-lg transition ease-in-out data-[state=closed]:duration-300 data-[state=open]:duration-500',
-//   {
-//     variants: {
-//       side: {
-//         top: 'inset-x-0 top-0 border-b',
-//         bottom: 'inset-x-0 bottom-0 border-t',
-//         left: 'inset-y-0 left-0 h-full w-3/4 border-r sm:max-w-sm',
-//         right: 'inset-y-0 right-0 h-full w-3/4 border-l sm:max-w-sm',
-//       },
-//     },
-//     defaultVariants: {
-//       side: 'right',
-//     },
-//   },
-// );
+type DrawerSide = 'top' | 'bottom' | 'left' | 'right';
+
+const drawerVariants = cva(
+  'fixed z-50 bg-background shadow-lg transition-transform duration-300 ease-in-out will-change-transform',
+  {
+    variants: {
+      side: {
+        top: 'inset-x-0 top-0 -translate-y-full transform border-b data-[state=open]:translate-y-0',
+        bottom:
+          'inset-x-0 bottom-0 translate-y-full transform border-t data-[state=open]:translate-y-0',
+        left: 'inset-y-0 left-0 w-3/4 -translate-x-full transform border-r data-[state=open]:translate-x-0 sm:max-w-sm',
+        right:
+          'inset-y-0 right-0 w-3/4 translate-x-full transform border-l data-[state=open]:translate-x-0 sm:max-w-sm',
+      },
+    },
+    defaultVariants: {
+      side: 'right',
+    },
+  },
+);
+
+interface DrawerProps {
+  children: React.ReactNode;
+  name: string;
+  side?: DrawerSide;
+  defaultOpen?: boolean;
+  onOpenChange?: (isOpen: boolean) => void;
+}
 
 const Drawer = ({
   children,
   name,
-}: {
-  children: React.ReactNode;
-  name: string;
-}) => {
-  const [isOpen, setIsOpen] = useState(false);
+  side = 'right',
+  defaultOpen = false,
+  onOpenChange,
+}: DrawerProps) => {
+  const [isOpen, setIsOpen] = useState(defaultOpen);
   const contentRef = useRef<HTMLDivElement | null>(null);
+  const [drawerTitleId, setDrawerTitleId] = useState<string | undefined>(
+    undefined,
+  );
+
   useEffect(() => {
-    if (contentRef.current) {
-      const contentHeight = contentRef.current.scrollHeight + 'px';
-      contentRef.current.style.setProperty(
-        '--accordion-content-height',
-        contentHeight,
-      );
-    }
-  }, [isOpen]);
+    onOpenChange?.(isOpen);
+  }, [isOpen, onOpenChange]);
 
   return (
-    <DrawerContext.Provider value={{ name, state: [isOpen, setIsOpen] }}>
+    <DrawerContext.Provider
+      value={{ name, side, isOpen, setIsOpen, drawerTitleId, setDrawerTitleId }}
+    >
       <div ref={contentRef}>{children}</div>
     </DrawerContext.Provider>
   );
 };
 
+interface DrawerTriggerProps {
+  children: React.ReactNode;
+  className?: string;
+}
+
 const DrawerTrigger = ({
   children,
   className,
-}: {
-  children: React.ReactNode;
-  className: string;
-}) => {
-  const {
-    name,
-    state: [isOpen, setIsOpen],
-  } = useContext(DrawerContext);
-  const toggleAccordion = () => setIsOpen((prev) => !prev);
+  ...props
+}: DrawerTriggerProps) => {
+  const { name, setIsOpen, isOpen } = useContext(DrawerContext);
+
   return (
-    <button
+    <Button
       type="button"
-      aria-expanded={'false'}
-      className={cn('block', className)}
+      aria-expanded={isOpen}
       aria-controls={name}
-      onClick={toggleAccordion}
+      className={cn('cursor-pointer', className)}
+      onClick={() => setIsOpen((prev) => !prev)}
+      {...props}
     >
-      <span>{children}</span>
-      {isOpen ? (
-        <span className="relative inline-block size-6 before:absolute before:left-1/2 before:top-1/2 before:block before:h-0.5 before:w-6 before:-translate-x-1/2 before:-translate-y-1/2 before:rotate-45 before:bg-foreground before:transition-transform before:duration-300 after:absolute after:left-1/2 after:top-1/2 after:block after:h-0.5 after:w-6 after:-translate-x-1/2 after:-translate-y-1/2 after:-rotate-45 after:bg-foreground after:transition-transform after:duration-300"></span>
-      ) : (
-        <span
-          className={
-            'relative block h-0.5 w-6 bg-foreground transition duration-300 ease-in-out before:absolute before:h-0.5 before:w-6 before:-translate-y-2 before:bg-foreground before:transition before:duration-300 before:ease-in-out after:absolute after:h-0.5 after:w-6 after:translate-y-2 after:bg-foreground after:transition after:duration-300 after:ease-in-out'
-          }
-        ></span>
-      )}
-    </button>
+      {children}
+    </Button>
   );
 };
+
+interface DrawerHeaderTriggerProps extends ComponentPropsWithoutRef<'button'> {
+  as?: ElementType;
+}
+
+const DrawerHeaderTrigger = ({
+  as: Comp = 'button',
+  children,
+  className,
+  ...props
+}: DrawerHeaderTriggerProps) => {
+  const { name, isOpen, setIsOpen } = useContext(DrawerContext);
+  const toggleDrawer = () => setIsOpen((prev) => !prev);
+
+  return (
+    <Comp
+      type="button"
+      aria-expanded={isOpen}
+      aria-controls={name}
+      className={cn('cursor-pointer flex items-center', className)}
+      onClick={toggleDrawer}
+      {...props}
+    >
+      <span>{children}</span>
+      <span className="ml-2 inline-block">
+        {isOpen ? (
+          <span className="relative inline-block size-6">
+            <span className="absolute inset-1/2 block h-0.5 w-6 -translate-x-1/2 -translate-y-1/2 rotate-45 bg-foreground transition-transform duration-300" />
+            <span className="absolute inset-1/2 block h-0.5 w-6 -translate-x-1/2 -translate-y-1/2 -rotate-45 bg-foreground transition-transform duration-300" />
+          </span>
+        ) : (
+          <span className="relative block h-0.5 w-6 bg-foreground transition duration-300 ease-in-out before:absolute before:h-0.5 before:w-6 before:-translate-y-2 before:bg-foreground before:transition before:duration-300 before:ease-in-out after:absolute after:h-0.5 after:w-6 after:translate-y-2 after:bg-foreground after:transition after:duration-300 after:ease-in-out" />
+        )}
+      </span>
+    </Comp>
+  );
+};
+
+interface DrawerCloseTriggerProps extends ComponentPropsWithoutRef<'button'> {
+  as?: ElementType;
+}
+
+const DrawerCloseTrigger = ({
+  as: Comp = 'button',
+  children,
+  className,
+  ...props
+}: DrawerCloseTriggerProps) => {
+  const { setIsOpen } = useContext(DrawerContext);
+  return (
+    <Comp
+      type="button"
+      className={cn('cursor-pointer', className)}
+      onClick={() => setIsOpen(false)}
+      {...props}
+    >
+      {children}
+    </Comp>
+  );
+};
+
+interface DrawerContentProps
+  extends Omit<ComponentPropsWithoutRef<'div'>, 'className'>,
+    VariantProps<typeof drawerVariants> {
+  className?: string;
+}
 
 const DrawerContent = ({
   children,
   className,
-}: {
-  children: React.ReactNode;
-  className: string;
-}) => {
-  const {
-    name,
-    state: [isOpen],
-  } = useContext(DrawerContext);
+  side,
+  ...props
+}: DrawerContentProps) => {
+  const { name, isOpen, side: sideFromContext } = useContext(DrawerContext);
+  const currentSide = side ?? sideFromContext;
+
   return (
     <div
       id={name}
-      className={cn(
-        'block',
-        isOpen ? 'block animate-accordion-down' : 'hidden animate-accordion-up',
-        className,
-      )}
+      data-state={isOpen ? 'open' : 'closed'}
+      className={cn('z-50', drawerVariants({ side: currentSide }), className)}
+      {...props}
     >
       {children}
     </div>
   );
 };
 
-export { Drawer, DrawerTrigger, DrawerContent };
+interface DrawerTitleProps extends React.HTMLAttributes<HTMLHeadingElement> {
+  as?: ElementType;
+  children: React.ReactNode;
+}
+
+const DrawerTitle = ({
+  as: Tag = 'h2',
+  className,
+  children,
+  ...props
+}: DrawerTitleProps) => {
+  const { setDrawerTitleId } = useContext(DrawerContext);
+  const titleId = useId();
+
+  useEffect(() => {
+    setDrawerTitleId(titleId);
+    return () => {
+      setDrawerTitleId(undefined);
+    };
+  }, [titleId, setDrawerTitleId]);
+
+  return (
+    <Tag
+      id={titleId}
+      className={cn(
+        'text-lg font-semibold leading-none tracking-tight',
+        className,
+      )}
+      {...props}
+    >
+      {children}
+    </Tag>
+  );
+};
+
+interface DrawerBodyProps extends React.HTMLAttributes<HTMLDivElement> {
+  className?: string;
+}
+
+const DrawerBody = ({ className, ...props }: DrawerBodyProps) => {
+  return (
+    <div className={cn('flex-1 overflow-auto mt-8', className)} {...props} />
+  );
+};
+
+export {
+  Drawer,
+  DrawerTrigger,
+  DrawerHeaderTrigger,
+  DrawerCloseTrigger,
+  DrawerContent,
+  DrawerTitle,
+  DrawerBody,
+};
