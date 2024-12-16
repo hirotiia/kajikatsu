@@ -13,8 +13,33 @@ import {
 import { FormInput, FormSelect, FormTextarea } from '@/components/ui/form';
 import { Heading } from '@/components/ui/heading';
 import { SelectUsers } from '@/features/todos/components/select/select-users';
+import { getGroupData } from '@/lib/supabase/data/get-group-data';
+import { getUser } from '@/lib/supabase/user/user';
 
-export default function TodosPage() {
+export default async function TodosPage() {
+  const { user, authError } = await getUser();
+
+  if (authError || !user) {
+    return (
+      <Content bg="secondary">
+        <Heading as="h1">認証エラー</Heading>
+        <p>ユーザー情報を取得できませんでした。</p>
+      </Content>
+    );
+  }
+
+  let groupInfo;
+  try {
+    groupInfo = await getGroupData(user.id);
+  } catch (error) {
+    console.error(error);
+    return (
+      <Content bg="secondary">
+        <Heading as="h1">エラー</Heading>
+        <p>グループ情報の取得に失敗しました。</p>
+      </Content>
+    );
+  }
   return (
     <>
       <Content bg="secondary">
@@ -62,7 +87,7 @@ export default function TodosPage() {
                   layout="vertical"
                   className="mt-4"
                 />
-                <SelectUsers />
+                <SelectUsers users={groupInfo.group_members} />
                 <Button className="mt-10" size="full">
                   作成
                 </Button>
