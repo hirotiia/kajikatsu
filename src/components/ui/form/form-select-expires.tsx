@@ -4,7 +4,7 @@ import { useState } from 'react';
 import ReactDatePicker from 'react-datepicker';
 
 import { cn } from '@/utils/cn';
-import 'react-datepicker/dist/react-datepicker.css'; // デフォルトのスタイルを適用
+import 'react-datepicker/dist/react-datepicker.css';
 
 type FormDatePickerProps = {
   value?: Date;
