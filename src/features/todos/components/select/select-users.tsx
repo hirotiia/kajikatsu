@@ -3,10 +3,10 @@ import { FormSelect } from '@/components/ui/form';
 export const SelectUsers = () => {
   return (
     <FormSelect
-      id="status"
-      name="status"
-      label="ステータス"
-      error="タスクのステータスを選択してください。"
+      id="assignment"
+      name="assignment"
+      label="担当者"
+      error="タスクの担当者を選択してください。"
       layout="vertical"
       className="mt-4"
       options={[

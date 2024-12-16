@@ -3,6 +3,8 @@ import { NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { getUser } from '@/lib/supabase/user/user';
 
+/** ユーザーのグループ名とメンバーの一覧を取得するAPI */
+
 type GroupMember = {
   username: string;
   avatar_url: string;
