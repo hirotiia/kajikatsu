@@ -3,7 +3,19 @@ import { NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { getUser } from '@/lib/supabase/user/user';
 
-/** ユーザーのグループ名とメンバーの一覧を取得するAPI */
+/**
+ * ユーザーが所属するグループ名と、そのグループに所属するメンバー一覧を取得し、JSONで返すAPIハンドラー。
+ * 成功時:
+ *   {
+ *     "group_name": string | null,
+ *     "group_members": Array<{
+ *        "username": string;
+ *        "avatar_url": string;
+ *        "role": string;
+ *     }>
+ *   }
+ * エラー時には、HTTPステータスコードとエラーメッセージを含むJSONを返す。
+ */
 
 type GroupMember = {
   username: string;
@@ -27,7 +39,7 @@ export async function GET() {
     );
   }
 
-  // ユーザーのグループ情報を取得
+  // 現在のユーザーが所属するグループIDを取得
   const { data: userGroupData, error: userGroupError } = await supabase
     .from('user_groups')
     .select('*')
@@ -43,7 +55,7 @@ export async function GET() {
 
   const { group_id } = userGroupData;
 
-  // 同じグループのメンバーと権限を取得
+  // 同じグループ内の全メンバーと役割、グループ名を取得
   const { data: groupMembersData, error: groupMembersError } = await supabase
     .from('user_groups')
     .select(`user_id, users(username, avatar_url), roles(name), groups(name)`)
@@ -56,10 +68,11 @@ export async function GET() {
     );
   }
 
+  // グループ名（全メンバー共通のため先頭要素から取得）
   const groupName = groupMembersData[0]?.groups?.name;
 
-  // 整形
-  const members: GroupMember[] = groupMembersData.map((member: any) => ({
+  // メンバー情報を整形
+  const members = groupMembersData.map((member: any) => ({
     username: member.users.username,
     avatar_url: member.users.avatar_url,
     role: member.roles.name,
