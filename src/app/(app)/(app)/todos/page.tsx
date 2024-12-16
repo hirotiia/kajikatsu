@@ -10,7 +10,12 @@ import {
   DrawerTitle,
   DrawerBody,
 } from '@/components/ui/drawer';
-import { FormInput, FormSelect, FormTextarea } from '@/components/ui/form';
+import {
+  FormInput,
+  FormSelect,
+  FormTextarea,
+  FormDatePicker,
+} from '@/components/ui/form';
 import { Heading } from '@/components/ui/heading';
 import { SelectUsers } from '@/features/todos/components/select/select-users';
 import { getGroupData } from '@/lib/supabase/data/get-group-data';
@@ -88,6 +93,15 @@ export default async function TodosPage() {
                   className="mt-4"
                 />
                 <SelectUsers users={groupInfo.group_members} />
+                <FormDatePicker
+                  id="deadline"
+                  name="deadline"
+                  label="タスクの期限日"
+                  placeholder="期限日を選択"
+                  layout="vertical"
+                  className="mt-4"
+                />
+
                 <Button className="mt-10" size="full">
                   作成
                 </Button>
