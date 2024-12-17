@@ -3,14 +3,24 @@ import { GroupMember } from '@/lib/supabase/data/get-group-data';
 
 type SelectUsersProps = {
   users: GroupMember[];
+  id: string;
+  name: string;
+  label: string;
+  required?: true | false;
 };
 
-export const SelectUsers = ({ users }: SelectUsersProps) => {
+export const SelectUsers = ({
+  users,
+  id,
+  name,
+  label,
+  required = false,
+}: SelectUsersProps) => {
   return (
     <FormSelect
-      id="assignment"
-      name="assignment"
-      label="担当者"
+      id={id}
+      name={name}
+      label={label}
       layout="vertical"
       className="mt-4"
       options={[
@@ -20,6 +30,7 @@ export const SelectUsers = ({ users }: SelectUsersProps) => {
           title: user.username,
         })),
       ]}
+      required={required}
     />
   );
 };

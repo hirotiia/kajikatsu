@@ -27,7 +27,7 @@ type DrawerContextType = {
   setDrawerTitleId: Dispatch<SetStateAction<string | undefined>>;
 };
 
-const DrawerContext = createContext<DrawerContextType>({
+export const DrawerContext = createContext<DrawerContextType>({
   name: '',
   side: 'right',
   isOpen: false,
