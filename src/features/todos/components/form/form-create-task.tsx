@@ -60,7 +60,7 @@ export const FormCreateTask = ({ groupInfo }: groupInfoProps) => {
         layout="vertical"
         className="mt-4"
         options={[
-          { value: '完了', title: '保留' },
+          { value: '保留', title: '保留' },
           { value: '未対応', title: '未対応' },
           { value: '対応中', title: '対応中' },
           { value: '完了', title: '完了' },
