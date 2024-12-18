@@ -4,6 +4,7 @@ import React, {
   ChangeEvent,
   createContext,
   ReactElement,
+  ReactNode,
   useContext,
   useMemo,
   useState,
@@ -13,6 +14,13 @@ import { cn } from '@/utils/cn';
 
 type TabKey = string;
 type TabLabel = string | JSX.Element;
+
+type TabItemProps = {
+  tabKey: TabKey;
+  label: TabLabel;
+  children: ReactNode;
+  className?: string;
+};
 
 type TabProps = {
   children: ReactElement<TabItemProps> | ReactElement<TabItemProps>[];
@@ -33,32 +41,32 @@ const TabContext = createContext<TabContextState>({
   currentKey: '',
 });
 
+const TabItem = ({ children, tabKey, className }: TabItemProps) => {
+  const { currentKey } = useContext(TabContext);
+
+  if (currentKey !== tabKey) return null;
+
+  return <div className={cn('w-full bg-black', className)}>{children}</div>;
+};
+TabItem.displayName = 'TabItem';
+
 const Tab = ({ children, defaultKey, className }: TabProps) => {
   const [currentKey, setCurrentKey] = useState(defaultKey);
-  const changeTabHandler = (event: ChangeEvent<HTMLSelectElement>) => {
+
+  const handleChangeTab = (event: ChangeEvent<HTMLSelectElement>) => {
     setCurrentKey(event.target.value);
   };
 
-  const tabList = useMemo<TabHeader[]>((): TabHeader[] => {
-    const tabListArray: TabHeader[] = [];
-
-    if (Array.isArray(children)) {
-      children.forEach((child) => {
-        if (child.type !== TabItem) throw Error('TabItemを利用してください');
-        tabListArray.push({
-          tabKey: child.props.tabKey,
-          label: child.props.label,
-        });
-      });
-    } else if (children.type === TabItem) {
-      tabListArray.push({
-        tabKey: children.props.tabKey,
-        label: children.props.label,
-      });
-    } else {
-      throw Error('TabItemを利用してください');
-    }
-    return tabListArray;
+  const tabList = useMemo<TabHeader[]>(() => {
+    const items = React.Children.toArray(
+      children,
+    ) as ReactElement<TabItemProps>[];
+    return items.map((child) => {
+      if ((child.type as any).displayName !== 'TabItem') {
+        throw new Error('TabItemを利用してください');
+      }
+      return { tabKey: child.props.tabKey, label: child.props.label };
+    });
   }, [children]);
 
   return (
@@ -66,7 +74,11 @@ const Tab = ({ children, defaultKey, className }: TabProps) => {
       <div className={cn('', className)}>
         <div className="">
           <label>
-            <select name="members" onChange={changeTabHandler}>
+            <select
+              name="members"
+              onChange={handleChangeTab}
+              value={currentKey}
+            >
               {tabList.map(({ tabKey, label }) => (
                 <option key={tabKey} value={tabKey}>
                   {label}
@@ -76,27 +88,10 @@ const Tab = ({ children, defaultKey, className }: TabProps) => {
           </label>
           さんの家事タスク一覧
         </div>
+        {children}
       </div>
-      {children}
     </TabContext.Provider>
   );
 };
-
-type TabItemProps = {
-  tabKey: TabKey;
-  label: TabLabel;
-  children: React.ReactNode;
-  className?: string;
-};
-
-const TabItem = ({ children, tabKey, className }: TabItemProps): any => {
-  const { currentKey } = useContext(TabContext);
-
-  return currentKey === tabKey ? (
-    <div className={cn('w-full bg-black', className)}>{children}</div>
-  ) : null;
-};
-
-TabItem.displayName = 'TabItem';
 
 export { Tab, TabItem };
