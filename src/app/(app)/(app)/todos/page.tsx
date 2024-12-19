@@ -12,7 +12,8 @@ import {
 import { Heading } from '@/components/ui/heading';
 import { FormCreateTask } from '@/features/todos/components/form/form-create-task';
 import { TabUsersTask } from '@/features/todos/components/tab/tab-users-task';
-import { getGroupData } from '@/lib/supabase/data/get-group-data';
+import { getTasks } from '@/lib/supabase/data/tasks/get-tasks';
+import { getGroupData } from '@/lib/supabase/data/users/get-group-data';
 import { getUser } from '@/lib/supabase/user/user';
 
 export default async function TodosPage() {
@@ -27,18 +28,9 @@ export default async function TodosPage() {
     );
   }
 
-  let groupInfo;
-  try {
-    groupInfo = await getGroupData(user.id);
-  } catch (error) {
-    console.error(error);
-    return (
-      <Content bg="secondary">
-        <Heading as="h1">エラー</Heading>
-        <p>グループ情報の取得に失敗しました。</p>
-      </Content>
-    );
-  }
+  const groupInfo = await getGroupData(user.id);
+  const groupTasks = await getTasks();
+  console.log(groupTasks);
   return (
     <>
       <TabUsersTask />

@@ -13,7 +13,7 @@ import {
   FormInput,
 } from '@/components/ui/form';
 import { useNotifications } from '@/components/ui/notifications';
-import { GroupResponse } from '@/lib/supabase/data/get-group-data';
+import { GroupResponse } from '@/lib/supabase/data/users/get-group-data';
 
 import { SelectUsers } from '../select/select-users';
 

@@ -1,7 +1,7 @@
 import { createClient } from '@/lib/supabase/server';
 
 /**
- * ユーザーが所属するグループ名と、そのグループに所属するメンバー一覧を取得し、JSONで返すAPIハンドラー。
+ * ユーザーIDをもとに自身が所属するグループ名と、そのグループに所属するメンバー一覧を取得し、JSONで返すAPIハンドラー。
  * 成功時:
  *   {
  *     "group_name": string | null,
@@ -24,6 +24,7 @@ export type GroupMember = {
 
 export type GroupResponse = {
   group_name: string | null;
+  group_id: string | null;
   group_members: GroupMember[];
 };
 
@@ -46,15 +47,17 @@ export async function getGroupData(userId: string): Promise<GroupResponse> {
   // 同グループのメンバー一覧取得
   const { data: groupMembersData, error: groupMembersError } = await supabase
     .from('user_groups')
-    .select(`user_id, users(username, avatar_url), roles(name), groups(name)`)
+    .select(
+      `user_id, users(username, avatar_url), roles(name), groups(name, id)`,
+    )
     .eq('group_id', group_id);
 
   if (groupMembersError || !groupMembersData || groupMembersData.length === 0) {
     throw new Error('グループメンバーの取得に失敗しました');
   }
 
-  // グループ名
   const groupName = groupMembersData[0]?.groups?.name ?? null;
+  const groupId = groupMembersData[0]?.groups?.id ?? null;
 
   // メンバー情報整形
   const members = groupMembersData.map((member: any) => ({
@@ -64,5 +67,5 @@ export async function getGroupData(userId: string): Promise<GroupResponse> {
     role: member.roles.name,
   }));
 
-  return { group_name: groupName, group_members: members };
+  return { group_name: groupName, group_id: groupId, group_members: members };
 }
