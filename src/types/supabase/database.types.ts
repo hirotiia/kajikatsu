@@ -123,13 +123,6 @@ export type Database = {
             referencedColumns: ['id'];
           },
           {
-            foreignKeyName: 'join_requests_processed_by_fkey';
-            columns: ['processed_by'];
-            isOneToOne: false;
-            referencedRelation: 'users';
-            referencedColumns: ['id'];
-          },
-          {
             foreignKeyName: 'join_requests_user_id_fkey';
             columns: ['user_id'];
             isOneToOne: false;
@@ -279,6 +272,7 @@ export type Database = {
       };
       tasks: {
         Row: {
+          assignee_id: string | null;
           created_at: string | null;
           created_by: string;
           description: string | null;
@@ -292,6 +286,7 @@ export type Database = {
           updated_by: string;
         };
         Insert: {
+          assignee_id?: string | null;
           created_at?: string | null;
           created_by: string;
           description?: string | null;
@@ -305,6 +300,7 @@ export type Database = {
           updated_by: string;
         };
         Update: {
+          assignee_id?: string | null;
           created_at?: string | null;
           created_by?: string;
           description?: string | null;
@@ -380,6 +376,13 @@ export type Database = {
             columns: ['role_id'];
             isOneToOne: false;
             referencedRelation: 'roles';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'user_groups_user_id_fkey';
+            columns: ['user_id'];
+            isOneToOne: false;
+            referencedRelation: 'users';
             referencedColumns: ['id'];
           },
         ];
