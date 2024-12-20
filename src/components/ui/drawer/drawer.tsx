@@ -17,7 +17,7 @@ import React, {
 import { cn } from '@/utils/cn';
 
 import { Button } from '../button';
-
+// TODO: ドロワーメニューが閉じている時に中身のコンテンツにフォーカスされてしまうので修正する
 type DrawerContextType = {
   name: string;
   side: DrawerSide;

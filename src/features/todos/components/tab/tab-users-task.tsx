@@ -13,7 +13,7 @@ import { Tab, TabHeader, TabItem } from '@/components/ui/tab';
 export const TabUsersTask = () => {
   return (
     <Tab defaultKey="test1">
-      <TabHeader />
+      <TabHeader ariaLabel="タスクナビゲーション" />
       <TabItem tabKey="test1" label="test1">
         <p className="text-base">test1</p>
       </TabItem>
