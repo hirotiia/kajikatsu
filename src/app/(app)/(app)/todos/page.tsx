@@ -12,7 +12,7 @@ import {
 import { Heading } from '@/components/ui/heading';
 import { FormCreateTask } from '@/features/todos/components/form/form-create-task';
 import { TabUsersTask } from '@/features/todos/components/tab/tab-users-task';
-import { getTasks } from '@/lib/supabase/data/tasks/get-tasks';
+import { getGroupTasks } from '@/lib/supabase/data/tasks/select/get-group-tasks';
 import { getGroupData } from '@/lib/supabase/data/users/get-group-data';
 import { getUser } from '@/lib/supabase/user/user';
 
@@ -28,12 +28,23 @@ export default async function TodosPage() {
     );
   }
 
-  const groupInfo = await getGroupData(user.id);
-  const groupTasks = await getTasks();
+  const { data: groupData, error: groupDataError } = await getGroupData();
+  const { data: groupTasks, error: groupTasksError } = await getGroupTasks();
   console.log(groupTasks);
+
   return (
     <>
-      <TabUsersTask />
+      {groupTasksError ? (
+        <p>
+          <strong>{groupTasksError}</strong>
+        </p>
+      ) : groupDataError ? (
+        <p>
+          <strong>{groupDataError}</strong>
+        </p>
+      ) : (
+        <TabUsersTask />
+      )}
       <Content bg="secondary">
         <Heading as="h1">やることリスト</Heading>
 
@@ -47,7 +58,13 @@ export default async function TodosPage() {
             </DrawerCloseTrigger>
             <DrawerTitle className="mt-10">新しいタスクを作成</DrawerTitle>
             <DrawerBody>
-              <FormCreateTask groupInfo={groupInfo} />
+              {groupDataError ? (
+                <p>
+                  <strong>{groupDataError}</strong>
+                </p>
+              ) : (
+                groupData && <FormCreateTask groupInfo={groupData} />
+              )}
             </DrawerBody>
           </DrawerContent>
         </Drawer>
