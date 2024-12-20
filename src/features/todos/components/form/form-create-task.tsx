@@ -73,12 +73,14 @@ export const FormCreateTask = ({ groupInfo }: groupInfoProps) => {
         layout="vertical"
         className="mt-4"
       />
-      <SelectUsers
-        users={group_members}
-        id="assignment"
-        label="担当者"
-        name="assignment"
-      />
+      {group_members.length > 0 && (
+        <SelectUsers
+          users={group_members}
+          id="assignment"
+          label="担当者"
+          name="assignment"
+        />
+      )}
       <FormDatePicker
         id="deadline"
         name="deadline"
