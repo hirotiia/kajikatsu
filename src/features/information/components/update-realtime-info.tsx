@@ -29,13 +29,11 @@ const getOwnerRoleId = async () => {
 };
 
 export const UpdateRealtimeInfo = () => {
-  console.log('InformationPage loaded');
   const supabase = createClient();
   const [informations, setInformation] = useState<Information[]>([]);
 
   // リアルタイム更新用処理
   useEffect(() => {
-    console.log('useEffect発火');
     const channel = supabase
       .channel('join-requests-cahnnel')
       .on(
@@ -50,9 +48,6 @@ export const UpdateRealtimeInfo = () => {
           const { user_id, invitation_id } = newRequest;
           // 監視対象のテーブルへのアクションがINSERTの場合、ユーザーを確認して同じグループ内の権限が`owner`だった場合、通知を送る
           try {
-            console.log('----------------------');
-            console.log('join-requestsテーブル監視開始');
-            console.log('----------------------');
             // 参加リクエストのグループを特定
             const { data: invitationData, error: invitationError } =
               await supabase
@@ -73,7 +68,6 @@ export const UpdateRealtimeInfo = () => {
             const role_id = await getOwnerRoleId();
             const sessionResult = await supabase.auth.getSession();
             const userId = sessionResult.data.session?.user.id;
-            console.log(groupId, role_id, sessionResult, userId);
 
             if (!userId) {
               console.error('ログインセッションが存在しません。');
@@ -95,7 +89,6 @@ export const UpdateRealtimeInfo = () => {
                 !currentUserGroup ||
                 currentUserGroup.length === 0
               ) {
-                console.log('現在のユーザーはオーナーではありません。');
                 return;
               }
             }
@@ -133,8 +126,6 @@ export const UpdateRealtimeInfo = () => {
       )
       .subscribe();
     return () => {
-      console.log('useEffectクリーンアップ処理');
-
       channel.unsubscribe();
     };
   }, [supabase]);

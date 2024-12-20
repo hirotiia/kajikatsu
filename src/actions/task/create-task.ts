@@ -22,7 +22,6 @@ export const createTask = async (
   formData: FormData,
 ): Promise<any | null> => {
   try {
-    console.log('createTask実行');
     const supabase = await createClient();
     const { user } = await getUser();
 
@@ -46,14 +45,6 @@ export const createTask = async (
       typeof description === 'string' ? description : null;
     const validatedAssignmentUser =
       typeof assignmentUser === 'string' ? assignmentUser : null;
-
-    console.log('-----------------------------------');
-    console.log(`title: ${title}`);
-    console.log(`status: ${status}`);
-    console.log(`description: ${validatedDescription}`);
-    console.log(`deadline: ${validatedDeadline}`);
-    console.log(`assignmentUser: ${validatedAssignmentUser}`);
-    console.log('-----------------------------------');
 
     // `statuses` テーブルから `status_id` を取得
     const { data: statusData, error: statusError } = await supabase
@@ -80,21 +71,6 @@ export const createTask = async (
     }
 
     const group_id = groupData.group_id;
-    console.log('------------------------------');
-    console.log({
-      group_id: group_id,
-      title: title,
-      description: validatedDescription,
-      status_id: status_id,
-      is_deleted: false,
-      created_by: user.id,
-      updated_by: user.id,
-      expires_at: validatedDeadline
-        ? new Date(validatedDeadline).toISOString()
-        : null,
-      assigned_users: validatedAssignmentUser ? validatedAssignmentUser : null,
-    });
-    console.log('------------------------------');
 
     // タスクの作成
     const { error } = await supabase.from('tasks').insert([

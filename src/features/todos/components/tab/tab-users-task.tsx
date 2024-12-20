@@ -2,6 +2,8 @@
 
 import { Tab, TabHeader, TabItem } from '@/components/ui/tab';
 
+import { useMyTasks } from '../../api/get-my-tasks';
+
 /**
  * グループメンバーがいない場合
  * 自身のタスクを取得する
@@ -11,17 +13,27 @@ import { Tab, TabHeader, TabItem } from '@/components/ui/tab';
  */
 
 export const TabUsersTask = () => {
-  return (
-    <Tab defaultKey="test1">
+  const { myTasks, isLoading, error } = useMyTasks();
+  console.log(myTasks);
+
+  return isLoading ? (
+    <p>読み込み中です...</p>
+  ) : error ? (
+    <p>{error}</p>
+  ) : (
+    <Tab defaultKey="test1" className="mt-8">
       <TabHeader ariaLabel="タスクナビゲーション" />
-      <TabItem tabKey="test1" label="test1">
-        <p className="text-base">test1</p>
+      <TabItem tabKey="test1" label="対応中">
+        <p className="text-base">対応中</p>
       </TabItem>
-      <TabItem tabKey="test2" label="test2">
-        <p className="text-base">test2</p>
+      <TabItem tabKey="test2" label="未対応">
+        <p className="text-base">未対応</p>
       </TabItem>
-      <TabItem tabKey="test3" label="test3">
-        <p className="text-base">test3</p>
+      <TabItem tabKey="test3" label="保留">
+        <p className="text-base">保留</p>
+      </TabItem>
+      <TabItem tabKey="test4" label="完了">
+        <p className="text-base">完了</p>
       </TabItem>
     </Tab>
   );

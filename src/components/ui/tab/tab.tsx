@@ -97,7 +97,7 @@ const Tab = ({ children, defaultKey, className }: TabProps) => {
     >
       <div
         className={cn(
-          'w-full rounded-lg border border-muted shadow-lg bg-base',
+          'w-full rounded-lg border border-muted shadow-lg bg-base overflow-hidden',
           className,
         )}
       >
@@ -171,10 +171,10 @@ const TabHeader = ({ className, ariaLabel }: TabHeaderProps) => {
               ref={refs.current[tabKey]}
               tabIndex={tabKey === currentKey ? 0 : -1}
               className={cn(
-                'w-full px-4 py-2 text-center transition-colors duration-200 ease-in-out rounded-t-lg focus:outline-none focus:ring-2 focus:ring-primary',
+                'w-full px-4 py-2 text-center transition-colors duration-200 ease-in-out focus:outline-none',
                 tabKey === currentKey
                   ? 'bg-primary text-primary-foreground'
-                  : 'bg-muted text-foreground hover:bg-base',
+                  : 'bg-muted text-secondary hover:bg-primary hover:text-primary-foreground',
               )}
               onClick={() => {
                 setCurrentKey(tabKey);
@@ -237,7 +237,10 @@ const TabItem = ({ children, tabKey, className }: TabItemProps) => {
       id={`tabpanel-${tabKey}`}
       role="tabpanel"
       aria-labelledby={`tab-${tabKey}`}
-      className={cn('w-full p-4 bg-base-foreground text-base', className)}
+      className={cn(
+        'w-full p-4 bg-secondary text-secondary-foreground min-h-screen',
+        className,
+      )}
     >
       {children}
     </div>
