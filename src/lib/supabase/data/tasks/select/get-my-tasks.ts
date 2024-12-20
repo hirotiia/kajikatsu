@@ -7,9 +7,11 @@ import { getUser } from '@/lib/supabase/user/user';
 import { Result } from '@/types/result.types';
 import { Tables } from '@/types/supabase/database.types';
 
-type Task = Tables<'tasks'>;
+export type Task = Tables<'tasks'>;
 
-export const getMyTasks = async (): Promise<Result<Task[]>> => {
+export type MyTasksResponse = Result<Task[]>;
+
+export const getMyTasks = async (): Promise<MyTasksResponse> => {
   const supabase = await createClient();
 
   try {
@@ -35,6 +37,7 @@ export const getMyTasks = async (): Promise<Result<Task[]>> => {
     if (error instanceof Error) {
       errorMessage = error.message;
     }
+
     return { data: [], error: errorMessage };
   }
 };
