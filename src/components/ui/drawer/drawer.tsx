@@ -16,7 +16,6 @@ import React, {
 
 import { cn } from '@/utils/cn';
 
-import { Button } from '../button';
 // TODO: ドロワーメニューが閉じている時に中身のコンテンツにフォーカスされてしまうので修正する
 type DrawerContextType = {
   name: string;
@@ -104,16 +103,19 @@ const DrawerTrigger = ({
   const { name, setIsOpen, isOpen } = useContext(DrawerContext);
 
   return (
-    <Button
+    <button
       type="button"
       aria-expanded={isOpen}
       aria-controls={name}
-      className={cn('cursor-pointer', className)}
+      className={cn(
+        'cursor-pointer text-foreground bg-background py-2 px-4 hover:bg-foreground hover:text-background transition-colors duration-300 ease-in-out',
+        className,
+      )}
       onClick={() => setIsOpen((prev) => !prev)}
       {...props}
     >
       {children}
-    </Button>
+    </button>
   );
 };
 
