@@ -18,7 +18,7 @@ import { cn } from '@/utils/cn';
 type TabKey = string;
 type TabLabel = string | JSX.Element;
 
-type TabItemProps = {
+export type TabItemProps = {
   tabKey: TabKey;
   label: TabLabel;
   children: ReactNode;
@@ -26,7 +26,7 @@ type TabItemProps = {
 };
 
 type TabProps = {
-  children: ReactElement<TabItemProps> | ReactElement<TabItemProps>[];
+  children: React.ReactNode;
   defaultKey: TabKey;
   className?: string;
 };

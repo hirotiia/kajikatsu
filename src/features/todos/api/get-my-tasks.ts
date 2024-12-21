@@ -1,9 +1,10 @@
 'use client';
 
-import { Result } from 'postcss';
 import useSWR from 'swr';
 
-type MyTasks = {
+import { Result } from '@/types/result.types';
+
+export type MyTasks = {
   id: string;
   title: string;
   description: string | null;
@@ -25,8 +26,8 @@ export const useMyTasks = () => {
   );
 
   return {
-    myTasks: data,
+    myTasks: data?.data || [],
     isLoading,
-    error,
+    error: error || data?.error || null,
   };
 };
