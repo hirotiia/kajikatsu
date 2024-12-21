@@ -1,18 +1,22 @@
-import { NextResponse } from 'next/server';
-
 import { getMyTasks } from '@/lib/supabase/data/tasks/select/get-my-tasks';
 
 export async function GET() {
   const result = await getMyTasks();
 
   if (result.error) {
-    return NextResponse.json({ error: result.error }, { status: 400 });
+    return new Response(JSON.stringify({ error: result.error }), {
+      status: 400,
+      headers: { 'Content-Type': 'application/json' },
+    });
   }
 
   if (!result.data) {
-    return NextResponse.json(
-      { error: 'ユーザーが認証されていません。' },
-      { status: 401 },
+    return new Response(
+      JSON.stringify({ error: 'ユーザーが認証されていません。' }),
+      {
+        status: 401,
+        headers: { 'Content-Type': 'application/json' },
+      },
     );
   }
 
@@ -20,5 +24,8 @@ export async function GET() {
   console.log(result.data);
   console.log('------------------');
 
-  return NextResponse.json({ data: result.data }, { status: 200 });
+  return new Response(JSON.stringify({ data: result.data }), {
+    status: 200,
+    headers: { 'Content-Type': 'application/json' },
+  });
 }
