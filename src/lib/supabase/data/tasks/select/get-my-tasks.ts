@@ -9,9 +9,9 @@ import { Tables } from '@/types/supabase/database.types';
 
 export type Task = Tables<'tasks'>;
 
-export type MyTasksResponse = Result<Task[]>;
+export type TasksResponse = Result<Task[]>;
 
-export const getMyTasks = async (): Promise<MyTasksResponse> => {
+export const getMyTasks = async (): Promise<TasksResponse> => {
   const supabase = await createClient();
 
   try {

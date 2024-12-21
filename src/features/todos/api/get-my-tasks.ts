@@ -1,8 +1,20 @@
 'use client';
 
+import { Result } from 'postcss';
 import useSWR from 'swr';
 
-import { MyTasksResponse } from '@/lib/supabase/data/tasks/select/get-my-tasks';
+type MyTasks = {
+  id: string;
+  title: string;
+  description: string | null;
+  groupName: string | null;
+  statusName: string | null;
+  createdBy: string | null;
+  createdAt: string | null;
+  updatedAt: string | null;
+  expiresAt: string | null;
+};
+export type MyTasksResponse = Result<MyTasks[]>;
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
