@@ -30,7 +30,7 @@ export const TabUsersTask = () => {
             <ul>
               {tasksByStatus[status].map((task) => (
                 <li key={task.id} className="text-base">
-                  {task.title}
+                  <div>{task.title}</div>
                 </li>
               ))}
             </ul>
