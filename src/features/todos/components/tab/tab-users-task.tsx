@@ -1,3 +1,5 @@
+'use client';
+
 import { ReactElement } from 'react';
 
 import { TaskList } from '@/components/ui/list';
