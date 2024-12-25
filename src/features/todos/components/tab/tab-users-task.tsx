@@ -2,9 +2,9 @@
 
 import { ReactElement } from 'react';
 
-import { TaskList } from '@/components/ui/list';
 import { Tab, TabHeader, TabItem, TabItemProps } from '@/components/ui/tab';
 import { useMyTasks, MyTasks } from '@/features/todos/api/get-my-tasks';
+import { Tasks } from '@/features/todos/components/tasks/tasks';
 
 export const TabUsersTask = () => {
   const { myTasks, isLoading, error } = useMyTasks();
@@ -26,6 +26,7 @@ export const TabUsersTask = () => {
       title: task.title,
       description: task.description ?? undefined,
       expiresAt: task.expiresAt ?? undefined,
+      statusId: task.statusId ?? undefined,
     }));
 
   const renderTabItems = (
@@ -36,7 +37,7 @@ export const TabUsersTask = () => {
       (status): ReactElement<TabItemProps> => (
         <TabItem key={status} tabKey={status} label={status}>
           {tasksByStatus[status]?.length > 0 ? (
-            <TaskList listItems={formatTasksForList(tasksByStatus[status])} />
+            <Tasks listItems={formatTasksForList(tasksByStatus[status])} />
           ) : (
             <p className="text-base">タスクはありません。</p>
           )}

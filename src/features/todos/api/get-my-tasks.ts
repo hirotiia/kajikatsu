@@ -14,6 +14,7 @@ export type MyTasks = {
   createdAt: string | null;
   updatedAt: string | null;
   expiresAt: string | null;
+  statusId: string | null;
 };
 export type MyTasksResponse = Result<MyTasks[]>;
 

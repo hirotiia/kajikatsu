@@ -44,6 +44,7 @@ export const getMyTasks = async (): Promise<MyTasksResponse> => {
           name
         ),
         statuses (
+          id,
           status_name
         ),
         users!tasks_created_by_fkey (
@@ -64,6 +65,7 @@ export const getMyTasks = async (): Promise<MyTasksResponse> => {
         title: task.title,
         description: task.description,
         groupName: task.groups?.name || null,
+        statusId: task.statuses?.id || null,
         statusName: task.statuses?.status_name || null,
         createdBy: task.users?.username || null,
         createdAt: task.created_at,
