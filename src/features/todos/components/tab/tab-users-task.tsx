@@ -1,10 +1,8 @@
-'use client';
-
 import { ReactElement } from 'react';
 
+import { TaskList } from '@/components/ui/list';
 import { Tab, TabHeader, TabItem, TabItemProps } from '@/components/ui/tab';
-
-import { MyTasks, useMyTasks } from '../../api/get-my-tasks';
+import { useMyTasks, MyTasks } from '@/features/todos/api/get-my-tasks';
 
 export const TabUsersTask = () => {
   const { myTasks, isLoading, error } = useMyTasks();
@@ -19,6 +17,15 @@ export const TabUsersTask = () => {
     {},
   );
 
+  // タスクを TaskList に渡す形式に変換
+  const formatTasksForList = (tasks: MyTasks[]) =>
+    tasks.map((task) => ({
+      id: task.id,
+      title: task.title,
+      description: task.description ?? undefined,
+      expiresAt: task.expiresAt ?? undefined,
+    }));
+
   const renderTabItems = (
     statusList: string[],
     tasksByStatus: Record<string, MyTasks[]>,
@@ -27,13 +34,7 @@ export const TabUsersTask = () => {
       (status): ReactElement<TabItemProps> => (
         <TabItem key={status} tabKey={status} label={status}>
           {tasksByStatus[status]?.length > 0 ? (
-            <ul>
-              {tasksByStatus[status].map((task) => (
-                <li key={task.id} className="text-base">
-                  <div>{task.title}</div>
-                </li>
-              ))}
-            </ul>
+            <TaskList listItems={formatTasksForList(tasksByStatus[status])} />
           ) : (
             <p className="text-base">タスクはありません。</p>
           )}
