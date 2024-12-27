@@ -156,12 +156,12 @@ export const EditTask = ({
             </select>
           </div>
 
-          <div className="flex justify-end space-x-2">
-            <Button type="button" onClick={opener.close}>
-              キャンセル
-            </Button>
+          <div className="mt-8 flex flex-col justify-end">
             <Button type="submit" variant="default">
               保存
+            </Button>
+            <Button type="button" onClick={opener.close} variant="destructive">
+              キャンセル
             </Button>
           </div>
         </form>
