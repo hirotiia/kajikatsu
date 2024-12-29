@@ -30,6 +30,9 @@ export const Tasks = ({ listItems }: TasksProps) => {
                   : 'grid-cols-[1fr_auto]'
               } grid-rows-[auto_auto_auto] gap-x-2 gap-y-1 rounded-md bg-background p-4`}
             >
+              <p className="col-start-1 col-end-2 row-start-1 row-end-2 text-destructive">
+                期限日：{expiresAt ? expiresAt : 'なし'}
+              </p>
               {avatar_url && (
                 <div className="col-start-1 col-end-2">
                   <Image src={avatar_url} alt="アバター" />
@@ -53,12 +56,7 @@ export const Tasks = ({ listItems }: TasksProps) => {
                   概要：{description}
                 </p>
               )}
-
-              <p className="col-start-3 col-end-4 row-start-1 row-end-2 text-destructive">
-                期限日：{expiresAt ? expiresAt : 'なし'}
-              </p>
-              <p></p>
-              <div className="col-start-3 col-end-4 row-start-3 row-end-4 flex">
+              <div className="col-start-2 col-end-3 row-start-4 row-end-5 flex justify-end gap-2">
                 <EditTask
                   taskId={id}
                   title={title}

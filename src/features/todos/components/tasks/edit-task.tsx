@@ -46,15 +46,6 @@ export const EditTask = ({
       fieldsToUpdate.status_id = newStatus || null;
     }
 
-    console.log(`newTitle: ${newTitle}`);
-    console.log(`newDescription: ${newDescription}`);
-    console.log(`newExpiresAt: ${newExpiresAt}`);
-    console.log(`newStatus: ${newStatus}`);
-
-    console.log('----------------------------------');
-    console.log(fieldsToUpdate);
-    console.log('----------------------------------');
-
     if (Object.keys(fieldsToUpdate).length === 0) {
       opener.close();
       return;

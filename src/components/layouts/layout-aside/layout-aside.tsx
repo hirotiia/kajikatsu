@@ -1,7 +1,7 @@
 'use client';
 
 import {
-  ChartPie,
+  History,
   Home,
   Info,
   LucideProps,
@@ -28,7 +28,7 @@ export const LayoutAside = () => {
     { name: 'ダッシュボード', to: '/dashboard', icon: Home },
     { name: 'やることリスト', to: '/todos', icon: NotebookText },
     { name: 'グループ', to: '/group', icon: UserRoundPlus },
-    { name: '統計・レポート', to: '/report', icon: ChartPie },
+    { name: '履歴', to: '/history', icon: History },
     { name: '設定', to: '/settings', icon: Settings },
     { name: '通知', to: '/information', icon: Info },
   ].filter(Boolean) as SideNavigationItem[];

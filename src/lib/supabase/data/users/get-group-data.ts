@@ -14,7 +14,7 @@
 import { createClient } from '@/lib/supabase/server';
 import { Result } from '@/types/result.types';
 
-import { getGroup } from '../../group/group';
+import { getGroup } from '../../group/get-group';
 
 export type GroupMember = {
   user_id: string;

@@ -1,6 +1,6 @@
 'use server';
 
-import { getGroup } from '@/lib/supabase/group/group';
+import { getGroup } from '@/lib/supabase/group/get-group';
 import { createClient } from '@/lib/supabase/server';
 export const inviteGroup = async (
   state: any,

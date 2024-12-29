@@ -1,6 +1,6 @@
 'use server';
-// TODO:グループを削除するAPI
-import { getGroup } from '@/lib/supabase/group/group';
+
+import { getGroup } from '@/lib/supabase/group/get-group';
 import { createClient } from '@/lib/supabase/server';
 
 export const deleteGroup = async (): Promise<any | null> => {
