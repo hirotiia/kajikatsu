@@ -13,6 +13,5 @@ export default async function TaskHistoryPage() {
     return <div>グループが見つかりませんでした。</div>;
   }
 
-  // グループ情報をクライアントコンポーネントに渡す
   return <TaskHistoryPageClient groupId={group[0].group_id} />;
 }

@@ -82,6 +82,14 @@
   dialog::backdrop {
     background-color: rgba(0, 0, 0, 0.7);
   }
+
+  summary {
+    display: block;
+  }
+
+  summary::-webkit-details-marker {
+    display: none;
+  }
 }
 
 @layer utilities {

@@ -1,6 +1,7 @@
 'use client';
 import { useState, useEffect, useCallback } from 'react';
 
+import { Disclosure } from '@/components/ui/disclosure';
 import { createClient } from '@/lib/supabase/client';
 import { Tables } from '@/types/supabase/database.types';
 import { addAndSortHistory, formatHistoryItem } from '@/utils/task-history';
@@ -49,7 +50,6 @@ export default function TaskHistoryPageClient({
       )
       .subscribe();
 
-    // アンマウント時に購読解除
     return () => {
       supabase.removeChannel(channel);
     };
@@ -78,6 +78,7 @@ export default function TaskHistoryPageClient({
           </div>
         );
       })}
+      <Disclosure id="id" avatar="/avatar.svg" action="update" />
     </div>
   );
 }
