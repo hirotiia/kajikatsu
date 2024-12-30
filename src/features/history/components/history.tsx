@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { Disclosure } from '@/components/ui/disclosure';
 import { createClient } from '@/lib/supabase/client';
 import { Tables } from '@/types/supabase/database.types';
-import { addAndSortHistory, formatHistoryItem } from '@/utils/task-history';
+import { addAndSortHistory } from '@/utils/task-history';
 
 export default function TaskHistoryPageClient({
   groupId,
@@ -55,10 +55,12 @@ export default function TaskHistoryPageClient({
     };
   }, [groupId, fetchInitialHistory, supabase]);
 
+  console.log(historyList);
+
   return (
     <div>
       <h1>Task History</h1>
-      {historyList.map((item) => {
+      {/* {historyList.map((item) => {
         const { displayTime, displayAction } = formatHistoryItem(item);
         console.log(displayAction);
         return (
@@ -77,8 +79,10 @@ export default function TaskHistoryPageClient({
             </pre>
           </div>
         );
-      })}
-      <Disclosure id="id" avatar="/avatar.svg" action="update" />
+      })} */}
+      <Disclosure id="id" avatar="/avatar.svg" action="update">
+        <p>コンテンツ</p>
+      </Disclosure>
     </div>
   );
 }
