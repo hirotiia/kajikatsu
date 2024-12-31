@@ -6,11 +6,7 @@ import { createClient } from '@/lib/supabase/client';
 import { Tables } from '@/types/supabase/database.types';
 import { addAndSortHistory } from '@/utils/task-history';
 
-export default function TaskHistoryPageClient({
-  groupId,
-}: {
-  groupId: string;
-}) {
+export const TaskHistoryPageClient = ({ groupId }: { groupId: string }) => {
   const [historyList, setHistoryList] = useState<Tables<'task_history'>[]>([]);
   const supabase = createClient();
 
@@ -30,10 +26,8 @@ export default function TaskHistoryPageClient({
   }, [groupId, supabase]);
 
   useEffect(() => {
-    // 初期ロード
     fetchInitialHistory();
 
-    // Supabase リアルタイム購読を設定
     const channel = supabase
       .channel('task_history-changes')
       .on(
@@ -58,31 +52,10 @@ export default function TaskHistoryPageClient({
   console.log(historyList);
 
   return (
-    <div>
-      <h1>Task History</h1>
-      {/* {historyList.map((item) => {
-        const { displayTime, displayAction } = formatHistoryItem(item);
-        console.log(displayAction);
-        return (
-          <div
-            key={item.id}
-            style={{
-              border: '1px solid #ccc',
-              margin: '8px 0',
-              padding: '8px',
-            }}
-          >
-            <p>{displayTime}</p>
-            <p>{displayAction}</p>
-            <pre style={{ whiteSpace: 'pre-wrap' }}>
-              {JSON.stringify(item.details, null, 2)}
-            </pre>
-          </div>
-        );
-      })} */}
-      <Disclosure id="id" avatar="/avatar.svg" action="update">
-        <p>コンテンツ</p>
-      </Disclosure>
-    </div>
+    <Disclosure
+      id="id"
+      overview="update"
+      detail="タスクをアップデートしました。"
+    ></Disclosure>
   );
-}
+};

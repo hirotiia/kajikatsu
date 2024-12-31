@@ -1,4 +1,5 @@
-import { ChevronDown } from 'lucide-react';
+import { ChevronDown, UserRound } from 'lucide-react';
+import Image from 'next/image';
 import React, {
   useEffect,
   useRef,
@@ -7,26 +8,23 @@ import React, {
   TransitionEvent,
 } from 'react';
 
-import { Json } from '@/types/supabase/database.types';
+type IconType = string | React.ReactElement;
 
 type DisclosureProps = {
   id: string;
-  avatar?: string;
-  action: string;
-  detail?: Json;
-  children: React.ReactNode;
+  icon?: IconType;
+  overview: string;
+  detail: string;
   defaultOpen?: boolean;
 };
 
 export const Disclosure = ({
   id,
-  avatar = '',
-  action,
+  icon = '',
+  overview,
   detail,
-  children,
   defaultOpen = false,
 }: DisclosureProps) => {
-  console.log(detail);
   const [isOpen, setIsOpen] = useState(defaultOpen);
   const detailsRef = useRef<HTMLDetailsElement>(null);
   const [maxHeight, setMaxHeight] = useState('0px');
@@ -62,6 +60,16 @@ export const Disclosure = ({
     }
   };
 
+  const renderIcon = () => {
+    if (!icon) {
+      return <UserRound size="30">デフォルトアイコン</UserRound>;
+    }
+    if (typeof icon === 'string') {
+      return <Image alt="アバター" src={icon} width="30" height="30" />;
+    }
+    return icon;
+  };
+
   return (
     <details
       className="group overflow-hidden rounded border"
@@ -73,7 +81,11 @@ export const Disclosure = ({
         onClick={handleSummaryClick}
         className="flex cursor-pointer list-none justify-between bg-base p-3 text-base-foreground"
       >
-        <span>ディスクロージャー</span>
+        <div className="flex items-center gap-2">
+          {renderIcon()}
+          <span>{overview}</span>
+        </div>
+
         <span className="ml-2 flex items-center">
           <ChevronDown
             className={`
@@ -98,10 +110,9 @@ export const Disclosure = ({
         "
       >
         <div className="p-3">
-          {children}
           <p>id: {id}</p>
-          <p>avatar: {avatar}</p>
-          <p>action: {action}</p>
+          <p>icon: {icon}</p>
+          <p>{detail}</p>
         </div>
       </div>
     </details>
