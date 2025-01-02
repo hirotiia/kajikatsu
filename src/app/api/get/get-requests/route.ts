@@ -42,7 +42,6 @@ export async function GET(req: Request) {
     .single();
 
   if (userGroupError || !userGroup) {
-    console.log('------エラー処理発生-------');
     return new Response(
       JSON.stringify({
         error:

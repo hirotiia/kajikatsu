@@ -13,15 +13,19 @@ import {
   FormInput,
 } from '@/components/ui/form';
 import { useNotifications } from '@/components/ui/notifications';
-import { GroupResponse } from '@/lib/supabase/data/users/get-group-data';
+import { GroupMember } from '@/lib/supabase/data/users/get-group-members';
 
 import { SelectUsers } from '../select/select-users';
 
-type groupInfoProps = {
-  groupInfo: GroupResponse;
+type FormCreateTaskProps = {
+  groupMembers: GroupMember[];
+  joinedGroup: boolean;
 };
 
-export const FormCreateTask = ({ groupInfo }: groupInfoProps) => {
+export const FormCreateTask = ({
+  groupMembers,
+  joinedGroup,
+}: FormCreateTaskProps) => {
   const initialState = {
     type: '',
     status: null,
@@ -29,7 +33,6 @@ export const FormCreateTask = ({ groupInfo }: groupInfoProps) => {
   };
   const [state, createTaskAction] = useFormState(createTask, initialState);
   const { addNotification } = useNotifications();
-  const { group_members } = groupInfo;
   const { setIsOpen } = useContext(DrawerContext);
 
   useEffect(() => {
@@ -73,9 +76,9 @@ export const FormCreateTask = ({ groupInfo }: groupInfoProps) => {
         layout="vertical"
         className="mt-4"
       />
-      {group_members.length > 0 && (
+      {joinedGroup && (
         <SelectUsers
-          users={group_members}
+          users={groupMembers}
           id="assignment"
           label="担当者"
           name="assignment"

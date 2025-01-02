@@ -1,6 +1,5 @@
 import { FormSelect } from '@/components/ui/form';
-import { GroupMember } from '@/lib/supabase/data/users/get-group-data';
-
+import { GroupMember } from '@/lib/supabase/data/users/get-group-members';
 type SelectUsersProps = {
   users: GroupMember[];
   id: string;

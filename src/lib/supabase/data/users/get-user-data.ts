@@ -31,8 +31,24 @@ export async function getUserData(userId: string): Promise<UserData | null> {
     .single();
 
   if (error || !data) {
-    console.error('[getUserData] error:', error);
-    return null;
+    const { data: userData } = await supabase
+      .from('users')
+      .select(
+        `
+          username,
+          avatar_url
+        `,
+      )
+      .eq('id', userId)
+      .single();
+
+    return {
+      userId: userId,
+      userName: userData?.username ?? null,
+      userAvatarUrl: userData?.avatar_url ?? null,
+      groupId: null,
+      groupName: null,
+    };
   }
 
   return {

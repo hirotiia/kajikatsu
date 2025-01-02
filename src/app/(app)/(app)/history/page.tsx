@@ -19,8 +19,6 @@ export default async function TaskHistoryPage() {
     return <p>データが見つかりませんでした。</p>;
   }
 
-  console.log(`userName: ${userData.userName}`);
-
   if (error) {
     console.error('Error fetching group:', error);
     return <div>エラーが発生しました。</div>;

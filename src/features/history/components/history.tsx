@@ -100,12 +100,6 @@ export const TaskHistoryPageClient = ({
     loadHistoryData();
   }, [historyList]);
 
-  console.log('-----------------');
-  console.log(historyList);
-  console.log('-----------------');
-  console.log(historyData);
-  console.log('-----------------');
-
   // UI 表示
   return (
     <div className="grid gap-y-3">

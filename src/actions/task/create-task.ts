@@ -66,7 +66,7 @@ export const createTask = async (
       .eq('user_id', user.id)
       .single();
 
-    if (groupError || !groupData) {
+    if (groupError) {
       throw new Error('グループ情報の取得に失敗しました。');
     }
 
