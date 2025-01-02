@@ -13,7 +13,7 @@ export const JoinRequestList = ({ userId }: JoinRequestListProps) => {
   const { addNotification } = useNotifications();
 
   const handleApprove = async (requestId: string) => {
-    // APIで参加リクエストを承認（例: /api/approve-request）
+    // APIで参加リクエストを承認
     const response = await fetch(`/api/post/approve-request`, {
       method: 'POST',
       body: JSON.stringify({ requestId }),
@@ -25,24 +25,22 @@ export const JoinRequestList = ({ userId }: JoinRequestListProps) => {
       status: response.status,
       message: json.message as string,
     });
-    mutate(); // キャッシュを再フェッチ
+    mutate();
   };
 
   const handleReject = async (requestId: string) => {
-    // APIで参加リクエストを拒否（例: /api/reject-request）
     await fetch(`/api/post/reject-request`, {
       method: 'POST',
       body: JSON.stringify({ requestId }),
     });
-    mutate(); // キャッシュを再フェッチ
+    mutate();
   };
 
   if (isLoading) return <p>Loading...</p>;
-  if (error) return <p>Error loading join requests</p>;
 
   return (
     <div>
-      {joinRequests?.length === 0 ? (
+      {joinRequests?.length === 0 || error ? (
         <p>お知らせはありません。</p>
       ) : (
         <>

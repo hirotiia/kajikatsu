@@ -35,9 +35,7 @@ export default async function TaskHistoryPage() {
       <Heading as="h1" className="mb-8 mt-3">
         履歴
       </Heading>
-      <TaskHistoryPageClient
-        groupId={userData.groupId ? userData.groupId : ''}
-      />
+      <TaskHistoryPageClient userData={userData} />
     </>
   );
 }

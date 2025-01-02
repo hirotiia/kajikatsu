@@ -1,4 +1,4 @@
-import { createClient } from '@/lib/supabase/server';
+import { createClient } from '@/lib/supabase/client';
 
 export type UserData = {
   userId: string;
@@ -14,8 +14,10 @@ export type UserData = {
  * - groupsテーブル (name)
  * を結合し、ユーザーが所属するグループ情報をまとめて返却する。
  */
-export async function getUserData(userId: string): Promise<UserData | null> {
-  const supabase = await createClient();
+export async function getUserDataClient(
+  userId: string,
+): Promise<UserData | null> {
+  const supabase = createClient();
 
   const { data, error } = await supabase
     .from('user_groups')
