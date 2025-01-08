@@ -277,7 +277,7 @@ export type Database = {
           created_by: string;
           description: string | null;
           expires_at: string | null;
-          group_id: string;
+          group_id: string | null;
           id: string;
           is_deleted: boolean;
           status_id: string;
@@ -291,7 +291,7 @@ export type Database = {
           created_by: string;
           description?: string | null;
           expires_at?: string | null;
-          group_id: string;
+          group_id: string | null;
           id?: string;
           is_deleted?: boolean;
           status_id: string;
@@ -305,7 +305,7 @@ export type Database = {
           created_by?: string;
           description?: string | null;
           expires_at?: string | null;
-          group_id?: string;
+          group_id?: string | null;
           id?: string;
           is_deleted?: boolean;
           status_id?: string;

@@ -1,5 +1,9 @@
 'use server';
 
+import { createServerClient } from '@supabase/ssr';
+
+import { fetchStatusId } from '@/lib/supabase/data/statuses/select/fetch-status-id';
+import { fetchGroupId } from '@/lib/supabase/data/user-groups/select/fetch-group-id';
 import { createClient } from '@/lib/supabase/server';
 import { getUser } from '@/lib/supabase/user/user';
 
@@ -17,6 +21,59 @@ export interface CreateTaskError {
 
 export type CreateTaskResult = CreateTaskSuccess | CreateTaskError;
 
+/**
+ * タスクを作成する際の入力データの型
+ */
+interface TaskInput {
+  title: string;
+  statusName: string;
+  deadline: string | null;
+  description: string | null;
+  assigneeId: string | null;
+}
+
+/**
+ * タスクを DB に挿入するための関数
+ */
+async function insertTask(
+  supabase: ReturnType<typeof createServerClient>,
+  {
+    groupId,
+    title,
+    description,
+    statusId,
+    userId,
+    deadline,
+    assigneeId,
+  }: {
+    groupId: string | null;
+    title: string;
+    description: string | null;
+    statusId: string;
+    userId: string;
+    deadline: string | null;
+    assigneeId: string | null;
+  },
+): Promise<void> {
+  const { error } = await supabase.from('tasks').insert([
+    {
+      group_id: groupId,
+      title,
+      description,
+      status_id: statusId,
+      is_deleted: false,
+      created_by: userId,
+      updated_by: userId,
+      expires_at: deadline ? new Date(deadline).toISOString() : null,
+      assignee_id: assigneeId,
+    },
+  ]);
+
+  if (error) {
+    throw new Error(`タスクの作成に失敗しました: ${error.message}`);
+  }
+}
+
 export const createTask = async (
   state: any,
   formData: FormData,
@@ -29,69 +86,42 @@ export const createTask = async (
       throw new Error('ユーザーが認証されていません。');
     }
 
+    // フォームからユーザーの入力情報を取得
     const title = formData.get('title');
-    const status = formData.get('status');
+    const statusName = formData.get('status');
     const deadline = formData.get('deadline') ?? null;
     const description = formData.get('description') ?? null;
     const assignmentUser = formData.get('assignment') ?? null;
 
-    if (typeof title !== 'string' || typeof status !== 'string') {
+    if (typeof title !== 'string' || typeof statusName !== 'string') {
       throw new Error('タイトルとステータスは必須です。');
     }
 
-    // 型フィルターをかける
-    const validatedDeadline = typeof deadline === 'string' ? deadline : null;
-    const validatedDescription =
-      typeof description === 'string' ? description : null;
-    const validatedAssignmentUser =
-      typeof assignmentUser === 'string' ? assignmentUser : null;
+    // 最終的にDBに保存されるデータ
+    const taskInput: TaskInput = {
+      title,
+      statusName,
+      deadline: typeof deadline === 'string' ? deadline : null,
+      description: typeof description === 'string' ? description : null,
+      assigneeId: typeof assignmentUser === 'string' ? assignmentUser : null,
+    };
 
     // `statuses` テーブルから `status_id` を取得
-    const { data: statusData, error: statusError } = await supabase
-      .from('statuses')
-      .select('id')
-      .eq('status_name', status)
-      .single();
+    const statusId = await fetchStatusId(supabase, taskInput.statusName);
 
-    if (statusError || !statusData) {
-      throw new Error('無効なステータスが選択されました。');
-    }
+    // groupId の取得
+    const groupId = await fetchGroupId(supabase, user.id);
 
-    const status_id = statusData.id;
-
-    // ユーザーの所属しているグループを取得
-    const { data: groupData, error: groupError } = await supabase
-      .from('user_groups')
-      .select('group_id')
-      .eq('user_id', user.id)
-      .single();
-
-    if (groupError) {
-      throw new Error('グループ情報の取得に失敗しました。');
-    }
-
-    const group_id = groupData.group_id;
-
-    // タスクの作成
-    const { error } = await supabase.from('tasks').insert([
-      {
-        group_id: group_id,
-        title: title,
-        description: validatedDescription,
-        status_id: status_id,
-        is_deleted: false,
-        created_by: user.id,
-        updated_by: user.id,
-        expires_at: validatedDeadline
-          ? new Date(validatedDeadline).toISOString()
-          : null,
-        assignee_id: validatedAssignmentUser ? validatedAssignmentUser : null,
-      },
-    ]);
-
-    if (error) {
-      throw new Error(error.message);
-    }
+    // タスク挿入
+    await insertTask(supabase, {
+      groupId,
+      title: taskInput.title,
+      description: taskInput.description,
+      statusId,
+      userId: user.id,
+      deadline: taskInput.deadline,
+      assigneeId: taskInput.assigneeId,
+    });
 
     return {
       type: 'success',

@@ -6,8 +6,8 @@ import { getUser } from '@/lib/supabase/user/user';
 
 export default async function TaskHistoryPage() {
   const { group, error } = await getGroup();
-  // ログインユーザー情報を取得
   const { user, authError } = await getUser();
+
   if (!user || authError) {
     console.error('[getUserData] ユーザー情報の取得に失敗しました:', authError);
     return null;

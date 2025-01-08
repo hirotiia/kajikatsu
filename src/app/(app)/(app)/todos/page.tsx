@@ -33,12 +33,7 @@ export default async function TodosPage() {
     );
   }
 
-  console.log(`user.id: ${user.id}`);
   const data = await getUserData(user.id);
-
-  console.log('-----------------------');
-  console.log(data);
-  console.log('-----------------------');
 
   if (!data) {
     return <p>ユーザー情報の取得に失敗しました。</p>;
