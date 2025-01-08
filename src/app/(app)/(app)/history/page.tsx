@@ -1,11 +1,9 @@
 import { Heading } from '@/components/ui/heading';
 import { TaskHistoryPageClient } from '@/features/history/components/history';
 import { getUserData } from '@/lib/supabase/data/users/get-user-data';
-import { getGroup } from '@/lib/supabase/group/get-group';
 import { getUser } from '@/lib/supabase/user/user';
 
 export default async function TaskHistoryPage() {
-  const { group, error } = await getGroup();
   const { user, authError } = await getUser();
 
   if (!user || authError) {
@@ -17,15 +15,6 @@ export default async function TaskHistoryPage() {
 
   if (!userData) {
     return <p>データが見つかりませんでした。</p>;
-  }
-
-  if (error) {
-    console.error('Error fetching group:', error);
-    return <div>エラーが発生しました。</div>;
-  }
-
-  if (!group || group.length === 0) {
-    return <div>グループが見つかりませんでした。</div>;
   }
 
   return (

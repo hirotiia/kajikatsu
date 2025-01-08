@@ -12,7 +12,6 @@ import { UserData } from '@/lib/supabase/data/users/get-user-data';
 import { getUserDataClient } from '@/lib/supabase/data/users/get-user-data-client';
 import { Tables } from '@/types/supabase/database.types';
 import { extractChangedFields } from '@/utils/extract-changed-fields';
-import { addAndSortHistory } from '@/utils/task-history';
 
 type TaskHistoryPageClientProps = {
   userData: UserData;
@@ -48,32 +47,8 @@ export const TaskHistoryPageClient = ({
     }
   }, [userData.groupId, supabase]);
 
-  // リアルタイム購読
   useEffect(() => {
     fetchInitialHistory();
-
-    const channel = supabase
-      .channel('task_history-changes')
-      .on(
-        'postgres_changes',
-        {
-          event: 'INSERT',
-          schema: 'public',
-          table: 'task_history',
-        },
-        (payload) => {
-          const newRow = payload.new as Tables<'task_history'>;
-          setHistoryList((prev) => addAndSortHistory(prev, newRow));
-        },
-      )
-      .subscribe();
-
-    return () => {
-      supabase.removeChannel(channel);
-    };
-  }, [userData.groupId, fetchInitialHistory, supabase]);
-
-  useEffect(() => {
     const loadHistoryData = async () => {
       const result = await Promise.all(
         historyList.map(async (item) => {
@@ -98,7 +73,7 @@ export const TaskHistoryPageClient = ({
     };
 
     loadHistoryData();
-  }, [historyList]);
+  }, [fetchInitialHistory, historyList]);
 
   // UI 表示
   return (
