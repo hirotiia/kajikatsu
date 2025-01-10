@@ -17,18 +17,18 @@ type TaskHistoryPageClientProps = {
   userData: UserData;
 };
 
+type HistoryData = {
+  id: string;
+  userName: string;
+  avatar: string;
+  diffString: string;
+};
+
 export const TaskHistoryPageClient = ({
   userData,
 }: TaskHistoryPageClientProps) => {
   const [historyList, setHistoryList] = useState<Tables<'task_history'>[]>([]);
-  const [historyData, setHistoryData] = useState<
-    {
-      id: string;
-      userName: string;
-      avatar: string;
-      diffString: string;
-    }[]
-  >([]);
+  const [historyData, setHistoryData] = useState<HistoryData[]>([]);
   const supabase = createClient();
 
   const fetchInitialHistory = useCallback(async () => {
