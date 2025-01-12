@@ -1,5 +1,5 @@
 import { Heading } from '@/components/ui/heading';
-import { TaskHistoryPageClient } from '@/features/history/components/history';
+import { TaskHistoryPageClient } from '@/features/history/components/task-history-page-client';
 import { getUserData } from '@/lib/supabase/data/users/get-user-data';
 import { getUser } from '@/lib/supabase/user/user';
 
