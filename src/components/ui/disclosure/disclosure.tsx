@@ -1,4 +1,4 @@
-import { ChevronDown, UserRound } from 'lucide-react';
+import { ChevronDown, CircleUserRound } from 'lucide-react';
 import Image from 'next/image';
 import React, {
   useEffect,
@@ -62,7 +62,7 @@ export const Disclosure = ({
 
   const renderIcon = () => {
     if (!icon) {
-      return <UserRound size="30">デフォルトアイコン</UserRound>;
+      return <CircleUserRound size="30">デフォルトアイコン</CircleUserRound>;
     }
     if (typeof icon === 'string') {
       return <Image alt="アバター" src={icon} width="30" height="30" />;
