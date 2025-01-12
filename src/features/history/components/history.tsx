@@ -4,13 +4,13 @@
  * グループのメンバーの場合、グループ内の変更タスクを取得
  * グループのメンバーではない場合、自分の変更履歴を取得
  */
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
+import useSWR from 'swr';
 
 import { Disclosure } from '@/components/ui/disclosure';
-import { createClient } from '@/lib/supabase/client';
+import { getTaskHistoryForClient } from '@/lib/supabase/data/task-history/select/get-task-history-for-client';
 import { UserData } from '@/lib/supabase/data/users/get-user-data';
 import { getUserDataClient } from '@/lib/supabase/data/users/get-user-data-client';
-import { Tables } from '@/types/supabase/database.types';
 import { extractChangedFields } from '@/utils/extract-changed-fields';
 
 type TaskHistoryPageClientProps = {
@@ -27,29 +27,21 @@ type HistoryData = {
 export const TaskHistoryPageClient = ({
   userData,
 }: TaskHistoryPageClientProps) => {
-  const [historyList, setHistoryList] = useState<Tables<'task_history'>[]>([]);
   const [historyData, setHistoryData] = useState<HistoryData[]>([]);
-  const supabase = createClient();
-
-  const fetchInitialHistory = useCallback(async () => {
-    // グループIDがある場合のクエリ例
-    const { data, error } = await supabase
-      .from('task_history')
-      .select('*')
-      .filter('details->old->>group_id', 'eq', userData.groupId)
-      .order('changed_at', { ascending: false });
-
-    if (data) {
-      setHistoryList(data as Tables<'task_history'>[]);
-    }
-    if (error) {
-      console.error('Error fetching task history:', error);
-    }
-  }, [userData.groupId, supabase]);
+  const { data: historyList, error } = useSWR(
+    ['taskHistory', userData.userId, userData.groupId],
+    // データ取得関数
+    () =>
+      getTaskHistoryForClient({
+        userId: userData.userId,
+        groupId: userData.groupId,
+      }),
+  );
 
   useEffect(() => {
-    fetchInitialHistory();
-    const loadHistoryData = async () => {
+    if (!historyList) return;
+
+    (async () => {
       const result = await Promise.all(
         historyList.map(async (item) => {
           const user = await getUserDataClient(item.changed_by);
@@ -70,12 +62,17 @@ export const TaskHistoryPageClient = ({
         }),
       );
       setHistoryData(result);
-    };
+    })();
+  }, [historyList]);
 
-    loadHistoryData();
-  }, [fetchInitialHistory, historyList]);
+  if (error) {
+    return <div>Error loading task history: {error.message}</div>;
+  }
 
-  // UI 表示
+  if (!historyList) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <div className="grid gap-y-3">
       {historyData.map((h) => (
