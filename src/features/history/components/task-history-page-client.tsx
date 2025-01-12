@@ -10,7 +10,7 @@ import useSWR from 'swr';
 import { Disclosure } from '@/components/ui/disclosure';
 import { getTaskHistoryForClient } from '@/lib/supabase/data/task-history/select/get-task-history-for-client';
 import { UserData } from '@/lib/supabase/data/users/get-user-data';
-import { getUserDataClient } from '@/lib/supabase/data/users/get-user-data-client';
+import { getUserProfileClient } from '@/lib/supabase/data/users/get-user-profile-client';
 import { extractChangedFields } from '@/utils/extract-changed-fields';
 
 type TaskHistoryPageClientProps = {
@@ -44,9 +44,10 @@ export const TaskHistoryPageClient = ({
     (async () => {
       const result = await Promise.all(
         historyList.map(async (item) => {
-          const user = await getUserDataClient(item.changed_by);
-          const userName = user?.userName ?? 'unknown user';
-          const avatar = user?.userAvatarUrl ?? '';
+          const user = await getUserProfileClient(item.changed_by);
+
+          const userName = user?.username ?? 'unknown user';
+          const avatar = user?.avatar_url ?? '';
 
           const diff = extractChangedFields(item.details);
           const diffString = diff
