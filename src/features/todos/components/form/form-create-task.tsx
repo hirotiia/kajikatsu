@@ -36,9 +36,6 @@ export const FormCreateTask = ({
   const { setIsOpen } = useContext(DrawerContext);
 
   useEffect(() => {
-    console.log('--------------');
-    console.log(state);
-    console.log('--------------');
     if (state.status !== null) {
       addNotification(state);
       // ドロワーを閉じる
