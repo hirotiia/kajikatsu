@@ -209,11 +209,11 @@ export type Database = {
       statuses: {
         Row: {
           id: string;
-          status_name: string;
+          status_name: string | null;
         };
         Insert: {
           id?: string;
-          status_name: string;
+          status_name: string | null;
         };
         Update: {
           id?: string;
