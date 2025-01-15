@@ -50,9 +50,15 @@ export const TaskHistoryPageClient = ({
           const avatar = user?.avatar_url ?? '';
 
           const diff = extractChangedFields(item.details);
-          const diffString = diff
-            ? JSON.stringify(diff, null, 2)
-            : 'No Changes';
+          let diffString: string;
+          if (!diff) {
+            diffString = 'No Changes';
+          } else {
+            const lines = Object.entries(diff).map(([, val]) => {
+              return `"${val.old}" を "${val.new}" に更新しました。`;
+            });
+            diffString = lines.join('\n');
+          }
 
           return {
             id: item.id,
