@@ -110,8 +110,6 @@ export const Disclosure = ({
         "
       >
         <div className="p-3">
-          <p>id: {id}</p>
-          <p>icon: {icon}</p>
           <p>{detail}</p>
         </div>
       </div>
