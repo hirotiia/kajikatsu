@@ -10,14 +10,14 @@ export function extractChangedFields(details: any) {
   const newData = details.new;
   const allKeys = new Set([...Object.keys(oldData), ...Object.keys(newData)]);
 
-  const diff: Record<string, any> = {};
+  const diff: Record<string, { old: any; new: any }> = {};
 
   for (const key of allKeys) {
     const oldVal = oldData[key];
     const newVal = newData[key];
 
     if (oldVal !== newVal) {
-      diff[key] = newVal;
+      diff[key] = { old: oldVal, new: newVal };
     }
   }
 

@@ -74,6 +74,8 @@ export const TaskHistoryPageClient = ({
     return <div>Loading...</div>;
   }
 
+  console.log(historyData);
+
   return (
     <div className="grid gap-y-3">
       {historyData.map((h) => (
