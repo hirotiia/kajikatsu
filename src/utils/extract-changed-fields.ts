@@ -24,5 +24,7 @@ export function extractChangedFields(details: any) {
   if (Object.keys(diff).length === 0) {
     return null;
   }
+
+  console.log(diff);
   return diff;
 }
