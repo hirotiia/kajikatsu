@@ -57,9 +57,8 @@ export const TaskHistoryPageClient = ({
           let diffString: string;
 
           if (!diff) {
-            diffString = 'No Changes';
+            diffString = '変更なし';
           } else {
-            // 分岐処理して文字列配列を返す
             const lines = await buildDiffMessages(diff);
             // 複数行をつなぐ
             diffString = lines.join('\n');
