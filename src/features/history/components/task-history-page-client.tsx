@@ -91,15 +91,32 @@ export const TaskHistoryPageClient = ({
 
   return (
     <div className="grid gap-y-3">
-      {historyData.map((h) => (
-        <Disclosure
-          key={h.id}
-          id={h.id}
-          overview={`${h.userName} が${h.action}しました。`}
-          detail={h.diffString}
-          icon={h.avatar}
-        />
-      ))}
+      {historyData.map((h) => {
+        let action;
+        switch (h.action) {
+          case 'updated':
+            action = 'タスクを更新';
+            break;
+          case 'deleted':
+            action = 'タスクを削除';
+            break;
+          case 'created':
+            action = 'タスクを作成';
+            break;
+
+          default:
+            break;
+        }
+        return (
+          <Disclosure
+            key={h.id}
+            id={h.id}
+            overview={`${h.userName} が${action}しました。`}
+            detail={h.diffString}
+            icon={h.avatar}
+          />
+        );
+      })}
     </div>
   );
 };
