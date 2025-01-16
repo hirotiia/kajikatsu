@@ -25,6 +25,5 @@ export function extractChangedFields(details: any) {
     return null;
   }
 
-  console.log(diff);
   return diff;
 }

@@ -42,7 +42,6 @@ export async function buildDiffMessages(diff: DiffObject): Promise<string[]> {
       return `タイトルを「${val.old}」から「${val.new}」に変更しました。`;
     }),
   );
-  console.log(messages);
 
   return messages;
 }

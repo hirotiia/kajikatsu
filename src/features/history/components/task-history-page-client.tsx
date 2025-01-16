@@ -8,6 +8,7 @@ import { useState, useEffect } from 'react';
 import useSWR from 'swr';
 
 import { Disclosure } from '@/components/ui/disclosure';
+import { fetchActionNameById } from '@/lib/supabase/data/actions/select/fetch-action-name-by-id';
 import { getTaskHistoryForClient } from '@/lib/supabase/data/task-history/select/get-task-history-for-client';
 import { UserData } from '@/lib/supabase/data/users/get-user-data';
 import { getUserProfileClient } from '@/lib/supabase/data/users/get-user-profile-client';
@@ -47,6 +48,7 @@ export const TaskHistoryPageClient = ({
       const result = await Promise.all(
         historyList.map(async (item) => {
           const user = await getUserProfileClient(item.changed_by);
+          const action = await fetchActionNameById(item.action_id);
 
           const userName = user?.username ?? 'unknown user';
           const avatar = user?.avatar_url ?? '';
@@ -68,6 +70,7 @@ export const TaskHistoryPageClient = ({
             userName,
             avatar,
             diffString,
+            action,
           };
         }),
       );
@@ -82,6 +85,8 @@ export const TaskHistoryPageClient = ({
   if (!historyList) {
     return <div>Loading...</div>;
   }
+
+  console.log(historyData);
 
   return (
     <div className="grid gap-y-3">
