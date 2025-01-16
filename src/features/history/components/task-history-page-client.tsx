@@ -13,6 +13,8 @@ import { UserData } from '@/lib/supabase/data/users/get-user-data';
 import { getUserProfileClient } from '@/lib/supabase/data/users/get-user-profile-client';
 import { extractChangedFields } from '@/utils/extract-changed-fields';
 
+import { buildDiffMessages } from '../api/build-diff-messages';
+
 type TaskHistoryPageClientProps = {
   userData: UserData;
 };
@@ -51,12 +53,13 @@ export const TaskHistoryPageClient = ({
 
           const diff = extractChangedFields(item.details);
           let diffString: string;
+
           if (!diff) {
             diffString = 'No Changes';
           } else {
-            const lines = Object.entries(diff).map(([, val]) => {
-              return `"${val.old}" を "${val.new}" に更新しました。`;
-            });
+            // 分岐処理して文字列配列を返す
+            const lines = await buildDiffMessages(diff);
+            // 複数行をつなぐ
             diffString = lines.join('\n');
           }
 
