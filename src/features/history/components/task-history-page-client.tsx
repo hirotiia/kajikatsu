@@ -25,6 +25,7 @@ type HistoryData = {
   userName: string;
   avatar: string;
   diffString: string;
+  action: string;
 };
 
 export const TaskHistoryPageClient = ({
@@ -48,8 +49,9 @@ export const TaskHistoryPageClient = ({
       const result = await Promise.all(
         historyList.map(async (item) => {
           const user = await getUserProfileClient(item.changed_by);
-          const action = await fetchActionNameById(item.action_id);
+          const action_name = await fetchActionNameById(item.action_id);
 
+          const action = action_name ?? '';
           const userName = user?.username ?? 'unknown user';
           const avatar = user?.avatar_url ?? '';
 
@@ -93,7 +95,7 @@ export const TaskHistoryPageClient = ({
         <Disclosure
           key={h.id}
           id={h.id}
-          overview={`${h.userName} が更新しました。`}
+          overview={`${h.userName} が${h.action}しました。`}
           detail={h.diffString}
           icon={h.avatar}
         />
