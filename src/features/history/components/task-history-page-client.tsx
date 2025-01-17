@@ -115,7 +115,7 @@ export const TaskHistoryPageClient = ({
         if (!h.diffString) {
           return (
             <div
-              className="flex items-center gap-2 rounded border bg-white p-3"
+              className="flex items-center gap-2 rounded border bg-base p-3 text-base-foreground"
               key={h.id}
             >
               {h.avatar ? (
