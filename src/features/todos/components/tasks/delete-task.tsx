@@ -12,21 +12,39 @@ export const DeleteTask = ({ taskId }: DeleteTaskProps) => {
   const { addNotification } = useNotifications();
   const handleDeleteTask = async () => {
     try {
-      await deleteTask(taskId);
+      const { data, error } = await deleteTask(taskId);
 
-      addNotification({
-        type: 'success',
-        status: 200,
-        message: 'タスクを削除しました',
-      });
-    } catch (error) {
+      if (error) {
+        addNotification({
+          type: 'error',
+          status: 404,
+          message: `タスクの削除に失敗しました: ${error}`,
+        });
+        return;
+      }
+
+      if (data?.alreadyDeleted) {
+        addNotification({
+          type: 'info',
+          status: 200,
+          message: 'すでにタスクは削除済みです。',
+        });
+      } else {
+        addNotification({
+          type: 'success',
+          status: 200,
+          message: 'タスクを削除しました',
+        });
+      }
+    } catch (err) {
       addNotification({
         type: 'error',
-        status: 404,
-        message: `タスクの削除に失敗しました: ${(error as Error).message}`,
+        status: 500,
+        message: `タスクの削除に失敗しました: ${(err as Error).message}`,
       });
     }
   };
+
   return (
     <Button
       className="rounded-md"

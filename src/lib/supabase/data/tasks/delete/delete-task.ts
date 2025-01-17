@@ -1,21 +1,46 @@
 import { createClient } from '@/lib/supabase/client';
+import { Result } from '@/types/result.types';
+
+type TaskDeleteStatus = {
+  alreadyDeleted: boolean;
+};
 
 /**
  * taskId の tasks レコードを is_deleted = true に更新する
- * @param taskId
- * @returns 更新後のデータ or エラー
+ * 戻り値は Result<TaskDeleteStatus>
  */
-export const deleteTask = async (taskId: string) => {
+export const deleteTask = async (
+  taskId: string,
+): Promise<Result<TaskDeleteStatus>> => {
   const supabase = createClient();
 
-  const { data, error } = await supabase
+  const { data: existingTask, error: fetchError } = await supabase
     .from('tasks')
-    .update({ is_deleted: true })
-    .eq('id', taskId);
+    .select('id, is_deleted')
+    .eq('id', taskId)
+    .single();
 
-  if (error) {
-    throw new Error(error.message);
+  if (fetchError) {
+    return { data: null, error: fetchError.message };
   }
 
-  return data;
+  if (!existingTask) {
+    return { data: null, error: '指定のタスクが存在しません。' };
+  }
+
+  if (existingTask.is_deleted) {
+    return { data: { alreadyDeleted: true }, error: null };
+  }
+
+  const { error: updateError } = await supabase
+    .from('tasks')
+    .update({ is_deleted: true })
+    .eq('id', taskId)
+    .single();
+
+  if (updateError) {
+    return { data: null, error: updateError.message };
+  }
+
+  return { data: { alreadyDeleted: false }, error: null };
 };
