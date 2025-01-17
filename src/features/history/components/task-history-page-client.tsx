@@ -113,7 +113,6 @@ export const TaskHistoryPageClient = ({
         const overview = `${h.userName} が${actionLabel}しました。`;
 
         if (!h.diffString) {
-          console.log(`h.avatar: ${h.avatar === ''}`);
           return (
             <div
               className="flex items-center gap-2 rounded border bg-white p-3"
