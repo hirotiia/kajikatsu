@@ -64,7 +64,7 @@ export const Tasks = ({ listItems }: TasksProps) => {
                   expiresAt={expiresAt}
                   statusId={statusId}
                 />
-                <DeleteTask />
+                <DeleteTask taskId={id} />
               </div>
             </div>
           </li>
