@@ -4,6 +4,7 @@
  * グループのメンバーの場合、グループ内の変更タスクを取得
  * グループのメンバーではない場合、自分の変更履歴を取得
  */
+import { CircleUserRound } from 'lucide-react';
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import useSWR from 'swr';
@@ -112,13 +113,16 @@ export const TaskHistoryPageClient = ({
         const overview = `${h.userName} が${actionLabel}しました。`;
 
         if (!h.diffString) {
+          console.log(`h.avatar: ${h.avatar === ''}`);
           return (
             <div
               className="flex items-center gap-2 rounded border bg-white p-3"
               key={h.id}
             >
-              {h.avatar && (
+              {h.avatar ? (
                 <Image src={h.avatar} width={30} height={30} alt="avatar" />
+              ) : (
+                <CircleUserRound size="30">デフォルトアイコン</CircleUserRound>
               )}
               <p>{overview}</p>
             </div>
