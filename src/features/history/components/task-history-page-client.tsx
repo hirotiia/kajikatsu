@@ -4,6 +4,7 @@
  * グループのメンバーの場合、グループ内の変更タスクを取得
  * グループのメンバーではない場合、自分の変更履歴を取得
  */
+import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import useSWR from 'swr';
 
@@ -92,30 +93,50 @@ export const TaskHistoryPageClient = ({
   return (
     <div className="grid gap-y-3">
       {historyData.map((h) => {
-        let action;
+        // アクション名を元に表示するテキスト等を決定
+        let actionLabel;
         switch (h.action) {
           case 'updated':
-            action = 'タスクを更新';
+            actionLabel = 'タスクを更新';
             break;
           case 'deleted':
-            action = 'タスクを削除';
+            actionLabel = 'タスクを削除';
+            // 差分は不要 → 空にしておく
+            h.diffString = '';
             break;
           case 'created':
-            action = 'タスクを作成';
+            actionLabel = '新しいタスクを作成';
+            // 差分は不要 → 空にしておく
+            h.diffString = '';
             break;
-
           default:
+            actionLabel = '操作';
             break;
         }
-        return (
-          <Disclosure
-            key={h.id}
-            id={h.id}
-            overview={`${h.userName} が${action}しました。`}
-            detail={h.diffString}
-            icon={h.avatar}
-          />
-        );
+
+        const overview = `${h.userName} が${actionLabel}しました。`;
+
+        // ここで diffString を判定し、Disclosure か SimpleHistoryItem か分岐
+        if (h.diffString === '') {
+          // 差分がないケース：SimpleHistoryItem を表示
+          return (
+            <div className="" key={h.id}>
+              <Image src={h.avatar} width="30" height="30" alt="" />
+              <p>{overview}</p>
+            </div>
+          );
+        } else {
+          // 差分があるケース：Disclosure を表示
+          return (
+            <Disclosure
+              key={h.id}
+              id={h.id}
+              overview={overview}
+              detail={h.diffString}
+              icon={h.avatar}
+            />
+          );
+        }
       })}
     </div>
   );
