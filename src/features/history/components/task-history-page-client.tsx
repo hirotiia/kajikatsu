@@ -25,17 +25,20 @@ type HistoryData = {
   id: string;
   userName: string;
   avatar: string;
-  diffString: string;
   action: string;
+  diffString: string;
 };
 
+/**
+ * タスク履歴ページ (クライアントコンポーネント)
+ */
 export const TaskHistoryPageClient = ({
   userData,
 }: TaskHistoryPageClientProps) => {
   const [historyData, setHistoryData] = useState<HistoryData[]>([]);
+
   const { data: historyList, error } = useSWR(
     ['taskHistory', userData.userId, userData.groupId],
-    // データ取得関数
     () =>
       getTaskHistoryForClient({
         userId: userData.userId,
@@ -47,67 +50,59 @@ export const TaskHistoryPageClient = ({
     if (!historyList) return;
 
     (async () => {
-      const result = await Promise.all(
+      const results = await Promise.all(
         historyList.map(async (item) => {
           const user = await getUserProfileClient(item.changed_by);
-          const action_name = await fetchActionNameById(item.action_id);
-
-          const action = action_name ?? '';
           const userName = user?.username ?? 'unknown user';
           const avatar = user?.avatar_url ?? '';
 
-          const diff = extractChangedFields(item.details);
-          let diffString: string;
+          const actionName = await fetchActionNameById(item.action_id);
+          const action = actionName ?? '';
 
-          if (!diff) {
-            diffString = '変更なし';
-          } else {
-            const lines = await buildDiffMessages(diff);
-            // 複数行をつなぐ
-            diffString = lines.join('\n');
+          let diffString = '';
+          if (action === 'updated') {
+            const diff = extractChangedFields(item.details);
+            if (diff) {
+              const lines = await buildDiffMessages(diff);
+              diffString = lines.join('\n');
+            } else {
+              diffString = '変更なし';
+            }
           }
 
           return {
             id: item.id,
             userName,
             avatar,
-            diffString,
             action,
+            diffString,
           };
         }),
       );
-      setHistoryData(result);
+      setHistoryData(results);
     })();
   }, [historyList]);
 
   if (error) {
     return <div>Error loading task history: {error.message}</div>;
   }
-
   if (!historyList) {
     return <div>Loading...</div>;
   }
 
-  console.log(historyData);
-
   return (
     <div className="grid gap-y-3">
       {historyData.map((h) => {
-        // アクション名を元に表示するテキスト等を決定
-        let actionLabel;
+        let actionLabel: string;
         switch (h.action) {
+          case 'created':
+            actionLabel = '新しいタスクを作成';
+            break;
           case 'updated':
             actionLabel = 'タスクを更新';
             break;
           case 'deleted':
             actionLabel = 'タスクを削除';
-            // 差分は不要 → 空にしておく
-            h.diffString = '';
-            break;
-          case 'created':
-            actionLabel = '新しいタスクを作成';
-            // 差分は不要 → 空にしておく
-            h.diffString = '';
             break;
           default:
             actionLabel = '操作';
@@ -116,17 +111,19 @@ export const TaskHistoryPageClient = ({
 
         const overview = `${h.userName} が${actionLabel}しました。`;
 
-        // ここで diffString を判定し、Disclosure か SimpleHistoryItem か分岐
-        if (h.diffString === '') {
-          // 差分がないケース：SimpleHistoryItem を表示
+        if (!h.diffString) {
           return (
-            <div className="" key={h.id}>
-              <Image src={h.avatar} width="30" height="30" alt="" />
+            <div
+              className="flex items-center gap-2 rounded border bg-white p-3"
+              key={h.id}
+            >
+              {h.avatar && (
+                <Image src={h.avatar} width={30} height={30} alt="avatar" />
+              )}
               <p>{overview}</p>
             </div>
           );
         } else {
-          // 差分があるケース：Disclosure を表示
           return (
             <Disclosure
               key={h.id}
