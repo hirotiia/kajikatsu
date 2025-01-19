@@ -1,85 +1,50 @@
+import { createClient } from '@/lib/supabase/client';
+import { Task } from '@/types/task.types';
+
 /**
- * ユーザーが作成したタスクを一覧で取得する関数
+ * ログインユーザーが作成したタスクを取得するための関数
  */
-
-import { createClient } from '@/lib/supabase/server';
-import { getUser } from '@/lib/supabase/user/user';
-import { Result } from '@/types/result.types';
-
-type MyTasks = {
-  id: string;
-  title: string;
-  description: string | null;
-  groupName: string | null;
-  statusName: string | null;
-  createdBy: string | null;
-  createdAt: string | null;
-  updatedAt: string | null;
-  expiresAt: string | null;
-};
-export type MyTasksResponse = Result<MyTasks[]>;
-
-export const getMyTasks = async (): Promise<MyTasksResponse> => {
-  const supabase = await createClient();
-
-  try {
-    const { user, authError } = await getUser();
-
-    if (authError || !user) {
-      throw new Error('ユーザーが認証されていません。');
-    }
-
-    const { data, error } = await supabase
-      .from('tasks')
-      .select(
-        `
+export const getMyTasks = async (
+  userId: string,
+): Promise<{ data: Task[]; error: string | null }> => {
+  const supabase = createClient();
+  const { data, error } = await supabase
+    .from('tasks')
+    .select(
+      `
         id,
         title,
         description,
-        is_deleted,
+        expires_at,
         created_at,
         updated_at,
-        expires_at,
-        groups (
-          name
-        ),
-        statuses (
+        statuses!inner (
           id,
           status_name
-        ),
-        users!tasks_created_by_fkey (
-          username
         )
       `,
-      )
-      .eq('created_by', user.id)
-      .eq('is_deleted', false);
+    )
+    .eq('created_by', userId)
+    .eq('is_deleted', false);
 
-    if (error) {
-      throw new Error('タスク一覧の取得に失敗しました。');
-    }
-
-    const formattedData =
-      data?.map((task) => ({
-        id: task.id,
-        title: task.title,
-        description: task.description,
-        groupName: task.groups?.name || null,
-        statusId: task.statuses?.id || null,
-        statusName: task.statuses?.status_name || null,
-        createdBy: task.users?.username || null,
-        createdAt: task.created_at,
-        updatedAt: task.updated_at,
-        expiresAt: task.expires_at,
-      })) ?? [];
-
-    return { data: formattedData, error: null };
-  } catch (error) {
-    let errorMessage = '予期しないエラーが発生しました。';
-    if (error instanceof Error) {
-      errorMessage = error.message;
-    }
-
-    return { data: [], error: errorMessage };
+  if (error) {
+    return { data: [], error: error.message };
   }
+
+  const tasks: Task[] =
+    data?.map((task) => ({
+      id: task.id,
+      title: task.title,
+      description: task.description,
+      statusId: task.statuses?.id ?? null,
+      statusName: task.statuses?.status_name ?? null,
+      createdAt: task.created_at,
+      updatedAt: task.updated_at,
+      expiresAt: task.expires_at,
+    })) ?? [];
+
+  return {
+    data: tasks,
+    error: null,
+  };
 };
