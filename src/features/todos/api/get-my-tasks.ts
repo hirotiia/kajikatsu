@@ -1,34 +1,60 @@
 'use client';
 
-import useSWR from 'swr';
+import { useState, useEffect, useCallback } from 'react';
 
-import { Result } from '@/types/result.types';
-
-export type MyTasks = {
-  id: string;
-  title: string;
-  description: string | null;
-  groupName: string | null;
-  statusName: string | null;
-  createdBy: string | null;
-  createdAt: string | null;
-  updatedAt: string | null;
-  expiresAt: string | null;
-  statusId: string | null;
-};
-export type MyTasksResponse = Result<MyTasks[]>;
-
-const fetcher = (url: string) => fetch(url).then((res) => res.json());
+import { createClient } from '@/lib/supabase/client';
+import { getMyTasks } from '@/lib/supabase/data/tasks/select/get-my-tasks';
+import { useRealtimeTasksChannel } from '@/lib/supabase/realtime/tasks-channel';
+import { Task } from '@/types/task.types';
 
 export const useMyTasks = () => {
-  const { data, error, isLoading } = useSWR<MyTasksResponse>(
-    '/api/get/get-my-tasks',
-    fetcher,
-  );
+  const [myTasks, setMyTasks] = useState<Task[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  const supabase = createClient();
+
+  /**
+   * タスク一覧を再取得するロジック
+   * - 再取得の必要があれば外部からも呼べるよう useCallback 化
+   */
+  const fetchAllTasks = useCallback(async () => {
+    setIsLoading(true);
+
+    const userResult = await supabase.auth.getUser();
+    const user = userResult.data?.user;
+
+    if (!user) {
+      setError('ユーザーが認証されていません。');
+      setIsLoading(false);
+      return;
+    }
+
+    const { data, error: fetchError } = await getMyTasks(user.id);
+    if (fetchError) {
+      setError(fetchError);
+      setIsLoading(false);
+      return;
+    }
+
+    setMyTasks(data);
+    setIsLoading(false);
+  }, [supabase]);
+
+  // 初回レンダリング時にタスクを取得
+  useEffect(() => {
+    fetchAllTasks();
+  }, [fetchAllTasks]);
+
+  // Realtime購読し、テーブル変更があれば再フェッチ
+  useRealtimeTasksChannel({
+    onChange: fetchAllTasks,
+  });
 
   return {
-    myTasks: data?.data || [],
+    myTasks,
     isLoading,
-    error: error || data?.error || null,
+    error,
+    refetch: fetchAllTasks,
   };
 };
