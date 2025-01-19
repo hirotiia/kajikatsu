@@ -3,15 +3,16 @@
 import { ReactElement } from 'react';
 
 import { Tab, TabHeader, TabItem, TabItemProps } from '@/components/ui/tab';
-import { useMyTasks, MyTasks } from '@/features/todos/api/get-my-tasks';
+import { useMyTasks } from '@/features/todos/api/get-my-tasks';
 import { Tasks } from '@/features/todos/components/tasks/tasks';
+import { Task } from '@/types/task.types';
 
 export const TabUsersTask = () => {
   const { myTasks, isLoading, error } = useMyTasks();
   const statusList = ['対応中', '未対応', '保留', '完了'];
 
   // ステータスごとにタスクを分類
-  const tasksByStatus = statusList.reduce<Record<string, MyTasks[]>>(
+  const tasksByStatus = statusList.reduce<Record<string, Task[]>>(
     (acc, status) => {
       acc[status] = myTasks?.filter((task) => task.statusName === status) || [];
       return acc;
@@ -20,7 +21,7 @@ export const TabUsersTask = () => {
   );
 
   // タスクを TaskList に渡す形式に変換
-  const formatTasksForList = (tasks: MyTasks[]) =>
+  const formatTasksForList = (tasks: Task[]) =>
     tasks.map((task) => ({
       id: task.id,
       title: task.title,
@@ -31,7 +32,7 @@ export const TabUsersTask = () => {
 
   const renderTabItems = (
     statusList: string[],
-    tasksByStatus: Record<string, MyTasks[]>,
+    tasksByStatus: Record<string, Task[]>,
   ): ReactElement<TabItemProps>[] =>
     statusList.map(
       (status): ReactElement<TabItemProps> => (
