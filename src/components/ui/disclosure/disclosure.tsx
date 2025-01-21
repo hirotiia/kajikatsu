@@ -14,7 +14,7 @@ type DisclosureProps = {
   id: string;
   icon?: IconType;
   overview: string;
-  detail: string;
+  detail: string | JSX.Element;
   defaultOpen?: boolean;
 };
 
@@ -109,9 +109,7 @@ export const Disclosure = ({
           ease-out
         "
       >
-        <div className="p-3">
-          <p>{detail}</p>
-        </div>
+        <div className="p-3">{detail}</div>
       </div>
     </details>
   );

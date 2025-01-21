@@ -94,6 +94,7 @@ export const TaskHistoryPageClient = ({
   return (
     <div className="grid gap-y-3">
       {historyData.map((h) => {
+        console.log(h.diffString);
         let actionLabel: string;
         switch (h.action) {
           case 'created':
