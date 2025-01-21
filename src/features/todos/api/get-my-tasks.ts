@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback } from 'react';
 
 import { createClient } from '@/lib/supabase/client';
 import { getMyTasks } from '@/lib/supabase/data/tasks/select/get-my-tasks';
-import { useRealtimeTasksChannel } from '@/lib/supabase/realtime/tasks-channel';
+import { useRealtimeTasksChannel } from '@/lib/supabase/realtime/use-realtime-tasks-channel';
 import { Task } from '@/types/task.types';
 
 export const useMyTasks = () => {
