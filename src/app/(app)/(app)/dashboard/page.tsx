@@ -4,17 +4,20 @@ import { Content } from '@/components/layouts/content/content';
 import { Box } from '@/components/ui/box/box';
 import { SecondaryHeading } from '@/components/ui/heading';
 import { InfoList } from '@/components/ui/list';
-import { currentUser } from '@/utils/auth';
+import { getUserProfile } from '@/lib/supabase/data/users/get-user-profile';
 
 export default async function Dashbord() {
-  const user = await currentUser();
-  if (!user) {
+  const { data, error } = await getUserProfile();
+  if (error || !data) {
     redirect('/login');
   }
 
   return (
     <>
       <Content>
+        <p className="text-center text-lg">
+          <b>ようこそ、{data.username}さん</b>
+        </p>
         <SecondaryHeading>全体</SecondaryHeading>
         <SecondaryHeading className="mt-4">これお願い!</SecondaryHeading>
         <Box variant="secondary" className="mt-4">
