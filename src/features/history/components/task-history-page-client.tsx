@@ -1,6 +1,6 @@
 'use client';
 
-/** TODO
+/**
  * グループのメンバーの場合、グループ内の変更タスクを取得
  * グループのメンバーではない場合、自分の変更履歴を取得
  */
@@ -11,12 +11,13 @@ import useSWR from 'swr';
 
 import { Disclosure } from '@/components/ui/disclosure';
 import { fetchActionNameById } from '@/lib/supabase/data/actions/select/fetch-action-name-by-id';
+import { fetchStatusNameById } from '@/lib/supabase/data/statuses/select/fetch-status-name-by-id';
 import { getTaskHistoryForClient } from '@/lib/supabase/data/task-history/select/get-task-history-for-client';
 import { UserData } from '@/lib/supabase/data/users/get-user-data';
 import { getUserProfileClient } from '@/lib/supabase/data/users/get-user-profile-client';
 import { extractChangedFields } from '@/utils/extract-changed-fields';
 
-import { buildDiffMessages } from '../api/build-diff-messages';
+import { buildDiffMessages } from './build-diff-messages';
 
 type TaskHistoryPageClientProps = {
   userData: UserData;
@@ -27,7 +28,7 @@ type HistoryData = {
   userName: string;
   avatar: string;
   action: string;
-  diffString: string;
+  taskDiff: string | JSX.Element;
 };
 
 /**
@@ -60,14 +61,27 @@ export const TaskHistoryPageClient = ({
           const actionName = await fetchActionNameById(item.action_id);
           const action = actionName ?? '';
 
-          let diffString = '';
+          let taskDiff: string | JSX.Element = '';
+
           if (action === 'updated') {
             const diff = extractChangedFields(item.details);
+
             if (diff) {
-              const lines = await buildDiffMessages(diff);
-              diffString = lines.join('\n');
+              if (diff.status_id) {
+                const oldStatusId = diff.status_id.old;
+                const newStatusId = diff.status_id.new;
+
+                // DBからステータス名を取得
+                const oldStatusName = await fetchStatusNameById(oldStatusId);
+                const newStatusName = await fetchStatusNameById(newStatusId);
+
+                // 取得できなかった場合はIDをそのまま
+                diff.status_id.old = oldStatusName || oldStatusId;
+                diff.status_id.new = newStatusName || newStatusId;
+              }
+              taskDiff = buildDiffMessages(diff);
             } else {
-              diffString = '変更なし';
+              taskDiff = '変更なし';
             }
           }
 
@@ -76,7 +90,7 @@ export const TaskHistoryPageClient = ({
             userName,
             avatar,
             action,
-            diffString,
+            taskDiff,
           };
         }),
       );
@@ -87,6 +101,7 @@ export const TaskHistoryPageClient = ({
   if (error) {
     return <div>Error loading task history: {error.message}</div>;
   }
+
   if (!historyList) {
     return <div>Loading...</div>;
   }
@@ -94,7 +109,6 @@ export const TaskHistoryPageClient = ({
   return (
     <div className="grid gap-y-3">
       {historyData.map((h) => {
-        console.log(h.diffString);
         let actionLabel: string;
         switch (h.action) {
           case 'created':
@@ -113,7 +127,7 @@ export const TaskHistoryPageClient = ({
 
         const overview = `${h.userName} が${actionLabel}しました。`;
 
-        if (!h.diffString) {
+        if (!h.taskDiff) {
           return (
             <div
               className="flex items-center gap-2 rounded border bg-base p-3 text-base-foreground"
@@ -133,7 +147,7 @@ export const TaskHistoryPageClient = ({
               key={h.id}
               id={h.id}
               overview={overview}
-              detail={h.diffString}
+              detail={h.taskDiff}
               icon={h.avatar}
             />
           );
