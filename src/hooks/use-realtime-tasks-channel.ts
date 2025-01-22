@@ -6,6 +6,8 @@ import { createClient } from '@/lib/supabase/client';
 import { subscribeDBChanges } from '@/lib/supabase/realtime/subscribe-db-changes';
 
 type UseRealtimeTasksChannelProps = {
+  schema?: string;
+  table: string;
   onChange: () => void;
 };
 
@@ -15,13 +17,19 @@ type UseRealtimeTasksChannelProps = {
  * - Unmount 時にチャンネルを取り除く。
  */
 export const useRealtimeTasksChannel = ({
+  schema = 'public',
+  table,
   onChange,
 }: UseRealtimeTasksChannelProps) => {
   const supabase = createClient();
   const channelRef = useRef<ReturnType<typeof subscribeDBChanges> | null>(null);
 
   useEffect(() => {
-    const channel = subscribeDBChanges({ table: 'tasks', onChange });
+    const channel = subscribeDBChanges({
+      schema,
+      table,
+      onChange,
+    });
     channelRef.current = channel;
 
     // クリーンアップ（コンポーネントのアンマウント時に購読解除）
@@ -30,5 +38,5 @@ export const useRealtimeTasksChannel = ({
         supabase.removeChannel(channelRef.current);
       }
     };
-  }, [supabase, onChange]);
+  }, [supabase, onChange, schema, table]);
 };

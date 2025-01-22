@@ -48,6 +48,7 @@ export const useMyTasks = () => {
 
   // Realtime購読し、テーブル変更があれば再フェッチ
   useRealtimeTasksChannel({
+    table: 'tasks',
     onChange: fetchAllTasks,
   });
 
@@ -55,6 +56,5 @@ export const useMyTasks = () => {
     myTasks,
     isLoading,
     error,
-    refetch: fetchAllTasks,
   };
 };
