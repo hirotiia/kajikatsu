@@ -16,6 +16,7 @@ export const notification = createSlice({
   initialState,
   reducers: {
     add(state, action: PayloadAction<Omit<Notification, 'id'>>) {
+      // ミュータブルな操作がImmerというライブラリでイミュータブルに操作できる
       state.push({
         ...action.payload,
         id: nanoid(),
