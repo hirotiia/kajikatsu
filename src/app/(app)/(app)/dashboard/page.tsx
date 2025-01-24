@@ -1,3 +1,4 @@
+import { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 
 import { Content } from '@/components/layouts/content/content';
@@ -5,6 +6,12 @@ import { Box } from '@/components/ui/box/box';
 import { SecondaryHeading } from '@/components/ui/heading';
 import { InfoList } from '@/components/ui/list';
 import { getUserProfile } from '@/lib/supabase/data/users/get-user-profile';
+
+export async function generateMetadata(): Promise<Metadata> {
+  return {
+    title: 'ダッシュボード',
+  };
+}
 
 export default async function Dashbord() {
   const { data, error } = await getUserProfile();

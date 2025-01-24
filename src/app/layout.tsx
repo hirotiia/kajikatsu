@@ -8,8 +8,32 @@ import { createClient } from '@/lib/supabase/server';
 import { AppProvider } from './provider';
 
 export const metadata: Metadata = {
-  title: config.APP_NAME,
-  description: '家事負荷分担アプリ',
+  title: {
+    default: config.APP_NAME,
+    template: `%s | ${config.APP_NAME}`,
+  },
+  description: config.description,
+  openGraph: {
+    type: 'website',
+    locale: 'ja_JP',
+    url: config.url,
+    title: config.APP_NAME,
+    description: config.description,
+    images: [
+      {
+        url: `${config.url}/og-image.jpg`,
+        width: 1200,
+        height: 630,
+        alt: `${config.APP_NAME}のイメージ`,
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: config.APP_NAME,
+    description: config.description,
+    images: [`${config.url}/twitter-card.jpg`],
+  },
 };
 
 export default async function RootLayout({
