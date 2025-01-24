@@ -1,3 +1,5 @@
+'use client';
+
 import { Plus } from 'lucide-react';
 import { useEffect } from 'react';
 import { useFormState } from 'react-dom';
