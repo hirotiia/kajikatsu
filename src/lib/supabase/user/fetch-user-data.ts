@@ -7,14 +7,13 @@ import { UserState } from '@/types/user-state.types';
  * @param userId ユーザーID
  * @returns State 型に一致するオブジェクト
  */
-export async function getUserData(userId: string): Promise<UserState | null> {
+export async function fetchUserData(userId: string): Promise<UserState | null> {
   const supabase = await createClient();
 
   const { data, error } = await supabase
     .from('user_groups')
     .select(
       `
-        user_id,
         users ( username, avatar_url ),
         group_id,
         groups ( name ),
@@ -39,7 +38,6 @@ export async function getUserData(userId: string): Promise<UserState | null> {
     }
 
     return {
-      id: userId,
       username: userData?.username || '',
       avatar_url: userData?.avatar_url || null,
       group: null,
@@ -47,7 +45,6 @@ export async function getUserData(userId: string): Promise<UserState | null> {
   }
 
   return {
-    id: data.user_id,
     username: data.users?.username || '',
     avatar_url: data.users?.avatar_url || null,
     group: data.group_id
