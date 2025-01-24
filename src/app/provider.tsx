@@ -12,7 +12,13 @@ type AppProviderProps = {
   children: React.ReactNode;
 };
 
-export const AppProvider = ({ userId, children }: AppProviderProps) => {
+function AppProviderInner({
+  userId,
+  children,
+}: {
+  userId: string | null;
+  children: React.ReactNode;
+}) {
   const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
@@ -20,11 +26,16 @@ export const AppProvider = ({ userId, children }: AppProviderProps) => {
       dispatch(fetchAsyncUserData(userId));
     }
   }, [dispatch, userId]);
+
+  return <>{children}</>;
+}
+
+export const AppProvider = ({ userId, children }: AppProviderProps) => {
   return (
     <>
       <Provider store={store}>
         <Notifications />
-        {children}
+        <AppProviderInner userId={userId}>{children}</AppProviderInner>
       </Provider>
     </>
   );
