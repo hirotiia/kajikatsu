@@ -3,10 +3,16 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { fetchUserData } from '@/lib/supabase/user/fetch-user-data';
 import { UserState } from '@/types/user-state.types';
 
-const initialState: UserState = {
-  username: '',
-  avatar_url: '',
-  group: null,
+type UserStoreState = {
+  data: UserState | null;
+  loading: boolean;
+  error: string | null;
+};
+
+const initialState: UserStoreState = {
+  data: null,
+  loading: false,
+  error: null,
 };
 
 /**
@@ -16,9 +22,7 @@ export const fetchAsyncUserData = createAsyncThunk(
   'user/fetchUserData',
   async (userId: string) => {
     const userData = await fetchUserData(userId);
-    if (!userData) {
-      throw new Error('ユーザーデータの取得に失敗しました。');
-    }
+    if (!userData) throw new Error('ユーザーデータの取得に失敗しました。');
     return userData;
   },
 );
@@ -28,14 +32,21 @@ export const userSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(fetchAsyncUserData.pending, () => {});
+    builder.addCase(fetchAsyncUserData.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+      state.data = null;
+    });
     builder.addCase(fetchAsyncUserData.fulfilled, (state, action) => {
-      // データ取得成功時に state を更新
-      return action.payload;
+      state.loading = false;
+      state.error = null;
+      state.data = action.payload;
     });
     builder.addCase(fetchAsyncUserData.rejected, (state, action) => {
-      // データ取得失敗時のロジック（必要に応じて追加）
-      console.error(action.error.message);
+      state.loading = false;
+      state.error =
+        action.error.message ?? 'ユーザー情報の取得中にエラーが発生しました。';
+      state.data = null;
     });
   },
 });
