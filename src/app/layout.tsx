@@ -1,4 +1,4 @@
-import { Metadata } from 'next';
+import { Metadata, Viewport } from 'next';
 
 import { config } from '@/config/config';
 import '@/styles/globals.css';
@@ -34,6 +34,11 @@ export const metadata: Metadata = {
     description: config.description,
     images: [`${config.url}/twitter-card.jpg`],
   },
+};
+
+export const viewport: Viewport = {
+  initialScale: 1,
+  width: 'device-width',
 };
 
 export default async function RootLayout({
