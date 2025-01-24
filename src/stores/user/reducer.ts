@@ -3,7 +3,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { fetchUserData } from '@/lib/supabase/user/fetch-user-data';
 import { UserState } from '@/types/user-state.types';
 
-type UserStoreState = {
+export type UserStoreState = {
   data: UserState | null;
   loading: boolean;
   error: string | null;
