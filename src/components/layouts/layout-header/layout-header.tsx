@@ -4,6 +4,8 @@ import Link from 'next/link';
 import { config } from '@/config/config';
 import { cn } from '@/utils/cn';
 
+import { UserProfile } from './user-profile';
+
 interface HeaderProps {
   className?: string;
 }
@@ -32,6 +34,7 @@ export const LayoutHeader = async ({ className }: HeaderProps) => {
       )}
     >
       <Logo />
+      <UserProfile />
     </header>
   );
 };
