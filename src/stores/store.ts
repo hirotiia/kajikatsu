@@ -1,10 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit';
 
-import { reducer } from '@/stores/notifications';
+import { reducer as notificationsReducer } from '@/stores/notifications';
+import { reducer as userReducer } from '@/stores/user';
 
 export const store = configureStore({
   reducer: {
-    notifications: reducer,
+    notifications: notificationsReducer,
+    user: userReducer,
   },
 });
 

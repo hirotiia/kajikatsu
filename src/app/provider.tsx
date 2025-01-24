@@ -1,15 +1,25 @@
 'use client';
 
-import { Provider } from 'react-redux';
+import { useEffect } from 'react';
+import { Provider, useDispatch } from 'react-redux';
 
 import { Notifications } from '@/components/ui/notifications';
-import { store } from '@/stores/index';
+import { AppDispatch, store } from '@/stores/index';
+import { fetchAsyncUserData } from '@/stores/user/reducer';
 
 type AppProviderProps = {
+  userId: string | null;
   children: React.ReactNode;
 };
 
-export const AppProvider = ({ children }: AppProviderProps) => {
+export const AppProvider = ({ userId, children }: AppProviderProps) => {
+  const dispatch = useDispatch<AppDispatch>();
+
+  useEffect(() => {
+    if (userId) {
+      dispatch(fetchAsyncUserData(userId));
+    }
+  }, [dispatch, userId]);
   return (
     <>
       <Provider store={store}>
