@@ -8,3 +8,4 @@ export { fetchUserData };
 
 // userSliceのreducerをstoreに登録できるようにexport
 export const reducer = userReducer;
+export type { UserStoreState } from './reducer';
