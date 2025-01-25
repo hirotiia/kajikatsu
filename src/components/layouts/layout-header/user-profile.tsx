@@ -3,12 +3,10 @@ import { CircleUserRound, CircleX, LoaderCircle } from 'lucide-react';
 import Image from 'next/image';
 import { useSelector } from 'react-redux';
 
-import { Dialog } from '@/components/ui/dialog';
-import { useOpener } from '@/hooks/use-opener';
+import { Popover } from '@/components/ui/popover';
 import { RootState } from '@/stores/store';
 
 export const UserProfile = () => {
-  const openerDialog = useOpener();
   const userState = useSelector((state: RootState) => state.user);
   console.log(userState);
 
@@ -23,13 +21,7 @@ export const UserProfile = () => {
         </p>
       ) : userState.data ? (
         <>
-          <button
-            type="button"
-            onClick={openerDialog.open}
-            aria-controls="dialog-profile"
-            aria-expanded={openerDialog.isOpen}
-            className="flex items-center gap-2"
-          >
+          <Popover content={'コンテンツ'}>
             {userState.data?.avatar_url ? (
               <Image alt="" src={userState.data?.avatar_url} />
             ) : (
@@ -37,14 +29,7 @@ export const UserProfile = () => {
             )}
 
             <span>{userState.data?.username}</span>
-          </button>
-          <Dialog
-            opener={openerDialog}
-            title="プロフィール"
-            id="dialog-profile"
-          >
-            コンテンツ
-          </Dialog>
+          </Popover>
         </>
       ) : (
         <div className="flex gap-2">
