@@ -21,7 +21,17 @@ export const UserProfile = () => {
         </p>
       ) : userState.data ? (
         <>
-          <Popover content={'コンテンツ'}>
+          <Popover
+            content={({ close }) => (
+              <div>
+                <p>右側に表示しています。</p>
+                <button onClick={close} className="mt-2 px-2 py-1">
+                  閉じる
+                </button>
+              </div>
+            )}
+            className="flex gap-2"
+          >
             {userState.data?.avatar_url ? (
               <Image alt="" src={userState.data?.avatar_url} />
             ) : (
