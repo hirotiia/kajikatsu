@@ -8,7 +8,7 @@ import { cn } from '@/utils/cn';
 const popoverContainer = cva(
   [
     'absolute z-50 rounded border bg-white shadow-md',
-    "before:absolute before:border-8 before:border-x-transparent before:content-['']",
+    "before:absolute before:border-8 before:border-transparent before:content-['']",
   ],
   {
     variants: {
@@ -56,6 +56,7 @@ type PopoverProps = {
   position?: Positions;
   /** トリガーボタンに適用するクラス */
   className?: string;
+  containerClassName?: string;
 };
 
 /**
@@ -71,6 +72,7 @@ export function Popover({
   content,
   position = 'bottom',
   className,
+  containerClassName,
 }: PopoverProps) {
   const [isOpen, setIsOpen] = useState(false);
   const popoverRef = useRef<HTMLDivElement>(null);
@@ -104,7 +106,7 @@ export function Popover({
           ref={popoverRef}
           role="dialog"
           aria-modal="false"
-          className={popoverContainer({ position })}
+          className={cn(popoverContainer({ position }), containerClassName)}
         >
           {renderedContent}
         </div>
