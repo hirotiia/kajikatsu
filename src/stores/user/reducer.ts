@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, Reducer } from '@reduxjs/toolkit';
 
 import { fetchUserData } from '@/lib/supabase/user/fetch-user-data';
 import { UserState } from '@/types/user-state.types';
@@ -51,4 +51,4 @@ export const userSlice = createSlice({
   },
 });
 
-export default userSlice.reducer;
+export default userSlice.reducer as Reducer<UserStoreState>;
