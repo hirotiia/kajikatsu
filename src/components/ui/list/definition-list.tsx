@@ -26,7 +26,6 @@ const dlStyles = cva('mb-4', {
 const dtStyles = cva('font-semibold');
 const ddStyles = cva('ml-4');
 
-/** 1項目を表す */
 export type DefinitionListItem = {
   /** 見出し(用語) */
   term: React.ReactNode;
@@ -39,9 +38,6 @@ type DLVariants = VariantProps<typeof dlStyles>;
 export type DefinitionListProps = {
   /** 定義リストの項目配列 */
   items: DefinitionListItem[];
-  /**
-   * 全体のクラス名を外部から注入したい場合
-   */
   className?: string;
   /**
    * dl要素に適用する spacing バリアント
