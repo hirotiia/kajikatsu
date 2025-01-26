@@ -1,8 +1,12 @@
 'use client';
 import { CircleUserRound, CircleX, LoaderCircle } from 'lucide-react';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+import { useTransition } from 'react';
 import { useSelector } from 'react-redux';
 
+import { signOut } from '@/actions/auth/auth';
+import { Button } from '@/components/ui/button';
 import { DefinitionList } from '@/components/ui/list';
 import { Popover } from '@/components/ui/popover';
 import { RootState } from '@/stores/store';
@@ -11,7 +15,15 @@ import { invertOnHover } from '@/utils/invert-on-hover';
 
 export const UserProfile = () => {
   const userState = useSelector((state: RootState) => state.user);
-  console.log(userState);
+  const [isPending, startTransition] = useTransition();
+  const router = useRouter();
+
+  const handleSignOut = () => {
+    startTransition(async () => {
+      await signOut();
+      router.push('/login');
+    });
+  };
 
   return (
     <>
@@ -28,12 +40,12 @@ export const UserProfile = () => {
             position="bottom"
             content={({ close }) => (
               <>
-                <div className="min-w-[300px] p-3 md:max-w-[600px]">
-                  <p>
-                    <b>プロフィール</b>
+                <div className="min-w-[300px] p-3 text-primary md:max-w-[600px]">
+                  <p className="mb-6 border-b-2 border-primary pb-2">
+                    <b>ユーザー情報</b>
                   </p>
                   <DefinitionList
-                    className="top-3"
+                    className="pl-3"
                     spacing="sm"
                     items={[
                       {
@@ -46,6 +58,16 @@ export const UserProfile = () => {
                       },
                     ]}
                   />
+                  <Button
+                    variant="destructive"
+                    onClick={handleSignOut}
+                    disabled={isPending}
+                    size="small"
+                    className="w-full"
+                    rounded="md"
+                  >
+                    {isPending ? 'Signing out...' : 'Sign out'}
+                  </Button>
                 </div>
                 <button
                   onClick={close}
