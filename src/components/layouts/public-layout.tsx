@@ -1,6 +1,6 @@
 import { LayoutHeader } from './layout-header/layout-header';
 
-export const PageLayout = async ({
+export const PublicLayout = async ({
   children,
 }: {
   children: React.ReactNode;

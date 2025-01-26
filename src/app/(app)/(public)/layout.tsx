@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 
-import { PageLayout } from '@/components/layouts/page-layout';
+import { PublicLayout } from '@/components/layouts/public-layout';
 import { config } from '@/config/config';
 
 export const metadata: Metadata = {
@@ -13,5 +13,5 @@ export default function ApplicationLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return <PageLayout>{children}</PageLayout>;
+  return <PublicLayout>{children}</PublicLayout>;
 }
