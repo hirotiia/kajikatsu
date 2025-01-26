@@ -7,7 +7,7 @@ import { cn } from '@/utils/cn';
 
 const popoverContainer = cva(
   [
-    'absolute z-50 rounded border bg-white shadow-md',
+    'absolute z-50 rounded bg-white shadow-md',
     "before:absolute before:border-8 before:border-transparent before:content-['']",
   ],
   {
@@ -96,7 +96,7 @@ export function Popover({
         onClick={handleToggle}
         aria-haspopup="dialog"
         aria-expanded={isOpen}
-        className={cn('rounded px-3 py-1 hover:bg-gray-200', className)}
+        className={cn('rounded px-3 py-1', className)}
       >
         {children}
       </button>
