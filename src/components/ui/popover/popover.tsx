@@ -6,14 +6,29 @@ import React, { useState, useRef, ReactNode } from 'react';
 import { cn } from '@/utils/cn';
 
 const popoverContainer = cva(
-  'absolute z-50 rounded border bg-white p-3 shadow-md',
+  [
+    'absolute z-50 rounded border bg-white shadow-md',
+    "before:absolute before:border-8 before:border-x-transparent before:content-['']",
+  ],
   {
     variants: {
       position: {
-        top: 'bottom-full mb-2',
-        bottom: 'top-full mt-2',
-        left: 'right-full mr-2',
-        right: 'left-full ml-2',
+        top: [
+          'bottom-full mb-2',
+          'before:left-1/2 before:top-full before:-translate-x-1/2 before:border-t-white',
+        ],
+        bottom: [
+          'top-full mt-2',
+          'before:bottom-full before:left-1/2 before:-translate-x-1/2 before:border-b-white',
+        ],
+        left: [
+          'right-full mr-2',
+          'before:left-full before:top-1/2 before:-translate-y-1/2 before:border-l-white',
+        ],
+        right: [
+          'left-full ml-2',
+          'before:right-full before:top-1/2 before:-translate-y-1/2 before:border-r-white',
+        ],
       },
     },
     defaultVariants: {
@@ -22,23 +37,7 @@ const popoverContainer = cva(
   },
 );
 
-// 矢印用
-const arrowVariants = cva('absolute size-0 border-8 border-x-transparent', {
-  variants: {
-    position: {
-      top: 'bottom-0 left-1/2 -translate-x-1/2 border-t-white', // 上向き矢印
-      bottom: 'left-1/2 top-0 -translate-x-1/2 border-b-white', // 下向き矢印
-      left: 'right-0 top-1/2 -translate-y-1/2 border-l-white', // 左向き矢印
-      right: 'left-0 top-1/2 -translate-y-1/2 border-r-white', // 右向き矢印
-    },
-  },
-  defaultVariants: {
-    position: 'bottom',
-  },
-});
-
 type PopoverContentProps = {
-  /** Popover を閉じるためのコールバック */
   close: () => void;
 };
 
@@ -55,17 +54,17 @@ type PopoverProps = {
   content: RenderableContent;
   /** 位置 (top / bottom / left / right) */
   position?: Positions;
-  /** ボタンなどに適用するクラス */
+  /** トリガーボタンに適用するクラス */
   className?: string;
 };
 
 /**
  * Popoverコンポーネント
- * - ボタンをクリックするとコンテンツをトグル表示
- * - 再度クリックで閉じる
- * - position に応じて矢印の向きが自動的に変化
- * - 外側クリックロジックは削除
- * - コンテンツ内で閉じるボタンを設置したい場合は、content を関数にして `close()` を呼び出す
+ * - 親要素に `relative inline-block` を付与し、ポップオーバーは `absolute` で配置
+ * - 擬似要素 (before) で矢印を表現
+ * - position により自動的に矢印の向きが変わる
+ * - 外側クリックで閉じるロジックは削除
+ * - コンテンツ内で「閉じる」ボタンを設置したい場合は、content を関数にして `close()` を呼び出す
  */
 export function Popover({
   children,
@@ -84,6 +83,7 @@ export function Popover({
   // Popover 内部で閉じるコールバック
   const closePopover = () => setIsOpen(false);
 
+  // Render Props の場合は close 関数を注入
   const renderedContent =
     typeof content === 'function' ? content({ close: closePopover }) : content;
 
@@ -94,10 +94,7 @@ export function Popover({
         onClick={handleToggle}
         aria-haspopup="dialog"
         aria-expanded={isOpen}
-        className={cn(
-          'rounded bg-gray-100 px-3 py-1 hover:bg-gray-200',
-          className,
-        )}
+        className={cn('rounded px-3 py-1 hover:bg-gray-200', className)}
       >
         {children}
       </button>
@@ -109,7 +106,6 @@ export function Popover({
           aria-modal="false"
           className={popoverContainer({ position })}
         >
-          <div className={arrowVariants({ position })} />
           {renderedContent}
         </div>
       )}

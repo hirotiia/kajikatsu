@@ -22,6 +22,7 @@ export const UserProfile = () => {
       ) : userState.data ? (
         <>
           <Popover
+            position="bottom"
             content={({ close }) => (
               <div>
                 <p>右側に表示しています。</p>
