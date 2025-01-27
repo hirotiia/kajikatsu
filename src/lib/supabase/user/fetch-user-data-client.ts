@@ -1,4 +1,4 @@
-import { createClient } from '@/lib/supabase/server';
+import { createClient } from '@/lib/supabase/client';
 import { UserState } from '@/types/user-state.types';
 
 // TODO: 最終的にはユーザー情報の取得はこのファイルのみにする。
@@ -7,9 +7,10 @@ import { UserState } from '@/types/user-state.types';
  * @param userId ユーザーID
  * @returns State 型に一致するオブジェクト
  */
-
-export async function fetchUserData(userId: string): Promise<UserState | null> {
-  const supabase = await createClient();
+export async function fetchUserDataClient(
+  userId: string,
+): Promise<UserState | null> {
+  const supabase = createClient();
 
   const { data, error } = await supabase
     .from('user_groups')

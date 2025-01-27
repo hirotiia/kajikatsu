@@ -13,7 +13,7 @@ import {
   FormInput,
 } from '@/components/ui/form';
 import { useNotifications } from '@/components/ui/notifications';
-import { GroupMember } from '@/lib/supabase/data/users/get-group-members';
+import { GroupMember } from '@/lib/supabase/data/users/fetch-group-members';
 
 import { SelectUsers } from '../select/select-users';
 

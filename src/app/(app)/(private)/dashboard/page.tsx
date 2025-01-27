@@ -5,7 +5,7 @@ import { Content } from '@/components/layouts/content/content';
 import { Box } from '@/components/ui/box/box';
 import { SecondaryHeading } from '@/components/ui/heading';
 import { InfoList } from '@/components/ui/list';
-import { Tab, TabSelectHeader, TabItem } from '@/components/ui/tab';
+import { RenderDashboardTasks } from '@/features/dashboard/components/render-dashboard-tasks';
 import { getUserProfile } from '@/lib/supabase/data/users/get-user-profile';
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -27,15 +27,7 @@ export default async function Dashbord() {
           <b>ようこそ、{data.username}さん</b>
         </p>
         <SecondaryHeading>全体</SecondaryHeading>
-        <Tab defaultKey="tab1">
-          <TabSelectHeader className="mb-4" />
-          <TabItem key="tab1" tabKey="tab1" label="tab1">
-            <h2>Content for Tab 1</h2>
-          </TabItem>
-          <TabItem key="tab2" tabKey="tab2" label="tab2">
-            <h2>Content for Tab 2</h2>
-          </TabItem>
-        </Tab>
+        <RenderDashboardTasks />
         <SecondaryHeading className="mt-4">これお願い!</SecondaryHeading>
         <Box variant="secondary" className="mt-4">
           <InfoList

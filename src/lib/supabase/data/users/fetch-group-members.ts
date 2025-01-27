@@ -35,7 +35,7 @@ export type GroupResponseResult = Result<GroupResponse>;
  *
  * @returns {Promise<GroupResponseResult>} グループ情報とメンバー一覧、またはエラーメッセージ
  */
-export async function getGroupMembers(
+export async function fetchGroupMembers(
   group_id: string,
 ): Promise<GroupResponseResult> {
   const supabase = await createClient();

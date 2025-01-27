@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice, Reducer } from '@reduxjs/toolkit';
 
-import { fetchUserData } from '@/lib/supabase/user/fetch-user-data';
+import { fetchUserDataClient } from '@/lib/supabase/user/fetch-user-data-client';
 import { UserState } from '@/types/user-state.types';
 
 export type UserStoreState = {
@@ -21,7 +21,7 @@ const initialState: UserStoreState = {
 export const fetchAsyncUserData = createAsyncThunk(
   'user/fetchUserData',
   async (userId: string) => {
-    const userData = await fetchUserData(userId);
+    const userData = await fetchUserDataClient(userId);
     if (!userData) throw new Error('ユーザーデータの取得に失敗しました。');
     return userData;
   },
