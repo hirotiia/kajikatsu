@@ -9,7 +9,7 @@ type UploadProps = {
   file: File | null;
 };
 
-export const uploadAvatar = async ({ file }: UploadProps) => {
+export const uploadStorage = async ({ file }: UploadProps) => {
   if (!file) {
     throw new Error('No file selected.');
   }

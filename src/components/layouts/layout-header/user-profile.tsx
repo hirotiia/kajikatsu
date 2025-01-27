@@ -91,7 +91,12 @@ export const UserProfile = () => {
             containerClassName="right-0 before:right-[10px] before:left-auto"
           >
             {userState.data?.avatar_url ? (
-              <Image alt="" src={userState.data?.avatar_url} />
+              <Image
+                alt=""
+                src={userState.data?.avatar_url}
+                width="30"
+                height="30"
+              />
             ) : (
               <CircleUserRound size="30">デフォルトアイコン</CircleUserRound>
             )}
