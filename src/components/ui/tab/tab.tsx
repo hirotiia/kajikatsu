@@ -73,15 +73,6 @@ const Tab = ({ children, defaultKey, className }: TabProps) => {
     ) as ReactElement<TabItemProps>[];
     return items
       .map((child) => {
-        if (
-          (child.type as any).displayName === 'TabSelectHeader' ||
-          (child.type as any).displayName === 'TabHeader'
-        ) {
-          return undefined;
-        }
-        if ((child.type as any).displayName !== 'TabItem') {
-          throw new Error('TabItemを利用してください');
-        }
         return { tabKey: child.props.tabKey, label: child.props.label };
       })
       .filter((tab): tab is TabHeader => tab !== undefined);
@@ -189,8 +180,6 @@ const TabHeader = ({ className, ariaLabel }: TabHeaderProps) => {
   );
 };
 
-TabHeader.displayName = 'TabHeader';
-
 type TabSelectHeaderProps = {
   children?: React.ReactNode;
   className?: string;
@@ -225,8 +214,6 @@ const TabSelectHeader = ({ children, className }: TabSelectHeaderProps) => {
   );
 };
 
-TabSelectHeader.displayName = 'TabSelectHeader';
-
 const TabItem = ({ children, tabKey, className }: TabItemProps) => {
   const { currentKey } = useContext(TabContext);
 
@@ -246,7 +233,5 @@ const TabItem = ({ children, tabKey, className }: TabItemProps) => {
     </div>
   );
 };
-
-TabItem.displayName = 'TabItem';
 
 export { Tab, TabHeader, TabSelectHeader, TabItem };
