@@ -20,18 +20,16 @@ export default function LoginPage() {
   };
   const [state, signInAction] = useFormState(signIn, initialState);
   const { addNotification } = useNotifications();
+  console.log(state);
 
   useEffect(() => {
     if (state.status !== null) {
       addNotification(state);
     }
-  }, [state, addNotification]);
-
-  useEffect(() => {
     if (state.type === 'success') {
       router.push('/dashboard');
     }
-  }, [state, router]);
+  }, [state, addNotification, router]);
 
   return (
     <>

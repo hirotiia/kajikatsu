@@ -203,7 +203,7 @@ const TabSelectHeader = ({ children, className }: TabSelectHeaderProps) => {
           className="w-full rounded border border-muted bg-base p-2 text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
         >
           {tabList.map(({ tabKey, label }) => (
-            <option key={tabKey} value={tabKey}>
+            <option key={`${tabKey}-option`} value={tabKey}>
               {label}
             </option>
           ))}

@@ -1,12 +1,11 @@
 import { Metadata } from 'next';
-import { redirect } from 'next/navigation';
 
 import { Content } from '@/components/layouts/content/content';
 import { Box } from '@/components/ui/box/box';
 import { SecondaryHeading } from '@/components/ui/heading';
 import { InfoList } from '@/components/ui/list';
 import { RenderDashboardTasks } from '@/features/dashboard/components/render-dashboard-tasks';
-import { getUserProfile } from '@/lib/supabase/data/users/get-user-profile';
+import { RenderIntorductionMessage } from '@/features/dashboard/components/render-introduction-message';
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
@@ -15,17 +14,10 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function Dashbord() {
-  const { data, error } = await getUserProfile();
-  if (error || !data) {
-    redirect('/login');
-  }
-
   return (
     <>
       <Content>
-        <p className="text-center text-lg">
-          <b>ようこそ、{data.username}さん</b>
-        </p>
+        <RenderIntorductionMessage />
         <SecondaryHeading>全体</SecondaryHeading>
         <RenderDashboardTasks />
         <SecondaryHeading className="mt-4">これお願い!</SecondaryHeading>
