@@ -1,7 +1,7 @@
 import { fetchGroupMembers } from '@/lib/supabase/data/users/fetch-group-members';
 import { getGroup } from '@/lib/supabase/group/get-group';
 
-export const createTabTaskData = async () => {
+export const createGroupMenbersTask = async () => {
   const { group, error } = await getGroup();
 
   if (!group || error) {

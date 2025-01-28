@@ -1,7 +1,10 @@
 import { Tab, TabSelectHeader, TabItem } from '@/components/ui/tab';
 import { cn } from '@/utils/cn';
 
-export const RenderDashboardTasks = async ({
+/**
+ * ユーザーが入っているグループ内のタスクを担当者ごとに表示
+ */
+export const RenderAllMenbersTasks = async ({
   className,
 }: {
   className?: string;
