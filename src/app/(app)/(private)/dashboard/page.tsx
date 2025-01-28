@@ -22,17 +22,21 @@ export default async function Dashbord() {
   }
 
   const data = await fetchUserData(user.id);
-  console.log('---------------------------');
-  console.log(data);
-  console.log('---------------------------');
+
   return (
     <>
       <Content>
         <p className="mb-6 text-center text-lg">
           <b>ようこそ、{data?.username ?? 'unknown user'}さん</b>
         </p>
-        <SecondaryHeading>全体</SecondaryHeading>
-        <RenderAllMenbersTasks className="mt-6" />
+
+        {data?.group?.id && (
+          <>
+            <SecondaryHeading>全体</SecondaryHeading>
+            <RenderAllMenbersTasks groupId={data.group.id} className="mt-6" />
+          </>
+        )}
+
         <SecondaryHeading className="mt-4">これお願い!</SecondaryHeading>
         <Box variant="secondary" className="mt-4">
           <InfoList
