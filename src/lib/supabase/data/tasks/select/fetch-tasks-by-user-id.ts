@@ -16,7 +16,7 @@ type FetchTasksOption = {
  * @param options フィルタ・オプション
  * @returns `Promise<Result<Task[]>>`
  */
-export async function fetchManagerTasksByUserId(
+export async function fetchTasksByUserId(
   userId: string,
   options: FetchTasksOption,
 ): Promise<Result<Task[]>> {
