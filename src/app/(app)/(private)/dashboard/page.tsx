@@ -17,9 +17,9 @@ export default async function Dashbord() {
   return (
     <>
       <Content>
-        <RenderIntorductionMessage />
+        <RenderIntorductionMessage className="mb-6" />
         <SecondaryHeading>全体</SecondaryHeading>
-        <RenderDashboardTasks />
+        <RenderDashboardTasks className="mt-6" />
         <SecondaryHeading className="mt-4">これお願い!</SecondaryHeading>
         <Box variant="secondary" className="mt-4">
           <InfoList
