@@ -1,3 +1,4 @@
+import { CircleUserRound } from 'lucide-react';
 import Image from 'next/image';
 
 import { cn } from '@/utils/cn';
@@ -33,10 +34,12 @@ export const Tasks = ({ listItems }: TasksProps) => {
               <p className="col-start-1 col-end-2 row-start-1 row-end-2 text-destructive">
                 期限日：{expiresAt ? expiresAt : 'なし'}
               </p>
-              {avatar_url && (
+              {avatar_url ? (
                 <div className="col-start-1 col-end-2">
                   <Image src={avatar_url} alt="アバター" />
                 </div>
+              ) : (
+                <CircleUserRound size={30} />
               )}
               <p
                 className={cn(

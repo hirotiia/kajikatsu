@@ -73,6 +73,13 @@ const Tab = ({ children, defaultKey, className }: TabProps) => {
     ) as ReactElement<TabItemProps>[];
     return items
       .map((child) => {
+        if ((child.type as any).displayName === 'TabHeader') {
+          return undefined;
+        }
+        if ((child.type as any).displayName === 'TabSelectHeader') {
+          return undefined;
+        }
+
         return { tabKey: child.props.tabKey, label: child.props.label };
       })
       .filter((tab): tab is TabHeader => tab !== undefined);
@@ -110,6 +117,7 @@ const TabHeader = ({ className, ariaLabel }: TabHeaderProps) => {
 
   const handleKeyDown = (event: KeyboardEvent<HTMLUListElement>) => {
     const currentIndex = tabList.findIndex((tab) => tab.tabKey === currentKey);
+
     let newIndex = currentIndex;
 
     switch (event.key) {
@@ -152,7 +160,7 @@ const TabHeader = ({ className, ariaLabel }: TabHeaderProps) => {
         }
 
         return (
-          <li key={tabKey} className="flex-1" role="presentation">
+          <li key={`${tabKey}-header`} className="flex-1" role="presentation">
             <button
               type="button"
               role="tab"
@@ -179,6 +187,8 @@ const TabHeader = ({ className, ariaLabel }: TabHeaderProps) => {
     </ul>
   );
 };
+
+TabHeader.displayName = 'TabHeader';
 
 type TabSelectHeaderProps = {
   children?: React.ReactNode;
@@ -213,6 +223,8 @@ const TabSelectHeader = ({ children, className }: TabSelectHeaderProps) => {
     </div>
   );
 };
+
+TabSelectHeader.displayName = 'TabSelectHeader';
 
 const TabItem = ({ children, tabKey, className }: TabItemProps) => {
   const { currentKey } = useContext(TabContext);
