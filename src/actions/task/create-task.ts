@@ -91,7 +91,7 @@ export const createTask = async (
     const statusName = formData.get('status');
     const deadline = formData.get('deadline') ?? null;
     const description = formData.get('description') ?? null;
-    const assignmentUser = formData.get('assignment') ?? null;
+    const assignmentUserId = formData.get('assignment') ?? null;
 
     if (typeof title !== 'string' || typeof statusName !== 'string') {
       throw new Error('タイトルとステータスは必須です。');
@@ -103,7 +103,10 @@ export const createTask = async (
       statusName,
       deadline: typeof deadline === 'string' ? deadline : null,
       description: typeof description === 'string' ? description : null,
-      assigneeId: typeof assignmentUser === 'string' ? assignmentUser : null,
+      assigneeId:
+        typeof assignmentUserId === 'string' && assignmentUserId.trim() !== ''
+          ? assignmentUserId
+          : null,
     };
 
     // `statuses` テーブルから `status_id` を取得

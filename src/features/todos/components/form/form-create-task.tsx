@@ -53,7 +53,7 @@ export const FormCreateTask = ({
         layout="vertical"
         className=""
         error="タイトルが入力されていません"
-        required
+        required={true}
       />
       <FormSelect
         id="status"
@@ -62,6 +62,7 @@ export const FormCreateTask = ({
         error="タスクのステータスを選択してください。"
         layout="vertical"
         className="mt-4"
+        required={true}
         options={[
           { value: '保留', title: '保留' },
           { value: '未対応', title: '未対応' },
