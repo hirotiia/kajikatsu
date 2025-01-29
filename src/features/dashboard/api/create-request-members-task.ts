@@ -10,11 +10,11 @@ export type MemberWithTasks = {
   tasks: Task[];
 };
 
-export type GroupMembersTasks = {
+export type RequestMembersTasks = {
   members: MemberWithTasks[];
 };
 
-export const createGroupMenbersTask = async (groupId: string) => {
+export const createRequestMembersTask = async (groupId: string) => {
   try {
     const { data, error } = await fetchGroupMembers(groupId);
 
@@ -28,6 +28,7 @@ export const createGroupMenbersTask = async (groupId: string) => {
     const memberTasksPromises = groupMembers.map(async (member) => {
       const tasksResult = await fetchTasksByUserId(member.user_id, {
         filterType: 'assignee',
+        filterValue: null,
       });
 
       const tasks = tasksResult.data ?? [];
@@ -43,7 +44,7 @@ export const createGroupMenbersTask = async (groupId: string) => {
     // すべてのメンバーのタスク取得を並列で待機
     const membersWithTasks = await Promise.all(memberTasksPromises);
 
-    const result: GroupMembersTasks = {
+    const result: RequestMembersTasks = {
       members: membersWithTasks,
     };
 

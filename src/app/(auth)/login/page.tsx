@@ -20,7 +20,6 @@ export default function LoginPage() {
   };
   const [state, signInAction] = useFormState(signIn, initialState);
   const { addNotification } = useNotifications();
-  console.log(state);
 
   useEffect(() => {
     if (state.status !== null) {

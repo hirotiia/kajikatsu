@@ -20,7 +20,6 @@ const FIELD_LABELS: Record<string, string> = {
  * Diff オブジェクトを受け取り、JSXの <ul><li>...</li></ul> リスト要素として返す
  */
 export function buildDiffMessages(diff: DiffRecord): JSX.Element {
-  console.log(diff);
   return (
     <>
       <p className="text-lg">

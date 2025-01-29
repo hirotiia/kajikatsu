@@ -17,6 +17,8 @@ import { UserData } from '@/lib/supabase/data/users/get-user-data';
 import { getUserProfileClient } from '@/lib/supabase/data/users/get-user-profile-client';
 import { extractChangedFields } from '@/utils/extract-changed-fields';
 
+import { buildCreatedMessage } from './build-create-messages';
+import { buildDeletedMessage } from './build-delete-messages';
 import { buildDiffMessages } from './build-diff-messages';
 
 type TaskHistoryPageClientProps = {
@@ -47,6 +49,10 @@ export const TaskHistoryPageClient = ({
         groupId: userData.groupId,
       }),
   );
+
+  console.log('-------------------');
+  console.log(historyList);
+  console.log('-------------------');
 
   useEffect(() => {
     if (!historyList) return;
@@ -83,6 +89,12 @@ export const TaskHistoryPageClient = ({
             } else {
               taskDiff = '変更なし';
             }
+          } else if (action === 'created') {
+            const { new: newTask } = item.details;
+            taskDiff = buildCreatedMessage(newTask);
+          } else if (action === 'deleted') {
+            const { old: oldTask } = item.details;
+            taskDiff = buildDeletedMessage(oldTask);
           }
 
           return {

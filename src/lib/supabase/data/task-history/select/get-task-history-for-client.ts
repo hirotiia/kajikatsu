@@ -23,7 +23,12 @@ export async function getTaskHistoryForClient(
     .order('changed_at', { ascending: false });
 
   if (groupId) {
-    query = query.filter('details->old->>group_id', 'eq', groupId);
+    // 新規作成時は old が null で new.group_id = groupId
+    // 更新時は old.group_id or new.group_id のどちらかが groupId
+    // 削除時は old.group_id = groupId
+    query = query.or(
+      `details->old->>group_id.eq.${groupId},details->new->>group_id.eq.${groupId}`,
+    );
   } else {
     query = query.eq('changed_by', userId);
   }

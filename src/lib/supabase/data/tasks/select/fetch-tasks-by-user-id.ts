@@ -3,11 +3,8 @@ import { Result } from '@/types/result.types';
 import { Task } from '@/types/task.types';
 
 type FetchTasksOption = {
-  // 「対象ユーザーを何として扱うか」
-  // 'assignee' -> "担当者"として
-  // 'creator'  -> "作成者"として
-  // などのパターンを追加したければ増やすことができる
   filterType: 'assignee' | 'creator';
+  filterValue: string | null;
 };
 /**
  * 指定したユーザーIDが担当者のタスク一覧を取得する関数
@@ -44,10 +41,23 @@ export async function fetchTasksByUserId(
 
     switch (options.filterType) {
       case 'creator':
-        query = query.eq('created_by', userId);
+        if (options.filterValue) {
+          query = query.eq('created_by', options.filterValue);
+        } else {
+          return {
+            data: [],
+            error: null,
+          };
+        }
         break;
       case 'assignee':
-        query = query.eq('assignee_id', userId);
+        if (options.filterValue) {
+          query = query.eq('assignee_id', options.filterValue);
+        } else {
+          // 引数にわたってきたユーザーが作成したタスクのうち、担当者が指定されていないタスクを取得する
+          query = query.eq('created_by', userId);
+          query = query.is('assignee_id', null);
+        }
         break;
       default:
     }

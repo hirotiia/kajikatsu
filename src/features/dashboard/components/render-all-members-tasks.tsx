@@ -1,19 +1,19 @@
 import { TaskCard } from '@/components/ui/card';
 import { Tab, TabSelectHeader, TabItem } from '@/components/ui/tab';
 
-import { createGroupMenbersTask } from '../api/create-group-menbers-task';
+import { createGroupMembersTask } from '../api/create-group-members-task';
 
 /**
  * グループメンバーごとの担当タスクを一覧表示するコンポーネント
  */
-export async function RenderAllMenbersTasks({
+export async function RenderAllMembersTasks({
   groupId,
   className,
 }: {
   groupId: string;
   className?: string;
 }) {
-  const res = await createGroupMenbersTask(groupId);
+  const res = await createGroupMembersTask(groupId);
 
   if (res.error) {
     return <p className="text-destructive-foreground">エラー: {res.error}</p>;
@@ -35,7 +35,7 @@ export async function RenderAllMenbersTasks({
         <TabItem
           key={member.user_id}
           tabKey={member.user_id}
-          label={member.username}
+          label={`${member.username}さんの担当タスク`}
         >
           <div className="space-y-4">
             {member.tasks.length > 0 ? (

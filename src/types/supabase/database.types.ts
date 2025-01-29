@@ -226,7 +226,7 @@ export type Database = {
           action_id: string;
           changed_at: string | null;
           changed_by: string;
-          details: Json | null;
+          details: { old: Json | null; new: Json | null };
           id: string;
           task_id: string;
         };
@@ -234,7 +234,7 @@ export type Database = {
           action_id: string;
           changed_at?: string | null;
           changed_by: string;
-          details?: Json | null;
+          details?: { old: Json | null; new: Json | null };
           id?: string;
           task_id: string;
         };
@@ -242,7 +242,7 @@ export type Database = {
           action_id?: string;
           changed_at?: string | null;
           changed_by?: string;
-          details?: Json | null;
+          details?: { old: Json | null; new: Json | null };
           id?: string;
           task_id?: string;
         };

@@ -11,7 +11,7 @@ export const TaskCard = ({ tasks }: { tasks: Task[] }) => {
           key={task.id}
           className="rounded-lg border border-muted bg-background p-4 shadow-sm"
         >
-          <h2 className="text-lg font-semibold text-primary-foreground">
+          <h2 className="text-lg font-semibold text-foreground">
             {task.title}
           </h2>
 
