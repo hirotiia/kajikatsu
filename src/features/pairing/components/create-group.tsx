@@ -56,7 +56,7 @@ export const CreateGroup = () => {
             name="group"
             type="text"
             className=""
-            error="グループ名を入力してください"
+            error={['グループ名を入力してください']}
             required
           />
           <Button>グループを作成する</Button>

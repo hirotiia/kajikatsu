@@ -1,6 +1,7 @@
 'use server';
 
 import { createServerClient } from '@supabase/ssr';
+import { z } from 'zod';
 
 import { fetchStatusId } from '@/lib/supabase/data/statuses/select/fetch-status-id';
 import { fetchGroupId } from '@/lib/supabase/data/user-groups/select/fetch-group-id';
@@ -21,12 +22,20 @@ export interface CreateTaskError {
 
 export type CreateTaskResult = CreateTaskSuccess | CreateTaskError;
 
+const TaskSchema = z.object({
+  title: z.string().min(1, 'タイトルが入力されていません。'),
+  status: z.string().min(1, 'ステータスを選択してください。'),
+  deadline: z.string().nullable(),
+  description: z.string().nullable(),
+  assignment: z.string().nullable(),
+});
+
 /**
  * タスクを作成する際の入力データの型
  */
 interface TaskInput {
   title: string;
-  statusName: string;
+  status: string;
   deadline: string | null;
   description: string | null;
   assigneeId: string | null;
@@ -87,30 +96,41 @@ export const createTask = async (
     }
 
     // フォームからユーザーの入力情報を取得
-    const title = formData.get('title');
-    const statusName = formData.get('status');
-    const deadline = formData.get('deadline') ?? null;
-    const description = formData.get('description') ?? null;
-    const assignmentUserId = formData.get('assignment') ?? null;
+    const validatedFields = TaskSchema.safeParse({
+      title: formData.get('title'),
+      status: formData.get('status'),
+      deadline: formData.get('deadline') ?? null,
+      description: formData.get('description') ?? null,
+      assignment: formData.get('assignment') ?? null,
+    });
 
-    if (typeof title !== 'string' || typeof statusName !== 'string') {
-      throw new Error('タイトルとステータスは必須です。');
+    if (!validatedFields.success) {
+      return {
+        status: null,
+        formValidationStatus: {
+          errors: validatedFields.error.flatten().fieldErrors,
+          message: '未入力の箇所があります。タスクの作成が失敗しました。',
+        },
+      };
     }
+
+    const { title, status, deadline, description, assignment } =
+      validatedFields.data;
 
     // 最終的にDBに保存されるデータ
     const taskInput: TaskInput = {
       title,
-      statusName,
-      deadline: typeof deadline === 'string' ? deadline : null,
-      description: typeof description === 'string' ? description : null,
+      status,
+      deadline,
+      description,
       assigneeId:
-        typeof assignmentUserId === 'string' && assignmentUserId.trim() !== ''
-          ? assignmentUserId
+        typeof assignment === 'string' && assignment.trim() !== ''
+          ? assignment
           : null,
     };
 
     // `statuses` テーブルから `status_id` を取得
-    const statusId = await fetchStatusId(supabase, taskInput.statusName);
+    const statusId = await fetchStatusId(supabase, taskInput.status);
 
     // groupId の取得
     const groupId = await fetchGroupId(supabase, user.id);
@@ -130,6 +150,7 @@ export const createTask = async (
       type: 'success',
       status: 200,
       message: 'タスクを作成しました。',
+      formValidationStatus: { errors: {}, message: null },
     };
   } catch (error: any) {
     return { type: 'error', status: 400, message: error.message };

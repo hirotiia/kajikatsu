@@ -37,7 +37,7 @@ export default function RegisterPage() {
               name="username"
               type="text"
               className=""
-              error="ユーザー名が入力されていません"
+              error={['ユーザー名が入力されていません']}
               required
             />
             <FormInput
@@ -46,7 +46,7 @@ export default function RegisterPage() {
               name="email"
               type="email"
               className=""
-              error="メールアドレスが入力されていません"
+              error={['メールアドレスが入力されていません']}
               required
             />
             <FormInput
@@ -55,7 +55,7 @@ export default function RegisterPage() {
               name="password"
               type="password"
               className=""
-              error="パスワードが入力されていません"
+              error={['パスワードが入力されていません']}
               required
             />
             <Button className="mx-auto max-w-screen-sm">登録</Button>

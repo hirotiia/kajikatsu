@@ -9,7 +9,7 @@ interface FormInputProps extends InputHTMLAttributes<HTMLInputElement> {
   id: string;
   name: string;
   type?: InputType;
-  error?: string;
+  error?: string[];
   className?: string;
   layout?: 'horizontal' | 'vertical';
 }
@@ -24,7 +24,7 @@ export const FormInput: React.FC<FormInputProps> = ({
   layout = 'horizontal',
   ...props
 }) => {
-  const hasError = Boolean(error);
+  const hasError = error?.length !== 0;
 
   return (
     <div
@@ -55,18 +55,23 @@ export const FormInput: React.FC<FormInputProps> = ({
         />
       </div>
       {hasError && (
-        <p
-          className={cn(
-            'text-destructive',
-            layout === 'horizontal'
-              ? 'md:col-start-2 md:row-start-2'
-              : 'col-start-1 row-start-2',
-          )}
-          id={`${id}-error`}
-          aria-live="assertive"
-        >
-          {error}
-        </p>
+        <div>
+          {error?.map((errMsg) => (
+            <p
+              key={`${id}-error`}
+              id={`${id}-error`}
+              className={cn(
+                'text-destructive',
+                layout === 'horizontal'
+                  ? 'md:col-start-2 md:row-start-2'
+                  : 'col-start-1 row-start-2',
+              )}
+              aria-live="polite"
+            >
+              {errMsg}
+            </p>
+          ))}
+        </div>
       )}
     </div>
   );

@@ -42,7 +42,7 @@ export default function LoginPage() {
               name="email"
               type="text"
               className=""
-              error="メールアドレスが入力されていません"
+              error={['メールアドレスが入力されていません']}
               required
             />
             <FormInput
@@ -51,7 +51,7 @@ export default function LoginPage() {
               name="password"
               type="password"
               className=""
-              error="パスワードが入力されていません"
+              error={['パスワードが入力されていません']}
               required
             />
             <Button className="mx-auto max-w-screen-sm">ログイン</Button>

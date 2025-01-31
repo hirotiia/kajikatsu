@@ -22,6 +22,14 @@ type FormCreateTaskProps = {
   joinedGroup: boolean;
 };
 
+// type FormValidationType = {
+//   errors?: {
+//     title?: string[];
+//     status?: string[];
+//   };
+//   message: string | null;
+// };
+
 export const FormCreateTask = ({
   groupMembers,
   joinedGroup,
@@ -30,6 +38,7 @@ export const FormCreateTask = ({
     type: '',
     status: null,
     message: '',
+    formValidationStatus: null,
   };
   const [state, createTaskAction] = useFormState(createTask, initialState);
   const { addNotification } = useNotifications();
@@ -52,18 +61,17 @@ export const FormCreateTask = ({
         type="text"
         layout="vertical"
         className=""
-        error="タイトルが入力されていません"
-        required={true}
+        error={state.formValidationStatus?.errors?.title}
       />
       <FormSelect
         id="status"
         name="status"
         label="ステータス"
-        error="タスクのステータスを選択してください。"
+        error={state.formValidationStatus?.errors?.status}
         layout="vertical"
         className="mt-4"
-        required={true}
         options={[
+          { value: '', title: '選択してください。' },
           { value: '保留', title: '保留' },
           { value: '未対応', title: '未対応' },
           { value: '対応中', title: '対応中' },

@@ -57,7 +57,7 @@ export const InviteGroup = () => {
               id="expires_at"
               name="expires_at"
               label="有効期限"
-              error="招待リンクの有効期限を選択してください。"
+              error={['招待リンクの有効期限を選択してください。']}
               options={[
                 { value: '1', title: '1時間' },
                 { value: '5', title: '5時間' },
