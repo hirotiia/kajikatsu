@@ -1,18 +1,12 @@
-import { InfoList } from '@/components/ui/list';
+import { TaskCard } from '@/components/ui/card';
 import { Task } from '@/types/task.types';
+import { cn } from '@/utils/cn';
 
 import { createRequestMembersTask } from '../api/create-request-members-task';
 
 type props = {
   className?: string;
   groupId: string;
-};
-
-type InfoData = {
-  date: string;
-  expireDate: string;
-  title: string;
-  description: string;
 };
 
 export const RenderRequestTasks = async ({ className, groupId }: props) => {
@@ -28,17 +22,9 @@ export const RenderRequestTasks = async ({ className, groupId }: props) => {
   // => Task[] の配列としてフラット化
   const tasks: Task[] = members.flatMap((member) => member.tasks);
 
-  // InfoData に整形
-  const infoData: InfoData[] = tasks.map((task) => ({
-    date: task.createdAt ?? '不明',
-    expireDate: task.expiresAt ?? 'なし',
-    title: task.title,
-    description: task.description ?? '',
-  }));
-
-  return infoData.length === 0 ? (
+  return tasks.length === 0 ? (
     <p>お願いされているタスクはありません。</p>
   ) : (
-    <InfoList items={infoData} className={className} />
+    <TaskCard tasks={tasks} className={cn(className)} />
   );
 };

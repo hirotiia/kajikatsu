@@ -1,11 +1,18 @@
 import { Task } from '@/types/task.types';
+import { cn } from '@/utils/cn';
 
 /**
  * ユーザーが担当するタスクを一覧表示するコンポーネント
  */
-export const TaskCard = ({ tasks }: { tasks: Task[] }) => {
+export const TaskCard = ({
+  tasks,
+  className,
+}: {
+  tasks: Task[];
+  className?: string;
+}) => {
   return (
-    <ul className="grid gap-4">
+    <ul className={cn('grid gap-4', className)}>
       {tasks.map((task) => (
         <li
           key={task.id}
