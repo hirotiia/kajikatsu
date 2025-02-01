@@ -4,13 +4,18 @@ import { cn } from '@/utils/cn';
 /**
  * ユーザーが担当するタスクを一覧表示するコンポーネント
  */
+
+type TaskCardProps = {
+  tasks: Task[];
+  className?: string;
+  renderActionButton?: React.ReactNode;
+};
+
 export const TaskCard = ({
   tasks,
   className,
-}: {
-  tasks: Task[];
-  className?: string;
-}) => {
+  renderActionButton,
+}: TaskCardProps) => {
   return (
     <ul className={cn('grid gap-4', className)}>
       {tasks.map((task) => (
@@ -41,6 +46,9 @@ export const TaskCard = ({
               ステータス: {task.statusName}
             </p>
           )}
+
+          {/* 外部から渡されたアクション用ボタン等を表示 */}
+          {renderActionButton}
         </li>
       ))}
     </ul>

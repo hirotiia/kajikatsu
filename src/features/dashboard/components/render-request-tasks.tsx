@@ -4,6 +4,8 @@ import { cn } from '@/utils/cn';
 
 import { createRequestMembersTask } from '../api/create-request-members-task';
 
+import { RenderAssignButton } from './button/render-assign-button';
+
 type props = {
   className?: string;
   groupId: string;
@@ -25,6 +27,10 @@ export const RenderRequestTasks = async ({ className, groupId }: props) => {
   return tasks.length === 0 ? (
     <p>お願いされているタスクはありません。</p>
   ) : (
-    <TaskCard tasks={tasks} className={cn(className)} />
+    <TaskCard
+      tasks={tasks}
+      className={cn(className)}
+      renderActionButton={<RenderAssignButton />}
+    />
   );
 };
