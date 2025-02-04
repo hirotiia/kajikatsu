@@ -9,27 +9,27 @@ import { useNotifications } from '@/components/ui/notifications';
 import { useOpener } from '@/hooks/use-opener';
 
 export const DleteGroup = () => {
-  const initialState = {
-    type: '',
-    status: null,
-    message: '',
-  };
-  const [state, deleteGroupAction] = useFormState(deleteGroup, initialState);
+  const [state, deleteGroupAction] = useFormState(deleteGroup, null);
   const openerDialog = useOpener();
   const { addNotification } = useNotifications();
 
   useEffect(() => {
-    if (state.status !== null) {
+    if (state === null) return;
+    // state が null でなければ status は number
+    if (state.status !== 0) {
       openerDialog.close();
     }
 
     return () => {
-      state.status = null;
+      if (state !== null) {
+        state.status = 0;
+      }
     };
   }, [state, openerDialog]);
 
   useEffect(() => {
-    if (state.status !== null) {
+    if (state === null) return;
+    if (state.status !== 0) {
       addNotification(state);
     }
   }, [state, addNotification]);
