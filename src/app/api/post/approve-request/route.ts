@@ -1,9 +1,8 @@
 /** 参加リクエストを承認 */
-
 import { NextResponse } from 'next/server';
 
 import { createClient } from '@/lib/supabase/server';
-import { getUser } from '@/lib/supabase/user/user';
+import { fetchUserData } from '@/lib/supabase/user/fetch-user-data';
 
 type SuccessResponse = {
   message: string;
@@ -22,43 +21,67 @@ export async function POST(
   request: Request,
 ): Promise<NextResponse<ApiResponse>> {
   const supabase = await createClient();
-  const json = await request.json();
-  const { requestId } = await json;
-  const editor = process.env.GROUP_ROLE_ID_EDITOR;
 
-  if (!editor) {
+  // リクエスト body から requestId を取得
+  const json = await request.json();
+  const { requestId } = json;
+
+  // editorロールのIDを Supabase から直接取得
+  const { data: editorRoleData, error: editorRoleError } = await supabase
+    .from('roles')
+    .select('id')
+    .eq('name', 'editor')
+    .single();
+
+  if (editorRoleError || !editorRoleData) {
     return NextResponse.json<ErrorResponse>(
       {
         message: '権限の取得に失敗しました。',
         type: 'error',
+        errorDetails: editorRoleError?.message,
       },
       { status: 401 },
     );
   }
+  const editorRoleId = editorRoleData.id;
 
-  // ユーザー情報を取得
-  const { user, authError } = await getUser();
+  // ログインしているユーザー情報を取得
+  const {
+    data: { user },
+    error: userError,
+  } = await supabase.auth.getUser();
 
-  if (authError || !user) {
+  if (userError || !user) {
     return NextResponse.json<ErrorResponse>(
       {
         message: 'ユーザー情報の取得に失敗しました。',
         type: 'error',
-        errorDetails: authError?.message,
+        errorDetails: userError?.message,
       },
       { status: 401 },
     );
   }
 
-  const userId = user.id;
+  // fetchUserData でユーザー（承認する人）の追加情報を取得（必要に応じて活用）
+  const userState = await fetchUserData(user.id);
+  if (!userState) {
+    // userState が null の場合、ユーザー情報を取れなかったと判断
+    return NextResponse.json<ErrorResponse>(
+      {
+        message: 'ユーザー情報の取得に失敗しました。（詳細データなし）',
+        type: 'error',
+      },
+      { status: 401 },
+    );
+  }
 
-  // join_requestsテーブルにデータを記録
+  // 参加リクエストを承認状態に更新
   const { error } = await supabase
     .from('join_requests')
     .update({
       status: 'approved',
       processed_at: new Date().toISOString(),
-      processed_by: userId,
+      processed_by: user.id,
     })
     .eq('id', requestId);
 
@@ -73,10 +96,10 @@ export async function POST(
     );
   }
 
-  // 参加リクエストからデータを取得
+  // 参加リクエストから invitation_id, user_id を取得
   const { data: requestData, error: requestDataError } = await supabase
     .from('join_requests')
-    .select(`invitation_id,user_id`)
+    .select(`invitation_id, user_id`)
     .eq('id', requestId)
     .single();
 
@@ -90,11 +113,10 @@ export async function POST(
       { status: 401 },
     );
   }
-
   const requestUser_id = requestData.user_id;
   const { invitation_id } = requestData;
 
-  // ぐるーぷ情報を取得
+  // 招待情報から group_id を取得
   const { data: groupData, error: groupDataError } = await supabase
     .from('group_invitations')
     .select('group_id')
@@ -111,7 +133,6 @@ export async function POST(
       { status: 401 },
     );
   }
-
   const { group_id } = groupData;
 
   // すでにグループに参加していないか確認
@@ -141,11 +162,11 @@ export async function POST(
     );
   }
 
-  // リクエストを送信したユーザーをグループに追加
+  // リクエストを送信したユーザーをグループに追加（role_id には "editor" を設定）
   const { error: userGroupError } = await supabase.from('user_groups').insert({
-    group_id: group_id,
+    group_id,
     user_id: requestUser_id,
-    role_id: editor,
+    role_id: editorRoleId,
   });
 
   if (userGroupError) {
@@ -159,6 +180,7 @@ export async function POST(
     );
   }
 
+  // 正常終了
   return NextResponse.json<SuccessResponse>(
     {
       message: 'リクエストを承認しました。',
