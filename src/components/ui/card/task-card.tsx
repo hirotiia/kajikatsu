@@ -1,6 +1,8 @@
 import { Task } from '@/types/task.types';
 import { cn } from '@/utils/cn';
 
+import { AssignButton } from '../button';
+
 /**
  * ユーザーが担当するタスクを一覧表示するコンポーネント
  */
@@ -8,14 +10,10 @@ import { cn } from '@/utils/cn';
 type TaskCardProps = {
   tasks: Task[];
   className?: string;
-  renderActionButton?: React.ReactNode;
+  assignButton?: boolean;
 };
 
-export const TaskCard = ({
-  tasks,
-  className,
-  renderActionButton,
-}: TaskCardProps) => {
+export const TaskCard = ({ tasks, className, assignButton }: TaskCardProps) => {
   return (
     <ul className={cn('grid gap-4', className)}>
       {tasks.map((task) => (
@@ -48,7 +46,7 @@ export const TaskCard = ({
           )}
 
           {/* 外部から渡されたアクション用ボタン等を表示 */}
-          {renderActionButton}
+          {assignButton && <AssignButton taskId={task.id} />}
         </li>
       ))}
     </ul>

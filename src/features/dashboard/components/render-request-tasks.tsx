@@ -1,36 +1,29 @@
+'use client';
+
 import { TaskCard } from '@/components/ui/card';
-import { Task } from '@/types/task.types';
 import { cn } from '@/utils/cn';
 
-import { createRequestMembersTask } from '../api/create-request-members-task';
-
-import { RenderAssignButton } from './button/render-assign-button';
+import { useRequestTasks } from '../api/get-task-assignee-data';
 
 type props = {
   className?: string;
   groupId: string;
 };
 
-export const RenderRequestTasks = async ({ className, groupId }: props) => {
-  const res = await createRequestMembersTask(groupId);
+export const RenderRequestTasks = ({ className, groupId }: props) => {
+  const { tasks, error, isLoading } = useRequestTasks(groupId);
 
-  if (res.error) {
-    return <p className="text-destructive-foreground">エラー: {res.error}</p>;
+  if (isLoading) {
+    return <p>読み込み中...</p>;
   }
 
-  const members = res.data?.members ?? [];
-
-  // 各メンバーが担当しているタスクを1つの配列にまとめる
-  // => Task[] の配列としてフラット化
-  const tasks: Task[] = members.flatMap((member) => member.tasks);
+  if (error) {
+    return <p className="text-destructive-foreground">エラー: {error}</p>;
+  }
 
   return tasks.length === 0 ? (
     <p>お願いされているタスクはありません。</p>
   ) : (
-    <TaskCard
-      tasks={tasks}
-      className={cn(className)}
-      renderActionButton={<RenderAssignButton />}
-    />
+    <TaskCard tasks={tasks} className={cn(className)} assignButton />
   );
 };
