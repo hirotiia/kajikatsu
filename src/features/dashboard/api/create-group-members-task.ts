@@ -1,5 +1,5 @@
-import { fetchTasksByUserId } from '@/lib/supabase/data/tasks/select/fetch-tasks-by-user-id';
-import { fetchGroupMembers } from '@/lib/supabase/data/users/fetch-group-members';
+import { fetchTasksByUserIdClient } from '@/lib/supabase/data/tasks/select/fetch-tasks-by-user-id-client';
+import { fetchGroupMembersClient } from '@/lib/supabase/data/users/fetch-group-members-client';
 import { Task } from '@/types/task.types';
 
 export type MemberWithTasks = {
@@ -16,7 +16,7 @@ export type GroupMembersTasks = {
 
 export const createGroupMembersTask = async (groupId: string) => {
   try {
-    const { data, error } = await fetchGroupMembers(groupId);
+    const { data, error } = await fetchGroupMembersClient(groupId);
 
     if (error) {
       throw new Error(error);
@@ -26,7 +26,7 @@ export const createGroupMembersTask = async (groupId: string) => {
 
     // 各メンバーの担当タスクをまとめて取得
     const memberTasksPromises = groupMembers.map(async (member) => {
-      const tasksResult = await fetchTasksByUserId(member.user_id, {
+      const tasksResult = await fetchTasksByUserIdClient(member.user_id, {
         filterType: 'assignee',
         filterValue: member.user_id,
       });

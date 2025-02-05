@@ -3,7 +3,7 @@
 import { TaskCard } from '@/components/ui/card';
 import { cn } from '@/utils/cn';
 
-import { useRequestTasks } from '../api/get-task-assignee-data';
+import { useRequestTasks } from '../api/get-request-tasks';
 
 type props = {
   className?: string;

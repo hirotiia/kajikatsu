@@ -1,30 +1,35 @@
+'use client';
+
 import { TaskCard } from '@/components/ui/card';
 import { Tab, TabSelectHeader, TabItem } from '@/components/ui/tab';
 
-import { createGroupMembersTask } from '../api/create-group-members-task';
+import { useAllMembersTasks } from '../api/get-all-members-tasks';
 
 /**
  * グループメンバーごとの担当タスクを一覧表示するコンポーネント
  */
-export async function RenderAllMembersTasks({
+export function RenderAllMembersTasks({
   groupId,
   className,
 }: {
   groupId: string;
   className?: string;
 }) {
-  const res = await createGroupMembersTask(groupId);
+  const { members, error, isLoading } = useAllMembersTasks(groupId);
 
-  if (res.error) {
-    return <p className="text-destructive-foreground">エラー: {res.error}</p>;
+  if (isLoading) {
+    return <p>読み込み中...</p>;
   }
 
-  const members = res.data?.members ?? [];
+  if (error) {
+    return <p className="text-destructive-foreground">エラー: {error}</p>;
+  }
+
   if (members.length === 0) {
     return <p>このグループにメンバーはいません。</p>;
   }
 
-  // 最初に表示するタブを先頭メンバーのIDに
+  // 先頭メンバーの user_id をデフォルトのタブキーに
   const defaultKey = members[0]?.user_id ?? 'no-member';
 
   return (
