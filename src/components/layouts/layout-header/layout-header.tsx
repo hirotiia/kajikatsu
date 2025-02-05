@@ -2,6 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 import { config } from '@/config/config';
+import { createClient } from '@/lib/supabase/server';
 import { cn } from '@/utils/cn';
 
 import { UserProfile } from './user-profile';
@@ -26,6 +27,12 @@ const Logo = () => {
 };
 
 export const LayoutHeader = async ({ className }: HeaderProps) => {
+  const supabase = await createClient();
+
+  // 現在ログインしているユーザー情報を取得
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   return (
     <header
       className={cn(
@@ -34,7 +41,8 @@ export const LayoutHeader = async ({ className }: HeaderProps) => {
       )}
     >
       <Logo />
-      <UserProfile />
+
+      {user && <UserProfile />}
     </header>
   );
 };
