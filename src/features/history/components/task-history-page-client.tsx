@@ -13,6 +13,7 @@ import { Disclosure } from '@/components/ui/disclosure';
 import { fetchActionNameById } from '@/lib/supabase/data/actions/select/fetch-action-name-by-id';
 import { fetchStatusNameById } from '@/lib/supabase/data/statuses/select/fetch-status-name-by-id';
 import { getTaskHistoryForClient } from '@/lib/supabase/data/task-history/select/get-task-history-for-client';
+import { fetchUserNameById } from '@/lib/supabase/data/users/fetch-user-name-by-id';
 import { UserData } from '@/lib/supabase/data/users/get-user-data';
 import { getUserProfileClient } from '@/lib/supabase/data/users/get-user-profile-client';
 import { extractChangedFields } from '@/utils/extract-changed-fields';
@@ -84,6 +85,23 @@ export const TaskHistoryPageClient = ({
                 // 取得できなかった場合はIDをそのまま
                 diff.status_id.old = oldStatusName || oldStatusId;
                 diff.status_id.new = newStatusName || newStatusId;
+              }
+
+              if (diff.assignee_id) {
+                const oldAssigneeId = diff.assignee_id.old;
+                const newAssigneeId = diff.assignee_id.new;
+
+                const oldAssigneeName = oldAssigneeId
+                  ? await fetchUserNameById(oldAssigneeId)
+                  : '未担当';
+                const newAssigneeName = newAssigneeId
+                  ? await fetchUserNameById(newAssigneeId)
+                  : '未担当';
+
+                diff.assignee_id = {
+                  old: oldAssigneeName,
+                  new: newAssigneeName,
+                };
               }
               taskDiff = buildDiffMessages(diff);
             } else {

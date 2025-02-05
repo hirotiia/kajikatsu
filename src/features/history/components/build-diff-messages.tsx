@@ -14,6 +14,7 @@ const FIELD_LABELS: Record<string, string> = {
   status_id: 'ステータス',
   description: '説明',
   updated_at: '更新日',
+  assignee_id: '担当者',
 };
 
 /**
