@@ -9,7 +9,7 @@ export const PrivateLayout = async ({
   return (
     <div className="grid grid-cols-custom-layout bg-custom-gradient">
       <div className="col-span-3 grid grid-cols-custom-layout gap-layout-gap">
-        <div className="col-start-2 grid min-h-dvh grid-cols-1 grid-rows-[65px_1fr] md:grid-cols-[200px_1fr] md:grid-rows-[100px_1fr_auto] md:gap-6">
+        <div className="col-start-2 grid min-h-dvh grid-cols-1 grid-rows-[auto_1fr] md:grid-cols-[200px_1fr] md:grid-rows-[auto_1fr_auto] md:gap-6">
           <LayoutHeader
             className="z-30 col-start-1 col-end-3 mt-2 md:mt-6"
             isUserProfile={true}

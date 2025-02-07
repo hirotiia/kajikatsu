@@ -42,8 +42,6 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #222222;
-    --foreground: #fafafa;
     --gradient: linear-gradient(
       90deg,
       rgba(103, 126, 250, 1),

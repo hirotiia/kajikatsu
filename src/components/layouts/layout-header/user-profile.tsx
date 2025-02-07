@@ -28,7 +28,7 @@ export const UserProfile = () => {
   return (
     <>
       {userState.loading ? (
-        <p className="flex gap-2">
+        <p className="flex items-center gap-2">
           <LoaderCircle className="animate-spin" size={30}>
             読み込み中...
           </LoaderCircle>
@@ -85,26 +85,30 @@ export const UserProfile = () => {
               </>
             )}
             className={cn(
-              'flex gap-2 text-sm items-center',
+              'flex gap-2 text-sm items-center pr-10 max-w-[200px]',
               invertOnHover('bg-background', 'text-foreground'),
             )}
             containerClassName="right-0 before:right-[10px] before:left-auto"
           >
             {userState.data?.avatar_url ? (
-              <Image
-                alt=""
-                src={userState.data?.avatar_url}
-                width="30"
-                height="30"
-              />
+              <div className="shrink-0">
+                <Image
+                  alt=""
+                  src={userState.data?.avatar_url}
+                  width="30"
+                  height="30"
+                />
+              </div>
             ) : (
-              <CircleUserRound size="30">デフォルトアイコン</CircleUserRound>
+              <div className="shrink-0">
+                <CircleUserRound size="30">デフォルトアイコン</CircleUserRound>
+              </div>
             )}
-            <span>{userState.data?.username}</span>
+            <div className="truncate">{userState.data?.username}</div>
           </Popover>
         </>
       ) : (
-        <div className="flex gap-2">
+        <div className="flex items-center gap-2">
           <CircleX size={30} />
           Unknown
         </div>
