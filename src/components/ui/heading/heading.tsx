@@ -12,25 +12,19 @@ type HeadingProps = {
 const headingVariants = cva('font-bold', {
   variants: {
     variant: {
-      default: 'text-primary-foreground',
-      secondary: 'border-background text-white',
-    },
-    color: {
-      default: 'text-primary-foreground',
-      primary: 'text-base-foreground',
-      secondary: 'text-secondary-foreground',
+      default: 'text-base',
+      primary: 'border-background text-primary-foreground',
     },
     size: {
-      h1: 'text-2xl',
-      h2: 'text-xl',
-      h3: 'text-lg',
-      h4: 'text-base',
-      h5: 'text-base',
-      h6: 'text-base',
+      h1: 'text-xl md:text-2xl',
+      h2: 'text-lg md:text-xl',
+      h3: 'text-base md:text-lg',
+      h4: 'text-sm md:text-base',
+      h5: 'text-sm md:text-base',
+      h6: 'text-sm md:text-base',
     },
   },
   defaultVariants: {
-    color: 'default',
     variant: 'default',
     size: 'h2',
   },
@@ -45,12 +39,9 @@ export const Heading = ({
   children,
   className,
   variant,
-  color,
 }: Props) => {
   return (
-    <Tag
-      className={cn(headingVariants({ variant, color, size: Tag, className }))}
-    >
+    <Tag className={cn(headingVariants({ variant, size: Tag, className }))}>
       {children}
     </Tag>
   );
