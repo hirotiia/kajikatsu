@@ -22,7 +22,7 @@ export const RenderRequestTasks = ({ className, groupId }: props) => {
   }
 
   return tasks.length === 0 ? (
-    <p>お願いされているタスクはありません。</p>
+    <p className="text-sm md:text-base">お願いされているタスクはありません。</p>
   ) : (
     <TaskCard tasks={tasks} className={cn(className)} assignButton />
   );

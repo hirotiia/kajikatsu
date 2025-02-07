@@ -11,12 +11,16 @@ type SecondaryHeading = {
 const headingVariants = cva('border-l-4 pl-3', {
   variants: {
     variant: {
-      default: 'border-secondary text-foreground',
+      default: 'border-primary text-foreground',
       secondary: 'border-background text-white',
+    },
+    size: {
+      md: 'text-base md:text-lg',
     },
   },
   defaultVariants: {
     variant: 'default',
+    size: 'md',
   },
 });
 

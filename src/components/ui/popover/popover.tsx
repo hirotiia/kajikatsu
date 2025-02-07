@@ -96,7 +96,10 @@ export function Popover({
         onClick={handleToggle}
         aria-haspopup="dialog"
         aria-expanded={isOpen}
-        className={cn('rounded px-3 py-1', className)}
+        className={cn(
+          'flex items-center rounded px-3 py-1 arrow-down min-w-[140px]',
+          className,
+        )}
       >
         {children}
       </button>

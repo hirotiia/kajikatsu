@@ -33,10 +33,10 @@ export default async function Dashbord() {
         {data?.group?.id && (
           <>
             <SecondaryHeading>グループ内の未担当タスク一覧</SecondaryHeading>
-            <Box variant="secondary" className="mt-4">
+            <Box variant="secondary" className="mt-8 md:mt-4">
               <RenderRequestTasks groupId={data.group.id} />
             </Box>
-            <SecondaryHeading className="mt-4">
+            <SecondaryHeading className="mt-8 md:mt-4">
               グループメンバーの担当タスク
             </SecondaryHeading>
             <RenderAllMembersTasks groupId={data.group.id} className="mt-6" />

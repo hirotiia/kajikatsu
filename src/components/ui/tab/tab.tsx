@@ -243,7 +243,7 @@ const TabItem = ({ children, tabKey, className }: TabItemProps) => {
       role="tabpanel"
       aria-labelledby={`tab-${tabKey}`}
       className={cn(
-        'w-full p-4 bg-secondary text-secondary-foreground',
+        'w-full p-2 md:p-4 bg-secondary text-secondary-foreground',
         className,
       )}
     >
