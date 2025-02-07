@@ -40,12 +40,12 @@ export const UserProfile = () => {
             position="bottom"
             content={({ close }) => (
               <>
-                <div className="min-w-[300px] p-3 text-primary md:max-w-[600px]">
-                  <p className="mb-6 border-b-2 border-primary pb-2">
+                <div className="min-w-[300px] p-3 md:max-w-[600px]">
+                  <p className="mb-6 border-b-2 pb-2">
                     <b>ユーザー情報</b>
                   </p>
                   <DefinitionList
-                    className="pl-3"
+                    className="pl-1 md:pl-3"
                     spacing="sm"
                     items={[
                       {
@@ -85,7 +85,7 @@ export const UserProfile = () => {
               </>
             )}
             className={cn(
-              'flex gap-2',
+              'flex gap-2 text-sm items-center',
               invertOnHover('bg-background', 'text-foreground'),
             )}
             containerClassName="right-0 before:right-[10px] before:left-auto"
@@ -100,7 +100,6 @@ export const UserProfile = () => {
             ) : (
               <CircleUserRound size="30">デフォルトアイコン</CircleUserRound>
             )}
-
             <span>{userState.data?.username}</span>
           </Popover>
         </>

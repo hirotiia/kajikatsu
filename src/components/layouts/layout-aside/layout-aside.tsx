@@ -21,7 +21,7 @@ interface SideNavigationItem {
   icon: React.ComponentType<LucideProps>;
 }
 
-export const LayoutAside = () => {
+export const LayoutAside = ({ className }: { className?: string }) => {
   const isMobile = useMediaQuery('(max-width: 768px)');
   const pathname = usePathname();
   const navigation = [
@@ -33,7 +33,7 @@ export const LayoutAside = () => {
     { name: '通知', to: '/information', icon: Info },
   ].filter(Boolean) as SideNavigationItem[];
   return (
-    <aside className="glassmorphism col-start-1 row-start-2 text-primary-foreground max-md:mt-6 md:fixed md:top-[142px] md:col-start-1 md:row-span-1 md:max-w-[250px]">
+    <aside className={cn('glassmorphism text-primary-foreground', className)}>
       <nav>
         <ul className="items-center justify-center gap-10 max-md:flex max-md:p-2">
           {navigation.map(({ name, to, icon: Icon }) => {

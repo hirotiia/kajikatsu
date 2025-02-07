@@ -2,10 +2,7 @@ import type { Config } from 'tailwindcss';
 
 const config: Config = {
   content: {
-    files: [
-      './src/components/**/*.{js,ts,jsx,tsx}',
-      './src/app/**/*.{js,ts,jsx,tsx}',
-    ],
+    files: ['./src/**/*.{js,ts,jsx,tsx}'],
   },
   theme: {
     extend: {
@@ -15,17 +12,9 @@ const config: Config = {
         ring: 'var(--ring)',
         white25: 'rgba(255, 255, 255, 0.25)',
         white18: 'rgba(255, 255, 255, 0.18)',
-        base: {
-          DEFAULT: 'var(--base)',
-          foreground: 'var(--base-foreground)',
-        },
         primary: {
           DEFAULT: 'var(--primary)',
           foreground: 'var(--primary-foreground)',
-        },
-        secondary: {
-          DEFAULT: 'var(--secondary)',
-          foreground: 'var(--secondary-foreground)',
         },
         destructive: {
           DEFAULT: 'var(--destructive)',
@@ -77,9 +66,6 @@ const config: Config = {
       },
       borderRadius: {
         custom: '10px',
-      },
-      borderWidth: {
-        '1': '1px',
       },
     },
   },

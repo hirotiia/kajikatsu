@@ -12,7 +12,6 @@ import { cn } from '@/utils/cn';
 const dlStyles = cva('mb-4', {
   variants: {
     spacing: {
-      none: '',
       sm: 'space-y-2',
       md: 'space-y-4',
       lg: 'space-y-6',
@@ -23,8 +22,32 @@ const dlStyles = cva('mb-4', {
   },
 });
 
-const dtStyles = cva('font-semibold');
-const ddStyles = cva('ml-4');
+/**
+ * dt / dd のテキストサイズを variant で制御
+ */
+const dtStyles = cva('font-semibold', {
+  variants: {
+    textSize: {
+      sm: 'text-sm md:text-base',
+      lg: 'text-lg',
+    },
+  },
+  defaultVariants: {
+    textSize: 'sm',
+  },
+});
+
+const ddStyles = cva('ml-4', {
+  variants: {
+    textSize: {
+      sm: 'text-sm md:text-base',
+      lg: 'text-lg',
+    },
+  },
+  defaultVariants: {
+    textSize: 'sm',
+  },
+});
 
 export type DefinitionListItem = {
   /** 見出し(用語) */
@@ -34,16 +57,14 @@ export type DefinitionListItem = {
 };
 
 type DLVariants = VariantProps<typeof dlStyles>;
+type DTVariants = VariantProps<typeof dtStyles>;
 
 export type DefinitionListProps = {
   /** 定義リストの項目配列 */
   items: DefinitionListItem[];
   className?: string;
-  /**
-   * dl要素に適用する spacing バリアント
-   * （各 dt/dd 間の space-y-* をコントロール）
-   */
   spacing?: DLVariants['spacing'];
+  textSize?: DTVariants['textSize'];
 };
 
 /**
@@ -58,13 +79,14 @@ export function DefinitionList({
   items,
   className,
   spacing = 'md',
+  textSize = 'sm',
 }: DefinitionListProps) {
   return (
     <dl className={cn(dlStyles({ spacing }), className)}>
       {items.map((item, idx) => (
         <React.Fragment key={idx}>
-          <dt className={dtStyles()}>{item.term}</dt>
-          <dd className={ddStyles()}>{item.definition}</dd>
+          <dt className={cn(dtStyles({ textSize }))}>{item.term}</dt>
+          <dd className={cn(ddStyles({ textSize }))}>{item.definition}</dd>
         </React.Fragment>
       ))}
     </dl>

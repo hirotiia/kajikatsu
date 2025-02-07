@@ -15,13 +15,13 @@ const Logo = () => {
   return (
     <Link className="flex items-center gap-3" href="/">
       <Image
-        className="h-10 w-auto md:h-12"
+        className="h-8 w-auto md:h-12"
         alt="家事活アイコン"
         src="/images/logo.svg"
         width="80"
         height="80"
       />
-      <span>{config.APP_NAME}</span>
+      <span className="text-sm md:text-base">{config.APP_NAME}</span>
     </Link>
   );
 };
@@ -33,7 +33,7 @@ export const LayoutHeader = async ({
   return (
     <header
       className={cn(
-        'sticky top-6 mt-6 flex items-center justify-between p-4 glassmorphism z-49',
+        'sticky top-3 md:top-6 flex items-center justify-between p-2 md:p-4 glassmorphism z-49',
         className,
       )}
     >

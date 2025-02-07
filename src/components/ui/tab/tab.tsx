@@ -205,19 +205,25 @@ const TabSelectHeader = ({ children, className }: TabSelectHeaderProps) => {
   return (
     <div className={cn('flex flex-col gap-2', className)}>
       <label htmlFor="tab-select" className="text-sm text-muted">
-        <select
-          id="tab-select"
-          name="members"
-          onChange={handleChangeTab}
-          value={currentKey}
-          className="w-full rounded border border-muted bg-base p-2 text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
-        >
-          {tabList.map(({ tabKey, label }) => (
-            <option key={`${tabKey}-option`} value={tabKey}>
-              {label}
-            </option>
-          ))}
-        </select>
+        <span className="sr-only">メンバーを選択</span>
+        <div className="arrow-down">
+          <select
+            id="tab-select"
+            name="members"
+            onChange={handleChangeTab}
+            value={currentKey}
+            className={cn(
+              'arrow-down',
+              'w-full rounded border border-muted p-2 text-foreground focus:outline-none focus:ring-2 focus:ring-primary md:p-4',
+            )}
+          >
+            {tabList.map(({ tabKey, label }) => (
+              <option key={`${tabKey}-option`} value={tabKey}>
+                {label}
+              </option>
+            ))}
+          </select>
+        </div>
       </label>
       {children}
     </div>

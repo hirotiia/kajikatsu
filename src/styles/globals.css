@@ -7,21 +7,15 @@
   --background: #fafafa;
   --foreground: #222222;
 
-  --ring: #010816;
-
   --primary: #005691;
   --primary-foreground: #fafafa;
-
-  --secondary: #004a7c;
-  --primary-foreground: #fafafa;
-
-  --base: #fafafa;
-  --base-foreground: #222222;
 
   --destructive: #ee4444;
   --destructive-foreground: #f7f9fb;
 
   --muted: #e8f1f5;
+
+  --ring: #010816;
 
   /** gradient */
   --gradient: linear-gradient(
@@ -48,8 +42,8 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #222222;
+    --foreground: #fafafa;
     --gradient: linear-gradient(
       90deg,
       rgba(103, 126, 250, 1),
@@ -90,11 +84,34 @@
   summary::-webkit-details-marker {
     display: none;
   }
+
+  select {
+    -webkit-appearance: none;
+    appearance: none;
+  }
 }
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
+  }
+
+  .arrow-down {
+    @apply relative block;
+  }
+
+  .arrow-down::before,
+  .arrow-down::after {
+    content: '';
+    @apply z-10 absolute top-1/2 -translate-y-1/2 right-[30px] w-[2px] h-[10px] bg-black rounded-full origin-[50%_calc(100%-1px)];
+  }
+
+  .arrow-down::before {
+    @apply rotate-[45deg];
+  }
+
+  .arrow-down::after {
+    @apply rotate-[-45deg];
   }
 }
 
@@ -104,7 +121,7 @@
       shadow-glass
       backdrop-blur-4xl
       rounded-custom
-      border-1
+      border-[1px]
       border-white18
       border-solid;
   }
