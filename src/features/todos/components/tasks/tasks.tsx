@@ -29,18 +29,23 @@ export const Tasks = ({ listItems }: TasksProps) => {
                 avatar_url
                   ? 'grid-cols-[auto_1fr_auto]'
                   : 'grid-cols-[1fr_auto]'
-              } grid-rows-[auto_auto_auto] gap-x-2 gap-y-1 rounded-md bg-background p-4`}
+              } grid-rows-[auto_auto_auto] items-center justify-between gap-x-2 gap-y-1 rounded-md bg-background p-4`}
             >
-              <p className="col-start-1 col-end-2 row-start-1 row-end-2 text-destructive">
-                期限日：{expiresAt ? expiresAt : 'なし'}
-              </p>
               {avatar_url ? (
-                <div className="col-start-1 col-end-2">
-                  <Image src={avatar_url} alt="アバター" />
+                <div className="">
+                  <Image
+                    src={avatar_url}
+                    alt="アバター"
+                    width="35"
+                    height="35"
+                  />
                 </div>
               ) : (
-                <CircleUserRound size={30} />
+                <CircleUserRound size={35} />
               )}
+              <p className="col-start-2 col-end-3 text-destructive">
+                期限日：{expiresAt ? expiresAt : 'なし'}
+              </p>
               <p
                 className={cn(
                   'col-end-3 text-xl',
