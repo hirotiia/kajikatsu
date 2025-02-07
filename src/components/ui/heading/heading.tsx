@@ -12,20 +12,19 @@ type HeadingProps = {
 const headingVariants = cva('font-bold', {
   variants: {
     variant: {
-      default: 'text-base',
+      normal: 'border-background text-background',
       primary: 'border-background text-primary-foreground',
     },
     size: {
       h1: 'text-xl md:text-2xl',
-      h2: 'text-lg md:text-xl',
-      h3: 'text-base md:text-lg',
+      h2: 'text-base md:text-xl',
+      h3: 'text-base',
       h4: 'text-sm md:text-base',
       h5: 'text-sm md:text-base',
       h6: 'text-sm md:text-base',
     },
   },
   defaultVariants: {
-    variant: 'default',
     size: 'h2',
   },
 });

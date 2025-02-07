@@ -14,6 +14,7 @@ import React, {
 } from 'react';
 
 import { cn } from '@/utils/cn';
+import { invertOnHover } from '@/utils/invert-on-hover';
 
 type TabKey = string;
 type TabLabel = string | JSX.Element;
@@ -170,10 +171,10 @@ const TabHeader = ({ className, ariaLabel }: TabHeaderProps) => {
               ref={refs.current[tabKey]}
               tabIndex={tabKey === currentKey ? 0 : -1}
               className={cn(
-                'w-full px-4 py-2 text-center transition-colors duration-200 ease-in-out focus:outline-none',
+                'w-full text-sm md:text-base px-4 py-2 text-center transition-colors duration-200 ease-in-out focus:outline-none',
                 tabKey === currentKey
                   ? 'bg-primary text-primary-foreground'
-                  : 'bg-muted text-secondary hover:bg-primary hover:text-primary-foreground',
+                  : invertOnHover('bg-primary-foreground', 'text-primary'),
               )}
               onClick={() => {
                 setCurrentKey(tabKey);

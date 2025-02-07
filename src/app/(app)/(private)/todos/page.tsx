@@ -53,11 +53,11 @@ export default async function TodosPage() {
         <div className="flex flex-wrap items-center justify-between gap-4">
           <Heading as="h1">やることリスト</Heading>
           <Drawer name="create_task">
-            <DrawerTrigger className="flex items-center justify-center gap-2 rounded-full">
+            <DrawerTrigger className="flex items-center justify-center gap-2 rounded-full text-sm md:text-base">
               <SquarePen className="shrink-0">タスクを作成</SquarePen>
               新規作成
             </DrawerTrigger>
-            <DrawerContent className="px-4 pt-10">
+            <DrawerContent className="max-h-screen overflow-y-auto px-4 py-10">
               <DrawerCloseTrigger className="text-right">
                 <X size="20">close</X>
               </DrawerCloseTrigger>

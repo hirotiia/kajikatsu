@@ -43,12 +43,12 @@ export const Tasks = ({ listItems }: TasksProps) => {
               ) : (
                 <CircleUserRound size={35} />
               )}
-              <p className="col-start-2 col-end-3 text-destructive">
-                期限日：{expiresAt ? expiresAt : 'なし'}
+              <p className="col-start-2 col-end-3 text-sm text-destructive md:text-base">
+                期限日：{expiresAt ? expiresAt : '未設定'}
               </p>
               <p
                 className={cn(
-                  'col-end-3 text-xl',
+                  'col-end-3 text-base  md:text-xl',
                   avatar_url ? 'col-start-2' : 'col-start-1',
                 )}
               >

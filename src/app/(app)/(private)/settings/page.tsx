@@ -3,26 +3,20 @@ import { Heading } from '@/components/ui/heading';
 import { RenderUserProfile } from '@/features/settings/render-user-profile';
 
 export default async function SettingPage() {
-  // const supabase = await createClient();
-  // const {
-  //   data: { user },
-  // } = await supabase.auth.getUser();
-
-  // const userId = user?.id ?? null;
   return (
     <Content bg="secondary">
-      <Heading as="h1" className="mb-12 mt-4">
+      <Heading as="h1" className="mb-6 md:mb-12" variant="normal">
         設定
       </Heading>
 
-      <p className="text-primary-foreground">
+      <p className="text-background">
         アプリのカテゴリやプロフィールをカスタマイズできる設定画面です。
       </p>
-      <p className="text-primary-foreground">
+      <p className="text-background">
         使いやすいように、必要な項目を調整してください。
       </p>
 
-      <Heading as="h2" className="mb-12 mt-10">
+      <Heading as="h2" className="mb-6 mt-3 md:mb-12" variant="normal">
         プロフィール
       </Heading>
 

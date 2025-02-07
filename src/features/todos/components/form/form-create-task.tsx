@@ -22,14 +22,6 @@ type FormCreateTaskProps = {
   joinedGroup: boolean;
 };
 
-// type FormValidationType = {
-//   errors?: {
-//     title?: string[];
-//     status?: string[];
-//   };
-//   message: string | null;
-// };
-
 export const FormCreateTask = ({
   groupMembers,
   joinedGroup,
