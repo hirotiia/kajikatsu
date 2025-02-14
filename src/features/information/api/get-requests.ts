@@ -1,24 +1,50 @@
-/** ページロードでDBから参加リクエストを受け取る */
 'use client';
-import useSWR from 'swr';
 
-import { JoinRequest } from '@/types/join-requests.types';
-import { Result } from '@/types/result.types';
+import { useCallback, useEffect, useState } from 'react';
 
-export type MyTasksResponse = Result<JoinRequest[]>;
+import { fetchJoinRequests } from '@/lib/supabase/data/join-requests/select/fetch-join-requests';
+import { subscribeDBChanges } from '@/lib/supabase/realtime/subscribe-db-changes';
 
-const fetcher = (url: string) => fetch(url).then((res) => res.json());
+export function useJoinRequests(userId: string) {
+  const [joinRequests, setJoinRequests] = useState<any[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-export const useJoinRequests = (userId: string) => {
-  const { data, error, isLoading, mutate } = useSWR<MyTasksResponse>(
-    `/api/get/get-requests?userId=${userId}`,
-    fetcher,
-  );
+  // 取得と状態更新をまとめた関数。userId 変化に応じて再生成
+  const loadData = useCallback(async () => {
+    setIsLoading(true);
+    setError(null);
+
+    try {
+      const requests = await fetchJoinRequests(userId);
+      setJoinRequests(requests);
+    } catch (e: any) {
+      setError(e.message ?? 'Failed to fetch join requests');
+    } finally {
+      setIsLoading(false);
+    }
+  }, [userId]);
+
+  // 初回ロード & リアルタイム購読
+  useEffect(() => {
+    if (!userId) return;
+
+    loadData();
+
+    const channel = subscribeDBChanges({
+      table: 'join_requests',
+      onChange: loadData,
+    });
+
+    return () => {
+      channel.unsubscribe();
+    };
+  }, [userId, loadData]);
 
   return {
-    joinRequests: data?.data || [],
+    joinRequests,
     isLoading,
-    error: error || data?.error || null,
-    mutate,
+    error,
+    refreshData: loadData,
   };
-};
+}

@@ -9,8 +9,13 @@ type JoinRequestListProps = {
 };
 
 export const JoinRequestList = ({ userId }: JoinRequestListProps) => {
-  const { joinRequests, isLoading, error, mutate } = useJoinRequests(userId);
+  const { joinRequests, isLoading, error, refreshData } =
+    useJoinRequests(userId);
   const { addNotification } = useNotifications();
+
+  console.log('-----------------------');
+  console.log(joinRequests);
+  console.log('-----------------------');
 
   const handleApprove = async (requestId: string) => {
     // APIで参加リクエストを承認
@@ -25,7 +30,8 @@ export const JoinRequestList = ({ userId }: JoinRequestListProps) => {
       status: response.status,
       message: json.message as string,
     });
-    mutate();
+
+    refreshData();
   };
 
   const handleReject = async (requestId: string) => {
@@ -33,29 +39,34 @@ export const JoinRequestList = ({ userId }: JoinRequestListProps) => {
       method: 'POST',
       body: JSON.stringify({ requestId }),
     });
-    mutate();
+
+    refreshData();
   };
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) {
+    return <p>Loading...</p>;
+  }
+
+  if (error) {
+    return <p>エラーが発生しました: {error}</p>;
+  }
+
+  if (joinRequests.length === 0) {
+    return <p>お知らせはありません。</p>;
+  }
 
   return (
     <div>
-      {joinRequests?.length === 0 || error ? (
-        <p>お知らせはありません。</p>
-      ) : (
-        <>
-          <p>{joinRequests?.length}件のお知らせがあります。</p>
-          {joinRequests?.map((request) => (
-            <Information
-              key={request.id}
-              username={request.users.username}
-              groupName={request.group_invitations.groups.name}
-              onApprove={() => handleApprove(request.id)}
-              onReject={() => handleReject(request.id)}
-            />
-          ))}
-        </>
-      )}
+      <p>{joinRequests.length}件のお知らせがあります。</p>
+      {joinRequests.map((request) => (
+        <Information
+          key={request.id}
+          username={request.users.username}
+          groupName={request.group_invitations.groups.name}
+          onApprove={() => handleApprove(request.id)}
+          onReject={() => handleReject(request.id)}
+        />
+      ))}
     </div>
   );
 };

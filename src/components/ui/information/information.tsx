@@ -14,7 +14,7 @@ export const Information = ({
   onReject,
 }: InformationProps) => {
   return (
-    <div className="flex items-center justify-between rounded-md bg-base p-4">
+    <div className="flex items-center justify-between rounded-md bg-background p-4">
       <p>
         <b>{username}</b>さんからあなたのグループ<b>{groupName}</b>
         への参加リクエストが届きました！
