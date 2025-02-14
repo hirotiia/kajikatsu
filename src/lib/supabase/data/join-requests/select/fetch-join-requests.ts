@@ -1,4 +1,5 @@
 import { createClient } from '@/lib/supabase/client';
+import { toJstString } from '@/utils/to-jst-string';
 
 /**
  * 指定したユーザーが「owner」権限を持つグループのうち、
@@ -49,6 +50,7 @@ export const fetchJoinRequests = async (userId: string) => {
        status,
        group_invitations (
          group_id,
+         expires_at,
          groups ( name )
        ),
        users ( username )`,
@@ -62,5 +64,17 @@ export const fetchJoinRequests = async (userId: string) => {
     );
   }
 
-  return joinRequests;
+  const nowJst = new Date(toJstString(new Date().toISOString()));
+
+  // 有効期限を確認
+  const validRequests = joinRequests.filter((request) => {
+    const expiresAt = request.group_invitations?.expires_at;
+    if (!expiresAt) return true;
+
+    const expiresAtJst = new Date(toJstString(expiresAt));
+
+    return expiresAtJst.getTime() > nowJst.getTime();
+  });
+
+  return validRequests;
 };
