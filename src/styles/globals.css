@@ -31,8 +31,11 @@
   /** Margin */
   --layout-gap-max: 2.5rem;
   --layout-gap-min: 1rem;
-  --layout-gap: 0
-    clamp(var(--layout-gap-min), 0.591rem + 2.182vw, var(--layout-gap-max));
+  --layout-gap: clamp(
+    var(--layout-gap-min),
+    0.591rem + 2.182vw,
+    var(--layout-gap-max)
+  );
 
   /** Card grid */
   --column-min-size: 16.5rem;

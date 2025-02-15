@@ -33,9 +33,9 @@ export const LayoutAside = ({ className }: { className?: string }) => {
     { name: '通知', to: '/information', icon: Info },
   ].filter(Boolean) as SideNavigationItem[];
   return (
-    <aside className={cn('glassmorphism text-primary-foreground', className)}>
-      <nav>
-        <ul className="items-center justify-center gap-10 max-md:flex max-md:p-2">
+    <aside className={cn(className)}>
+      <nav className="glassmorphism text-primary-foreground">
+        <ul className="items-center justify-around max-md:flex max-md:p-2">
           {navigation.map(({ name, to, icon: Icon }) => {
             const isCurrent = pathname === to;
 
@@ -44,11 +44,11 @@ export const LayoutAside = ({ className }: { className?: string }) => {
                 <Link
                   href={to}
                   className={cn(
-                    'flex items-center gap-2 transition ease-out hover:text-primary max-md:flex-col md:p-4',
+                    'flex items-center transition ease-out hover:text-primary max-md:flex-col md:p-4',
                     isCurrent && 'text-primary',
                   )}
                 >
-                  <Icon size={20} className="shrink-0" />
+                  <Icon size={25} className="shrink-0" />
                   {!isMobile && <span className="max-md:text-sm">{name}</span>}
                 </Link>
               </li>

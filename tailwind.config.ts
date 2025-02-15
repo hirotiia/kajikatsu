@@ -36,6 +36,9 @@ const config: Config = {
         'custom-layout':
           '1fr minmax(var(--viewport-min), var(--viewport-max)) 1fr',
       },
+      spacing: {
+        'layout-gap': 'var(--layout-gap)',
+      },
       gap: {
         'custom-gap': 'var(--gap)',
         'layout-gap': 'var(--layout-gap)',
