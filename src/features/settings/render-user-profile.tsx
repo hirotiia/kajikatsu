@@ -2,51 +2,56 @@
 
 import { Loader2, CircleUserRound, Pen } from 'lucide-react';
 import Image from 'next/image';
-import useSWR, { mutate } from 'swr';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 
 import { uploadStorage } from '@/actions/storage/upload-storage';
 import { useNotifications } from '@/components/ui/notifications';
 
-const fetcher = (url: string) => fetch(url).then((res) => res.json());
+type RenderUserProfileProps = {
+  username: string;
+  avatarUrl: string | null;
+};
 
-export const RenderUserProfile = () => {
+export const RenderUserProfile = ({
+  username,
+  avatarUrl,
+}: RenderUserProfileProps) => {
   const { addNotification } = useNotifications();
-  const {
-    data: userData,
-    error: userError,
-    isLoading: isLoadingUserData,
-  } = useSWR('/api/get/get-user', fetcher);
-
-  if (userError) return <div>failed to load User data</div>;
+  const router = useRouter();
+  const [isUploading, setIsUploading] = useState(false);
 
   const handleFileChange = async (
     event: React.ChangeEvent<HTMLInputElement>,
   ) => {
     const file = event.target.files?.[0] || null;
-
     if (!file) {
       addNotification({
         type: 'error',
         status: 300,
         message: '画像がうまく読み込めませんでした。',
       });
+      return;
     }
 
+    setIsUploading(true);
     const { message, status = 200, type } = await uploadStorage({ file });
     addNotification({ type, status, message });
 
     if (status === 200) {
-      mutate('/api/get/get-user');
+      router.refresh();
     }
+    setIsUploading(false);
   };
+
   return (
     <div className="grid gap-3 rounded-md bg-primary-foreground p-4">
       <div className="flex items-center gap-3">
-        {isLoadingUserData ? (
+        {isUploading ? (
           <Loader2 className="animate-spin text-primary" size={50} />
-        ) : userData?.avatar_url ? (
+        ) : avatarUrl ? (
           <Image
-            src={userData.avatar_url}
+            src={avatarUrl}
             alt="ユーザーアイコン"
             width={50}
             height={50}
@@ -56,10 +61,10 @@ export const RenderUserProfile = () => {
           <CircleUserRound className="shrink-0 text-primary" size={50} />
         )}
 
-        {isLoadingUserData ? (
-          <p className="text-lg font-bold text-primary">読み込み中です...</p>
-        ) : userData?.username ? (
-          <p className="text-lg font-bold text-primary">{userData?.username}</p>
+        {isUploading ? (
+          <p className="text-lg font-bold text-primary">アップロード中...</p>
+        ) : username ? (
+          <p className="text-lg font-bold text-primary">{username}</p>
         ) : (
           <p className="text-lg font-bold text-primary">未設定</p>
         )}

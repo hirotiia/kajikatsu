@@ -3,15 +3,11 @@ import React from 'react';
 
 import { cn } from '@/utils/cn';
 
-const ContentVariant = cva('min-h-dvh rounded-md', {
+const ContentVariant = cva('min-h-[300px] rounded-md', {
   variants: {
     bg: {
-      default: 'bg-transparent',
-      secondary: 'bg-secondary',
+      primary: 'bg-primary',
     },
-  },
-  defaultVariants: {
-    bg: 'default',
   },
 });
 

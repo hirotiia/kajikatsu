@@ -34,7 +34,7 @@ export default async function GroupPage() {
   const groupId = userState.group?.id ?? null;
 
   return (
-    <Content bg="secondary">
+    <Content>
       <Heading as="h1" className="mb-6 mt-4">
         グループ
       </Heading>

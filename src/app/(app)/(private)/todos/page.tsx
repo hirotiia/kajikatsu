@@ -26,7 +26,7 @@ export default async function TodosPage() {
 
   if (authError || !user) {
     return (
-      <Content bg="secondary">
+      <Content>
         <Heading as="h1">認証エラー</Heading>
         <p>ユーザー情報を取得できませんでした。</p>
       </Content>
