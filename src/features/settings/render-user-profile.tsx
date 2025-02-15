@@ -50,7 +50,7 @@ export const RenderUserProfile = () => {
             alt="ユーザーアイコン"
             width={50}
             height={50}
-            className="rounded-full border-1 border-primary-foreground"
+            className="rounded-full border border-primary-foreground"
           />
         ) : (
           <CircleUserRound className="shrink-0 text-primary" size={50} />

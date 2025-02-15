@@ -20,6 +20,7 @@ export type GroupMember = {
 };
 
 export type GroupResponse = {
+  group_name: string | null;
   group_members: GroupMember[];
 };
 
@@ -58,6 +59,11 @@ export async function fetchGroupMembersClient(
       throw new Error('グループメンバーのデータが取得できませんでした。');
     }
 
+    let groupName: string | null = null;
+    if (groupMembersData.length > 0) {
+      groupName = groupMembersData[0].groups?.name ?? null;
+    }
+
     // メンバー情報整形
     const members = groupMembersData.map((member: any) => ({
       user_id: member.user_id,
@@ -68,6 +74,7 @@ export async function fetchGroupMembersClient(
 
     return {
       data: {
+        group_name: groupName,
         group_members: members,
       },
       error: null,
@@ -78,7 +85,7 @@ export async function fetchGroupMembersClient(
       errorMessage = error.message;
     }
     return {
-      data: { group_members: [] },
+      data: { group_name: null, group_members: [] },
       error: errorMessage,
     };
   }
