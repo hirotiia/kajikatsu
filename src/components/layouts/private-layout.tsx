@@ -14,7 +14,7 @@ export const PrivateLayout = async ({
             className="z-30 col-start-1 col-end-3 mt-2 md:mt-6"
             isUserProfile={true}
           />
-          <main className="col-start-1 col-end-3 row-start-2 row-end-3 mt-14 md:col-start-2 md:row-start-2 md:mt-12 md:py-0 md:pb-24">
+          <main className="col-start-1 col-end-3 row-start-2 row-end-3 mt-14 md:col-start-2 md:row-start-2 md:mt-0 md:py-0 md:pb-24">
             {children}
           </main>
           <LayoutAside className="fixed max-md:bottom-2 max-md:left-1/2 max-md:w-[calc(100%-2*var(--layout-gap))] max-md:-translate-x-1/2 md:top-32" />

@@ -44,7 +44,7 @@ export const LayoutAside = ({ className }: { className?: string }) => {
                 <Link
                   href={to}
                   className={cn(
-                    'flex items-center transition ease-out hover:text-primary max-md:flex-col md:p-4',
+                    'flex items-center transition ease-out hover:text-primary max-md:flex-col md:p-4 md:gap-2',
                     isCurrent && 'text-primary',
                   )}
                 >
