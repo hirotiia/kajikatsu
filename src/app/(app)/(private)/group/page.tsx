@@ -33,11 +33,11 @@ export default function ParingPage() {
 
   return (
     <Content bg="secondary">
-      <Heading as="h1" className="mb-12 mt-4">
+      <Heading as="h1" className="mb-6 mt-4">
         グループ
       </Heading>
 
-      <Box color="primary">
+      <Box>
         <dl className="grid gap-4">
           <div className="">
             <dt className="mb-4 font-bold">グループ名</dt>
@@ -66,33 +66,28 @@ export default function ParingPage() {
         </div>
       </Box>
 
-      <Box color="primary" className="mt-10">
-        <dl className="">
-          <div className="">
-            <dt className="mb-4 font-bold">メンバー</dt>
-            {isLoading || !group_members ? (
-              <dd>
-                <LoaderCircle className="animate-spin text-primary" size={30}>
-                  読み込み中...
-                </LoaderCircle>
-              </dd>
-            ) : (
-              <div className="">
-                {group_members.map((member) => (
-                  <dd key={member.username}>
-                    <UserAvatarInfo
-                      avatarUrl={member.avatar_url}
-                      username={member.username}
-                      role={member.role}
-                      size={35}
-                      className="rounded-md bg-background p-2 md:p-4"
-                    />
-                  </dd>
-                ))}
-              </div>
-            )}
-          </div>
-        </dl>
+      <Heading className="mt-10">メンバー</Heading>
+      <Box bg="primary" className="mt-5">
+        <div className="">
+          {isLoading || !group_members ? (
+            <LoaderCircle className="animate-spin text-primary" size={30}>
+              読み込み中...
+            </LoaderCircle>
+          ) : (
+            <div className="grid gap-y-3">
+              {group_members.map((member) => (
+                <UserAvatarInfo
+                  avatarUrl={member.avatar_url}
+                  username={member.username}
+                  role={member.role}
+                  size={35}
+                  className="rounded-md bg-background p-2 md:p-4"
+                  key={member.username}
+                />
+              ))}
+            </div>
+          )}
+        </div>
       </Box>
     </Content>
   );
