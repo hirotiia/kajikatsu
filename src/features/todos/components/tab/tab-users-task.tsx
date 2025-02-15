@@ -10,6 +10,9 @@ import { Task } from '@/types/task.types';
 export const TabUsersTask = () => {
   const { myTasks, isLoading, error } = useMyTasks();
   const statusList = ['対応中', '未対応', '保留', '完了'];
+  console.log('-----------------');
+  console.log(myTasks);
+  console.log('-----------------');
 
   // ステータスごとにタスクを分類
   const tasksByStatus = statusList.reduce<Record<string, Task[]>>(

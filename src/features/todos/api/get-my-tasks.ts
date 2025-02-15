@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback } from 'react';
 
 import { useRealtimeTasksChannel } from '@/hooks/use-realtime-tasks-channel';
 import { createClient } from '@/lib/supabase/client';
-import { getMyTasks } from '@/lib/supabase/data/tasks/select/get-my-tasks';
+import { fetchTasksByUserIdClient } from '@/lib/supabase/data/tasks/select/fetch-tasks-by-user-id-client';
 import { Task } from '@/types/task.types';
 
 export const useMyTasks = () => {
@@ -30,14 +30,21 @@ export const useMyTasks = () => {
       return;
     }
 
-    const { data, error: fetchError } = await getMyTasks(user.id);
+    const { data, error: fetchError } = await fetchTasksByUserIdClient(
+      user.id,
+      {
+        filterType: 'assignee',
+        filterValue: user.id,
+      },
+    );
+
     if (fetchError) {
       setError(fetchError);
       setIsLoading(false);
       return;
     }
 
-    setMyTasks(data);
+    setMyTasks(data ?? []);
     setIsLoading(false);
   }, [supabase]);
 
