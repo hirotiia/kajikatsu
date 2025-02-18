@@ -13,10 +13,6 @@ export const JoinRequestList = ({ userId }: JoinRequestListProps) => {
     useJoinRequests(userId);
   const { addNotification } = useNotifications();
 
-  console.log('-----------------------');
-  console.log(joinRequests);
-  console.log('-----------------------');
-
   const handleApprove = async (requestId: string) => {
     // APIで参加リクエストを承認
     const response = await fetch(`/api/post/approve-request`, {

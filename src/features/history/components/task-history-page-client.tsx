@@ -51,10 +51,6 @@ export const TaskHistoryPageClient = ({
       }),
   );
 
-  console.log('-------------------');
-  console.log(historyList);
-  console.log('-------------------');
-
   useEffect(() => {
     if (!historyList) return;
 
@@ -160,7 +156,7 @@ export const TaskHistoryPageClient = ({
         if (!h.taskDiff) {
           return (
             <div
-              className="flex items-center gap-2 rounded border bg-base p-3 text-base-foreground"
+              className="bg-base text-base-foreground flex items-center gap-2 rounded border p-3"
               key={h.id}
             >
               {h.avatar ? (

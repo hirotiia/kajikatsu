@@ -43,13 +43,13 @@ export const FormSelect: React.FC<FormSelectProps> = ({
       <label htmlFor={id} className="text-left">
         {label}
       </label>
-      <div className="w-full rounded-md border border-muted text-primary">
+      <div className="">
         <select
           id={id}
           name={name}
           aria-invalid={hasError}
           aria-describedby={hasError ? `${id}-error` : undefined}
-          className="block h-12 w-full px-4 text-primary"
+          className="block h-12 w-full rounded-md border border-muted p-2 text-primary"
           required={required}
         >
           {options.map(({ value, title }) => (

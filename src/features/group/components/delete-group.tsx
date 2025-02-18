@@ -17,7 +17,6 @@ export const DleteGroup = () => {
 
   useEffect(() => {
     if (state === null) return;
-    // state が null でなければ status は number
     if (state.status !== 0) {
       openerDialog.close();
     }

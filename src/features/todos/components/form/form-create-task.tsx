@@ -76,6 +76,7 @@ export const FormCreateTask = ({
         name="description"
         layout="vertical"
         className="mt-4"
+        rows={5}
       />
       {joinedGroup && (
         <SelectUsers

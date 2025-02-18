@@ -3,25 +3,18 @@ import Link from 'next/link';
 import * as React from 'react';
 
 import { cn } from '@/utils/cn';
-import { invertOnHover } from '@/utils/invert-on-hover';
 
 const buttonVariants = cva(
   'inline-flex items-center justify-center px-4 py-3 text-sm focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 md:text-base',
   {
     variants: {
       variant: {
-        default: cn(
-          'border-primary-foreground',
-          invertOnHover('bg-primary', 'text-primary-foreground'),
-        ),
-        login: cn(
-          'border-base-foreground',
-          invertOnHover('bg-base', 'text-base-foreground'),
-        ),
-        destructive: cn(
-          'border-destructive-foreground',
-          invertOnHover('bg-destructive', 'text-destructive-foreground'),
-        ),
+        default:
+          'border-2 border-primary bg-primary text-primary-foreground transition-colors delay-200 duration-200 ease-out hover:border-primary hover:bg-primary-foreground hover:text-primary',
+        login:
+          'border-2 border-background bg-background text-foreground transition-colors delay-200 duration-200 ease-out hover:border-background hover:bg-foreground hover:text-background',
+        destructive:
+          'border-2 border-destructive bg-destructive text-destructive-foreground transition-colors delay-200 duration-200 ease-out hover:border-destructive hover:bg-destructive-foreground hover:text-destructive',
       },
       size: {
         default: 'min-w-custom',

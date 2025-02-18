@@ -47,7 +47,7 @@ export const FormTextarea: React.FC<FormTextareaProps> = ({
           name={name}
           aria-invalid={hasError}
           aria-describedby={hasError ? `${id}-error` : undefined}
-          className="block w-full p-4 text-primary"
+          className="block w-full rounded-md border border-muted p-2 text-primary"
           {...props}
         />
       </div>

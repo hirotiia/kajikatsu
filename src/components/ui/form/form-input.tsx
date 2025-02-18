@@ -25,6 +25,7 @@ export const FormInput: React.FC<FormInputProps> = ({
   ...props
 }) => {
   const hasError = error?.length !== 0;
+  console.log(hasError);
 
   return (
     <div
@@ -38,19 +39,18 @@ export const FormInput: React.FC<FormInputProps> = ({
       <label htmlFor={id} className="text-left">
         {label}
       </label>
-      <div
-        className={cn(
-          'rounded-md border border-muted text-primary w-full',
-          hasError && 'border-destructive',
-        )}
-      >
+      <div className={cn('', hasError && 'border-destructive')}>
         <input
           id={id}
           name={name}
           type={type}
           aria-invalid={hasError}
           aria-describedby={hasError ? `${id}-error` : undefined}
-          className={cn('block w-full h-12 p-4 text-primary', className)}
+          className={cn(
+            'block w-full h-12 p-2 text-primary rounded-md border border-muted',
+            className,
+            hasError && 'border-destructive',
+          )}
           {...props}
         />
       </div>
