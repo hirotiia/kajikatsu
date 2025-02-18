@@ -7,7 +7,6 @@ import React, {
   SetStateAction,
   useContext,
   useEffect,
-  useRef,
   useState,
   ElementType,
   ComponentPropsWithoutRef,
@@ -72,7 +71,6 @@ const Drawer = ({
   onOpenChange,
 }: DrawerProps) => {
   const [isOpen, setIsOpen] = useState(defaultOpen);
-  const contentRef = useRef<HTMLDivElement | null>(null);
   const [drawerTitleId, setDrawerTitleId] = useState<string | undefined>(
     undefined,
   );
@@ -85,7 +83,7 @@ const Drawer = ({
     <DrawerContext.Provider
       value={{ name, side, isOpen, setIsOpen, drawerTitleId, setDrawerTitleId }}
     >
-      <div ref={contentRef}>{children}</div>
+      <div>{children}</div>
     </DrawerContext.Provider>
   );
 };
