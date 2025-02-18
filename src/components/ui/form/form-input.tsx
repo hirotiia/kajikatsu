@@ -49,30 +49,26 @@ export const FormInput: React.FC<FormInputProps> = ({
           className={cn(
             'block w-full h-12 p-2 text-primary rounded-md border border-muted',
             className,
-            hasError && 'border-destructive',
           )}
           {...props}
         />
       </div>
-      {hasError && (
-        <div>
-          {error?.map((errMsg) => (
-            <p
-              key={`${id}-error`}
-              id={`${id}-error`}
-              className={cn(
-                'text-destructive',
-                layout === 'horizontal'
-                  ? 'md:col-start-2 md:row-start-2'
-                  : 'col-start-1 row-start-2',
-              )}
-              aria-live="polite"
-            >
-              {errMsg}
-            </p>
-          ))}
-        </div>
-      )}
+
+      {error?.map((errMsg) => (
+        <p
+          key={`${id}-error`}
+          id={`${id}-error`}
+          className={cn(
+            'text-destructive',
+            layout === 'horizontal'
+              ? 'md:col-start-2 md:row-start-2'
+              : 'col-start-1 row-start-2',
+          )}
+          aria-live="polite"
+        >
+          {errMsg}
+        </p>
+      ))}
     </div>
   );
 };
