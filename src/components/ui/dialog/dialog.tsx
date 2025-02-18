@@ -18,8 +18,18 @@ export function Dialog({ children, opener, id, title }: DialogProps) {
   const { isOpen, open, close } = opener;
 
   useEffect(() => {
-    const dlg = dialogRef.current;
-    if (!dlg) return;
+    const dialogElement = dialogRef.current;
+    if (!dialogElement) return;
+
+    /**
+     * backdrop部分（dialog自体）がクリックされたかどうか判定
+     */
+    const handleBackdropClick = (e: MouseEvent) => {
+      if (e.target === dialogElement) {
+        close();
+      }
+    };
+    dialogElement.addEventListener('click', handleBackdropClick);
 
     /**
      * ブラウザが Esc キーや外側クリックでダイアログを閉じたら
@@ -28,18 +38,19 @@ export function Dialog({ children, opener, id, title }: DialogProps) {
     const handleClose = () => {
       close();
     };
-    dlg.addEventListener('close', handleClose);
+    dialogElement.addEventListener('close', handleClose);
 
-    if (isOpen && !dlg.open) {
-      dlg.showModal();
+    if (isOpen && !dialogElement.open) {
+      dialogElement.showModal();
       open();
-    } else if (!isOpen && dlg.open) {
-      dlg.close();
+    } else if (!isOpen && dialogElement.open) {
+      dialogElement.close();
       close();
     }
 
     return () => {
-      dlg.removeEventListener('close', handleClose);
+      dialogElement.removeEventListener('click', handleBackdropClick);
+      dialogElement.removeEventListener('close', handleClose);
     };
   }, [isOpen, open, close]);
 
