@@ -55,10 +55,10 @@ export const RenderUserProfile = ({
             alt="ユーザーアイコン"
             width={50}
             height={50}
-            className="rounded-full border border-foreground"
+            className="size-10 rounded-full border border-foreground"
           />
         ) : (
-          <CircleUserRound className="shrink-0 text-foreground" size={50} />
+          <CircleUserRound className="size-10 shrink-0 text-foreground" />
         )}
 
         {isUploading ? (

@@ -10,21 +10,27 @@ type SubscribeParams = {
   schema?: string;
   table: string;
   onChange: () => void;
+  filter?: string;
 };
 
 export function subscribeDBChanges({
   schema = 'public',
   table,
   onChange,
+  filter,
 }: SubscribeParams): RealtimeChannel {
   const supabase = createClient();
   const channelName = `${schema}:${table}`;
 
   const channel = supabase
     .channel(channelName)
-    .on('postgres_changes', { event: '*', schema, table }, () => {
-      onChange();
-    })
+    .on(
+      'postgres_changes',
+      { event: '*', schema, table, ...(filter ? { filter } : {}) },
+      () => {
+        onChange();
+      },
+    )
     .subscribe();
 
   return channel;
