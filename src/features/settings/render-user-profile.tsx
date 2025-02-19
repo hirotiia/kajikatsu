@@ -45,33 +45,33 @@ export const RenderUserProfile = ({
   };
 
   return (
-    <div className="grid gap-3 rounded-md bg-primary-foreground p-4">
+    <div className="grid gap-3 rounded-md bg-background p-4">
       <div className="flex items-center gap-3">
         {isUploading ? (
-          <Loader2 className="animate-spin text-primary" size={50} />
+          <Loader2 className="animate-spin text-foreground" size={50} />
         ) : avatarUrl ? (
           <Image
             src={avatarUrl}
             alt="ユーザーアイコン"
             width={50}
             height={50}
-            className="rounded-full border border-primary-foreground"
+            className="rounded-full border border-foreground"
           />
         ) : (
-          <CircleUserRound className="shrink-0 text-primary" size={50} />
+          <CircleUserRound className="shrink-0 text-foreground" size={50} />
         )}
 
         {isUploading ? (
-          <p className="text-lg font-bold text-primary">アップロード中...</p>
+          <p className="text-lg font-bold text-foreground">アップロード中...</p>
         ) : username ? (
-          <p className="text-lg font-bold text-primary">{username}</p>
+          <p className="text-lg font-bold text-foreground">{username}</p>
         ) : (
-          <p className="text-lg font-bold text-primary">未設定</p>
+          <p className="text-lg font-bold text-foreground">未設定</p>
         )}
       </div>
       <label
         htmlFor="avatar"
-        className="flex cursor-pointer gap-1 text-primary hover:underline"
+        className="flex cursor-pointer gap-1 text-foreground hover:underline"
       >
         <Pen size={20} />
         プロフィール画像を編集する

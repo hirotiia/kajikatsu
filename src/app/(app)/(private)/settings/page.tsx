@@ -20,7 +20,7 @@ export default async function SettingPage() {
   if (!userState) {
     return (
       <Content>
-        <Heading as="h1" className="mb-6 md:mb-12" variant="normal">
+        <Heading as="h1" className="mb-6 md:mb-12">
           設定
         </Heading>
         <p>ユーザー情報を取得できませんでした。</p>
@@ -32,15 +32,15 @@ export default async function SettingPage() {
 
   return (
     <Content>
-      <Heading as="h1" className="mb-6 md:mb-12" variant="normal">
+      <Heading as="h1" className="mb-6 md:mb-10">
         設定
       </Heading>
 
-      <p className="text-background">
+      <p>
         アプリのカテゴリやプロフィールをカスタマイズできる設定画面です。使いやすいように調整してください。
       </p>
 
-      <Heading as="h2" className="mb-6 mt-3 md:mb-12" variant="normal">
+      <Heading as="h2" className="my-6 md:mb-3">
         プロフィール
       </Heading>
 

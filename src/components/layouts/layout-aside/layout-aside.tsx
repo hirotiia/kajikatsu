@@ -30,7 +30,7 @@ export const LayoutAside = ({ className }: { className?: string }) => {
     { name: 'グループ', to: '/group', icon: UserRoundPlus },
     { name: '履歴', to: '/history', icon: History },
     { name: '設定', to: '/settings', icon: Settings },
-    { name: '通知', to: '/information', icon: Info },
+    { name: 'お知らせ', to: '/information', icon: Info },
   ].filter(Boolean) as SideNavigationItem[];
   return (
     <aside className={cn(className)}>
