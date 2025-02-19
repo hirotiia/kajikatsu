@@ -60,6 +60,10 @@
     box-sizing: border-box;
   }
 
+  html {
+    scrollbar-gutter: stable;
+  }
+
   body {
     @apply text-foreground overflow-y-scroll;
     margin: 0;
@@ -67,6 +71,10 @@
     background: var(--background);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+  }
+
+  body:has(dialog[open]) {
+    overflow: hidden;
   }
 
   h1,
