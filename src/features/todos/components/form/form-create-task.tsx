@@ -1,6 +1,6 @@
 'use client';
 
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useRef } from 'react';
 import { useFormState } from 'react-dom';
 
 import { createTask } from '@/actions/task/create-task';
@@ -36,16 +36,22 @@ export const FormCreateTask = ({
   const { addNotification } = useNotifications();
   const { setIsOpen } = useContext(DrawerContext);
 
+  const formRef = useRef<HTMLFormElement>(null);
+
   useEffect(() => {
     if (state.status !== null) {
       addNotification(state);
+
+      if (state.type === 'success') {
+        formRef.current?.reset();
+      }
       // ドロワーを閉じる
       setIsOpen(false);
     }
   }, [state, addNotification, setIsOpen]);
 
   return (
-    <form action={createTaskAction}>
+    <form ref={formRef} action={createTaskAction}>
       <FormInput
         label="タイトル"
         id="title"
