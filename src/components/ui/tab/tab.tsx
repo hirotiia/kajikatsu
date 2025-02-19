@@ -94,14 +94,7 @@ const Tab = ({ children, defaultKey, className }: TabProps) => {
     <TabContext.Provider
       value={{ currentKey, setCurrentKey, tabList: tabs, registerTab }}
     >
-      <div
-        className={cn(
-          'w-full rounded-lg border border-muted shadow-lg bg-base overflow-hidden',
-          className,
-        )}
-      >
-        {children}
-      </div>
+      <div className={cn('w-full', className)}>{children}</div>
     </TabContext.Provider>
   );
 };
@@ -149,7 +142,10 @@ const TabHeader = ({ className, ariaLabel }: TabHeaderProps) => {
 
   return (
     <ul
-      className={cn('flex border-b border-muted', className)}
+      className={cn(
+        'flex rounded-t overflow-hidden border-2 border-foreground',
+        className,
+      )}
       role="tablist"
       aria-label={ariaLabel}
       onKeyDown={handleKeyDown}
@@ -161,7 +157,11 @@ const TabHeader = ({ className, ariaLabel }: TabHeaderProps) => {
         }
 
         return (
-          <li key={`${tabKey}-header`} className="flex-1" role="presentation">
+          <li
+            key={`${tabKey}-header`}
+            className="flex-1 border-foreground [&:not(:first-child)]:border-l-2"
+            role="presentation"
+          >
             <button
               type="button"
               role="tab"
@@ -204,7 +204,7 @@ const TabSelectHeader = ({ children, className }: TabSelectHeaderProps) => {
   };
 
   return (
-    <div className={cn('flex flex-col gap-2', className)}>
+    <div className={cn('border-2 border-foreground rounded-t', className)}>
       <label htmlFor="tab-select" className="text-sm text-muted">
         <span className="sr-only">メンバーを選択</span>
         <div className="arrow-down">
@@ -213,10 +213,7 @@ const TabSelectHeader = ({ children, className }: TabSelectHeaderProps) => {
             name="members"
             onChange={handleChangeTab}
             value={currentKey}
-            className={cn(
-              'arrow-down',
-              'w-full rounded border border-muted p-2 text-foreground focus:outline-none focus:ring-2 focus:ring-primary md:p-4',
-            )}
+            className={cn('arrow-down w-full p-2 text-foreground md:p-4')}
           >
             {tabList.map(({ tabKey, label }) => (
               <option key={`${tabKey}-option`} value={tabKey}>
@@ -244,7 +241,7 @@ const TabItem = ({ children, tabKey, className }: TabItemProps) => {
       role="tabpanel"
       aria-labelledby={`tab-${tabKey}`}
       className={cn(
-        'w-full p-2 md:p-4 bg-secondary text-secondary-foreground',
+        'w-full p-2 md:p-4 bg-secondary text-secondary-foreground border-foreground border-x-2 border-b-2 rounded-b',
         className,
       )}
     >

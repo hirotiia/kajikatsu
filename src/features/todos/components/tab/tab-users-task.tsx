@@ -38,7 +38,10 @@ export const TabUsersTask = () => {
       (status): ReactElement<TabItemProps> => (
         <TabItem key={status} tabKey={status} label={status}>
           {tasksByStatus[status]?.length > 0 ? (
-            <Tasks listItems={formatTasksForList(tasksByStatus[status])} />
+            <Tasks
+              listItems={formatTasksForList(tasksByStatus[status])}
+              className="glassmorphism"
+            />
           ) : (
             <p className="text-base">タスクはありません。</p>
           )}
