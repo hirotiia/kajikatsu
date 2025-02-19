@@ -1,5 +1,6 @@
 'use client';
 
+import { ChevronDown } from 'lucide-react';
 import React, {
   ChangeEvent,
   createContext,
@@ -199,6 +200,18 @@ type TabSelectHeaderProps = {
 const TabSelectHeader = ({ children, className }: TabSelectHeaderProps) => {
   const { currentKey, setCurrentKey, tabList } = useContext(TabContext);
 
+  const [isSelectOpen, setIsSelectOpen] = useState(false);
+
+  const handleFocus = () => {
+    // セレクトにフォーカスが当たったタイミングで矢印を上向きに
+    setIsSelectOpen(true);
+  };
+
+  const handleBlur = () => {
+    // 選択後またはフォーカスが外れたタイミングで矢印を下向きに戻す
+    setIsSelectOpen(false);
+  };
+
   const handleChangeTab = (event: ChangeEvent<HTMLSelectElement>) => {
     setCurrentKey(event.target.value);
   };
@@ -207,13 +220,23 @@ const TabSelectHeader = ({ children, className }: TabSelectHeaderProps) => {
     <div className={cn('border-2 border-foreground rounded-t', className)}>
       <label htmlFor="tab-select" className="text-sm text-muted">
         <span className="sr-only">メンバーを選択</span>
-        <div className="arrow-down">
+        <div className="relative">
+          <ChevronDown
+            className={cn(
+              'pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 h-5 w-5 transition-transform duration-300 text-foreground',
+              isSelectOpen ? 'rotate-180' : 'rotate-0',
+            )}
+          />
           <select
             id="tab-select"
             name="members"
             onChange={handleChangeTab}
+            onFocus={handleFocus}
+            onBlur={handleBlur}
             value={currentKey}
-            className={cn('arrow-down w-full p-2 text-foreground md:p-4')}
+            className={cn(
+              'appearance-none w-full py-1 px-2 text-foreground md:px-4 md:py-2 md:text-lg',
+            )}
           >
             {tabList.map(({ tabKey, label }) => (
               <option key={`${tabKey}-option`} value={tabKey}>
