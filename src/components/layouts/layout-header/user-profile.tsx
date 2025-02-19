@@ -85,7 +85,7 @@ export const UserProfile = () => {
               </>
             )}
             className={cn(
-              'flex gap-2 text-sm items-center pr-10 max-w-[200px]',
+              'flex gap-2 text-sm items-center max-w-[200px]',
               invertOnHover('bg-background', 'text-foreground'),
             )}
             containerClassName="right-0 before:right-[10px] before:left-auto"

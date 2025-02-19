@@ -1,6 +1,7 @@
 'use client';
 
 import { cva } from 'class-variance-authority';
+import { ChevronDown } from 'lucide-react';
 import React, { useState, useRef, ReactNode } from 'react';
 
 import { cn } from '@/utils/cn';
@@ -97,11 +98,17 @@ export function Popover({
         aria-haspopup="dialog"
         aria-expanded={isOpen}
         className={cn(
-          'flex items-center rounded px-3 py-1 arrow-down min-w-[140px]',
+          'flex items-center rounded px-3 py-1 min-w-[140px]',
           className,
         )}
       >
         {children}
+        <ChevronDown
+          className={cn(
+            'ml-2 h-5 w-5 transition-transform duration-300',
+            isOpen ? 'rotate-180' : 'rotate-0',
+          )}
+        />
       </button>
 
       {isOpen && (
