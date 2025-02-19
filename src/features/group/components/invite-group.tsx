@@ -57,15 +57,17 @@ export const InviteGroup = () => {
             <FormSelect
               id="expires_at"
               name="expires_at"
-              label="有効期限"
-              error={['招待リンクの有効期限を選択してください。']}
+              label="招待リンクの有効期限"
+              layout="vertical"
               options={[
                 { value: '1', title: '1時間' },
                 { value: '5', title: '5時間' },
                 { value: '24', title: '24時間' },
               ]}
             />
-            <Button>招待リンクを生成する</Button>
+            <Button size="small" className="mt-6">
+              招待リンクを生成する
+            </Button>
           </form>
         )}
       </Dialog>

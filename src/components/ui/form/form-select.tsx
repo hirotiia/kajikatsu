@@ -1,3 +1,4 @@
+import { ChevronDown } from 'lucide-react';
 import React from 'react';
 
 import { cn } from '@/utils/cn';
@@ -36,14 +37,14 @@ export const FormSelect: React.FC<FormSelectProps> = ({
         'grid w-full items-center gap-1',
         layout === 'horizontal'
           ? 'md:grid-cols-[150px_1fr] md:grid-rows-[auto_auto] md:gap-x-3'
-          : 'grid-cols-1',
+          : 'grid-cols-1 gap-2',
         className,
       )}
     >
       <label htmlFor={id} className="text-left">
         {label}
       </label>
-      <div className="">
+      <div className="group relative">
         <select
           id={id}
           name={name}
@@ -58,6 +59,10 @@ export const FormSelect: React.FC<FormSelectProps> = ({
             </option>
           ))}
         </select>
+        <ChevronDown
+          className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 transition-transform duration-200 group-focus-within:rotate-180"
+          aria-hidden="true"
+        />
       </div>
       {error?.map((errMsg) => (
         <p
