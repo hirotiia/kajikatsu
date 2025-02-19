@@ -54,7 +54,6 @@ export const RenderUserProfile = () => {
         {isUploading ? (
           <Loader2 className="animate-spin text-foreground" size={50} />
         ) : (
-          // UserAvatarInfo コンポーネントを使用してユーザーのアバターと情報を表示
           <UserAvatarInfo
             avatarUrl={userState.data?.avatar_url}
             username={userState.data?.username || '未設定'}
