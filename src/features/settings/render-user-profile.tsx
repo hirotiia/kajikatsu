@@ -1,12 +1,12 @@
 'use client';
 
-import { Loader2, CircleUserRound, Pen } from 'lucide-react';
-import Image from 'next/image';
+import { Loader2, Pen } from 'lucide-react';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { uploadStorage } from '@/actions/storage/upload-storage';
 import { useNotifications } from '@/components/ui/notifications';
+import { UserAvatarInfo } from '@/components/ui/user';
 import { RootState } from '@/stores';
 import { updateAvatarUrl } from '@/stores/user/reducer';
 
@@ -53,26 +53,13 @@ export const RenderUserProfile = () => {
       <div className="flex items-center gap-3">
         {isUploading ? (
           <Loader2 className="animate-spin text-foreground" size={50} />
-        ) : userState.data?.avatar_url ? (
-          <Image
-            src={userState.data?.avatar_url}
-            alt="ユーザーアイコン"
-            width={50}
-            height={50}
-            className="size-10 rounded-full"
+        ) : (
+          // UserAvatarInfo コンポーネントを使用してユーザーのアバターと情報を表示
+          <UserAvatarInfo
+            avatarUrl={userState.data?.avatar_url}
+            username={userState.data?.username || '未設定'}
+            size={50}
           />
-        ) : (
-          <CircleUserRound className="size-10 shrink-0 text-foreground" />
-        )}
-
-        {isUploading ? (
-          <p className="text-lg font-bold text-foreground">アップロード中...</p>
-        ) : userState.data?.username ? (
-          <p className="text-lg font-bold text-foreground">
-            {userState.data?.username}
-          </p>
-        ) : (
-          <p className="text-lg font-bold text-foreground">未設定</p>
         )}
       </div>
       <label
