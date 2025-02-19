@@ -38,7 +38,7 @@ export function UserAvatarInfo({
             className="size-full object-cover"
           />
         ) : (
-          <CircleUserRound size={size} className="text-primary" />
+          <CircleUserRound size={size} />
         )}
       </div>
 

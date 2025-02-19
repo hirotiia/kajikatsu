@@ -2,24 +2,19 @@
 
 import { Loader2, CircleUserRound, Pen } from 'lucide-react';
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { uploadStorage } from '@/actions/storage/upload-storage';
 import { useNotifications } from '@/components/ui/notifications';
+import { RootState } from '@/stores';
+import { updateAvatarUrl } from '@/stores/user/reducer';
 
-type RenderUserProfileProps = {
-  username: string;
-  avatarUrl: string | null;
-};
-
-export const RenderUserProfile = ({
-  username,
-  avatarUrl,
-}: RenderUserProfileProps) => {
+export const RenderUserProfile = () => {
   const { addNotification } = useNotifications();
-  const router = useRouter();
+  const userState = useSelector((state: RootState) => state.user);
   const [isUploading, setIsUploading] = useState(false);
+  const dispatch = useDispatch();
 
   const handleFileChange = async (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -35,13 +30,22 @@ export const RenderUserProfile = ({
     }
 
     setIsUploading(true);
-    const { message, status = 200, type } = await uploadStorage({ file });
-    addNotification({ type, status, message });
+    try {
+      const { url, status = 200, type } = await uploadStorage({ file });
+      addNotification({ type, status });
 
-    if (status === 200) {
-      router.refresh();
+      if (status === 200) {
+        dispatch(updateAvatarUrl(url));
+      }
+    } catch (error: any) {
+      addNotification({
+        type: 'error',
+        status: 500,
+        message: error.message || '画像のアップロードに失敗しました。',
+      });
+    } finally {
+      setIsUploading(false);
     }
-    setIsUploading(false);
   };
 
   return (
@@ -49,13 +53,13 @@ export const RenderUserProfile = ({
       <div className="flex items-center gap-3">
         {isUploading ? (
           <Loader2 className="animate-spin text-foreground" size={50} />
-        ) : avatarUrl ? (
+        ) : userState.data?.avatar_url ? (
           <Image
-            src={avatarUrl}
+            src={userState.data?.avatar_url}
             alt="ユーザーアイコン"
             width={50}
             height={50}
-            className="size-10 rounded-full border border-foreground"
+            className="size-10 rounded-full"
           />
         ) : (
           <CircleUserRound className="size-10 shrink-0 text-foreground" />
@@ -63,8 +67,10 @@ export const RenderUserProfile = ({
 
         {isUploading ? (
           <p className="text-lg font-bold text-foreground">アップロード中...</p>
-        ) : username ? (
-          <p className="text-lg font-bold text-foreground">{username}</p>
+        ) : userState.data?.username ? (
+          <p className="text-lg font-bold text-foreground">
+            {userState.data?.username}
+          </p>
         ) : (
           <p className="text-lg font-bold text-foreground">未設定</p>
         )}

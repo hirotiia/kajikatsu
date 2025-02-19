@@ -30,7 +30,13 @@ export const fetchAsyncUserData = createAsyncThunk(
 export const userSlice = createSlice({
   name: 'user',
   initialState,
-  reducers: {},
+  reducers: {
+    updateAvatarUrl: (state, action) => {
+      if (state.data) {
+        state.data.avatar_url = action.payload;
+      }
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(fetchAsyncUserData.pending, (state) => {
       state.loading = true;
@@ -51,4 +57,5 @@ export const userSlice = createSlice({
   },
 });
 
+export const { updateAvatarUrl } = userSlice.actions;
 export default userSlice.reducer as Reducer<UserStoreState>;

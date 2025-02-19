@@ -23,7 +23,7 @@ import { createClient } from '@/lib/supabase/server';
 import { getUser } from '@/lib/supabase/user/user';
 
 type SuccessResponse = {
-  message: string;
+  url: string;
   type: 'success';
 };
 
@@ -168,7 +168,7 @@ export async function POST(
 
     return NextResponse.json<SuccessResponse>(
       {
-        message: 'アバターのアップロードが完了しました。',
+        url: avatarUrlWithQuery,
         type: 'success',
       },
       { status: 200 },
