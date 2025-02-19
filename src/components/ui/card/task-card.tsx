@@ -1,3 +1,5 @@
+import ReactMarkdown from 'react-markdown';
+
 import { Task } from '@/types/task.types';
 import { cn } from '@/utils/cn';
 
@@ -27,8 +29,8 @@ export const TaskCard = ({ tasks, className, assignButton }: TaskCardProps) => {
 
           {/* タスクの説明 */}
           {task.description && (
-            <p className="text-foreground/80 mt-2 text-sm">
-              {task.description}
+            <p className="mt-2 text-sm text-foreground">
+              <ReactMarkdown>{task.description}</ReactMarkdown>
             </p>
           )}
 
@@ -40,9 +42,7 @@ export const TaskCard = ({ tasks, className, assignButton }: TaskCardProps) => {
 
           {/* ステータス */}
           {task.statusName && (
-            <p className="mt-1 text-xs text-secondary">
-              ステータス: {task.statusName}
-            </p>
+            <p className="mt-1 text-xs">ステータス: {task.statusName}</p>
           )}
 
           {/* 外部から渡されたアクション用ボタン等を表示 */}
