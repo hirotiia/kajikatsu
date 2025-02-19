@@ -25,7 +25,6 @@ export const FormInput: React.FC<FormInputProps> = ({
   ...props
 }) => {
   const hasError = error?.length !== 0;
-  console.log(hasError);
 
   return (
     <div

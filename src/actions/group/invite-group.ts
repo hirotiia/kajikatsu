@@ -52,7 +52,7 @@ export const inviteGroup = async (
   }
 
   const url = `${process.env.NEXT_PUBLIC_PROJECT_URL}/join?invitation_token=${invitaionData?.invitation_token}&expires_at=${expirationTimestamp}`;
-  console.log(url);
+
   const { error: expireError } = await supabase
     .from('group_invitations')
     .update({
