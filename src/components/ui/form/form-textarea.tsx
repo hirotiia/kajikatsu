@@ -1,4 +1,5 @@
-import React, { TextareaHTMLAttributes } from 'react';
+import React, { TextareaHTMLAttributes, useState } from 'react';
+import ReactMarkdown from 'react-markdown';
 
 import { cn } from '@/utils/cn';
 
@@ -10,6 +11,7 @@ interface FormTextareaProps
   error?: string;
   className?: string;
   layout?: 'horizontal' | 'vertical';
+  preview?: boolean;
 }
 
 export const FormTextarea: React.FC<FormTextareaProps> = ({
@@ -19,9 +21,16 @@ export const FormTextarea: React.FC<FormTextareaProps> = ({
   error,
   className,
   layout = 'horizontal',
+  preview = false,
   ...props
 }) => {
+  const [value, setValue] = useState('');
   const hasError = Boolean(error);
+
+  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setValue(e.target.value);
+    props.onChange?.(e);
+  };
 
   return (
     <div
@@ -48,6 +57,8 @@ export const FormTextarea: React.FC<FormTextareaProps> = ({
           aria-invalid={hasError}
           aria-describedby={hasError ? `${id}-error` : undefined}
           className="block w-full rounded-md border border-muted p-2 text-primary"
+          onChange={handleChange}
+          value={value}
           {...props}
         />
       </div>
@@ -64,6 +75,11 @@ export const FormTextarea: React.FC<FormTextareaProps> = ({
         >
           {error}
         </p>
+      )}
+      {preview && (
+        <div className="mt-4 rounded-md border border-muted bg-background p-2">
+          <ReactMarkdown>{value}</ReactMarkdown>
+        </div>
       )}
     </div>
   );

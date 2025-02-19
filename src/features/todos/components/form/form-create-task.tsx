@@ -80,6 +80,7 @@ export const FormCreateTask = ({
         label="タスクの詳細"
         id="description"
         name="description"
+        preview
         layout="vertical"
         className="mt-4"
         rows={5}
