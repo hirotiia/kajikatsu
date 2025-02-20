@@ -15,16 +15,16 @@ import {
 import { useNotifications } from '@/components/ui/notifications';
 import { GroupMember } from '@/lib/supabase/data/users/fetch-group-members';
 
-import { SelectUsers } from '../select/select-users';
-
 type FormCreateTaskProps = {
   groupMembers: GroupMember[];
-  joinedGroup: boolean;
+  userId: string;
+  hasGroup: boolean;
 };
 
 export const FormCreateTask = ({
   groupMembers,
-  joinedGroup,
+  userId,
+  hasGroup,
 }: FormCreateTaskProps) => {
   const initialState = {
     type: '',
@@ -85,12 +85,27 @@ export const FormCreateTask = ({
         className="mt-4"
         rows={5}
       />
-      {joinedGroup && (
-        <SelectUsers
-          users={groupMembers}
+      {hasGroup ? (
+        <FormSelect
+          id="assignment"
+          name="assignment"
+          label="担当者"
+          layout="vertical"
+          className="mt-4"
+          options={[
+            { value: '', title: 'なし' },
+            ...groupMembers.map((user) => ({
+              value: user.user_id,
+              title: user.username,
+            })),
+          ]}
+        />
+      ) : (
+        <FormSelect
           id="assignment"
           label="担当者"
           name="assignment"
+          options={[{ title: 'あなた', value: userId }]}
         />
       )}
       <FormDatePicker

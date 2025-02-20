@@ -1,9 +1,8 @@
-import { SquarePen, X } from 'lucide-react';
+import { SquarePen } from 'lucide-react';
 
 import { Content } from '@/components/layouts/content/content';
 import {
   DrawerTrigger,
-  DrawerCloseTrigger,
   DrawerTitle,
   DrawerBody,
   Drawer,
@@ -57,15 +56,13 @@ export default async function TodosPage() {
               <SquarePen className="shrink-0">タスクを作成</SquarePen>
               新規作成
             </DrawerTrigger>
-            <DrawerContent className="max-h-screen overflow-y-auto px-4 py-10">
-              <DrawerCloseTrigger className="text-right">
-                <X size="20">close</X>
-              </DrawerCloseTrigger>
-              <DrawerTitle className="mt-10">新しいタスクを作成</DrawerTitle>
+            <DrawerContent>
+              <DrawerTitle>新しいタスクを作成</DrawerTitle>
               <DrawerBody>
                 <FormCreateTask
                   groupMembers={groupMembers}
-                  joinedGroup={joinedGroup}
+                  userId={user.id}
+                  hasGroup={joinedGroup}
                 />
               </DrawerBody>
             </DrawerContent>

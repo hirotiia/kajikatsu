@@ -1,6 +1,7 @@
 'use client';
 
 import { cva, VariantProps } from 'class-variance-authority';
+import { X } from 'lucide-react';
 import React, {
   createContext,
   Dispatch,
@@ -37,16 +38,16 @@ export const DrawerContext = createContext<DrawerContextType>({
 type DrawerSide = 'top' | 'bottom' | 'left' | 'right';
 
 const drawerVariants = cva(
-  'fixed z-50 bg-background shadow-lg transition-transform duration-300 ease-in-out will-change-transform',
+  'fixed z-50 transition-transform duration-300 ease-in-out will-change-transform',
   {
     variants: {
       side: {
-        top: 'inset-x-0 top-0 -translate-y-full transform border-b data-[state=open]:translate-y-0',
+        top: 'inset-x-0 top-0 -translate-y-full transform data-[state=open]:translate-y-0',
         bottom:
-          'inset-x-0 bottom-0 translate-y-full transform border-t data-[state=open]:translate-y-0',
-        left: 'inset-y-0 left-0 w-3/4 -translate-x-full transform border-r data-[state=open]:translate-x-0 sm:max-w-sm',
+          'inset-x-0 bottom-0 translate-y-full transform data-[state=open]:translate-y-0',
+        left: 'inset-y-0 left-0 w-3/4 -translate-x-full transform data-[state=open]:translate-x-0 sm:max-w-sm',
         right:
-          'inset-y-0 right-0 w-3/4 translate-x-full transform border-l data-[state=open]:translate-x-0 sm:max-w-sm',
+          'inset-y-0 right-0 w-3/4 translate-x-full transform data-[state=open]:translate-x-0 sm:max-w-sm',
       },
     },
     defaultVariants: {
@@ -122,7 +123,6 @@ interface DrawerHeaderTriggerProps extends ComponentPropsWithoutRef<'button'> {
 }
 
 const DrawerHeaderTrigger = ({
-  as: Comp = 'button',
   children,
   className,
   ...props
@@ -131,7 +131,7 @@ const DrawerHeaderTrigger = ({
   const toggleDrawer = () => setIsOpen((prev) => !prev);
 
   return (
-    <Comp
+    <button
       type="button"
       aria-expanded={isOpen}
       aria-controls={name}
@@ -150,7 +150,7 @@ const DrawerHeaderTrigger = ({
           <span className="relative block h-0.5 w-6 bg-foreground transition duration-300 ease-in-out before:absolute before:h-0.5 before:w-6 before:-translate-y-2 before:bg-foreground before:transition before:duration-300 before:ease-in-out after:absolute after:h-0.5 after:w-6 after:translate-y-2 after:bg-foreground after:transition after:duration-300 after:ease-in-out" />
         )}
       </span>
-    </Comp>
+    </button>
   );
 };
 
@@ -159,21 +159,17 @@ interface DrawerCloseTriggerProps extends ComponentPropsWithoutRef<'button'> {
 }
 
 const DrawerCloseTrigger = ({
-  as: Comp = 'button',
   children,
   className,
   ...props
 }: DrawerCloseTriggerProps) => {
   const { setIsOpen } = useContext(DrawerContext);
   return (
-    <Comp
-      type="button"
-      className={cn('cursor-pointer', className)}
-      onClick={() => setIsOpen(false)}
-      {...props}
-    >
-      {children}
-    </Comp>
+    <div className={className}>
+      <button type="button" onClick={() => setIsOpen(false)} {...props}>
+        {children}
+      </button>
+    </div>
   );
 };
 
@@ -194,12 +190,25 @@ const DrawerContent = ({
 
   return (
     <div
+      className={cn(
+        'z-50 relative pl-10',
+        drawerVariants({ side: currentSide }),
+      )}
       id={name}
       data-state={isOpen ? 'open' : 'closed'}
-      className={cn('z-50', drawerVariants({ side: currentSide }), className)}
       {...props}
     >
-      {children}
+      <div
+        className={cn(
+          'max-h-screen overflow-y-auto px-4 py-10 bg-background h-full',
+          className,
+        )}
+      >
+        {children}
+      </div>
+      <DrawerCloseTrigger className="absolute left-0 top-5">
+        <X size="30">close</X>
+      </DrawerCloseTrigger>
     </div>
   );
 };
