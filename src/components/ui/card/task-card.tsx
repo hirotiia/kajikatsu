@@ -30,7 +30,9 @@ export const TaskCard = ({ tasks, className, assignButton }: TaskCardProps) => {
           {/* タスクの説明 */}
           {task.description && (
             <p className="mt-2 text-sm text-foreground">
-              <ReactMarkdown>{task.description}</ReactMarkdown>
+              <ReactMarkdown className="markdown">
+                {task.description}
+              </ReactMarkdown>
             </p>
           )}
 

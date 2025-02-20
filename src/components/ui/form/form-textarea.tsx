@@ -1,3 +1,5 @@
+'use client';
+
 import React, { TextareaHTMLAttributes, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 
@@ -78,7 +80,7 @@ export const FormTextarea: React.FC<FormTextareaProps> = ({
       )}
       {preview && (
         <div className="mt-4 rounded-md border border-muted bg-background p-2">
-          <ReactMarkdown>{value}</ReactMarkdown>
+          <ReactMarkdown className="markdown">{value}</ReactMarkdown>
         </div>
       )}
     </div>
