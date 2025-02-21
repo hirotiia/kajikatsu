@@ -44,14 +44,14 @@ export const Tasks = ({ listItems, className }: TasksProps) => {
               {description && (
                 <ReactMarkdown
                   className={cn(
-                    'col-end-3 markdown',
+                    'col-end-3 markdown bg-background rounded-md mt-3 p-2',
                     avatar_url ? 'col-start-2' : 'col-start-1',
                   )}
                 >
                   {description}
                 </ReactMarkdown>
               )}
-              <div className="col-start-2 col-end-3 row-start-4 row-end-5 flex justify-end gap-2">
+              <div className="col-start-2 col-end-3 row-start-4 row-end-5 mt-3 flex justify-end gap-2">
                 <EditTask
                   taskId={id}
                   title={title}
