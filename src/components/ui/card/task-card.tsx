@@ -5,16 +5,16 @@ import { cn } from '@/utils/cn';
 
 import { AssignButton } from '../button';
 
-/**
- * ユーザーが担当するタスクを一覧表示するコンポーネント
- */
-
 type TaskCardProps = {
   tasks: Task[];
   className?: string;
   assignButton?: boolean;
 };
 
+/**
+ * タスク一覧をカード表示するコンポーネント。
+ * 必要に応じて「担当する」ボタンを表示。
+ */
 export const TaskCard = ({ tasks, className, assignButton }: TaskCardProps) => {
   return (
     <ul className={cn('grid gap-4', className)}>
