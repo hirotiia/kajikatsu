@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useCallback } from 'react';
 
-import { subscribeDBChanges } from '@/lib/supabase/realtime/subscribe-db-changes';
+import { useRealtimeTasksChannel } from '@/hooks/use-realtime-tasks-channel';
 import { Task } from '@/types/task.types';
 
 import { createRequestMembersTask } from '../api/create-request-members-task';
@@ -40,15 +40,13 @@ export function useRequestTasks(groupId: string) {
 
   useEffect(() => {
     fetchTasks();
-    const channel = subscribeDBChanges({
-      table: 'tasks',
-      onChange: fetchTasks,
-    });
-
-    return () => {
-      channel.unsubscribe();
-    };
   }, [fetchTasks]);
+
+  useRealtimeTasksChannel({
+    table: 'tasks',
+    filter: `assignee_id=is.null,group_id=eq.${groupId}`,
+    onChange: fetchTasks,
+  });
 
   return {
     tasks,
