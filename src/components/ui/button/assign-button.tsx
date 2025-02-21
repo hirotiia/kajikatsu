@@ -22,7 +22,7 @@ export function AssignButton({ taskId }: AssignTaskButtonProps) {
   const handleClick = () => {
     startTransition(async () => {
       try {
-        await assignTask(taskId);
+        assignTask(taskId);
         addNotification({
           type: 'success',
           status: 200,

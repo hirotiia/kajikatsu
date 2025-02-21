@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useCallback } from 'react';
 
-import { useRealtimeTasksChannel } from '@/hooks/use-realtime-tasks-channel';
+import { subscribeDBChanges } from '@/lib/supabase/realtime/subscribe-db-changes';
 import { Task } from '@/types/task.types';
 
 import { createRequestMembersTask } from '../api/create-request-members-task';
@@ -42,16 +42,26 @@ export function useRequestTasks(groupId: string) {
     fetchTasks();
   }, [fetchTasks]);
 
-  useRealtimeTasksChannel({
-    table: 'tasks',
-    filter: `assignee_id=is.null,group_id=eq.${groupId}`,
-    onChange: fetchTasks,
-  });
+  useEffect(() => {
+    // グループ内のタスクをリアルタイム購読
+    const channel = subscribeDBChanges({
+      table: 'tasks',
+      filter: `group_id=eq.${groupId}`,
+      onChange: () => {
+        fetchTasks();
+        console.log('データベースに変更が加わりました。');
+      },
+    });
+
+    // クリーンアップ
+    return () => {
+      channel.unsubscribe();
+    };
+  }, [groupId, fetchTasks]);
 
   return {
     tasks,
     error,
     isLoading,
-    refetch: fetchTasks,
   };
 }

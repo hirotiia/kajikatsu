@@ -30,7 +30,9 @@ export function subscribeDBChanges({
     .on(
       'postgres_changes',
       { event: '*', schema, table, ...(filter ? { filter } : {}) },
-      () => onChange(),
+      () => {
+        onChange();
+      },
     )
     .subscribe();
 

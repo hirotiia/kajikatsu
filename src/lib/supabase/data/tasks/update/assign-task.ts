@@ -20,12 +20,21 @@ export async function assignTask(taskId: string) {
   }
 
   // タスクの担当者を更新
-  const { error: updateError } = await supabase
+  const { data: updatedTask, error: updateError } = await supabase
     .from('tasks')
     .update({ assignee_id: user.id })
-    .eq('id', taskId);
+    .eq('id', taskId)
+    .is('assignee_id', null)
+    .select('*')
+    .single();
 
   if (updateError) {
     throw new Error(`タスク担当者の更新に失敗しました: ${updateError.message}`);
   }
+
+  if (!updatedTask) {
+    throw new Error('このタスクは既にアサインされているか、存在しません。');
+  }
+
+  return updatedTask;
 }
