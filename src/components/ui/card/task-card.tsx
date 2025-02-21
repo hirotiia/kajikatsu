@@ -29,11 +29,9 @@ export const TaskCard = ({ tasks, className, assignButton }: TaskCardProps) => {
 
           {/* タスクの説明 */}
           {task.description && (
-            <p className="mt-2 text-sm text-foreground">
-              <ReactMarkdown className="markdown">
-                {task.description}
-              </ReactMarkdown>
-            </p>
+            <ReactMarkdown className="markdown mt-2">
+              {task.description}
+            </ReactMarkdown>
           )}
 
           {/* 期限日時 */}

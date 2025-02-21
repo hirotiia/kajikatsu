@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useCallback } from 'react';
 
-import { useRealtimeTasksChannel } from '@/hooks/use-realtime-tasks-channel';
+import { subscribeDBChanges } from '@/lib/supabase/realtime/subscribe-db-changes';
 import { Task } from '@/types/task.types';
 
 import { createRequestMembersTask } from '../api/create-request-members-task';
@@ -13,7 +13,7 @@ import { createRequestMembersTask } from '../api/create-request-members-task';
 export function useRequestTasks(groupId: string) {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [error, setError] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   // タスク一覧を再取得する関数
   const fetchTasks = useCallback(async () => {
@@ -40,12 +40,15 @@ export function useRequestTasks(groupId: string) {
 
   useEffect(() => {
     fetchTasks();
-  }, [fetchTasks]);
+    const channel = subscribeDBChanges({
+      table: 'tasks',
+      onChange: fetchTasks,
+    });
 
-  useRealtimeTasksChannel({
-    table: 'tasks',
-    onChange: fetchTasks,
-  });
+    return () => {
+      channel.unsubscribe();
+    };
+  }, [fetchTasks]);
 
   return {
     tasks,

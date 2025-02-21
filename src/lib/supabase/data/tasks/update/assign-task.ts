@@ -6,7 +6,7 @@ import { createClient } from '@/lib/supabase/server';
  * 指定したタスクIDの担当者を「現在ログイン中のユーザー」に更新するアクション。
  * @param taskId 更新対象のタスクID
  */
-export async function assignTask(taskId: string): Promise<void> {
+export async function assignTask(taskId: string) {
   const supabase = await createClient();
 
   // 現在ログインしているユーザー情報を取得

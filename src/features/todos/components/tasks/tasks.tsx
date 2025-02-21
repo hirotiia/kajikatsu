@@ -1,3 +1,5 @@
+import ReactMarkdown from 'react-markdown';
+
 import { cn } from '@/utils/cn';
 
 import { DeleteTask } from './delete-task';
@@ -40,14 +42,14 @@ export const Tasks = ({ listItems, className }: TasksProps) => {
                 <b>タイトル：{title}</b>
               </p>
               {description && (
-                <p
+                <ReactMarkdown
                   className={cn(
-                    'col-end-3',
+                    'col-end-3 markdown',
                     avatar_url ? 'col-start-2' : 'col-start-1',
                   )}
                 >
-                  概要：{description}
-                </p>
+                  {description}
+                </ReactMarkdown>
               )}
               <div className="col-start-2 col-end-3 row-start-4 row-end-5 flex justify-end gap-2">
                 <EditTask

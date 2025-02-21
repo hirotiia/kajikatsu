@@ -23,11 +23,10 @@ export function AssignButton({ taskId }: AssignTaskButtonProps) {
     startTransition(async () => {
       try {
         await assignTask(taskId);
-
         addNotification({
           type: 'success',
           status: 200,
-          message: '担当者を変更しました。',
+          message: '担当者をあなたに変更しました。',
         });
       } catch (error: any) {
         addNotification({
