@@ -30,7 +30,7 @@ export const Tasks = ({ listItems, className }: TasksProps) => {
                 className,
               )}
             >
-              <p className="col-start-2 col-end-3 text-sm text-destructive md:text-base">
+              <p className="col-start-2 col-end-3 text-right text-sm text-destructive md:text-base">
                 期限日：{expiresAt ? expiresAt : '未設定'}
               </p>
               <p
