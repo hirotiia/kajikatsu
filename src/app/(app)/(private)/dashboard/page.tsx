@@ -30,7 +30,7 @@ export default async function Dashbord() {
           <b>ようこそ、{data?.username ?? 'unknown user'}さん</b>
         </p>
 
-        {data?.group?.id && (
+        {data?.group?.id ? (
           <>
             <SecondaryHeading>グループ内の未担当タスク一覧</SecondaryHeading>
             <Box bg="primary" className="mt-8 md:mt-4">
@@ -40,6 +40,13 @@ export default async function Dashbord() {
               グループメンバーの担当タスク
             </SecondaryHeading>
             <RenderAllMembersTasks groupId={data.group.id} className="mt-6" />
+          </>
+        ) : (
+          <>
+            <p>あなたは現在グループに加入していません。</p>
+            <p>
+              グループメンバーに加入することでグループ内のタスク一覧が表示されます。
+            </p>
           </>
         )}
       </Content>
