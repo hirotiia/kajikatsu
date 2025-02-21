@@ -8,6 +8,7 @@ import { subscribeDBChanges } from '@/lib/supabase/realtime/subscribe-db-changes
 type UseRealtimeTasksChannelProps = {
   schema?: string;
   table: string;
+  filter?: string;
   onChange: () => void;
 };
 
@@ -19,6 +20,7 @@ type UseRealtimeTasksChannelProps = {
 export const useRealtimeTasksChannel = ({
   schema = 'public',
   table,
+  filter,
   onChange,
 }: UseRealtimeTasksChannelProps) => {
   const supabase = createClient();
@@ -28,6 +30,7 @@ export const useRealtimeTasksChannel = ({
     const channel = subscribeDBChanges({
       schema,
       table,
+      filter,
       onChange,
     });
     channelRef.current = channel;
@@ -38,5 +41,5 @@ export const useRealtimeTasksChannel = ({
         supabase.removeChannel(channelRef.current);
       }
     };
-  }, [supabase, onChange, schema, table]);
+  }, [supabase, onChange, schema, table, filter]);
 };
