@@ -15,7 +15,7 @@ type FormDatePickerProps = {
   label: string;
   name: string;
   layout: 'vertical' | 'horizontal';
-  placeholder: string;
+  placeholder?: string;
   className: string;
 };
 

@@ -308,7 +308,7 @@ export type Database = {
           group_id?: string | null;
           id?: string;
           is_deleted?: boolean;
-          status_id?: string;
+          status_id?: string | null;
           title?: string;
           updated_at?: string | null;
           updated_by?: string;

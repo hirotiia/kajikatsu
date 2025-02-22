@@ -4,8 +4,9 @@ import { ReactElement } from 'react';
 
 import { Tab, TabHeader, TabItem, TabItemProps } from '@/components/ui/tab';
 import { useMyTasks } from '@/features/todos/api/get-my-tasks';
-import { Tasks } from '@/features/todos/components/tasks/tasks';
 import { Task } from '@/types/task.types';
+
+import { Tasks } from '../form/tasks';
 
 export const TabUsersTask = () => {
   const { myTasks, isLoading, error } = useMyTasks();

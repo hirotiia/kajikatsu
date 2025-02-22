@@ -17,6 +17,7 @@ interface FormSelectProps {
   className?: string;
   layout?: 'horizontal' | 'vertical';
   required?: boolean;
+  defaultValue?: string;
 }
 
 export const FormSelect: React.FC<FormSelectProps> = ({
@@ -28,6 +29,7 @@ export const FormSelect: React.FC<FormSelectProps> = ({
   className,
   layout = 'horizontal',
   required = false,
+  defaultValue,
 }) => {
   const hasError = error?.length !== 0;
 
@@ -50,6 +52,7 @@ export const FormSelect: React.FC<FormSelectProps> = ({
           name={name}
           aria-invalid={hasError}
           aria-describedby={hasError ? `${id}-error` : undefined}
+          defaultValue={defaultValue}
           className="block h-12 w-full rounded-md border border-muted p-2 text-primary"
           required={required}
         >

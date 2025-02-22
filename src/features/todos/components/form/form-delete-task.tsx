@@ -4,13 +4,13 @@ import { Button } from '@/components/ui/button';
 import { useNotifications } from '@/components/ui/notifications';
 import { deleteTask } from '@/lib/supabase/data/tasks/delete/delete-task';
 
-type DeleteTaskProps = {
+type FormDeleteTaskProps = {
   taskId: string;
 };
 
-export const DeleteTask = ({ taskId }: DeleteTaskProps) => {
+export const FormDeleteTask = ({ taskId }: FormDeleteTaskProps) => {
   const { addNotification } = useNotifications();
-  const handleDeleteTask = async () => {
+  const handleFormDeleteTask = async () => {
     try {
       const { data, error } = await deleteTask(taskId);
 
@@ -50,7 +50,7 @@ export const DeleteTask = ({ taskId }: DeleteTaskProps) => {
       className="rounded-md"
       variant="destructive"
       size="small"
-      onClick={handleDeleteTask}
+      onClick={handleFormDeleteTask}
       icon={<Trash2>削除する</Trash2>}
     >
       削除する

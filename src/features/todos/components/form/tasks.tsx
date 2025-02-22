@@ -2,8 +2,8 @@ import ReactMarkdown from 'react-markdown';
 
 import { cn } from '@/utils/cn';
 
-import { DeleteTask } from './delete-task';
-import { EditTask } from './edit-task';
+import { FormDeleteTask } from './form-delete-task';
+import { FormUpdateTask } from './update/form-update-task';
 
 type Item = {
   id: string;
@@ -52,14 +52,14 @@ export const Tasks = ({ listItems, className }: TasksProps) => {
                 </ReactMarkdown>
               )}
               <div className="col-start-2 col-end-3 row-start-4 row-end-5 mt-3 flex justify-end gap-2">
-                <EditTask
+                <FormUpdateTask
                   taskId={id}
                   title={title}
                   description={description}
                   expiresAt={expiresAt}
                   statusId={statusId}
                 />
-                <DeleteTask taskId={id} />
+                <FormDeleteTask taskId={id} />
               </div>
             </div>
           </li>

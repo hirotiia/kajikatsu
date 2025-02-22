@@ -14,6 +14,7 @@ interface FormTextareaProps
   className?: string;
   layout?: 'horizontal' | 'vertical';
   preview?: boolean;
+  defaultValue?: string;
 }
 
 export const FormTextarea: React.FC<FormTextareaProps> = ({
@@ -24,9 +25,10 @@ export const FormTextarea: React.FC<FormTextareaProps> = ({
   className,
   layout = 'horizontal',
   preview = false,
+  defaultValue = '',
   ...props
 }) => {
-  const [value, setValue] = useState('');
+  const [value, setValue] = useState(defaultValue);
   const hasError = Boolean(error);
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {

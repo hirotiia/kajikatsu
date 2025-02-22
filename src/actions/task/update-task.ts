@@ -1,0 +1,75 @@
+'use server';
+
+import { z } from 'zod';
+
+import { createClient } from '@/lib/supabase/server';
+
+const UpdateTaskSchema = z.object({
+  taskId: z.string().uuid(),
+  title: z.string().min(1, 'タイトルが入力されていません。'),
+  description: z.string().nullable(),
+  expires_at: z.string().nullable(),
+  status_id: z.string().uuid().nullable(),
+});
+
+export async function updateTask(state: any, formData: FormData): Promise<any> {
+  try {
+    const supabase = await createClient();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    if (!user) {
+      throw new Error('ユーザーが認証されていません。');
+    }
+
+    const parsed = UpdateTaskSchema.safeParse({
+      taskId: formData.get('taskId'),
+      title: formData.get('title'),
+      description: formData.get('description') || null,
+      expires_at: formData.get('expires_at') || null,
+      status_id: formData.get('status') || null,
+    });
+
+    if (!parsed.success) {
+      return {
+        status: null,
+        formValidationStatus: {
+          errors: parsed.error.flatten().fieldErrors,
+          message:
+            '未入力または不正な入力値があります。タスクの更新が失敗しました。',
+        },
+      };
+    }
+
+    const { taskId, title, description, expires_at, status_id } = parsed.data;
+
+    // SupabaseでtasksをUPDATE
+    const { error } = await supabase
+      .from('tasks')
+      .update({
+        title,
+        description,
+        expires_at,
+        status_id,
+        updated_by: user.id,
+      })
+      .eq('id', taskId);
+
+    if (error) {
+      throw new Error(error.message);
+    }
+
+    return {
+      type: 'success',
+      status: 200,
+      message: 'タスクを更新しました。',
+      formValidationStatus: { errors: {}, message: null },
+    };
+  } catch (error: any) {
+    return {
+      type: 'error',
+      status: 400,
+      message: error.message,
+    };
+  }
+}
