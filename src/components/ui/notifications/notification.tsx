@@ -1,5 +1,7 @@
 import { Info, CircleCheck, CircleAlert, CircleX } from 'lucide-react';
 
+import { NotificationType } from '@/types/notification/notification.types';
+
 const icons = {
   info: <Info className="size-6 text-blue-500" aria-hidden="true" />,
   success: <CircleCheck className="size-6 text-green-500" aria-hidden="true" />,
@@ -10,12 +12,7 @@ const icons = {
 };
 
 type NotificationProps = {
-  notificationData: {
-    id: string;
-    type: keyof typeof icons;
-    status: number;
-    message?: string;
-  };
+  notificationData: NotificationType;
   deleteNotification: (id: string) => void;
 };
 
@@ -25,9 +22,9 @@ export const Notification = ({
 }: NotificationProps) => {
   return (
     <div className="pointer-events-auto ml-auto w-full max-w-sm overflow-hidden rounded-lg bg-white shadow-lg ring-1 ring-black/5">
-      <div className="p-4" role="alert" aria-label={type}>
+      <div className="p-4" role="alert" aria-label={type ?? undefined}>
         <div className="flex items-start">
-          <div className="shrink-0">{icons[type]}</div>
+          <div className="shrink-0">{type && icons[type]}</div>
           <div className="ml-3 w-0 flex-1 pt-0.5">
             <p className="text-sm font-medium text-gray-900">{`${type}:${status}`}</p>
             <p className="mt-1 text-sm text-gray-500">{message}</p>

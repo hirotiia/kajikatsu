@@ -2,13 +2,13 @@ import { useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { RootState } from '@/stores';
-import { add, remove, Notification } from '@/stores/notifications';
+import { add, NotificationType, remove } from '@/stores/notifications';
 
 export const useNotifications = () => {
   const notifications = useSelector((state: RootState) => state.notifications);
   const dispatch = useDispatch();
   const addNotification = useCallback(
-    (notification: Omit<Notification, 'id'>) => {
+    (notification: Omit<NotificationType, 'id'>) => {
       dispatch(add(notification));
     },
     [dispatch],

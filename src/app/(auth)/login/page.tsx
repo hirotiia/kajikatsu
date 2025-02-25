@@ -2,8 +2,7 @@
 
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
-import { useFormState } from 'react-dom';
+import { useActionState, useEffect } from 'react';
 
 import { signIn } from '@/actions/auth/auth';
 import { Button } from '@/components/ui/button';
@@ -14,11 +13,12 @@ import { useNotifications } from '@/components/ui/notifications/notifications-st
 export default function LoginPage() {
   const router = useRouter();
   const initialState = {
-    type: '',
+    type: null,
     status: null,
-    message: '',
+    message: null,
   };
-  const [state, signInAction] = useFormState(signIn, initialState);
+
+  const [state, submitAction, isPending] = useActionState(signIn, initialState);
   const { addNotification } = useNotifications();
 
   useEffect(() => {
@@ -35,7 +35,7 @@ export default function LoginPage() {
       <div className="m-auto mt-10 max-w-screen-md">
         <div className="glassmorphism grid place-items-center px-6 pb-20 pt-10">
           <PrimaryHeading className="mt-3">ログイン</PrimaryHeading>
-          <form action={signInAction} className="mt-20 grid w-full gap-6">
+          <form action={submitAction} className="mt-20 grid w-full gap-6">
             <FormInput
               label="メールアドレス"
               id="email"
@@ -54,7 +54,9 @@ export default function LoginPage() {
               error={['パスワードが入力されていません']}
               required
             />
-            <Button className="mx-auto max-w-screen-sm">ログイン</Button>
+            <Button className="mx-auto max-w-screen-sm" disabled={isPending}>
+              {isPending ? 'ログイン中...' : 'ログイン'}
+            </Button>
           </form>
           <p className="mt-6 text-primary">
             パスワードを忘れましたか？

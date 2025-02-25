@@ -1,11 +1,12 @@
 'use server';
 
 import { createClient } from '@/lib/supabase/server';
+import { NotificationType } from '@/types/notification/notification.types';
 
 export const signUp = async (
-  state: any,
+  currentState: Omit<NotificationType, 'id'>,
   formData: FormData,
-): Promise<any | null> => {
+): Promise<Omit<NotificationType, 'id'>> => {
   const supabase = await createClient();
   const userData = {
     email: formData.get('email') as string,
@@ -26,12 +27,12 @@ export const signUp = async (
     type: 'success',
     status: 200,
     message:
-      'サインアップが完了しました。確認メールを送信しましたので、メールをご確認のうえログインしてください。',
+      'サインアップが完了しました！確認メールを送信しましたので、メールをご確認のうえログインしてください。',
   };
 };
 
 export const signIn = async (
-  state: any,
+  currentState: Omit<NotificationType, 'id'>,
   formData: FormData,
 ): Promise<any | null> => {
   const supabase = await createClient();

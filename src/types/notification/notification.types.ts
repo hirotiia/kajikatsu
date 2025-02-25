@@ -1,5 +1,6 @@
-export type Notification<T = 'success' | 'error' | 'info' | 'warning'> = {
-  type: T;
-  title: string;
-  message?: string;
+export type NotificationType = {
+  id: string;
+  type: 'success' | 'error' | 'info' | 'warning' | null;
+  status: number | undefined;
+  message?: string | null;
 };
