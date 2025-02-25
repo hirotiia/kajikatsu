@@ -31,7 +31,7 @@ type HistoryData = {
   userName: string;
   avatar: string;
   action: string;
-  taskDiff: string | JSX.Element;
+  taskDiff: string | React.JSX.Element;
 };
 
 /**
@@ -64,7 +64,7 @@ export const TaskHistoryPageClient = ({
           const actionName = await fetchActionNameById(item.action_id);
           const action = actionName ?? '';
 
-          let taskDiff: string | JSX.Element = '';
+          let taskDiff: string | React.JSX.Element = '';
 
           if (action === 'updated') {
             const diff = extractChangedFields(item.details);
@@ -156,7 +156,7 @@ export const TaskHistoryPageClient = ({
         if (!h.taskDiff) {
           return (
             <div
-              className="bg-base text-base-foreground flex items-center gap-2 rounded border p-3"
+              className="flex items-center gap-2 rounded border bg-background p-3 text-foreground"
               key={h.id}
             >
               {h.avatar ? (

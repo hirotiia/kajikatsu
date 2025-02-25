@@ -7,7 +7,7 @@ import { useActionState, useEffect } from 'react';
 import { signIn } from '@/actions/auth/auth';
 import { Button } from '@/components/ui/button';
 import { FormInput } from '@/components/ui/form/';
-import { PrimaryHeading } from '@/components/ui/heading';
+import { Heading } from '@/components/ui/heading/index';
 import { useNotifications } from '@/components/ui/notifications/notifications-store';
 
 export default function LoginPage() {
@@ -33,9 +33,11 @@ export default function LoginPage() {
   return (
     <>
       <div className="m-auto mt-10 max-w-screen-md">
-        <div className="glassmorphism grid place-items-center px-6 pb-20 pt-10">
-          <PrimaryHeading className="mt-3">ログイン</PrimaryHeading>
-          <form action={submitAction} className="mt-20 grid w-full gap-6">
+        <div className="glassmorphism grid place-items-center px-6 pb-6 pt-3">
+          <Heading as="h1" className="mt-3">
+            ログイン
+          </Heading>
+          <form action={submitAction} className="grid w-full gap-6 pt-12">
             <FormInput
               label="メールアドレス"
               id="email"
@@ -54,7 +56,7 @@ export default function LoginPage() {
               error={['パスワードが入力されていません']}
               required
             />
-            <Button className="mx-auto max-w-screen-sm" disabled={isPending}>
+            <Button disabled={isPending} size="small">
               {isPending ? 'ログイン中...' : 'ログイン'}
             </Button>
           </form>

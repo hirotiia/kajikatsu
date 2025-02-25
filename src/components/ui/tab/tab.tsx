@@ -18,7 +18,7 @@ import { cn } from '@/utils/cn';
 import { invertOnHover } from '@/utils/invert-on-hover';
 
 type TabKey = string;
-type TabLabel = string | JSX.Element;
+type TabLabel = string | React.JSX.Element;
 
 export type TabItemProps = {
   tabKey: TabKey;
@@ -39,7 +39,7 @@ type TabContextState = {
   tabList: TabHeader[];
   registerTab: (
     tabKey: TabKey,
-    ref: React.RefObject<HTMLButtonElement>,
+    ref: React.RefObject<HTMLButtonElement | null>,
   ) => void;
 };
 
@@ -58,13 +58,13 @@ const TabContext = createContext<TabContextState>({
 const Tab = ({ children, defaultKey, className }: TabProps) => {
   const [currentKey, setCurrentKey] = useState(defaultKey);
   const [tabs, setTabs] = useState<TabHeader[]>([]);
-  const tabRefs = useRef<Record<TabKey, React.RefObject<HTMLButtonElement>>>(
-    {},
-  );
+  const tabRefs = useRef<
+    Record<TabKey, React.RefObject<HTMLButtonElement | null>>
+  >({});
 
   const registerTab = (
     tabKey: TabKey,
-    ref: React.RefObject<HTMLButtonElement>,
+    ref: React.RefObject<HTMLButtonElement | null>,
   ) => {
     tabRefs.current[tabKey] = ref;
   };
@@ -108,7 +108,9 @@ type TabHeaderProps = {
 const TabHeader = ({ className, ariaLabel }: TabHeaderProps) => {
   const { currentKey, setCurrentKey, tabList, registerTab } =
     useContext(TabContext);
-  const refs = useRef<Record<TabKey, React.RefObject<HTMLButtonElement>>>({});
+  const refs = useRef<
+    Record<TabKey, React.RefObject<HTMLButtonElement | null>>
+  >({});
 
   const handleKeyDown = (event: KeyboardEvent<HTMLUListElement>) => {
     const currentIndex = tabList.findIndex((tab) => tab.tabKey === currentKey);

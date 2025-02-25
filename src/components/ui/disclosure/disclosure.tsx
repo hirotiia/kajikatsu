@@ -1,6 +1,6 @@
 import { ChevronDown, CircleUserRound } from 'lucide-react';
 import Image from 'next/image';
-import React, {
+import {
   useEffect,
   useRef,
   useState,
@@ -14,7 +14,7 @@ type DisclosureProps = {
   id: string;
   icon?: IconType;
   overview: string;
-  detail: string | JSX.Element;
+  detail: string | React.JSX.Element;
   defaultOpen?: boolean;
 };
 
@@ -79,7 +79,7 @@ export const Disclosure = ({
     >
       <summary
         onClick={handleSummaryClick}
-        className="flex cursor-pointer list-none justify-between bg-base p-3 text-base-foreground"
+        className="flex cursor-pointer list-none justify-between bg-background p-3 text-foreground"
       >
         <div className="flex items-center gap-2">
           {renderIcon()}
@@ -100,14 +100,7 @@ export const Disclosure = ({
         ref={contentRef}
         style={{ maxHeight }}
         onTransitionEnd={handleTransitionEnd}
-        className="
-          overflow-hidden
-          bg-base
-          text-base-foreground
-          transition-[max-height]
-          duration-300
-          ease-out
-        "
+        className="overflow-hidden bg-background text-foreground transition-[max-height] duration-300 ease-out"
       >
         <div className="p-3">{detail}</div>
       </div>

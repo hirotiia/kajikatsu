@@ -12,8 +12,7 @@ export function SocialLoginButton({
   ...rest
 }: SocialLoginButtonProps) {
   return (
-    <Button {...rest}>
-      {icon}
+    <Button icon={icon} {...rest}>
       {children}
     </Button>
   );

@@ -7,7 +7,7 @@ import { SocialLoginButtons } from '@/features/register/components/social-login-
 export default function RegisterPage() {
   return (
     <div className="m-auto mt-10 max-w-screen-md">
-      <div className="glassmorphism grid place-items-center px-6 pb-20 pt-10">
+      <div className="glassmorphism grid place-items-center px-6 pb-6 pt-3">
         <Heading className="mt-3">ユーザー登録</Heading>
         <RegistrationForm />
         <LoginLink />

@@ -4,6 +4,7 @@ import { config } from '@/config/config';
 import '@/styles/globals.css';
 import { zen_maru_gothic } from '@/font/font';
 import { createClient } from '@/lib/supabase/server';
+import { cn } from '@/utils/cn';
 
 import { AppProvider } from './provider';
 
@@ -55,7 +56,7 @@ export default async function RootLayout({
 
   return (
     <html lang="ja">
-      <body className={zen_maru_gothic.className}>
+      <body className={cn('h-full', zen_maru_gothic.className)}>
         <AppProvider userId={userId}>{children}</AppProvider>
       </body>
     </html>

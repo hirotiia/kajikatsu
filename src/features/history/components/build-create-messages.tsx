@@ -1,6 +1,6 @@
 import { DefinitionListItem, DefinitionList } from '@/components/ui/list';
 
-export function buildCreatedMessage(newTask: any): string | JSX.Element {
+export function buildCreatedMessage(newTask: any): string | React.JSX.Element {
   if (!newTask) return 'タスク情報がありません。';
 
   // 定義リストのデータ項目を作成
