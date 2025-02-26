@@ -1,6 +1,6 @@
 import Link from 'next/link';
 
-export const ResetPassword = () => {
+export const ForgotPassword = () => {
   return (
     <p className="mt-6 text-primary">
       パスワードを忘れましたか？

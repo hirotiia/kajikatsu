@@ -1,9 +1,9 @@
 import { Divider } from '@/components/ui/divider';
 import { Heading } from '@/components/ui/heading/index';
 import { SocialLoginButtons } from '@/components/ui/social-button';
+import { ForgotPassword } from '@/features/login/components/forgot-password';
 import { LoginForm } from '@/features/login/components/login-form';
 import { RegisterLink } from '@/features/login/components/register-link';
-import { ResetPassword } from '@/features/login/components/reset-password';
 
 export default function LoginPage() {
   return (
@@ -14,7 +14,7 @@ export default function LoginPage() {
             ログイン
           </Heading>
           <LoginForm />
-          <ResetPassword />
+          <ForgotPassword />
           <RegisterLink />
           <Divider text="または" />
           <SocialLoginButtons />
