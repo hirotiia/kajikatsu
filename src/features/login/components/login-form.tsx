@@ -1,6 +1,6 @@
 'use client';
 
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import { useActionState, useEffect } from 'react';
 
 import { signIn } from '@/actions/auth/auth';
@@ -47,11 +47,7 @@ export const LoginForm = () => {
         error={['パスワードが入力されていません']}
         required
       />
-      <Button
-        disabled={isPending}
-        size="small"
-        className="mx-auto max-w-screen-sm"
-      >
+      <Button disabled={isPending} className="mx-auto max-w-screen-sm">
         {isPending ? 'ログイン中...' : 'ログイン'}
       </Button>
     </form>
