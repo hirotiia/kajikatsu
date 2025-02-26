@@ -12,6 +12,7 @@ export function RegistrationForm() {
     type: null,
     status: undefined,
     message: null,
+    fieldErrors: {},
   };
   const [state, actionSubmit, isPending] = useActionState(signUp, initialState);
   const { addNotification } = useNotifications();
@@ -28,7 +29,7 @@ export function RegistrationForm() {
         id="username"
         name="username"
         type="text"
-        error={['ユーザー名が入力されていません']}
+        error={state.fieldErrors?.username ?? []}
         required
       />
       <FormInput
@@ -36,7 +37,7 @@ export function RegistrationForm() {
         id="email"
         name="email"
         type="email"
-        error={['メールアドレスが入力されていません']}
+        error={state.fieldErrors?.email ?? []}
         required
       />
       <FormInput
@@ -44,7 +45,7 @@ export function RegistrationForm() {
         id="password"
         name="password"
         type="password"
-        error={['パスワードが入力されていません']}
+        error={state.fieldErrors?.password ?? []}
         required
       />
       <Button className="mx-auto max-w-screen-sm" disabled={isPending}>

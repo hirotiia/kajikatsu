@@ -26,3 +26,18 @@ export const loginSchema = z.object({
     .nonempty('パスワードは必須です')
     .min(8, 'パスワードは8文字以上必要です'),
 });
+
+export const signUpSchema = z.object({
+  username: z
+    .string()
+    .nonempty('ユーザー名が入力されていません')
+    .max(50, 'ユーザー名は50文字以下で入力してください'),
+  email: z
+    .string()
+    .nonempty('メールアドレスが入力されていません')
+    .email('メールアドレスの形式が不正です'),
+  password: z
+    .string()
+    .nonempty('パスワードが入力されていません')
+    .min(8, 'パスワードは8文字以上が必要です'),
+});

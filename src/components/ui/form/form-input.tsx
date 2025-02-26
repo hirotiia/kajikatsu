@@ -29,9 +29,9 @@ export const FormInput: React.FC<FormInputProps> = ({
   return (
     <div
       className={cn(
-        'grid w-full items-center gap-1',
+        'grid w-full items-start gap-y-1',
         layout === 'horizontal'
-          ? 'md:grid-cols-[150px_1fr] md:grid-rows-[auto_auto] md:gap-x-3'
+          ? 'md:grid-cols-[150px_1fr] md:gap-x-3'
           : 'grid-cols-1',
       )}
     >
@@ -53,14 +53,14 @@ export const FormInput: React.FC<FormInputProps> = ({
         />
       </div>
 
-      {error?.map((errMsg) => (
+      {error?.map((errMsg, idx) => (
         <p
-          key={`${id}-error`}
-          id={`${id}-error`}
+          key={`${id}-error-${idx}`}
+          id={`${id}-error-${idx}`}
           className={cn(
             'text-destructive',
             layout === 'horizontal'
-              ? 'md:col-start-2 md:row-start-2'
+              ? 'md:col-start-2'
               : 'col-start-1 row-start-2',
           )}
           aria-live="polite"
