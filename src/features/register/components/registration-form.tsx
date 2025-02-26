@@ -23,7 +23,7 @@ export function RegistrationForm() {
     }
   }, [state, addNotification]);
   return (
-    <form action={actionSubmit} className="grid w-full gap-6 pt-12">
+    <form action={actionSubmit} className="grid w-full gap-6 pt-6 md:pt-12">
       <FormInput
         label="ユーザー名"
         id="username"
