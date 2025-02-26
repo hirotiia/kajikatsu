@@ -4,7 +4,7 @@ export const ResetPassword = () => {
   return (
     <p className="mt-6 text-primary">
       パスワードを忘れましたか？
-      <Link href="/reset" className="underline hover:no-underline">
+      <Link href="/forgot-password" className="underline hover:no-underline">
         <b>パスワードをリセットする</b>
       </Link>
     </p>

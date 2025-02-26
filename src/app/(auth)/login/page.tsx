@@ -1,5 +1,5 @@
+import { Divider } from '@/components/ui/divider';
 import { Heading } from '@/components/ui/heading/index';
-import { Divider } from '@/features/login/components/divider';
 import { LoginForm } from '@/features/login/components/login-form';
 import { RegisterLink } from '@/features/login/components/register-link';
 import { ResetPassword } from '@/features/login/components/reset-password';

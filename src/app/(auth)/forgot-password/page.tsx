@@ -1,58 +1,26 @@
 import Link from 'next/link';
-import { redirect } from 'next/navigation';
 
 import { Button } from '@/components/ui/button';
-import { FormInput } from '@/components/ui/form/';
-import { PrimaryHeading } from '@/components/ui/heading';
-import { currentUser } from '@/utils/auth';
+import { Divider } from '@/components/ui/divider';
+import { Heading } from '@/components/ui/heading';
+import { ResetPassword } from '@/features/login/components/reset-password';
 
 export default async function ResetPasswordPage() {
-  const user = await currentUser();
-
-  if (user) {
-    redirect('/dashboard');
-  }
-
   return (
     <>
       <div className="m-auto mt-10 max-w-screen-md">
         <div className="glassmorphism grid place-items-center px-6 pb-20 pt-10">
-          <PrimaryHeading className="mt-3">パスワードをリセット</PrimaryHeading>
-          <form
-            action={() => {
-              console.log('reset');
-            }}
-            className="mt-20 grid w-full gap-6"
-          >
-            <FormInput
-              label="ユーザー名"
-              id="username"
-              name="username"
-              type="text"
-              className=""
-              error={['ユーザー名が入力されていません']}
-              required
-            />
-            <FormInput
-              label="パスワード"
-              id="password"
-              name="password"
-              type="password"
-              className=""
-              error={['パスワードが入力されていません']}
-              required
-            />
-            <Button className="mx-auto max-w-screen-sm">ログイン</Button>
-          </form>
+          <Heading as="h1" className="mt-3">
+            パスワードをリセット
+          </Heading>
+          <ResetPassword />
           <p className="mt-6 text-primary">
             アカウントをお持ちですか？
             <Link href="/login" className="underline hover:no-underline">
               <b>ログインする</b>
             </Link>
           </p>
-          <p className="relative mt-6 flex w-full items-center text-primary before:absolute before:left-0 before:right-[calc(50%+2rem)] before:top-1/2 before:h-px before:bg-primary before:content-[''] after:absolute after:left-[calc(50%+2rem)] after:right-0 after:top-1/2 after:h-px after:bg-primary after:content-['']">
-            <span className="mx-auto">または</span>
-          </p>
+          <Divider text="または" />
           <form action="" className="mt-8 grid w-full max-w-screen-sm gap-5">
             <Button
               rounded="md"
