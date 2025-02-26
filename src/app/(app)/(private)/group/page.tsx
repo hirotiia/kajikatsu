@@ -13,8 +13,8 @@ import { UserState } from '@/types/user-state.types';
 
 export default async function GroupPage() {
   const supabase = await createClient();
-  const { data: userResult } = await supabase.auth.getUser();
-  const user = userResult?.user;
+  const { data } = await supabase.auth.getUser();
+  const user = data?.user;
 
   if (!user) {
     redirect('/login');

@@ -1,17 +1,24 @@
 import { Metadata } from 'next';
+import { redirect } from 'next/navigation';
 
 import { AuthLayout } from '@/components/layouts/auth-layout';
 import { config } from '@/config/config';
+import { isAuthenticated } from '@/lib/supabase/user/is-authenticated';
 
 export const metadata: Metadata = {
   title: config.APP_NAME,
   description: '家事負荷分担アプリ”カジ活”',
 };
 
-export default function AuthenticationLayout({
+export default async function AuthenticationLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const authGuard: boolean = await isAuthenticated();
+
+  if (authGuard) {
+    redirect('/dashboard');
+  }
   return <AuthLayout>{children}</AuthLayout>;
 }

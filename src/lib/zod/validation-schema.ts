@@ -41,3 +41,20 @@ export const signUpSchema = z.object({
     .nonempty('パスワードが入力されていません')
     .min(8, 'パスワードは8文字以上が必要です'),
 });
+
+export const forgotPasswordSchema = z.object({
+  email: z
+    .string()
+    .nonempty('メールアドレスが入力されていません')
+    .email('メールアドレスの形式が不正です'),
+});
+
+export const resetPasswordSchema = z
+  .object({
+    password: z.string().min(8, 'パスワードは8文字以上必要です'),
+    confirmPassword: z.string().min(8, 'パスワードは8文字以上必要です'),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: 'パスワードが一致していません',
+    path: ['confirmPassword'],
+  });

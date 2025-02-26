@@ -4,9 +4,9 @@ import { Divider } from '@/components/ui/divider';
 import { Heading } from '@/components/ui/heading';
 import { SocialLoginButtons } from '@/components/ui/social-button';
 import { config } from '@/config/config';
-import { ForgotPasswordForm } from '@/features/forgot-password/components/forgot-password-form';
+import { ResetPasswordForm } from '@/features/reset-password/components/reset-password-form';
 
-export default async function ForgotPasswordPage() {
+export default async function ResetPasswordPage() {
   return (
     <div className="m-auto mt-10 max-w-screen-md">
       <div className="glassmorphism grid place-items-center px-6 pb-6 pt-3">
@@ -14,9 +14,9 @@ export default async function ForgotPasswordPage() {
           {config.APP_NAME}
         </Heading>
         <Heading as="h2" className="mt-3">
-          パスワードをお忘れですか？
+          パスワードをリセット
         </Heading>
-        <ForgotPasswordForm />
+        <ResetPasswordForm />
         <p className="mt-6 text-primary">
           アカウントをお持ちですか？
           <Link href="/login" className="underline hover:no-underline">
