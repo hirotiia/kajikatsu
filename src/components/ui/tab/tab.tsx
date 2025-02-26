@@ -92,11 +92,11 @@ const Tab = ({ children, defaultKey, className }: TabProps) => {
   }, [tabList]);
 
   return (
-    <TabContext.Provider
+    <TabContext
       value={{ currentKey, setCurrentKey, tabList: tabs, registerTab }}
     >
       <div className={cn('w-full', className)}>{children}</div>
-    </TabContext.Provider>
+    </TabContext>
   );
 };
 

@@ -81,11 +81,11 @@ const Drawer = ({
   }, [isOpen, onOpenChange]);
 
   return (
-    <DrawerContext.Provider
+    <DrawerContext
       value={{ name, side, isOpen, setIsOpen, drawerTitleId, setDrawerTitleId }}
     >
       <div>{children}</div>
-    </DrawerContext.Provider>
+    </DrawerContext>
   );
 };
 
