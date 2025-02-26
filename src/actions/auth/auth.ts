@@ -1,6 +1,9 @@
 'use server';
 
+import { z } from 'zod';
+
 import { createClient } from '@/lib/supabase/server';
+import { loginSchema } from '@/lib/zod/validation-schema';
 import { NotificationType } from '@/types/notification/notification.types';
 
 export const signUp = async (
@@ -35,13 +38,37 @@ export const signIn = async (
   currentState: Omit<NotificationType, 'id'>,
   formData: FormData,
 ): Promise<any | null> => {
-  const supabase = await createClient();
-  const userData = {
-    email: formData.get('email') as string,
-    password: formData.get('password') as string,
-  };
+  let validatedData;
 
-  const { error } = await supabase.auth.signInWithPassword(userData);
+  try {
+    validatedData = loginSchema.parse({
+      email: formData.get('email'),
+      password: formData.get('password'),
+    });
+  } catch (error) {
+    if (error instanceof z.ZodError) {
+      const fieldErrors = error.flatten().fieldErrors;
+      return {
+        type: 'error',
+        status: 400,
+        message: '入力内容にエラーがあります。',
+        fieldErrors,
+      };
+    }
+
+    return {
+      type: 'error',
+      status: 500,
+      message: 'サーバーエラーが発生しました。',
+    };
+  }
+
+  const supabase = await createClient();
+
+  const { error } = await supabase.auth.signInWithPassword({
+    email: validatedData.email,
+    password: validatedData.password,
+  });
 
   if (error) {
     return { type: 'error', status: error.status, message: error.message };

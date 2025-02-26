@@ -1,12 +1,12 @@
 'use server';
 
 import { createServerClient } from '@supabase/ssr';
-import { z } from 'zod';
 
 import { fetchStatusId } from '@/lib/supabase/data/statuses/select/fetch-status-id';
 import { fetchGroupId } from '@/lib/supabase/data/user-groups/select/fetch-group-id';
 import { createClient } from '@/lib/supabase/server';
 import { getUser } from '@/lib/supabase/user/user';
+import { taskSchema } from '@/lib/zod/validation-schema';
 
 export interface CreateTaskSuccess {
   type: 'success';
@@ -21,14 +21,6 @@ export interface CreateTaskError {
 }
 
 export type CreateTaskResult = CreateTaskSuccess | CreateTaskError;
-
-const TaskSchema = z.object({
-  title: z.string().min(1, 'タイトルが入力されていません。'),
-  status: z.string().min(1, 'ステータスを選択してください。'),
-  deadline: z.string().nullable(),
-  description: z.string().nullable(),
-  assignment: z.string().nullable(),
-});
 
 /**
  * タスクを作成する際の入力データの型
@@ -96,7 +88,7 @@ export const createTask = async (
     }
 
     // フォームからユーザーの入力情報を取得
-    const validatedFields = TaskSchema.safeParse({
+    const validatedFields = taskSchema.safeParse({
       title: formData.get('title'),
       status: formData.get('status'),
       deadline: formData.get('deadline') ?? null,

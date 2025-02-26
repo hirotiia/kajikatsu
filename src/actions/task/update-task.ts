@@ -1,16 +1,7 @@
 'use server';
 
-import { z } from 'zod';
-
 import { createClient } from '@/lib/supabase/server';
-
-const UpdateTaskSchema = z.object({
-  taskId: z.string().uuid(),
-  title: z.string().min(1, 'タイトルが入力されていません。'),
-  description: z.string().nullable(),
-  expires_at: z.string().nullable(),
-  status_id: z.string().uuid().nullable(),
-});
+import { updateTaskSchema } from '@/lib/zod/validation-schema';
 
 export async function updateTask(state: any, formData: FormData): Promise<any> {
   try {
@@ -22,7 +13,7 @@ export async function updateTask(state: any, formData: FormData): Promise<any> {
       throw new Error('ユーザーが認証されていません。');
     }
 
-    const parsed = UpdateTaskSchema.safeParse({
+    const parsed = updateTaskSchema.safeParse({
       taskId: formData.get('taskId'),
       title: formData.get('title'),
       description: formData.get('description') || null,

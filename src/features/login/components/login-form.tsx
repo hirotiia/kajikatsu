@@ -14,6 +14,7 @@ export const LoginForm = () => {
     type: null,
     status: null,
     message: null,
+    fieldErrors: {},
   };
 
   const [state, submitAction, isPending] = useActionState(signIn, initialState);
@@ -35,7 +36,7 @@ export const LoginForm = () => {
         name="email"
         type="text"
         className=""
-        error={['メールアドレスが入力されていません']}
+        error={state.fieldErrors?.email ?? []}
         required
       />
       <FormInput
@@ -44,7 +45,7 @@ export const LoginForm = () => {
         name="password"
         type="password"
         className=""
-        error={['パスワードが入力されていません']}
+        error={state.fieldErrors?.password ?? []}
         required
       />
       <Button disabled={isPending} className="mx-auto max-w-screen-sm">
