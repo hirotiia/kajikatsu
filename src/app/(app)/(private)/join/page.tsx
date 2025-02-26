@@ -22,11 +22,7 @@ const fetcher = async ([url, body]: [
   return response.json();
 };
 
-export default function JoinPage({
-  searchParams,
-}: {
-  searchParams: { [key: string]: string };
-}) {
+export default function JoinPage({ searchParams }: { searchParams: any }) {
   const { invitation_token, expires_at } = searchParams;
 
   const { data, error, isValidating } = useSWR(
