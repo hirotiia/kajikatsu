@@ -29,7 +29,7 @@ export const FormInput: React.FC<FormInputProps> = ({
   return (
     <div
       className={cn(
-        'grid w-full items-start gap-y-1',
+        'grid w-full items-center gap-y-1',
         layout === 'horizontal'
           ? 'md:grid-cols-[150px_1fr] md:gap-x-3'
           : 'grid-cols-1',
