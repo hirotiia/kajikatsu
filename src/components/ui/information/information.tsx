@@ -28,7 +28,7 @@ export const Information = ({
         <b>{username}</b>さんからあなたのグループ<b>{groupName}</b>
         への参加リクエストが届きました！
       </p>
-      <div className="flex">
+      <div className="flex gap-1">
         <Button size="small" rounded="md" onClick={onApprove}>
           承認
         </Button>
