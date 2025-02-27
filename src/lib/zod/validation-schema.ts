@@ -24,7 +24,7 @@ export const loginSchema = z.object({
   password: z
     .string()
     .nonempty('パスワードは必須です')
-    .min(8, 'パスワードは8文字以上必要です'),
+    .min(6, 'パスワードは6文字以上必要です'),
 });
 
 export const signUpSchema = z.object({
@@ -39,7 +39,7 @@ export const signUpSchema = z.object({
   password: z
     .string()
     .nonempty('パスワードが入力されていません')
-    .min(8, 'パスワードは8文字以上が必要です'),
+    .min(6, 'パスワードは6文字以上が必要です'),
 });
 
 export const forgotPasswordSchema = z.object({
@@ -51,8 +51,8 @@ export const forgotPasswordSchema = z.object({
 
 export const resetPasswordSchema = z
   .object({
-    password: z.string().min(8, 'パスワードは8文字以上必要です'),
-    confirmPassword: z.string().min(8, 'パスワードは8文字以上必要です'),
+    password: z.string().min(6, 'パスワードは6文字以上必要です'),
+    confirmPassword: z.string().min(6, 'パスワードは6文字以上必要です'),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: 'パスワードが一致していません',

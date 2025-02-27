@@ -1,3 +1,5 @@
+'use client';
+
 import { GoogleIcon, XIcon } from '@/components/ui/icon';
 import { signInWithGoogle } from '@/lib/supabase/auth/sign-in-with-google';
 

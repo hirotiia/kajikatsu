@@ -1,9 +1,9 @@
-import { redirect } from 'next/navigation';
+'use client';
 
-import { createClient } from '@/lib/supabase/server';
+import { createClient } from '@/lib/supabase/client';
 
 export async function signInWithGoogle() {
-  const supabase = await createClient();
+  const supabase = createClient();
   const {
     data: { url },
     error,
@@ -18,5 +18,5 @@ export async function signInWithGoogle() {
     },
   });
   if (error) console.error('Googleログインエラー:', error.message);
-  if (!error && url) redirect(url);
+  if (!error && url) window.location.href = url;
 }
