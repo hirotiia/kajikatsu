@@ -33,18 +33,16 @@ export default function JoinPage({ searchParams }: { searchParams: any }) {
   );
 
   return (
-    <div className="">
-      <p>
-        {isValidating ? (
-          <LoaderCircle className="animate-spin text-primary" size={30}>
-            読み込み中...
-          </LoaderCircle>
-        ) : data ? (
-          data.message
-        ) : (
-          error.message
-        )}
-      </p>
-    </div>
+    <p>
+      {isValidating ? (
+        <LoaderCircle className="animate-spin text-primary" size={30}>
+          読み込み中...
+        </LoaderCircle>
+      ) : data ? (
+        data.message
+      ) : (
+        error.message
+      )}
+    </p>
   );
 }
