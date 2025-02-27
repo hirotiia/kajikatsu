@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 
 import { Button } from '@/components/ui/button';
-import { PrimaryHeading } from '@/components/ui/heading';
+import { Heading } from '@/components/ui/heading';
 import { Text } from '@/components/ui/text';
 import { config } from '@/config/config';
 import { currentUser } from '@/utils/auth';
@@ -78,9 +78,7 @@ export default async function Home() {
           </p>
         </article>
       </div>
-      <PrimaryHeading className="mt-24 text-center">
-        ログインして始める
-      </PrimaryHeading>
+      <Heading className="mt-24 text-center">ログインして始める</Heading>
       <div className="mt-10 text-center">
         <Button as="a" rounded="md" variant="login" href="/login">
           ログインページへ

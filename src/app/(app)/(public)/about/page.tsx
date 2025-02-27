@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 
 import { Button } from '@/components/ui/button';
-import { PrimaryHeading } from '@/components/ui/heading';
+import { Heading } from '@/components/ui/heading';
 import { List } from '@/components/ui/list';
 import { Text } from '@/components/ui/text';
 import { config } from '@/config/config';
@@ -15,19 +15,19 @@ export default function Home() {
   return (
     <>
       <hgroup className="mb-14 flex flex-col-reverse items-center justify-center gap-4 md:mb-24 md:gap-6">
-        <h1 className="text-4xl md:text-6xl">{config.APP_NAME}</h1>
+        <Heading as="h1" className="text-4xl md:text-6xl">
+          {config.APP_NAME}
+        </Heading>
         <p className="text-xl md:text-2xl">~家事負荷分散アプリ~</p>
       </hgroup>
 
-      <PrimaryHeading className="mt-0">{config.APP_NAME}とは？</PrimaryHeading>
+      <Heading className="mt-0">{config.APP_NAME}とは？</Heading>
 
       <Text className="mt-10 pl-4">
         カジ活は、夫婦やカップルの家事分担を可視化・共有するためのアプリです。
       </Text>
 
-      <PrimaryHeading className="mt-24">
-        {config.APP_NAME}が解決したい課題
-      </PrimaryHeading>
+      <Heading className="mt-24">{config.APP_NAME}が解決したい課題</Heading>
 
       <List
         listItems={[
@@ -43,7 +43,7 @@ export default function Home() {
         ]}
       />
 
-      <PrimaryHeading>このアプリの目的</PrimaryHeading>
+      <Heading>このアプリの目的</Heading>
 
       <Text>
         家事の負担が一方に偏ることによる不満やストレスを解消し、夫婦やカップルが互いに協力して家事を分担できる環境を作ることを目指しています。
@@ -53,7 +53,7 @@ export default function Home() {
         このアプリを通じて、いつまでも仲良く過ごせる関係をサポートします。
       </Text>
 
-      <PrimaryHeading className="mt-24">対象</PrimaryHeading>
+      <Heading className="mt-24">対象</Heading>
 
       <List
         listItems={[
@@ -75,9 +75,7 @@ export default function Home() {
         ]}
       />
 
-      <PrimaryHeading className="mt-24 text-center">
-        ログインして始める
-      </PrimaryHeading>
+      <Heading className="mt-24 text-center">ログインして始める</Heading>
       <div className="mt-10 text-center">
         <Button as="a" rounded="md" variant="login" href="/login">
           ログインページへ

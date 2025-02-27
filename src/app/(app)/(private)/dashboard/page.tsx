@@ -3,7 +3,7 @@ import { redirect } from 'next/navigation';
 
 import { Content } from '@/components/layouts/content/content';
 import { Box } from '@/components/ui/box/box';
-import { SecondaryHeading } from '@/components/ui/heading';
+import { Heading } from '@/components/ui/heading';
 import { RenderAllMembersTasks } from '@/features/dashboard/components/render-all-members-tasks';
 import { RenderRequestTasks } from '@/features/dashboard/components/render-request-tasks';
 import { fetchUserData } from '@/lib/supabase/user/fetch-user-data';
@@ -32,13 +32,13 @@ export default async function Dashbord() {
 
         {data?.group?.id ? (
           <>
-            <SecondaryHeading>グループ内の未担当タスク一覧</SecondaryHeading>
+            <Heading>グループ内の未担当タスク一覧</Heading>
             <Box bg="primary" className="mt-8 md:mt-4">
               <RenderRequestTasks groupId={data.group.id} />
             </Box>
-            <SecondaryHeading className="mt-8 md:mt-4">
+            <Heading className="mt-8 md:mt-4">
               グループメンバーの担当タスク
-            </SecondaryHeading>
+            </Heading>
             <RenderAllMembersTasks groupId={data.group.id} className="mt-6" />
           </>
         ) : (
