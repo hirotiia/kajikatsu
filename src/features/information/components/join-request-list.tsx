@@ -59,6 +59,7 @@ export const JoinRequestList = ({ userId }: JoinRequestListProps) => {
           key={request.id}
           username={request.users.username}
           groupName={request.group_invitations.groups.name}
+          className="mt-3"
           onApprove={() => handleApprove(request.id)}
           onReject={() => handleReject(request.id)}
         />

@@ -1,8 +1,11 @@
+import { cn } from '@/utils/cn';
+
 import { Button } from '../button';
 
 type InformationProps = {
   username: string | null;
   groupName: string;
+  className: string;
   onApprove?: () => void;
   onReject?: () => void;
 };
@@ -10,16 +13,22 @@ type InformationProps = {
 export const Information = ({
   username,
   groupName,
+  className,
   onApprove,
   onReject,
 }: InformationProps) => {
   return (
-    <div className="flex items-center justify-between rounded-md bg-background p-4">
+    <div
+      className={cn(
+        'flex flex-col justify-between gap-3 rounded-md bg-background p-4 md:flex-row md:items-center',
+        className,
+      )}
+    >
       <p>
         <b>{username}</b>さんからあなたのグループ<b>{groupName}</b>
         への参加リクエストが届きました！
       </p>
-      <div className="">
+      <div className="flex">
         <Button size="small" rounded="md" onClick={onApprove}>
           承認
         </Button>
