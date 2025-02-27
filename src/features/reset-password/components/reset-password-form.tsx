@@ -11,7 +11,7 @@ import { useNotifications } from '@/components/ui/notifications';
 export const ResetPasswordForm = () => {
   const initialState = {
     type: null,
-    status: null,
+    status: undefined,
     message: null,
     fieldErrors: {},
   };
