@@ -17,5 +17,5 @@ export const checkPendingJoinRequest = async (
     return false;
   }
 
-  return !!data;
+  return data.length > 0;
 };
