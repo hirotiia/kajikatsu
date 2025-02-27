@@ -12,7 +12,7 @@ export const LoginForm = () => {
   const router = useRouter();
   const initialState = {
     type: null,
-    status: null,
+    status: undefined,
     message: null,
     fieldErrors: {},
   };
