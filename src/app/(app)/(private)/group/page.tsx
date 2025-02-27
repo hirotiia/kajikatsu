@@ -7,6 +7,7 @@ import { CreateGroup } from '@/features/group/components/create-group';
 import { DleteGroup } from '@/features/group/components/delete-group';
 import { InviteGroup } from '@/features/group/components/invite-group';
 import { RenderGroupMembers } from '@/features/group/components/render-group-members';
+import { checkPendingJoinRequest } from '@/lib/supabase/data/join-requests/select/check-pending-join-request';
 import { createClient } from '@/lib/supabase/server';
 import { fetchUserData } from '@/lib/supabase/user/fetch-user-data';
 import { UserState } from '@/types/user-state.types';
@@ -26,6 +27,16 @@ export default async function GroupPage() {
     return (
       <Content>
         <h2>ユーザー情報を取得できませんでした。</h2>
+      </Content>
+    );
+  }
+
+  const hasPendingRequest = await checkPendingJoinRequest(user.id);
+
+  if (hasPendingRequest) {
+    return (
+      <Content>
+        <h2>リクエスト申請中です。</h2>
       </Content>
     );
   }
