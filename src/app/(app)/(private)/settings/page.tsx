@@ -19,15 +19,12 @@ export default async function SettingPage() {
       <Heading as="h1" className="mb-6 md:mb-10">
         設定
       </Heading>
-
       <p>
         アプリのカテゴリやプロフィールをカスタマイズできる設定画面です。使いやすいように調整してください。
       </p>
-
       <Heading as="h2" className="my-6 md:mb-3">
         プロフィール
       </Heading>
-
       <RenderUserProfile />
     </Content>
   );

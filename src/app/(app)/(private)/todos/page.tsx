@@ -47,30 +47,27 @@ export default async function TodosPage() {
   }
 
   return (
-    <>
-      <Content>
-        <div className="flex flex-wrap items-center justify-between gap-4">
-          <Heading as="h1">やることリスト</Heading>
-          <Drawer name="create_task">
-            <DrawerTrigger className="flex items-center justify-center gap-2 rounded-full text-sm md:text-base">
-              <SquarePen className="shrink-0">タスクを作成</SquarePen>
-              新規作成
-            </DrawerTrigger>
-            <DrawerContent>
-              <DrawerTitle>新しいタスクを作成</DrawerTitle>
-              <DrawerBody>
-                <FormCreateTask
-                  groupMembers={groupMembers}
-                  userId={user.id}
-                  hasGroup={joinedGroup}
-                />
-              </DrawerBody>
-            </DrawerContent>
-          </Drawer>
-        </div>
-
-        <TabUsersTask />
-      </Content>
-    </>
+    <Content>
+      <div className="flex flex-wrap items-center justify-between gap-4">
+        <Heading as="h1">やることリスト</Heading>
+        <Drawer name="create_task">
+          <DrawerTrigger className="flex items-center justify-center gap-2 rounded-full text-sm md:text-base">
+            <SquarePen className="shrink-0">タスクを作成</SquarePen>
+            新規作成
+          </DrawerTrigger>
+          <DrawerContent>
+            <DrawerTitle>新しいタスクを作成</DrawerTitle>
+            <DrawerBody>
+              <FormCreateTask
+                groupMembers={groupMembers}
+                userId={user.id}
+                hasGroup={joinedGroup}
+              />
+            </DrawerBody>
+          </DrawerContent>
+        </Drawer>
+      </div>
+      <TabUsersTask />
+    </Content>
   );
 }
