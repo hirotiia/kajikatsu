@@ -18,7 +18,7 @@ type GroupMembersProps = {
 };
 
 export function RenderGroupMembers({ groupId }: GroupMembersProps) {
-  const supabase = createClient(); // クライアント用のcreateClient
+  const supabase = createClient();
   const [members, setMembers] = useState<Member[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 

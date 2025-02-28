@@ -159,7 +159,7 @@ export const TaskHistoryPageClient = ({
         if (!h.taskDiff) {
           return (
             <div
-              className="flex items-center gap-2 rounded border bg-background p-3 text-foreground"
+              className="flex items-center gap-2 overflow-hidden rounded-full border bg-background p-3 text-foreground"
               key={h.id}
             >
               {h.avatar ? (
@@ -168,7 +168,7 @@ export const TaskHistoryPageClient = ({
                   width={30}
                   height={30}
                   alt="avatar"
-                  className="rounded-full"
+                  className="size-full object-cover"
                 />
               ) : (
                 <CircleUserRound size="30">デフォルトアイコン</CircleUserRound>
