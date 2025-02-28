@@ -44,13 +44,13 @@ export const InviteGroup = () => {
       </Button>
       <Dialog opener={openerDialog} title="グループに招待する" id="dialog-1">
         <p className="text-center">
-          招待したいメンバーにグループの招待リンクを共有して、
+          招待したいメンバーにグループの招待リンクをLINEなどのSNSで共有して、
           <br />
           メンバーに加えましょう！
         </p>
         {url ? (
           <p className="text-center">
-            <a href={url} className="underline">
+            <a href={url} className="select-text underline">
               {url}
             </a>
           </p>
