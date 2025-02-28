@@ -23,9 +23,18 @@ const headingVariants = cva('font-bold', {
       h5: 'text-sm md:text-base',
       h6: 'text-sm md:text-base',
     },
+    margin: {
+      h1: 'mb-3 mt-4 md:mb-6 md:mt-12',
+      h2: 'mb-2 mt-3 md:mb-5 md:mt-10',
+      h3: 'mb-2 mt-3 md:mb-4 md:mt-8',
+      h4: 'mb-1 mt-2 md:mb-3 md:mt-6',
+      h5: 'my-1 md:my-2',
+      h6: 'my-1 md:my-2',
+    },
   },
   defaultVariants: {
     size: 'h2',
+    margin: 'h2',
   },
 });
 
@@ -40,7 +49,11 @@ export const Heading = ({
   variant,
 }: Props) => {
   return (
-    <Tag className={cn(headingVariants({ variant, size: Tag, className }))}>
+    <Tag
+      className={cn(
+        headingVariants({ variant, size: Tag, margin: Tag, className }),
+      )}
+    >
       {children}
     </Tag>
   );

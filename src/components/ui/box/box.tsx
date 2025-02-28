@@ -44,6 +44,13 @@ type BoxVariantProps = React.HTMLAttributes<HTMLDivElement> &
 
 export const Box = ({ children, className, bg, color }: BoxVariantProps) => {
   return (
-    <div className={cn(boxVariants({ className, bg, color }))}>{children}</div>
+    <div
+      className={cn(
+        '[&>*:first-child]:mt-0',
+        boxVariants({ className, bg, color }),
+      )}
+    >
+      {children}
+    </div>
   );
 };
