@@ -28,6 +28,11 @@ const boxVariants = cva('border p-2 md:p-4', {
     size: {
       default: 'border-2',
     },
+    mt: {
+      sm: 'mt-2',
+      md: 'mt-3',
+      lg: 'mt-4',
+    },
   },
   defaultVariants: {
     border: 'default',
@@ -35,6 +40,7 @@ const boxVariants = cva('border p-2 md:p-4', {
     color: 'default',
     rounded: 'default',
     size: 'default',
+    mt: 'md',
   },
 });
 
@@ -42,12 +48,21 @@ type BoxVariantProps = React.HTMLAttributes<HTMLDivElement> &
   VariantProps<typeof boxVariants> &
   BoxProps;
 
-export const Box = ({ children, className, bg, color }: BoxVariantProps) => {
+export const Box = ({
+  children,
+  className,
+  border,
+  bg,
+  color,
+  rounded,
+  size,
+  mt,
+}: BoxVariantProps) => {
   return (
     <div
       className={cn(
         '[&>*:first-child]:mt-0',
-        boxVariants({ className, bg, color }),
+        boxVariants({ className, bg, color, border, rounded, size, mt }),
       )}
     >
       {children}
