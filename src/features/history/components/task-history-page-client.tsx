@@ -163,7 +163,13 @@ export const TaskHistoryPageClient = ({
               key={h.id}
             >
               {h.avatar ? (
-                <Image src={h.avatar} width={30} height={30} alt="avatar" />
+                <Image
+                  src={h.avatar}
+                  width={30}
+                  height={30}
+                  alt="avatar"
+                  className="rounded-full"
+                />
               ) : (
                 <CircleUserRound size="30">デフォルトアイコン</CircleUserRound>
               )}
