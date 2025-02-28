@@ -1,3 +1,4 @@
+import { Content } from '@/components/layouts/content/content';
 import { Heading } from '@/components/ui/heading';
 import { TaskHistoryPageClient } from '@/features/history/components/task-history-page-client';
 import { getUserData } from '@/lib/supabase/data/users/get-user-data';
@@ -18,11 +19,11 @@ export default async function TaskHistoryPage() {
   }
 
   return (
-    <>
+    <Content>
       <Heading as="h1" className="mb-8 mt-3">
         履歴
       </Heading>
       <TaskHistoryPageClient userData={userData} />
-    </>
+    </Content>
   );
 }

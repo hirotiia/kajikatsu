@@ -3,6 +3,8 @@
 import { LoaderCircle } from 'lucide-react';
 import useSWR from 'swr';
 
+import { Content } from '@/components/layouts/content/content';
+
 const fetcher = async ([url, body]: [
   string,
   { invitation_token: string; expires_at: string },
@@ -33,16 +35,18 @@ export default function JoinPage({ searchParams }: { searchParams: any }) {
   );
 
   return (
-    <p>
-      {isValidating ? (
-        <LoaderCircle className="animate-spin text-primary" size={30}>
-          読み込み中...
-        </LoaderCircle>
-      ) : data ? (
-        data.message
-      ) : (
-        error.message
-      )}
-    </p>
+    <Content>
+      <p>
+        {isValidating ? (
+          <LoaderCircle className="animate-spin text-primary" size={30}>
+            読み込み中...
+          </LoaderCircle>
+        ) : data ? (
+          data.message
+        ) : (
+          error.message
+        )}
+      </p>
+    </Content>
   );
 }
