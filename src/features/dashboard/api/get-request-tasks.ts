@@ -49,7 +49,6 @@ export function useRequestTasks(groupId: string) {
       filter: `group_id=eq.${groupId}`,
       onChange: () => {
         fetchTasks();
-        console.log('データベースに変更が加わりました。');
       },
     });
 

@@ -14,9 +14,6 @@ export const RenderRequestTasks = ({
   groupId,
 }: RenderRequestTasksProps) => {
   const { tasks, error, isLoading } = useRequestTasks(groupId);
-  console.log('------------------');
-  console.log(tasks);
-  console.log('------------------');
 
   if (isLoading) {
     return <p>読み込み中...</p>;
