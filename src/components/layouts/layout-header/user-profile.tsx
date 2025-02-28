@@ -50,11 +50,13 @@ export const UserProfile = () => {
                     items={[
                       {
                         term: 'グループ名',
-                        definition: userState.data?.group?.name ?? '未加入',
+                        definitions: [userState.data?.group?.name ?? '未加入'],
                       },
                       {
                         term: 'ステータス',
-                        definition: userState.data?.group?.role.name ?? 'なし',
+                        definitions: [
+                          userState.data?.group?.role.name ?? 'なし',
+                        ],
                       },
                     ]}
                   />

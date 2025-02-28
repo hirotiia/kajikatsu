@@ -5,8 +5,8 @@ export function buildDeletedMessage(oldTask: any): string | React.JSX.Element {
 
   // 例: 重要項目だけ取り出して DefinitionList 用の配列に整形
   const items: DefinitionListItem[] = [
-    { term: 'タイトル', definition: oldTask.title || '未定義' },
-    { term: '内容', definition: oldTask.description || '未定義' },
+    { term: 'タイトル', definitions: [oldTask.title || '未定義'] },
+    { term: '内容', definitions: [oldTask.description || '未定義'] },
   ];
 
   return (

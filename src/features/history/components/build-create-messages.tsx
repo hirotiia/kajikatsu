@@ -5,8 +5,8 @@ export function buildCreatedMessage(newTask: any): string | React.JSX.Element {
 
   // 定義リストのデータ項目を作成
   const items: DefinitionListItem[] = [
-    { term: 'タイトル', definition: newTask.title || '未定義' },
-    { term: '内容', definition: newTask.description || '未定義' },
+    { term: 'タイトル', definitions: [newTask.title || '未定義'] },
+    { term: '内容', definitions: [newTask.description || '未定義'] },
   ];
 
   return (

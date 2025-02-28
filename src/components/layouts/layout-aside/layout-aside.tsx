@@ -23,12 +23,12 @@ interface SideNavigationItem {
 export const LayoutAside = ({ className }: { className?: string }) => {
   const pathname = usePathname();
   const navigation = [
-    { name: 'Home', to: '/dashboard', icon: Home },
-    { name: 'Todo', to: '/todos', icon: NotebookText },
-    { name: 'Group', to: '/group', icon: UserRoundPlus },
-    { name: 'History', to: '/history', icon: History },
-    { name: 'Setting', to: '/settings', icon: Settings },
-    { name: 'Info', to: '/information', icon: Info },
+    { name: 'ホーム', to: '/dashboard', icon: Home },
+    { name: 'おしごと', to: '/todos', icon: NotebookText },
+    { name: 'グループ', to: '/group', icon: UserRoundPlus },
+    { name: 'りれき', to: '/history', icon: History },
+    { name: 'せってい', to: '/settings', icon: Settings },
+    { name: 'おしらせ', to: '/information', icon: Info },
   ].filter(Boolean) as SideNavigationItem[];
   return (
     <aside className={cn(className)}>
