@@ -2,6 +2,7 @@ import { redirect } from 'next/navigation';
 
 import { Content } from '@/components/layouts/content/content';
 import { Heading } from '@/components/ui/heading';
+import { Text } from '@/components/ui/text';
 import { RenderUserProfile } from '@/features/settings/render-user-profile';
 import { createClient } from '@/lib/supabase/server';
 
@@ -16,15 +17,10 @@ export default async function SettingPage() {
 
   return (
     <Content>
-      <Heading as="h1" className="mb-6 md:mb-10">
-        設定
-      </Heading>
-      <p>
-        アプリのカテゴリやプロフィールをカスタマイズできる設定画面です。使いやすいように調整してください。
-      </p>
-      <Heading as="h2" className="my-6 md:mb-3">
-        プロフィール
-      </Heading>
+      <Heading as="h1">設定</Heading>
+      <Text>アプリのプロフィールをカスタマイズできる画面です。</Text>
+      <Text spacing="none">使いやすいように調整してください。</Text>
+      <Heading as="h2">プロフィール</Heading>
       <RenderUserProfile />
     </Content>
   );

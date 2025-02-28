@@ -16,6 +16,7 @@ import { getTaskHistoryForClient } from '@/lib/supabase/data/task-history/select
 import { fetchUserNameById } from '@/lib/supabase/data/users/fetch-user-name-by-id';
 import { UserData } from '@/lib/supabase/data/users/get-user-data';
 import { getUserProfileClient } from '@/lib/supabase/data/users/get-user-profile-client';
+import { cn } from '@/utils/cn';
 import { extractChangedFields } from '@/utils/extract-changed-fields';
 
 import { buildCreatedMessage } from './build-create-messages';
@@ -24,6 +25,7 @@ import { buildDiffMessages } from './build-diff-messages';
 
 type TaskHistoryPageClientProps = {
   userData: UserData;
+  className?: string;
 };
 
 type HistoryData = {
@@ -39,6 +41,7 @@ type HistoryData = {
  */
 export const TaskHistoryPageClient = ({
   userData,
+  className,
 }: TaskHistoryPageClientProps) => {
   const [historyData, setHistoryData] = useState<HistoryData[]>([]);
 
@@ -133,7 +136,7 @@ export const TaskHistoryPageClient = ({
   }
 
   return (
-    <div className="grid gap-y-3">
+    <div className={cn('grid gap-y-3 md:mt-6 mt-3', className)}>
       {historyData.map((h) => {
         let actionLabel: string;
         switch (h.action) {
