@@ -45,9 +45,9 @@ const drawerVariants = cva(
         top: 'inset-x-0 top-0 -translate-y-full transform data-[state=open]:translate-y-0',
         bottom:
           'inset-x-0 bottom-0 translate-y-full transform data-[state=open]:translate-y-0',
-        left: 'inset-y-0 left-0 w-3/4 -translate-x-full transform data-[state=open]:translate-x-0 sm:max-w-sm',
+        left: 'inset-y-0 left-0 w-full -translate-x-full transform data-[state=open]:translate-x-0 sm:max-w-sm',
         right:
-          'inset-y-0 right-0 w-3/4 translate-x-full transform data-[state=open]:translate-x-0 sm:max-w-sm',
+          'inset-y-0 right-0 w-full translate-x-full transform data-[state=open]:translate-x-0 sm:max-w-sm',
       },
     },
     defaultVariants: {

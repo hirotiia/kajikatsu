@@ -18,7 +18,7 @@ export const PrivateLayout = async ({
             {children}
           </main>
           <LayoutAside className="fixed max-md:bottom-2 max-md:left-1/2 max-md:w-[calc(100%-2*var(--layout-gap))] max-md:-translate-x-1/2 md:top-32 md:w-[200px]" />
-          <footer className="col-start-1 row-start-4 pb-16 pt-4 md:col-start-1 md:col-end-3 md:row-start-3 md:pb-8">
+          <footer className="col-start-1 row-start-4 pb-20 pt-4 md:col-start-1 md:col-end-3 md:row-start-3 md:pb-8">
             <p className="text-right">
               <small>©2024 nakano hiroya</small>
             </p>
