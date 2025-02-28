@@ -175,9 +175,9 @@
 <h2 id="heading-09">🔗 参考資料</h2>
 
 
-<a href="https://nextjs.org/docs" target="_blank" rel="noopener noreferrer">Next.js 公式ドキュメント</a>  
-<a href="https://supabase.com/docs" target="_blank" rel="noopener noreferrer">Supabase 公式ドキュメント</a>  
-<a href="https://tailwindcss.com/docs" target="_blank" rel="noopener noreferrer">Tailwind CSS 公式ドキュメン</a>  
+<a href="https://nextjs.org/docs" target="_blank">Next.js 公式ドキュメント</a>  
+<a href="https://supabase.com/docs" target="_blank">Supabase 公式ドキュメント</a>  
+<a href="https://tailwindcss.com/docs" target="_blank">Tailwind CSS 公式ドキュメン</a>  
 
 ---
 
