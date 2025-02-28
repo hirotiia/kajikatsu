@@ -3,6 +3,8 @@ import { redirect } from 'next/navigation';
 import { Content } from '@/components/layouts/content/content';
 import { Box } from '@/components/ui/box';
 import { Heading } from '@/components/ui/heading';
+import { DefinitionList } from '@/components/ui/list';
+import { Text } from '@/components/ui/text';
 import { CreateGroup } from '@/features/group/components/create-group';
 import { DleteGroup } from '@/features/group/components/delete-group';
 import { InviteGroup } from '@/features/group/components/invite-group';
@@ -49,14 +51,23 @@ export default async function GroupPage() {
       <Heading as="h1" className="mb-6 mt-4">
         グループ
       </Heading>
+      <Text>このページでは、グループの作成や管理ができます。</Text>
+      <Text spacing="none">
+        すでにグループに入っている場合は、グループ名やメンバー一覧を確認したり、新しいメンバーを招待したりできます。
+      </Text>
+      <Text spacing="none">
+        まだグループに入っていない場合は、新しくグループを作成できます。
+      </Text>
 
       <Box>
-        <dl className="grid gap-4">
-          <div>
-            <dt className="mb-4 font-bold">グループ名</dt>
-            <dd>{groupName ?? '未加入'}</dd>
-          </div>
-        </dl>
+        <DefinitionList
+          items={[
+            {
+              term: 'グループ名',
+              definitions: [groupName ?? '未加入'],
+            },
+          ]}
+        />
         <div className="text-right">
           {groupName ? (
             <>
@@ -69,7 +80,7 @@ export default async function GroupPage() {
         </div>
       </Box>
 
-      <Heading className="mt-10">メンバー</Heading>
+      <Heading>メンバー</Heading>
       <Box bg="primary" className="mt-5">
         {groupId ? (
           <RenderGroupMembers groupId={groupId} />
