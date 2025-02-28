@@ -1,5 +1,3 @@
-'use client';
-
 import { cva, VariantProps } from 'class-variance-authority';
 import React from 'react';
 
@@ -50,10 +48,8 @@ const ddStyles = cva('ml-4', {
 });
 
 export type DefinitionListItem = {
-  /** 見出し(用語) */
-  term: React.ReactNode;
-  /** 定義部 */
-  definition: React.ReactNode;
+  term: string;
+  definitions: string[];
 };
 
 type DLVariants = VariantProps<typeof dlStyles>;
@@ -83,10 +79,14 @@ export function DefinitionList({
 }: DefinitionListProps) {
   return (
     <dl className={cn(dlStyles({ spacing }), className)}>
-      {items.map((item, idx) => (
+      {items.map(({ term, definitions }, idx) => (
         <React.Fragment key={idx}>
-          <dt className={cn(dtStyles({ textSize }))}>{item.term}</dt>
-          <dd className={cn(ddStyles({ textSize }))}>{item.definition}</dd>
+          <dt className={cn(dtStyles({ textSize }))}>{term}</dt>
+          {definitions.map((definition, idx) => (
+            <dd key={idx} className={cn(ddStyles({ textSize }))}>
+              {definition}
+            </dd>
+          ))}
         </React.Fragment>
       ))}
     </dl>
