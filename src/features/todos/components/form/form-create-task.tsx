@@ -1,7 +1,6 @@
 'use client';
 
-import { useContext, useEffect, useRef } from 'react';
-import { useFormState } from 'react-dom';
+import { useActionState, useContext, useEffect, useRef } from 'react';
 
 import { createTask } from '@/actions/task/create-task';
 import { Button } from '@/components/ui/button';
@@ -32,7 +31,10 @@ export const FormCreateTask = ({
     message: '',
     formValidationStatus: null,
   };
-  const [state, createTaskAction] = useFormState(createTask, initialState);
+  const [state, createTaskAction, isPending] = useActionState(
+    createTask,
+    initialState,
+  );
   const { addNotification } = useNotifications();
   const { setIsOpen } = useContext(DrawerContext);
 
@@ -117,8 +119,8 @@ export const FormCreateTask = ({
         className="mt-4"
       />
 
-      <Button className="mt-10" size="full">
-        作成
+      <Button className="mt-10" size="full" disabled={isPending}>
+        {isPending ? '作成中...' : '作成'}
       </Button>
     </form>
   );

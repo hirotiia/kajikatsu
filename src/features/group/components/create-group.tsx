@@ -1,8 +1,7 @@
 'use client';
 
 import { Plus } from 'lucide-react';
-import { useEffect } from 'react';
-import { useFormState } from 'react-dom';
+import { useActionState, useEffect } from 'react';
 
 import { createGroup } from '@/actions/group/create-group';
 import { Button } from '@/components/ui/button';
@@ -18,7 +17,10 @@ export const CreateGroup = () => {
     message: '',
   };
   const openerDialog = useOpener();
-  const [state, createGroupAction] = useFormState(createGroup, initialState);
+  const [state, createGroupAction, isPending] = useActionState(
+    createGroup,
+    initialState,
+  );
   const { addNotification } = useNotifications();
 
   useEffect(() => {
@@ -59,7 +61,9 @@ export const CreateGroup = () => {
             error={['グループ名を入力してください']}
             required
           />
-          <Button>グループを作成する</Button>
+          <Button disabled={isPending}>
+            {isPending ? '作成中です...' : 'グループを作成する'}
+          </Button>
         </form>
       </Dialog>
     </>

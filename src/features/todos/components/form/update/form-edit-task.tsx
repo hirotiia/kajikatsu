@@ -1,7 +1,6 @@
 'use client';
 
-import { useContext, useEffect, useRef } from 'react';
-import { useFormState } from 'react-dom';
+import { useActionState, useContext, useEffect, useRef } from 'react';
 
 import { updateTask } from '@/actions/task/update-task';
 import { Button } from '@/components/ui/button';
@@ -34,7 +33,7 @@ export function FormEditTask({
   defaultStatusId = '',
   opener,
 }: EditTaskProps) {
-  const [state, updateTaskAction] = useFormState(updateTask, {
+  const [state, updateTaskAction, isPending] = useActionState(updateTask, {
     type: '',
     status: null,
     message: '',
@@ -110,8 +109,8 @@ export function FormEditTask({
       />
 
       <div className="mt-6 grid gap-y-2">
-        <Button variant="default" type="submit">
-          更新
+        <Button variant="default" disabled={isPending}>
+          {isPending ? '更新中です...' : '更新'}
         </Button>
         <Button variant="destructive" type="button" onClick={opener.close}>
           キャンセル

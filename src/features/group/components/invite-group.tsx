@@ -1,7 +1,6 @@
 'use client';
 import { Plus } from 'lucide-react';
-import { useEffect, useState } from 'react';
-import { useFormState } from 'react-dom';
+import { useActionState, useEffect, useState } from 'react';
 
 import { inviteGroup } from '@/actions/group/invite-group';
 import { Button } from '@/components/ui/button';
@@ -17,7 +16,10 @@ export const InviteGroup = () => {
     message: '',
     url: '',
   };
-  const [state, inviteGroupAction] = useFormState(inviteGroup, initialState);
+  const [state, inviteGroupAction, isPending] = useActionState(
+    inviteGroup,
+    initialState,
+  );
   const openerDialog = useOpener();
   const { addNotification } = useNotifications();
   const [url, setUrl] = useState('');
@@ -65,8 +67,8 @@ export const InviteGroup = () => {
                 { value: '24', title: '24時間' },
               ]}
             />
-            <Button size="small" className="mt-6">
-              招待リンクを生成する
+            <Button size="small" className="mt-6" disabled={isPending}>
+              {isPending ? '作っています...' : '招待リンクを作成する'}
             </Button>
           </form>
         )}

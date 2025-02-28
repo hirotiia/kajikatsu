@@ -1,8 +1,7 @@
 'use client';
 
 import { Trash2 } from 'lucide-react';
-import { useEffect } from 'react';
-import { useFormState } from 'react-dom';
+import { useActionState, useEffect } from 'react';
 
 import { deleteGroup } from '@/actions/group/delete-group';
 import { Button } from '@/components/ui/button';
@@ -11,7 +10,10 @@ import { useNotifications } from '@/components/ui/notifications';
 import { useOpener } from '@/hooks/use-opener';
 
 export const DleteGroup = () => {
-  const [state, deleteGroupAction] = useFormState(deleteGroup, null);
+  const [state, deleteGroupAction, isPending] = useActionState(
+    deleteGroup,
+    null,
+  );
   const openerDialog = useOpener();
   const { addNotification } = useNotifications();
 
@@ -55,7 +57,9 @@ export const DleteGroup = () => {
           脱退した場合、グループは削除されメンバーは解散になります。
         </p>
         <form action={deleteGroupAction} className="mt-10 grid items-center">
-          <Button variant="destructive">グループを脱退する</Button>
+          <Button variant="destructive" disabled={isPending}>
+            {isPending ? '脱退中です...' : 'グループを脱退する'}
+          </Button>
         </form>
       </Dialog>
     </>
