@@ -6,7 +6,7 @@ type TextProps = {
   children: React.ReactNode;
   className?: string;
 } & VariantProps<typeof textStyles>;
-const textStyles = cva('pl-4', {
+const textStyles = cva('', {
   variants: {
     textSize: {
       sm: 'text-sm md:text-base',
@@ -27,7 +27,7 @@ const textStyles = cva('pl-4', {
   },
   defaultVariants: {
     textSize: 'md',
-    spacing: 'lg',
+    spacing: 'sm',
     weight: 'normal',
   },
 });
