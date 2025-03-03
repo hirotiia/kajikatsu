@@ -11,7 +11,6 @@ import { RenderRequestTasks } from '@/features/dashboard/components/render-reque
 import { fetchUserData } from '@/lib/supabase/user/fetch-user-data';
 import { getUser } from '@/lib/supabase/user/user';
 
-/** ページメタデータ（タイトルなど） */
 export async function generateMetadata(): Promise<Metadata> {
   return {
     title: 'ホーム',
@@ -19,16 +18,12 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function Dashboard() {
-  // ユーザー情報を取得
   const { user, authError } = await getUser();
   if (!user || authError) {
     redirect('/login');
   }
 
-  // ユーザーの詳細データを取得
   const data = await fetchUserData(user.id);
-
-  // グループID が存在するかどうかで表示を分ける
   const hasGroup = Boolean(data?.group?.id);
 
   return (
