@@ -33,12 +33,12 @@ export const LayoutAside = ({ className }: { className?: string }) => {
   return (
     <aside className={cn(className)}>
       <nav className="glassmorphism text-primary-foreground">
-        <ul className="items-center justify-around max-md:flex max-md:p-2">
+        <ul className="items-center max-md:mx-auto max-md:flex max-md:max-w-[500px] max-md:gap-[5px] max-md:p-2">
           {navigation.map(({ name, to, icon: Icon }) => {
             const isCurrent = pathname === to;
 
             return (
-              <li key={name}>
+              <li key={name} className="max-md:w-[calc(100%/6+5px*5)]">
                 <Link
                   href={to}
                   className={cn(
@@ -48,7 +48,7 @@ export const LayoutAside = ({ className }: { className?: string }) => {
                   prefetch={true}
                 >
                   <Icon size={25} className="shrink-0" />
-                  <span className="max-md:text-sm">{name}</span>
+                  <span className="max-md:text-xs">{name}</span>
                 </Link>
               </li>
             );
