@@ -1,4 +1,5 @@
 import { SquarePen } from 'lucide-react';
+import { Metadata } from 'next';
 
 import { Content } from '@/components/layouts/content/content';
 import {
@@ -18,6 +19,12 @@ import {
 } from '@/lib/supabase/data/users/fetch-group-members';
 import { getUserData } from '@/lib/supabase/data/users/get-user-data';
 import { getUser } from '@/lib/supabase/user/user';
+
+export async function generateMetadata(): Promise<Metadata> {
+  return {
+    title: 'おしごと',
+  };
+}
 
 export default async function TodosPage() {
   const { user, authError } = await getUser();
@@ -51,15 +58,15 @@ export default async function TodosPage() {
     <Content>
       <div className="flex flex-wrap items-center justify-between gap-4">
         <Heading as="h1" className="first:mt-0">
-          やることリスト
+          おしごと
         </Heading>
         <Drawer name="create_task">
           <DrawerTrigger className="flex items-center justify-center gap-2 rounded-full text-sm md:text-base">
-            <SquarePen className="shrink-0">タスクを作成</SquarePen>
+            <SquarePen className="shrink-0">おしごとを作成</SquarePen>
             新規作成
           </DrawerTrigger>
           <DrawerContent>
-            <DrawerTitle>新しいタスクを作成</DrawerTitle>
+            <DrawerTitle>新しいおしごとを作成</DrawerTitle>
             <DrawerBody>
               <FormCreateTask
                 groupMembers={groupMembers}
@@ -71,13 +78,7 @@ export default async function TodosPage() {
         </Drawer>
       </div>
       <Text spacing="none">
-        このページでは、「自分がやらなきゃいけないお手伝い」をまとめて見ることができます。
-      </Text>
-      <Text spacing="none">
-        たとえば「まだやっていないお手伝い」「今やっているお手伝い」「もう終わったお手伝い」など、どのステータスにあるかを分けて一覧で表示します。
-      </Text>
-      <Text spacing="none">
-        右側の「新規作成」ボタンから新しいお手伝いを追加することもできるので、自分のやることをわかりやすく整理できますよ。
+        このページでは、自分が担当になっているおしごとをステータスごとに見ることができます。
       </Text>
       <TabUsersTask />
     </Content>

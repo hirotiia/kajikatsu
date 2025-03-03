@@ -1,3 +1,4 @@
+import { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 
 import { Content } from '@/components/layouts/content/content';
@@ -13,6 +14,12 @@ import { checkPendingJoinRequest } from '@/lib/supabase/data/join-requests/selec
 import { createClient } from '@/lib/supabase/server';
 import { fetchUserData } from '@/lib/supabase/user/fetch-user-data';
 import { UserState } from '@/types/user-state.types';
+
+export async function generateMetadata(): Promise<Metadata> {
+  return {
+    title: 'グループ',
+  };
+}
 
 export default async function GroupPage() {
   const supabase = await createClient();
@@ -52,12 +59,7 @@ export default async function GroupPage() {
         グループ
       </Heading>
       <Text>このページでは、グループの作成や管理ができます。</Text>
-      <Text spacing="none">
-        すでにグループに入っている場合は、グループ名やメンバー一覧を確認したり、新しいメンバーを招待したりできます。
-      </Text>
-      <Text spacing="none">
-        まだグループに入っていない場合は、新しくグループを作成できます。
-      </Text>
+      <Text spacing="none">複数のグループに同時に入ることはできません。</Text>
 
       <Box>
         <DefinitionList

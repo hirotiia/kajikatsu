@@ -51,19 +51,13 @@ function GroupTasksSection({ groupId }: { groupId: string | undefined }) {
   }
   return (
     <>
-      <Heading>グループ内の未担当タスク一覧</Heading>
-      <Text>
-        グループ内でお願いされているタスクです！
-        <br />
-        余裕があれば代わりにお仕事を手伝ってあげよう！
-      </Text>
+      <Heading>これお願い！</Heading>
 
       <Box bg="primary" className="mt-8 md:mt-4">
         <RenderRequestTasks groupId={groupId} />
       </Box>
 
-      <Heading>グループメンバーの担当タスク</Heading>
-      <Text>みんなが担当しているおしごとを見ることができます！</Text>
+      <Heading>グループメンバーごとのタスク</Heading>
 
       <RenderAllMembersTasks groupId={groupId} className="mt-6" />
     </>
