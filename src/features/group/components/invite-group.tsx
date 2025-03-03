@@ -45,16 +45,20 @@ export const InviteGroup = () => {
       </Button>
       <Dialog opener={openerDialog} title="グループに招待する" id="dialog-1">
         <p className="text-center">
-          招待したいメンバーにグループの招待リンクをLINEなどのSNSで共有して、
+          招待リンクの有効期限を選択して招待URLを作成します。
           <br />
-          メンバーに加えましょう！
+          生成後はQRコードが表示されるので、共有したいメンバーに読み取ってもらいましょう。
         </p>
         {url ? (
           <div className="mt-5 text-center">
-            <QRCodeCanvas value={url} size={200} className="m-auto" />
-
+            <p className="mt-5">
+              以下のQRコードを読み取ると、グループへの参加手続きができます。
+            </p>
+            <div className="mt-5">
+              <QRCodeCanvas value={url} size={200} className="m-auto" />
+            </div>
             <p className="mt-5 break-all text-sm">
-              またはURLを直接シェアする場合: <br />
+              直接URLを共有する場合はこちら: <br />
               <a href={url} className="text-primary underline">
                 {url}
               </a>
