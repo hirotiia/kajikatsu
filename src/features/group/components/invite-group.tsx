@@ -1,5 +1,6 @@
 'use client';
 import { Plus } from 'lucide-react';
+import { QRCodeCanvas } from 'qrcode.react';
 import { useActionState, useEffect, useState } from 'react';
 
 import { inviteGroup } from '@/actions/group/invite-group';
@@ -25,7 +26,7 @@ export const InviteGroup = () => {
   const [url, setUrl] = useState('');
 
   useEffect(() => {
-    if (state.status !== null) {
+    if (state.status !== null || state.status === 200) {
       addNotification(state);
       setUrl(state.url);
     }
@@ -49,11 +50,16 @@ export const InviteGroup = () => {
           メンバーに加えましょう！
         </p>
         {url ? (
-          <p className="text-center">
-            <a href={url} className="select-text underline">
-              {url}
-            </a>
-          </p>
+          <div className="mt-5 text-center">
+            <QRCodeCanvas value={url} size={200} className="m-auto" />
+
+            <p className="mt-5 break-all text-sm">
+              またはURLを直接シェアする場合: <br />
+              <a href={url} className="text-primary underline">
+                {url}
+              </a>
+            </p>
+          </div>
         ) : (
           <form action={inviteGroupAction} className="mt-10 grid items-center">
             <FormSelect
