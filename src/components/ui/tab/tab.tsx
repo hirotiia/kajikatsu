@@ -4,18 +4,14 @@ import { ChevronDown } from 'lucide-react';
 import React, {
   ChangeEvent,
   createContext,
-  ReactElement,
   ReactNode,
   useContext,
-  useMemo,
   useState,
   KeyboardEvent,
   useRef,
-  useEffect,
 } from 'react';
 
 import { cn } from '@/utils/cn';
-import { invertOnHover } from '@/utils/invert-on-hover';
 
 type TabKey = string;
 type TabLabel = string | React.JSX.Element;
@@ -36,65 +32,23 @@ type TabProps = {
 type TabContextState = {
   currentKey: TabKey;
   setCurrentKey: React.Dispatch<React.SetStateAction<TabKey>>;
-  tabList: TabHeader[];
-  registerTab: (
-    tabKey: TabKey,
-    ref: React.RefObject<HTMLButtonElement | null>,
-  ) => void;
 };
 
 type TabHeader = {
-  tabKey: TabKey;
+  key: TabKey;
   label: TabLabel;
 };
 
 const TabContext = createContext<TabContextState>({
   currentKey: '',
   setCurrentKey: () => {},
-  tabList: [],
-  registerTab: () => {},
 });
 
 const Tab = ({ children, defaultKey, className }: TabProps) => {
   const [currentKey, setCurrentKey] = useState(defaultKey);
-  const [tabs, setTabs] = useState<TabHeader[]>([]);
-  const tabRefs = useRef<
-    Record<TabKey, React.RefObject<HTMLButtonElement | null>>
-  >({});
-
-  const registerTab = (
-    tabKey: TabKey,
-    ref: React.RefObject<HTMLButtonElement | null>,
-  ) => {
-    tabRefs.current[tabKey] = ref;
-  };
-
-  const tabList = useMemo<TabHeader[]>(() => {
-    const items = React.Children.toArray(
-      children,
-    ) as ReactElement<TabItemProps>[];
-    return items
-      .map((child) => {
-        if ((child.type as any).displayName === 'TabHeader') {
-          return undefined;
-        }
-        if ((child.type as any).displayName === 'TabSelectHeader') {
-          return undefined;
-        }
-
-        return { tabKey: child.props.tabKey, label: child.props.label };
-      })
-      .filter((tab): tab is TabHeader => tab !== undefined);
-  }, [children]);
-
-  useEffect(() => {
-    setTabs(tabList);
-  }, [tabList]);
 
   return (
-    <TabContext
-      value={{ currentKey, setCurrentKey, tabList: tabs, registerTab }}
-    >
+    <TabContext value={{ currentKey, setCurrentKey }}>
       <div className={cn('w-full', className)}>{children}</div>
     </TabContext>
   );
@@ -103,27 +57,28 @@ const Tab = ({ children, defaultKey, className }: TabProps) => {
 type TabHeaderProps = {
   className?: string;
   ariaLabel: string;
+  statusList: TabHeader[];
 };
 
-const TabHeader = ({ className, ariaLabel }: TabHeaderProps) => {
-  const { currentKey, setCurrentKey, tabList, registerTab } =
-    useContext(TabContext);
+const TabHeader = ({ className, ariaLabel, statusList }: TabHeaderProps) => {
+  const { currentKey, setCurrentKey } = useContext(TabContext);
   const refs = useRef<
     Record<TabKey, React.RefObject<HTMLButtonElement | null>>
   >({});
 
   const handleKeyDown = (event: KeyboardEvent<HTMLUListElement>) => {
-    const currentIndex = tabList.findIndex((tab) => tab.tabKey === currentKey);
+    const currentIndex = statusList.findIndex(({ key }) => key === currentKey);
+    if (currentIndex < 0) return;
 
     let newIndex = currentIndex;
 
     switch (event.key) {
       case 'ArrowRight':
-        newIndex = (currentIndex + 1) % tabList.length;
+        newIndex = (currentIndex + 1) % statusList.length;
         event.preventDefault();
         break;
       case 'ArrowLeft':
-        newIndex = (currentIndex - 1 + tabList.length) % tabList.length;
+        newIndex = (currentIndex - 1 + statusList.length) % statusList.length;
         event.preventDefault();
         break;
       case 'Home':
@@ -131,14 +86,14 @@ const TabHeader = ({ className, ariaLabel }: TabHeaderProps) => {
         event.preventDefault();
         break;
       case 'End':
-        newIndex = tabList.length - 1;
+        newIndex = statusList.length - 1;
         event.preventDefault();
         break;
       default:
         return;
     }
 
-    const newKey = tabList[newIndex].tabKey;
+    const newKey = statusList[newIndex].key;
     setCurrentKey(newKey);
     refs.current[newKey]?.current?.focus();
   };
@@ -153,34 +108,33 @@ const TabHeader = ({ className, ariaLabel }: TabHeaderProps) => {
       aria-label={ariaLabel}
       onKeyDown={handleKeyDown}
     >
-      {tabList.map(({ tabKey, label }) => {
-        if (!refs.current[tabKey]) {
-          refs.current[tabKey] = React.createRef<HTMLButtonElement>();
-          registerTab(tabKey, refs.current[tabKey]);
+      {statusList.map(({ key, label }) => {
+        if (!refs.current[key]) {
+          refs.current[key] = React.createRef<HTMLButtonElement>();
         }
 
         return (
           <li
-            key={`${tabKey}-header`}
+            key={`${key}-header`}
             className="flex-1 border-foreground [&:not(:first-child)]:border-l-2"
             role="presentation"
           >
             <button
               type="button"
               role="tab"
-              aria-selected={tabKey === currentKey}
-              aria-controls={`tabpanel-${tabKey}`}
-              id={`tab-${tabKey}`}
-              ref={refs.current[tabKey]}
-              tabIndex={tabKey === currentKey ? 0 : -1}
+              aria-selected={key === currentKey}
+              aria-controls={`tabpanel-${key}`}
+              id={`tab-${key}`}
+              ref={refs.current[key]}
+              tabIndex={key === currentKey ? 0 : -1}
               className={cn(
-                'w-full text-sm md:text-base px-4 py-2 text-center transition-colors duration-200 ease-in-out focus:outline-none',
-                tabKey === currentKey
-                  ? 'bg-primary text-primary-foreground'
-                  : invertOnHover('bg-primary-foreground', 'text-primary'),
+                'w-full text-sm px-4 py-2 text-center border border-transparent focus:outline-none focus:border-foreground',
+                key === currentKey
+                  ? 'bg-primary text-background'
+                  : 'bg-primary-foreground text-primary custom-transition hover:bg-primary hover:text-primary-foreground',
               )}
               onClick={() => {
-                setCurrentKey(tabKey);
+                setCurrentKey(key);
               }}
             >
               {label}
@@ -197,10 +151,15 @@ TabHeader.displayName = 'TabHeader';
 type TabSelectHeaderProps = {
   children?: React.ReactNode;
   className?: string;
+  options: TabHeader[];
 };
 
-const TabSelectHeader = ({ children, className }: TabSelectHeaderProps) => {
-  const { currentKey, setCurrentKey, tabList } = useContext(TabContext);
+const TabSelectHeader = ({
+  children,
+  className,
+  options,
+}: TabSelectHeaderProps) => {
+  const { currentKey, setCurrentKey } = useContext(TabContext);
 
   const [isSelectOpen, setIsSelectOpen] = useState(false);
 
@@ -240,8 +199,8 @@ const TabSelectHeader = ({ children, className }: TabSelectHeaderProps) => {
               'appearance-none w-full py-1 px-2 text-foreground md:px-4 md:py-2 md:text-lg',
             )}
           >
-            {tabList.map(({ tabKey, label }) => (
-              <option key={`${tabKey}-option`} value={tabKey}>
+            {options.map(({ key, label }) => (
+              <option key={`${key}-option`} value={key}>
                 {label}
               </option>
             ))}

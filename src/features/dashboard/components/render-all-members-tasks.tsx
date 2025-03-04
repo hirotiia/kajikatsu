@@ -31,10 +31,14 @@ export function RenderAllMembersTasks({
 
   // 先頭メンバーの user_id をデフォルトのタブキーに
   const defaultKey = members[0]?.user_id ?? 'no-member';
+  const options = members.map(({ user_id, username }) => ({
+    key: user_id,
+    label: username,
+  }));
 
   return (
     <Tab defaultKey={defaultKey} className={className}>
-      <TabSelectHeader />
+      <TabSelectHeader options={options} />
 
       {members.map((member) => (
         <TabItem

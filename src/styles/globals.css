@@ -122,6 +122,10 @@
   .arrow-down::after {
     @apply rotate-[-45deg];
   }
+
+  .custom-transition {
+    @apply transition-colors delay-200 duration-200 ease-out;
+  }
 }
 
 @layer components {

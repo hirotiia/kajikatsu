@@ -9,8 +9,12 @@ import { Task } from '@/types/task.types';
 import { Tasks } from '../form/tasks';
 
 export const TabUsersTask = () => {
-  const { myTasks, isLoading, error } = useMyTasks();
+  const { myTasks, isLoading } = useMyTasks();
   const statusList = ['対応中', '未対応', '保留', '完了'];
+  const tabData = statusList.map((status) => ({
+    key: status,
+    label: status,
+  }));
 
   // ステータスごとにタスクを分類
   const tasksByStatus = statusList.reduce<Record<string, Task[]>>(
@@ -31,35 +35,25 @@ export const TabUsersTask = () => {
       statusId: task.statusId ?? undefined,
     }));
 
-  const renderTabItems = (
-    statusList: string[],
-    tasksByStatus: Record<string, Task[]>,
-  ): ReactElement<TabItemProps>[] =>
-    statusList.map(
-      (status): ReactElement<TabItemProps> => (
-        <TabItem key={status} tabKey={status} label={status}>
-          {tasksByStatus[status]?.length > 0 ? (
-            <Tasks
-              listItems={formatTasksForList(tasksByStatus[status])}
-              className="glassmorphism"
-            />
-          ) : (
-            <p className="text-base">タスクはありません。</p>
-          )}
-        </TabItem>
-      ),
-    );
-
-  return isLoading ? (
-    <p>読み込み中です...</p>
-  ) : error ? (
-    <p>{error}</p>
-  ) : myTasks ? (
+  return (
     <Tab defaultKey="対応中" className="mt-8">
-      <TabHeader ariaLabel="タスクナビゲーション" />
-      {renderTabItems(statusList, tasksByStatus)}
+      <TabHeader ariaLabel="タスクナビゲーション" statusList={tabData} />
+      {statusList.map(
+        (status): ReactElement<TabItemProps> => (
+          <TabItem key={status} tabKey={status} label={status}>
+            {isLoading ? (
+              <p>読み込み中です...</p>
+            ) : tasksByStatus[status]?.length > 0 ? (
+              <Tasks
+                listItems={formatTasksForList(tasksByStatus[status])}
+                className="glassmorphism"
+              />
+            ) : (
+              <p className="text-base">タスクはありません。</p>
+            )}
+          </TabItem>
+        ),
+      )}
     </Tab>
-  ) : (
-    <p>タスクを取得できませんでした。</p>
   );
 };
