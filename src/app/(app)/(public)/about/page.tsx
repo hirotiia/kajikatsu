@@ -41,6 +41,7 @@ export default function Home() {
             text: 'お互いの貢献度の把握と感謝の促進',
           },
         ]}
+        textSize="sm"
       />
 
       <Heading>このアプリの目的</Heading>

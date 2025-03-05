@@ -9,9 +9,9 @@ type TextProps = {
 const textStyles = cva('', {
   variants: {
     textSize: {
-      sm: 'text-sm md:text-base',
-      md: 'text-base md:text-lg',
-      lg: 'text-lg md:text-xl',
+      sm: 'text-xs md:text-sm',
+      md: 'text-sm md:text-base',
+      lg: 'text-base md:text-lg',
     },
     spacing: {
       none: 'mt-0',

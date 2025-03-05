@@ -24,17 +24,28 @@ const headingVariants = cva('font-bold', {
       h6: 'text-sm md:text-base',
     },
     margin: {
-      h1: 'mb-3 mt-4 md:mb-6 md:mt-12',
-      h2: 'mb-2 mt-3 md:mb-5 md:mt-10',
-      h3: 'mb-2 mt-3 md:mb-4 md:mt-8',
-      h4: 'mb-1 mt-2 md:mb-3 md:mt-6',
+      h1: 'mb-5 mt-6 md:mb-8 md:mt-16',
+      h2: 'mb-4 mt-5 md:mb-7 md:mt-14',
+      h3: 'mb-3 mt-4 md:mb-6 md:mt-12',
+      h4: 'mb-2 mt-3 md:mb-5 md:mt-10',
       h5: 'my-1 md:my-2',
       h6: 'my-1 md:my-2',
+    },
+    underline: {
+      false: '',
+      true: 'relative pb-2 after:absolute after:bottom-0 after:h-[2px] after:w-[50px] after:bg-current after:content-[""] md:pb-3',
+    },
+    align: {
+      left: 'text-left after:left-0 after:-translate-x-0',
+      center: 'text-center after:left-1/2 after:-translate-x-1/2',
+      right: 'text-right after:right-0 after:translate-x-0',
     },
   },
   defaultVariants: {
     size: 'h2',
     margin: 'h2',
+    underline: false,
+    align: 'left',
   },
 });
 
@@ -47,11 +58,20 @@ export const Heading = ({
   children,
   className,
   variant,
+  underline,
+  align,
 }: Props) => {
   return (
     <Tag
       className={cn(
-        headingVariants({ variant, size: Tag, margin: Tag, className }),
+        headingVariants({
+          variant,
+          size: Tag,
+          margin: Tag,
+          className,
+          underline,
+          align,
+        }),
       )}
     >
       {children}

@@ -39,7 +39,7 @@
 
   /** Card grid */
   --column-min-size: 16.5rem;
-  --gap: max(16px, 2.5%);
+  --gap: max(20px, 2.5%);
   --gutter: 1lh;
 }
 
