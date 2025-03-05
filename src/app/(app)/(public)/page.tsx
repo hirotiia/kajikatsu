@@ -5,7 +5,7 @@ import { Text } from '@/components/ui/text';
 import { config } from '@/config/config';
 
 export const metadata: Metadata = {
-  title: config.APP_NAME,
+  title: 'Top',
   description: '家事負荷分担アプリ”カジ活”のTOPページ',
 };
 
