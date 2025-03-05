@@ -8,6 +8,8 @@ export const metadata: Metadata = {
   description: '家事負荷分担アプリ”カジ活”',
 };
 
+export const dynamic = 'force-static';
+
 export default function ApplicationLayout({
   children,
 }: {
