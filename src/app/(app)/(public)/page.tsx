@@ -1,11 +1,8 @@
 import { Metadata } from 'next';
-import { redirect } from 'next/navigation';
 
 import { Button } from '@/components/ui/button';
-import { Heading } from '@/components/ui/heading';
 import { Text } from '@/components/ui/text';
 import { config } from '@/config/config';
-import { currentUser } from '@/utils/auth';
 
 export const metadata: Metadata = {
   title: config.APP_NAME,
@@ -13,11 +10,6 @@ export const metadata: Metadata = {
 };
 
 export default async function Home() {
-  const user = await currentUser();
-
-  if (user) {
-    redirect('/dashboard');
-  }
   return (
     <>
       <hgroup className="mb-4 flex flex-col-reverse items-center justify-center gap-4 md:mb-6 md:gap-6">
@@ -78,7 +70,7 @@ export default async function Home() {
           </p>
         </article>
       </div>
-      <Heading className="mt-24 text-center">ログインして始める</Heading>
+
       <div className="mt-10 text-center">
         <Button as="a" rounded="md" variant="login" href="/login">
           ログインページへ
