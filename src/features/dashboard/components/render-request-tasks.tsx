@@ -1,47 +1,38 @@
-import { notFound } from 'next/navigation';
+'use client';
 
 import { AssignButton } from '@/components/ui/button';
 import { Cards } from '@/components/ui/card';
-import { fetchTasksByUserId } from '@/lib/supabase/data/tasks/select/fetch-tasks-by-user-id';
-import { fetchGroupMembers } from '@/lib/supabase/data/users/fetch-group-members';
+
+import { useRequestTasks } from '../api/get-request-tasks';
 
 type RenderRequestTasksProps = {
   className?: string;
   groupId: string;
 };
 
-export const RenderRequestTasks = async ({
+export const RenderRequestTasks = ({
   className,
   groupId,
 }: RenderRequestTasksProps) => {
-  const { data: groupResult, error: groupError } =
-    await fetchGroupMembers(groupId);
-  if (groupError || !groupResult) {
-    return notFound();
+  const { tasks, error, isLoading } = useRequestTasks(groupId);
+
+  if (isLoading) {
+    return <p>読み込み中...</p>;
   }
 
-  const groupMembers = groupResult.group_members;
+  if (error) {
+    return <p className="text-destructive-foreground">エラー: {error}</p>;
+  }
 
-  const allTasks = [];
-  for (const member of groupMembers) {
-    const { data: tasks, error: tasksError } = await fetchTasksByUserId(
-      member.user_id,
-      { filterType: 'assignee', filterValue: null },
+  if (tasks.length === 0) {
+    return (
+      <p className="text-sm md:text-base">
+        お願いされているタスクはありません。
+      </p>
     );
-    if (tasksError) {
-      console.error(tasksError);
-      continue;
-    }
-    if (tasks) {
-      allTasks.push(...tasks);
-    }
   }
 
-  if (allTasks.length === 0) {
-    return <p>現在、担当者がいないおしごとはありません。</p>;
-  }
-
-  const items = allTasks.map((task) => ({
+  const items = tasks.map((task) => ({
     id: task.id,
     title: task.title,
     description: task.description,

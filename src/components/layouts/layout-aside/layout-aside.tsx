@@ -45,7 +45,7 @@ export const LayoutAside = ({ className }: { className?: string }) => {
                     'text-foreground flex items-center transition ease-out hover:text-primary max-md:flex-col md:p-4 md:gap-2',
                     isCurrent && 'text-primary',
                   )}
-                  prefetch
+                  prefetch={true}
                 >
                   <Icon size={25} className="shrink-0" />
                   <span className="max-md:text-xs">{name}</span>
