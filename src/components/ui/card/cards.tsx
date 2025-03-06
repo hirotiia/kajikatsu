@@ -67,9 +67,7 @@ export function Cards({
 
             {actionButtons.length > 0 && (
               <div className="mt-3 flex justify-end gap-2">
-                {actionButtons.map((btn, index) => (
-                  <React.Fragment key={index}>{btn}</React.Fragment>
-                ))}
+                {actionButtons.map((btn) => btn)}
               </div>
             )}
           </li>
