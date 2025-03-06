@@ -2,11 +2,13 @@
 
 import { ReactElement } from 'react';
 
+import { Cards } from '@/components/ui/card';
 import { Tab, TabHeader, TabItem, TabItemProps } from '@/components/ui/tab';
 import { useMyTasks } from '@/features/todos/api/get-my-tasks';
 import { Task } from '@/types/task.types';
 
-import { Tasks } from '../form/tasks';
+import { FormDeleteTask } from '../form/form-delete-task';
+import { FormUpdateTask } from '../form/update/form-update-task';
 
 export const TabUsersTask = () => {
   const { myTasks, isLoading } = useMyTasks();
@@ -26,14 +28,32 @@ export const TabUsersTask = () => {
   );
 
   // タスクを TaskList に渡す形式に変換
-  const formatTasksForList = (tasks: Task[]) =>
+  const formatTasksForCards = (tasks: Task[]) =>
     tasks.map((task) => ({
       id: task.id,
       title: task.title,
-      description: task.description ?? undefined,
-      expiresAt: task.expiresAt ?? undefined,
-      statusId: task.statusId ?? undefined,
+      description: task.description,
+      expiresAt: task.expiresAt,
+      statusName: task.statusName,
     }));
+
+  const renderActions = (item: {
+    id: string;
+    title: string;
+    description?: string | null;
+    expiresAt?: string | null;
+    statusName?: string | null;
+  }) => [
+    <FormUpdateTask
+      key="update"
+      taskId={item.id}
+      title={item.title}
+      description={item.description || ''}
+      expiresAt={item.expiresAt || ''}
+      statusId={undefined}
+    />,
+    <FormDeleteTask key="delete" taskId={item.id} />,
+  ];
 
   return (
     <Tab defaultKey="対応中" className="mt-8">
@@ -44,9 +64,10 @@ export const TabUsersTask = () => {
             {isLoading ? (
               <p>読み込み中です...</p>
             ) : tasksByStatus[status]?.length > 0 ? (
-              <Tasks
-                listItems={formatTasksForList(tasksByStatus[status])}
-                className="glassmorphism"
+              <Cards
+                items={formatTasksForCards(tasksByStatus[status]) ?? []}
+                background="glassmorphism"
+                renderActions={renderActions}
               />
             ) : (
               <p className="text-base">タスクはありません。</p>

@@ -1,6 +1,7 @@
 'use client';
 
-import { TaskCard } from '@/components/ui/card';
+import { AssignButton } from '@/components/ui/button';
+import { Cards } from '@/components/ui/card';
 
 import { useRequestTasks } from '../api/get-request-tasks';
 
@@ -23,9 +24,27 @@ export const RenderRequestTasks = ({
     return <p className="text-destructive-foreground">エラー: {error}</p>;
   }
 
-  return tasks.length === 0 ? (
-    <p className="text-sm md:text-base">お願いされているタスクはありません。</p>
-  ) : (
-    <TaskCard tasks={tasks} className={className} assignButton />
+  if (tasks.length === 0) {
+    return (
+      <p className="text-sm md:text-base">
+        お願いされているタスクはありません。
+      </p>
+    );
+  }
+
+  const items = tasks.map((task) => ({
+    id: task.id,
+    title: task.title,
+    description: task.description,
+    expiresAt: task.expiresAt,
+    statusName: task.statusName,
+  }));
+
+  const renderActions = (item: (typeof items)[number]) => {
+    return [<AssignButton key="assign" taskId={item.id} />];
+  };
+
+  return (
+    <Cards items={items} className={className} renderActions={renderActions} />
   );
 };

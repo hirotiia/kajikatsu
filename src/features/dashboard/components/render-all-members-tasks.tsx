@@ -1,6 +1,6 @@
 'use client';
 
-import { TaskCard } from '@/components/ui/card';
+import { Cards } from '@/components/ui/card';
 import { Tab, TabSelectHeader, TabItem } from '@/components/ui/tab';
 
 import { useAllMembersTasks } from '../api/get-all-members-tasks';
@@ -40,15 +40,23 @@ export function RenderAllMembersTasks({
     <Tab defaultKey={defaultKey} className={className}>
       <TabSelectHeader options={options} />
 
-      {members.map((member) => (
+      {members.map(({ user_id, username, tasks }) => (
         <TabItem
-          key={member.user_id}
-          tabKey={member.user_id}
-          label={`${member.username}さんの担当タスク`}
+          key={user_id}
+          tabKey={user_id}
+          label={`${username}さんの担当タスク`}
         >
           <div className="space-y-4">
-            {member.tasks.length > 0 ? (
-              <TaskCard tasks={member.tasks} />
+            {tasks.length > 0 ? (
+              <Cards
+                items={tasks.map((task) => ({
+                  id: task.id,
+                  title: task.title,
+                  description: task.description,
+                  expiresAt: task.expiresAt,
+                  statusName: task.statusName,
+                }))}
+              />
             ) : (
               <p>担当しているタスクはありません。</p>
             )}
