@@ -3,6 +3,7 @@ import { Metadata } from 'next';
 import { Content } from '@/components/layouts/content/content';
 import { Heading } from '@/components/ui/heading';
 import { Text } from '@/components/ui/text';
+import { HistoryList } from '@/features/history/components/history-list';
 import { TaskHistoryPageClient } from '@/features/history/components/task-history-page-client';
 import { getUserData } from '@/lib/supabase/data/users/get-user-data';
 import { getUser } from '@/lib/supabase/user/user';
@@ -64,6 +65,7 @@ export default async function TaskHistoryPage() {
         を確認できます。
       </Text>
       <TaskHistoryPageClient userData={userData} />
+      <HistoryList className="bg-red-300" />
     </Content>
   );
 }
