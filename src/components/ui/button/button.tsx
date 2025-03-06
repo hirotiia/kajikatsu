@@ -5,7 +5,7 @@ import * as React from 'react';
 import { cn } from '@/utils/cn';
 
 const buttonVariants = cva(
-  'inline-flex items-center justify-center px-4 py-3 text-sm focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 md:text-base',
+  'inline-flex items-start justify-center gap-1 px-1 py-2 text-sm focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 md:text-base',
   {
     variants: {
       variant: {
@@ -19,7 +19,7 @@ const buttonVariants = cva(
       size: {
         default: 'min-w-custom',
         full: 'w-full',
-        small: 'min-w-24 p-2',
+        small: 'min-w-24 max-w-40',
       },
       rounded: {
         sm: 'rounded-sm',
@@ -59,7 +59,7 @@ const Button = ({
 
   const content = (
     <>
-      {icon && <span className="mr-2">{icon}</span>}
+      {icon && <span>{icon}</span>}
       <span>{children}</span>
     </>
   );

@@ -51,7 +51,7 @@ export const FormDeleteTask = ({ taskId }: FormDeleteTaskProps) => {
       variant="destructive"
       size="small"
       onClick={handleFormDeleteTask}
-      icon={<Trash2>削除する</Trash2>}
+      icon={<Trash2 size={20}>削除する</Trash2>}
     >
       削除する
     </Button>

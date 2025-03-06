@@ -34,7 +34,7 @@ export const FormUpdateTask = ({
         aria-expanded={opener.isOpen}
         className="rounded-md"
         size="small"
-        icon={<Pencil />}
+        icon={<Pencil size={20} />}
       >
         編集する
       </Button>

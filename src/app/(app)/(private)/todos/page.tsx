@@ -1,5 +1,6 @@
 import { SquarePen } from 'lucide-react';
 import { Metadata } from 'next';
+import { redirect } from 'next/navigation';
 
 import { Content } from '@/components/layouts/content/content';
 import {
@@ -12,12 +13,13 @@ import {
 import { Heading } from '@/components/ui/heading';
 import { Text } from '@/components/ui/text';
 import { FormCreateTask } from '@/features/todos/components/form/form-create-task';
-import { TabUsersTask } from '@/features/todos/components/tab/tab-users-task';
+import { ClientUserTab } from '@/features/todos/components/tab/client-user-tab';
+import { fetchTasksByUserId } from '@/lib/supabase/data/tasks/select/fetch-tasks-by-user-id';
 import {
   GroupMember,
   fetchGroupMembers,
 } from '@/lib/supabase/data/users/fetch-group-members';
-import { getUserData } from '@/lib/supabase/data/users/get-user-data';
+import { fetchUserData } from '@/lib/supabase/user/fetch-user-data';
 import { getUser } from '@/lib/supabase/user/user';
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -28,36 +30,37 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function TodosPage() {
   const { user, authError } = await getUser();
+
+  if (authError || !user) {
+    redirect('/login');
+  }
+
   let joinedGroup = false;
   let groupMembers: GroupMember[] = [];
 
-  if (authError || !user) {
-    return (
-      <Content>
-        <Heading as="h1">認証エラー</Heading>
-        <p>ユーザー情報を取得できませんでした。</p>
-      </Content>
-    );
-  }
-
-  const data = await getUserData(user.id);
+  const data = await fetchUserData(user.id);
 
   if (!data) {
     return <p>ユーザー情報の取得に失敗しました。</p>;
   }
 
-  const { groupId } = data;
-
-  if (groupId) {
+  if (data.group?.id) {
     joinedGroup = true;
-    const { data: membersData } = await fetchGroupMembers(groupId);
+    const { data: membersData } = await fetchGroupMembers(data.group.id);
     groupMembers = membersData?.group_members || [];
   }
+
+  const { data: tasks } = await fetchTasksByUserId(user.id, {
+    filterType: 'assignee',
+    filterValue: user.id,
+  });
+
+  const initialTasks = tasks ?? [];
 
   return (
     <Content>
       <div className="flex flex-wrap items-center justify-between gap-4">
-        <Heading as="h1" className="first:mt-0">
+        <Heading as="h1" className="mb-0 first:mt-0 md:mb-0">
           おしごと
         </Heading>
         <Drawer name="create_task">
@@ -77,10 +80,10 @@ export default async function TodosPage() {
           </DrawerContent>
         </Drawer>
       </div>
-      <Text spacing="none">
+      <Text>
         このページでは、自分が担当になっているおしごとをステータスごとに見ることができます。
       </Text>
-      <TabUsersTask />
+      <ClientUserTab userId={user.id} initialTasks={initialTasks} />
     </Content>
   );
 }
