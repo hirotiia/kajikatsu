@@ -1,4 +1,4 @@
-import { createClient } from '@/lib/supabase/client';
+import { createClient } from '@/lib/supabase/server';
 
 /**
  * 主キー (UUID) を引数に受け取り、対応するステータス名を返却する関数
@@ -6,7 +6,7 @@ import { createClient } from '@/lib/supabase/client';
 export async function fetchUserNameById(
   userId: string,
 ): Promise<string | null> {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const { data, error } = await supabase
     .from('users')

@@ -10,7 +10,7 @@ import { useState, useEffect } from 'react';
 import useSWR from 'swr';
 
 import { Disclosure } from '@/components/ui/disclosure';
-import { fetchActionNameById } from '@/lib/supabase/data/actions/select/fetch-action-name-by-id';
+import { fetchActionNameByIdClient } from '@/lib/supabase/data/actions/select/fetch-action-name-by-id-clilent';
 import { fetchStatusNameById } from '@/lib/supabase/data/statuses/select/fetch-status-name-by-id';
 import { getTaskHistoryForClient } from '@/lib/supabase/data/task-history/select/get-task-history-for-client';
 import { fetchUserNameById } from '@/lib/supabase/data/users/fetch-user-name-by-id';
@@ -64,7 +64,7 @@ export const TaskHistoryPageClient = ({
           const userName = user?.username ?? 'unknown user';
           const avatar = user?.avatar_url ?? '';
 
-          const actionName = await fetchActionNameById(item.action_id);
+          const actionName = await fetchActionNameByIdClient(item.action_id);
           const action = actionName ?? '';
 
           let taskDiff: string | React.JSX.Element = '';
