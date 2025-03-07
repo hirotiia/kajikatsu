@@ -1,51 +1,15 @@
 'use client';
 
-import { cva } from 'class-variance-authority';
 import { ChevronDown } from 'lucide-react';
-import React, { useState, useRef, ReactNode } from 'react';
+import React, { useState, ReactNode, lazy } from 'react';
 
 import { cn } from '@/utils/cn';
 
-const popoverContainer = cva(
-  [
-    'absolute z-50 rounded bg-white shadow-md',
-    "before:absolute before:border-8 before:border-transparent before:content-['']",
-  ],
-  {
-    variants: {
-      position: {
-        top: [
-          'bottom-full mb-2',
-          'before:left-1/2 before:top-full before:-translate-x-1/2 before:border-t-white',
-        ],
-        bottom: [
-          'top-full mt-2',
-          'before:bottom-full before:left-1/2 before:-translate-x-1/2 before:border-b-white',
-        ],
-        left: [
-          'right-full mr-2',
-          'before:left-full before:top-1/2 before:-translate-y-1/2 before:border-l-white',
-        ],
-        right: [
-          'left-full ml-2',
-          'before:right-full before:top-1/2 before:-translate-y-1/2 before:border-r-white',
-        ],
-      },
-    },
-    defaultVariants: {
-      position: 'bottom',
-    },
-  },
-);
-
-type PopoverContentProps = {
-  close: () => void;
-};
+const LazyPopoverContent = lazy(() => import('./popover-content'));
 
 type RenderableContent =
   | ReactNode
-  | ((props: PopoverContentProps) => ReactNode);
-
+  | ((props: { close: () => void }) => ReactNode);
 type Positions = 'top' | 'bottom' | 'left' | 'right';
 
 type PopoverProps = {
@@ -76,7 +40,6 @@ export function Popover({
   containerClassName,
 }: PopoverProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const popoverRef = useRef<HTMLDivElement>(null);
 
   // 開閉トグル
   const handleToggle = () => {
@@ -85,10 +48,6 @@ export function Popover({
 
   // Popover 内部で閉じるコールバック
   const closePopover = () => setIsOpen(false);
-
-  // Render Props の場合は close 関数を注入
-  const renderedContent =
-    typeof content === 'function' ? content({ close: closePopover }) : content;
 
   return (
     <div className="relative inline-block">
@@ -112,14 +71,12 @@ export function Popover({
       </button>
 
       {isOpen && (
-        <div
-          ref={popoverRef}
-          role="dialog"
-          aria-modal="false"
-          className={cn(popoverContainer({ position }), containerClassName)}
-        >
-          {renderedContent}
-        </div>
+        <LazyPopoverContent
+          content={content}
+          close={closePopover}
+          position={position}
+          containerClassName={containerClassName}
+        />
       )}
     </div>
   );
