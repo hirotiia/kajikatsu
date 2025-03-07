@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useState } from 'react';
 
-import { fetchJoinRequests } from '@/lib/supabase/data/join-requests/select/fetch-join-requests';
+import { fetchJoinRequestsClient } from '@/lib/supabase/data/join-requests/select/fetch-join-requests-client';
 import { subscribeDBChanges } from '@/lib/supabase/realtime/subscribe-db-changes';
 
 export function useJoinRequests(userId: string) {
@@ -16,7 +16,7 @@ export function useJoinRequests(userId: string) {
     setError(null);
 
     try {
-      const requests = await fetchJoinRequests(userId);
+      const requests = await fetchJoinRequestsClient(userId);
       setJoinRequests(requests);
     } catch (e: any) {
       setError(e.message ?? 'Failed to fetch join requests');
