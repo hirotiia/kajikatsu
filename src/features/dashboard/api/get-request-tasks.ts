@@ -5,13 +5,19 @@ import { useEffect, useState, useCallback } from 'react';
 import { subscribeDBChanges } from '@/lib/supabase/realtime/subscribe-db-changes';
 import { Task } from '@/types/task.types';
 
-import { createRequestMembersTask } from '../api/create-request-members-task';
+import { RequestMembersTasks } from '../api/create-request-members-task';
+
+import { createRequestMembersTaskClient } from './create-request-members-task-client';
 
 /**
  * 指定したグループIDの「未担当タスク（assignee_id が null）」を取得 & リアルタイム購読
  */
-export function useRequestTasks(groupId: string) {
-  const [tasks, setTasks] = useState<Task[]>([]);
+export function useRequestTasks(
+  groupId: string,
+  initialData: RequestMembersTasks,
+) {
+  const initialTasks: Task[] = initialData.members.flatMap((m) => m.tasks);
+  const [tasks, setTasks] = useState<Task[]>(initialTasks);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
@@ -19,7 +25,7 @@ export function useRequestTasks(groupId: string) {
   const fetchTasks = useCallback(async () => {
     setIsLoading(true);
     try {
-      const res = await createRequestMembersTask(groupId);
+      const res = await createRequestMembersTaskClient(groupId);
       if (res.error) {
         setError(res.error);
         setTasks([]);

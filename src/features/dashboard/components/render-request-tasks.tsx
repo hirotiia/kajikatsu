@@ -3,18 +3,21 @@
 import { AssignButton } from '@/components/ui/button';
 import { Cards } from '@/components/ui/card';
 
+import { RequestMembersTasks } from '../api/create-request-members-task';
 import { useRequestTasks } from '../api/get-request-tasks';
 
 type RenderRequestTasksProps = {
   className?: string;
   groupId: string;
+  initialData: RequestMembersTasks;
 };
 
 export const RenderRequestTasks = ({
   className,
   groupId,
+  initialData,
 }: RenderRequestTasksProps) => {
-  const { tasks, error, isLoading } = useRequestTasks(groupId);
+  const { tasks, error, isLoading } = useRequestTasks(groupId, initialData);
 
   if (isLoading) {
     return <p>読み込み中...</p>;

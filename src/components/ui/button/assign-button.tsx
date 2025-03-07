@@ -2,7 +2,7 @@
 
 import { useActionState, useEffect } from 'react';
 
-import { assignTask } from '@/lib/supabase/data/tasks/update/assign-task';
+import { assignTask } from '@/actions/task/assign-task';
 
 import { useNotifications } from '../notifications';
 

@@ -1,5 +1,5 @@
-import { fetchTasksByUserIdClient } from '@/lib/supabase/data/tasks/select/fetch-tasks-by-user-id-client';
-import { fetchGroupMembersClient } from '@/lib/supabase/data/users/fetch-group-members-client';
+import { fetchTasksByUserId } from '@/lib/supabase/data/tasks/select/fetch-tasks-by-user-id';
+import { fetchGroupMembers } from '@/lib/supabase/data/users/fetch-group-members';
 import { Task } from '@/types/task.types';
 
 export type MemberWithTasks = {
@@ -14,44 +14,46 @@ export type RequestMembersTasks = {
   members: MemberWithTasks[];
 };
 
-export const createRequestMembersTask = async (groupId: string) => {
+export const createRequestMembersTask = async (
+  groupId: string,
+): Promise<RequestMembersTasks> => {
   try {
-    const { data } = await fetchGroupMembersClient(groupId);
+    const { data: groupData, error: groupError } =
+      await fetchGroupMembers(groupId);
 
-    const groupMembers = data?.group_members ?? [];
+    if (groupError) {
+      throw new Error(groupError);
+    }
+
+    const groupMembers = groupData?.group_members ?? [];
 
     // 各メンバーの担当タスクをまとめて取得
     const memberTasksPromises = groupMembers.map(async (member) => {
-      const tasksResult = await fetchTasksByUserIdClient(member.user_id, {
-        filterType: 'assignee',
-        filterValue: null,
-      });
+      const { data: tasks, error: taskError } = await fetchTasksByUserId(
+        member.user_id,
+        {
+          filterType: 'assignee',
+          filterValue: null,
+        },
+      );
 
-      const tasks = tasksResult.data ?? [];
+      if (taskError) {
+        throw new Error(taskError);
+      }
 
-      const memberWithTasks: MemberWithTasks = {
+      return {
         ...member,
-        tasks,
+        tasks: tasks ?? [],
       };
-
-      return memberWithTasks;
     });
 
-    // すべてのメンバーのタスク取得を並列で待機
     const membersWithTasks = await Promise.all(memberTasksPromises);
 
-    const result: RequestMembersTasks = {
+    return {
       members: membersWithTasks,
     };
-
-    return {
-      data: result,
-      error: null,
-    };
   } catch (error: any) {
-    return {
-      data: { members: [] },
-      error: error.message,
-    };
+    console.error(error);
+    return { members: [] };
   }
 };
