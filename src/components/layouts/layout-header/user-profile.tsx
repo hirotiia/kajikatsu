@@ -64,8 +64,7 @@ export const UserProfile = () => {
                     variant="destructive"
                     onClick={handleSignOut}
                     disabled={isPending}
-                    size="small"
-                    className="w-full"
+                    size="full"
                     rounded="md"
                   >
                     {isPending ? 'Signing out...' : 'Sign out'}
