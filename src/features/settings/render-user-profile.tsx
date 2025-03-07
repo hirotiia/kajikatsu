@@ -24,7 +24,7 @@ export const RenderUserProfile = () => {
       addNotification({
         type: 'error',
         status: 300,
-        message: '画像がうまく読み込めませんでした。',
+        message: '画像の変更が失敗しました。',
       });
       return;
     }
@@ -49,7 +49,7 @@ export const RenderUserProfile = () => {
   };
 
   return (
-    <div className="grid gap-3 rounded-md bg-background p-4">
+    <>
       <div className="flex items-center gap-3">
         {isUploading ? (
           <Loader2 className="animate-spin text-foreground" size={50} />
@@ -76,6 +76,6 @@ export const RenderUserProfile = () => {
         onChange={handleFileChange}
         className="hidden"
       />
-    </div>
+    </>
   );
 };

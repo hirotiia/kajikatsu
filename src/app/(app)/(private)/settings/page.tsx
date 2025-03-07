@@ -2,6 +2,7 @@ import { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 
 import { Content } from '@/components/layouts/content/content';
+import { Box } from '@/components/ui/box';
 import { Heading } from '@/components/ui/heading';
 import { Text } from '@/components/ui/text';
 import { RenderUserProfile } from '@/features/settings/render-user-profile';
@@ -33,7 +34,9 @@ export default async function SettingPage() {
       </Heading>
       <Text>プロフィールを自分の好きな画像に変更できます。</Text>
       <Heading as="h2">プロフィール</Heading>
-      <RenderUserProfile />
+      <Box className="grid gap-3">
+        <RenderUserProfile />
+      </Box>
     </Content>
   );
 }
