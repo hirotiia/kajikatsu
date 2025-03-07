@@ -4,10 +4,8 @@ import { useState, useEffect, useCallback } from 'react';
 
 import { useRealtimeTasksChannel } from '@/hooks/use-realtime-tasks-channel';
 
-import {
-  createGroupMembersTask,
-  MemberWithTasks,
-} from '../api/create-group-members-task';
+import { createGroupMembersTaskClient } from './create-group-members-task-client';
+import { MemberWithTasks } from './create-request-members-task-client';
 
 /**
  * グループ内の「各メンバーの担当タスク一覧」を取得し、tasks テーブルに変更があれば再取得するフック
@@ -21,7 +19,7 @@ export function useAllMembersTasks(groupId: string) {
   const fetchAllMembersTasks = useCallback(async () => {
     setIsLoading(true);
     try {
-      const res = await createGroupMembersTask(groupId);
+      const res = await createGroupMembersTaskClient(groupId);
       if (res.error) {
         setError(res.error);
         setMembers([]);
