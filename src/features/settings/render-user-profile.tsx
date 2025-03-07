@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { uploadStorage } from '@/actions/storage/upload-storage';
 import { useNotifications } from '@/components/ui/notifications';
-import { UserAvatarInfo } from '@/components/ui/user';
+import { UserInfo } from '@/components/ui/user';
 import { RootState } from '@/stores';
 import { updateAvatarUrl } from '@/stores/user/reducer';
 
@@ -54,7 +54,7 @@ export const RenderUserProfile = () => {
         {isUploading ? (
           <Loader2 className="animate-spin text-foreground" size={50} />
         ) : (
-          <UserAvatarInfo
+          <UserInfo
             avatarUrl={userState.data?.avatar_url}
             username={userState.data?.username || '未設定'}
             size={50}

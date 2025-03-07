@@ -3,7 +3,7 @@ import Image from 'next/image';
 
 import { cn } from '@/utils/cn';
 
-type UserAvatarInfoProps = {
+type UserInfoProps = {
   avatarUrl?: string | null;
   username: string;
   role?: string | null;
@@ -15,14 +15,14 @@ type UserAvatarInfoProps = {
 /**
  * アバター画像とユーザー名・ロールなどを表示する汎用コンポーネント
  */
-export function UserAvatarInfo({
+export function UserInfo({
   avatarUrl,
   username,
   role,
   size = 30,
   className,
   textMaxWidthClass = '',
-}: UserAvatarInfoProps) {
+}: UserInfoProps) {
   return (
     <div className={cn('flex gap-4 items-center', className)}>
       <div

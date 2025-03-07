@@ -8,7 +8,7 @@ import { signOut } from '@/actions/auth/auth';
 import { Button } from '@/components/ui/button';
 import { DefinitionList } from '@/components/ui/list';
 import { Popover } from '@/components/ui/popover';
-import { UserAvatarInfo } from '@/components/ui/user';
+import { UserInfo } from '@/components/ui/user';
 import { RootState } from '@/stores/store';
 import { cn } from '@/utils/cn';
 import { invertOnHover } from '@/utils/invert-on-hover';
@@ -92,7 +92,7 @@ export const UserProfile = () => {
             )}
             containerClassName="right-0 before:right-[10px] before:left-auto"
           >
-            <UserAvatarInfo
+            <UserInfo
               avatarUrl={userState.data?.avatar_url}
               username={userState.data?.username}
               size={30}

@@ -3,7 +3,7 @@
 import { LoaderCircle } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
-import { UserAvatarInfo } from '@/components/ui/user';
+import { UserInfo } from '@/components/ui/user';
 import { createClient } from '@/lib/supabase/client';
 
 type Member = {
@@ -67,7 +67,7 @@ export function RenderGroupMembers({ groupId }: GroupMembersProps) {
   return (
     <div className="grid gap-y-3">
       {members.map((member) => (
-        <UserAvatarInfo
+        <UserInfo
           key={member.user_id}
           avatarUrl={member.avatar_url}
           username={member.username}
