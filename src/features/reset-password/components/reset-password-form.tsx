@@ -1,21 +1,21 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
 import { useActionState, useEffect } from 'react';
 
 import { resetPasswordAction } from '@/actions/auth/reset-password-action';
 import { Button } from '@/components/ui/button';
 import { FormInput } from '@/components/ui/form/';
 import { useNotifications } from '@/components/ui/notifications';
+import { cn } from '@/utils/cn';
 
-export const ResetPasswordForm = () => {
+export const ResetPasswordForm = ({ className }: { className?: string }) => {
   const initialState = {
     type: null,
     status: undefined,
     message: null,
     fieldErrors: {},
   };
-  const router = useRouter();
+
   const [state, submitAction, isPending] = useActionState(
     resetPasswordAction,
     initialState,
@@ -24,15 +24,12 @@ export const ResetPasswordForm = () => {
   const { addNotification } = useNotifications();
 
   useEffect(() => {
-    if (state.status !== null) {
+    if (state.type !== undefined || state.type !== null) {
       addNotification(state);
     }
-    if (state.type === 'success') {
-      router.push('/login');
-    }
-  }, [state, addNotification, router]);
+  }, [state, addNotification]);
   return (
-    <form action={submitAction} className="mt-20 grid w-full gap-6">
+    <form action={submitAction} className={cn('grid w-full gap-6', className)}>
       <FormInput
         label="新しいパスワード"
         id="password"
