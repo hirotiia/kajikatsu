@@ -10,12 +10,8 @@ export default async function ResetPasswordPage() {
   return (
     <div className="m-auto mt-10 max-w-screen-md">
       <div className="glassmorphism grid place-items-center px-6 pb-6 pt-3">
-        <Heading as="h1" className="mt-3">
-          {config.APP_NAME}
-        </Heading>
-        <Heading as="h2" className="mt-3">
-          パスワードをリセット
-        </Heading>
+        <Heading as="h1">{config.APP_NAME}</Heading>
+        <Heading className="mt-0 md:mt-0">パスワードをリセット</Heading>
         <ResetPasswordForm />
         <p className="mt-6 text-primary">
           アカウントをお持ちですか？
