@@ -21,11 +21,16 @@ export const LoginForm = () => {
   const { addNotification } = useNotifications();
 
   useEffect(() => {
-    if (state.status !== null) {
-      addNotification(state);
-    }
     if (state.type === 'success') {
+      if (state.status !== null) {
+        addNotification(state);
+      }
       router.push('/dashboard');
+    }
+    if (state.type === 'error') {
+      if (state.status !== null) {
+        addNotification(state);
+      }
     }
   }, [state, addNotification, router]);
   return (
