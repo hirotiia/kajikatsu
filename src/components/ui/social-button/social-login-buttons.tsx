@@ -16,11 +16,12 @@ export function SocialLoginButtons() {
         onClick={handleGoogleLogin}
         icon={<GoogleIcon />}
         variant="login"
-        rounded="md"
+        rounded="sm"
+        className="items-center"
       >
         Googleでログイン
       </Button>
-      <Button type="button" icon={<XIcon />} variant="login" rounded="md">
+      <Button type="button" icon={<XIcon />} variant="login" rounded="sm">
         Xでログイン
       </Button>
     </div>
