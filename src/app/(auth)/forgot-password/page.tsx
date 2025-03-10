@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { Divider } from '@/components/ui/divider';
 import { Heading } from '@/components/ui/heading';
 import { SocialLoginButtons } from '@/components/ui/social-button';
+import { Text } from '@/components/ui/text';
 import { config } from '@/config/config';
 import { ForgotPasswordForm } from '@/features/forgot-password/components/forgot-password-form';
 
@@ -23,6 +24,12 @@ export default async function ForgotPasswordPage() {
             <b>ログインする</b>
           </Link>
         </p>
+        <Text className="text-primary">
+          アカウントをお持ちですか？
+          <Link href="/login" className="underline hover:no-underline">
+            <b>ログインする</b>
+          </Link>
+        </Text>
         <Divider text="または" />
         <SocialLoginButtons />
       </div>
