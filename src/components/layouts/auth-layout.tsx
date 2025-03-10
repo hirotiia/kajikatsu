@@ -1,3 +1,5 @@
+import { Text } from '@/components/ui/text';
+
 export const AuthLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <div className="grid grid-cols-custom-layout bg-custom-gradient">
@@ -7,9 +9,9 @@ export const AuthLayout = ({ children }: { children: React.ReactNode }) => {
             {children}
           </main>
           <footer className="col-start-1 col-end-3 row-start-2 row-end-3 pb-8 pt-16 md:pt-24">
-            <p className="text-right">
+            <Text spacing="none" className="text-right" textSize="sm">
               <small>©2024 nakano hiroya</small>
-            </p>
+            </Text>
           </footer>
         </div>
       </div>

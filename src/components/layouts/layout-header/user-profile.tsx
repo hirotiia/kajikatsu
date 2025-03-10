@@ -8,6 +8,7 @@ import { signOut } from '@/actions/auth/auth';
 import { Button } from '@/components/ui/button';
 import { DefinitionList } from '@/components/ui/list';
 import { Popover } from '@/components/ui/popover';
+import { Text } from '@/components/ui/text';
 import { UserInfo } from '@/components/ui/user';
 import { RootState } from '@/stores/store';
 import { cn } from '@/utils/cn';
@@ -28,12 +29,12 @@ export const UserProfile = () => {
   return (
     <>
       {userState.loading ? (
-        <p className="flex items-center gap-2">
+        <Text className="flex items-center gap-2" spacing="none">
           <LoaderCircle className="animate-spin" size={30}>
             読み込み中...
           </LoaderCircle>
           <span>読み込み中</span>
-        </p>
+        </Text>
       ) : userState.data ? (
         <>
           <Popover

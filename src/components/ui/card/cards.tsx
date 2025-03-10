@@ -2,6 +2,7 @@ import { cva, VariantProps } from 'class-variance-authority';
 import React from 'react';
 import ReactMarkdown from 'react-markdown';
 
+import { Text } from '@/components/ui/text';
 import { Task } from '@/types/task.types';
 import { cn } from '@/utils/cn';
 
@@ -47,9 +48,12 @@ export function Cards({
               cardItemVariants({ background }),
             )}
           >
-            <p className="text-lg font-semibold text-foreground">
+            <Text
+              className="text-lg font-semibold text-foreground"
+              spacing="none"
+            >
               <b>{title}</b>
-            </p>
+            </Text>
 
             {description && (
               <ReactMarkdown className="markdown mt-2">
