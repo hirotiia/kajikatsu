@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { Divider } from '@/components/ui/divider';
 import { Heading } from '@/components/ui/heading';
 import { SocialLoginButtons } from '@/components/ui/social-button';
+import { Text } from '@/components/ui/text';
 import { config } from '@/config/config';
 import { ResetPasswordForm } from '@/features/reset-password/components/reset-password-form';
 
@@ -13,12 +14,12 @@ export default async function ResetPasswordPage() {
         <Heading as="h1">{config.APP_NAME}</Heading>
         <Heading className="mt-0 md:mt-0">パスワードをリセット</Heading>
         <ResetPasswordForm />
-        <p className="mt-6 text-primary">
+        <Text className="text-primary">
           アカウントをお持ちですか？
           <Link href="/login" className="underline hover:no-underline">
             <b>ログインする</b>
           </Link>
-        </p>
+        </Text>
         <Divider text="または" />
         <SocialLoginButtons />
       </div>
