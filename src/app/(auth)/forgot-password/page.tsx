@@ -18,12 +18,12 @@ export default async function ForgotPasswordPage() {
           パスワードをお忘れですか？
         </Heading>
         <ForgotPasswordForm />
-        <p className="mt-6 text-primary">
+        <Text className="text-primary">
           アカウントをお持ちですか？
           <Link href="/login" className="underline hover:no-underline">
             <b>ログインする</b>
           </Link>
-        </p>
+        </Text>
         <Text className="text-primary">
           アカウントをお持ちですか？
           <Link href="/login" className="underline hover:no-underline">
