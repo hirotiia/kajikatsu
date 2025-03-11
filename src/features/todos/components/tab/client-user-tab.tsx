@@ -85,7 +85,7 @@ export const ClientUserTab = ({
   return (
     <Tab defaultKey="対応中" className={cn('mt-3', className)}>
       <TabHeader
-        ariaLabel="タスクナビゲーション"
+        ariaLabel="あなたのおしごと一覧"
         tabs={statusList.map((status) => ({
           key: status,
           label: status,
