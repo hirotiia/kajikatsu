@@ -1,10 +1,9 @@
 'use client';
 
-import { useActionState, useContext, useEffect, useRef } from 'react';
+import { FormEvent, startTransition, useActionState, useEffect } from 'react';
 
 import { updateTask } from '@/actions/task/update-task';
 import { Button } from '@/components/ui/button';
-import { DrawerContext } from '@/components/ui/drawer';
 import {
   FormInput,
   FormTextarea,
@@ -44,22 +43,55 @@ export function FormEditTask({
   });
 
   const { addNotification } = useNotifications();
-  const { setIsOpen } = useContext(DrawerContext);
-  const formRef = useRef<HTMLFormElement>(null);
 
   useEffect(() => {
-    // サーバーアクションからのレスポンスを受け取り通知やドロワーを閉じる処理
-    if (state.status !== null) {
+    if (state.type === 'success') {
       addNotification(state);
-      if (state.type === 'success') {
-        formRef.current?.reset(); // フォームをリセット
-      }
+      console.log('addNotificaiotn実行');
       opener.close();
     }
-  }, [state, addNotification, setIsOpen, opener]);
 
-  return (
-    <form ref={formRef} action={updateTaskAction}>
+    if (state.type === 'error') {
+      addNotification(state);
+      console.log('addNotificaiotn実行');
+      opener.close();
+    }
+  }, [state, addNotification, opener]);
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const formData = new FormData(e.currentTarget);
+
+    const title = formData.get('title')?.toString() ?? '';
+    const description = formData.get('description')?.toString() ?? '';
+    const expiresAt = formData.get('expires_at')?.toString() ?? '';
+    const statusId = formData.get('status')?.toString() ?? '';
+
+    const isChanged =
+      title !== defaultTitle ||
+      description !== defaultDescription ||
+      expiresAt !== defaultExpiresAt ||
+      statusId !== defaultStatusId;
+
+    if (!isChanged) {
+      addNotification({
+        type: 'info',
+        status: 200,
+        message: '変更がありません。',
+      });
+
+      opener.close();
+      return;
+    }
+
+    startTransition(() => {
+      updateTaskAction(formData);
+    });
+  };
+
+  const renderFormFields = () => (
+    <>
       <input type="hidden" name="taskId" value={taskId} />
 
       <FormInput
@@ -68,7 +100,6 @@ export function FormEditTask({
         name="title"
         type="text"
         defaultValue={defaultTitle}
-        className=""
         layout="vertical"
         error={state.formValidationStatus?.errors?.title}
       />
@@ -109,15 +140,24 @@ export function FormEditTask({
           })),
         ]}
       />
+    </>
+  );
 
-      <div className="mt-6 grid gap-y-2">
-        <Button variant="default" disabled={isPending}>
-          {isPending ? '更新中です...' : '更新'}
-        </Button>
-        <Button variant="destructive" type="button" onClick={opener.close}>
-          キャンセル
-        </Button>
-      </div>
+  const renderButtons = () => (
+    <div className="mt-6 grid gap-y-2">
+      <Button variant="default" disabled={isPending}>
+        {isPending ? '更新中です...' : '更新'}
+      </Button>
+      <Button variant="destructive" type="button" onClick={opener.close}>
+        キャンセル
+      </Button>
+    </div>
+  );
+
+  return (
+    <form onSubmit={handleSubmit}>
+      {renderFormFields()}
+      {renderButtons()}
     </form>
   );
 }
