@@ -11,7 +11,7 @@ type Item = {
   description?: string;
   expiresAt?: string;
   avatar_url?: string;
-  statusId?: string;
+  statusId: string;
 };
 type TasksProps = {
   listItems: Item[];

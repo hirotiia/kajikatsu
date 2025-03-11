@@ -5,6 +5,7 @@ import { Pencil } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Dialog } from '@/components/ui/dialog';
 import { useOpener } from '@/hooks/use-opener';
+import { Statuses } from '@/lib/supabase/data/statuses/select/fetch-status';
 
 import { FormEditTask } from './form-edit-task';
 
@@ -13,7 +14,8 @@ type FormUpdateTaskProps = {
   title: string;
   description?: string;
   expiresAt?: string;
-  statusId?: string;
+  statusId: string;
+  statusList?: Statuses;
 };
 
 export const FormUpdateTask = ({
@@ -22,6 +24,7 @@ export const FormUpdateTask = ({
   description,
   expiresAt,
   statusId,
+  statusList = [],
 }: FormUpdateTaskProps) => {
   const opener = useOpener();
 
@@ -45,6 +48,7 @@ export const FormUpdateTask = ({
           defaultDescription={description}
           defaultExpiresAt={expiresAt}
           defaultStatusId={statusId}
+          statusList={statusList}
           opener={opener}
         />
       </Dialog>

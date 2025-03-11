@@ -73,6 +73,7 @@ export const ClientUserTab = ({
     title: string;
     description?: string | null;
     expiresAt?: string | null;
+    statusId?: string | null;
     statusName?: string | null;
   }) => [
     <FormUpdateTask
@@ -81,7 +82,8 @@ export const ClientUserTab = ({
       title={item.title}
       description={item.description || ''}
       expiresAt={item.expiresAt || ''}
-      statusId={undefined}
+      statusId={item.statusId || ''}
+      statusList={statusList}
     />,
     <FormDeleteTask key="delete" taskId={item.id} />,
   ];

@@ -12,6 +12,7 @@ import {
   FormDatePicker,
 } from '@/components/ui/form';
 import { useNotifications } from '@/components/ui/notifications';
+import { Statuses } from '@/lib/supabase/data/statuses/select/fetch-status';
 
 /**
  * 編集フォームに必要な初期値
@@ -23,6 +24,7 @@ type EditTaskProps = {
   defaultExpiresAt?: string;
   defaultStatusId?: string;
   opener: { close: () => void; isOpen: boolean };
+  statusList: Statuses;
 };
 
 export function FormEditTask({
@@ -32,6 +34,7 @@ export function FormEditTask({
   defaultExpiresAt = '',
   defaultStatusId = '',
   opener,
+  statusList,
 }: EditTaskProps) {
   const [state, updateTaskAction, isPending] = useActionState(updateTask, {
     type: '',
@@ -100,11 +103,10 @@ export function FormEditTask({
         error={state.formValidationStatus?.errors?.status}
         options={[
           { value: '', title: '選択してください' },
-          // 例: statusテーブルのUUIDを直接指定
-          { value: 'cc234b3d-1618-4874-8c7d-2d18d23a8061', title: '対応中' },
-          { value: '3cc21ab1-0a1c-4bd4-916c-b0252eb24f51', title: '完了' },
-          { value: '8c9ac88f-acbe-4045-ae6e-f20c5ef1c02c', title: '保留' },
-          { value: 'b9d486d8-2b60-4597-a155-0ffbe99f122b', title: '未対応' },
+          ...statusList.map(({ id, label }) => ({
+            value: id,
+            title: label,
+          })),
         ]}
       />
 
