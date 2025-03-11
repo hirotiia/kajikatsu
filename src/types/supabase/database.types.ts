@@ -210,14 +210,17 @@ export type Database = {
         Row: {
           id: string;
           status_name: string;
+          sort_order: number;
         };
         Insert: {
           id?: string;
           status_name: string;
+          sort_order: number;
         };
         Update: {
           id?: string;
           status_name?: string;
+          sort_order: number;
         };
         Relationships: [];
       };
