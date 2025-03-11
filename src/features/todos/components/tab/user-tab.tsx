@@ -17,7 +17,6 @@ export const UserTab = async ({ userId }: UserTab) => {
 
   const statusList = await fetchStatus();
 
-  console.log(statusList);
   return (
     <ClientUserTab
       userId={userId}
