@@ -9,7 +9,10 @@ export type Statuses = Status[];
 export async function fetchStatus(): Promise<Statuses> {
   const supabase = await createClient();
 
-  const { data } = await supabase.from('statuses').select('id, status_name');
+  const { data } = await supabase
+    .from('statuses')
+    .select('id, status_name, sort_order')
+    .order('sort_order', { ascending: true });
 
   const statuses: Statuses =
     data?.map((row) => ({
