@@ -66,7 +66,7 @@ export const ClientUserTab = ({
     {},
   );
 
-  const defaultKey = statusList[2]?.id || '';
+  const defaultKey = statusList[0]?.id || '';
 
   const renderActions = (item: {
     id: string;
