@@ -13,8 +13,7 @@ import {
 import { Heading } from '@/components/ui/heading';
 import { Text } from '@/components/ui/text';
 import { FormCreateTask } from '@/features/todos/components/form/form-create-task';
-import { ClientUserTab } from '@/features/todos/components/tab/client-user-tab';
-import { fetchTasksByUserId } from '@/lib/supabase/data/tasks/select/fetch-tasks-by-user-id';
+import { UserTab } from '@/features/todos/components/tab/user-tab';
 import {
   GroupMember,
   fetchGroupMembers,
@@ -50,13 +49,6 @@ export default async function TodosPage() {
     groupMembers = membersData?.group_members || [];
   }
 
-  const { data: tasks } = await fetchTasksByUserId(user.id, {
-    filterType: 'assignee',
-    filterValue: user.id,
-  });
-
-  const initialTasks = tasks ?? [];
-
   return (
     <Content>
       <div className="flex flex-wrap items-center justify-between gap-4">
@@ -83,7 +75,7 @@ export default async function TodosPage() {
       <Text>
         このページでは、自分が担当になっているおしごとをステータスごとに見ることができます。
       </Text>
-      <ClientUserTab userId={user.id} initialTasks={initialTasks} />
+      <UserTab userId={user.id} />
     </Content>
   );
 }

@@ -4,6 +4,7 @@ import { ReactElement, useCallback, useEffect, useState } from 'react';
 
 import { Cards } from '@/components/ui/card';
 import { Tab, TabHeader, TabPanel, TabPanelProps } from '@/components/ui/tab';
+import { Statuses } from '@/lib/supabase/data/statuses/select/fetch-status';
 import { fetchTasksByUserIdClient } from '@/lib/supabase/data/tasks/select/fetch-tasks-by-user-id-client';
 import { subscribeDBChanges } from '@/lib/supabase/realtime/subscribe-db-changes';
 import { Task } from '@/types/task.types';
@@ -16,12 +17,14 @@ type ClientUserTabProps = {
   userId: string;
   initialTasks: Task[];
   className?: string;
+  statusList: Statuses;
 };
 
 export const ClientUserTab = ({
   userId,
   initialTasks,
   className,
+  statusList,
 }: ClientUserTabProps) => {
   const [tasks, setTasks] = useState<Task[]>(initialTasks);
   const [isLoading, setIsLoading] = useState(false);
@@ -55,14 +58,15 @@ export const ClientUserTab = ({
     };
   }, [userId, fetchLatestTasks]);
 
-  const statusList = ['対応中', '未対応', '保留', '完了'];
   const tasksByStatus = statusList.reduce<Record<string, Task[]>>(
     (acc, status) => {
-      acc[status] = tasks.filter((t) => t.statusName === status);
+      acc[status.id] = tasks.filter((t) => t.statusId === status.id);
       return acc;
     },
     {},
   );
+
+  const defaultKey = statusList[2]?.id || '';
 
   const renderActions = (item: {
     id: string;
@@ -83,22 +87,23 @@ export const ClientUserTab = ({
   ];
 
   return (
-    <Tab defaultKey="対応中" className={cn('mt-3', className)}>
+    <Tab defaultKey={defaultKey} className={cn('mt-3', className)}>
       <TabHeader
         ariaLabel="あなたのおしごと一覧"
-        tabs={statusList.map((status) => ({
-          key: status,
-          label: status,
+        tabs={statusList.map(({ id, label }) => ({
+          key: id,
+          label,
         }))}
       />
-      {statusList.map(
-        (status): ReactElement<TabPanelProps> => (
-          <TabPanel key={status} tabKey={status} label={status}>
+      {statusList.map(({ id, label }): ReactElement<TabPanelProps> => {
+        const tasksInThisStatus = tasksByStatus[id] ?? [];
+        return (
+          <TabPanel key={id} tabKey={id} label={label}>
             {isLoading ? (
               <p>読み込み中です...</p>
-            ) : tasksByStatus[status]?.length > 0 ? (
+            ) : tasksInThisStatus.length > 0 ? (
               <Cards
-                items={tasksByStatus[status]}
+                items={tasksInThisStatus}
                 background="glassmorphism"
                 renderActions={renderActions}
               />
@@ -106,8 +111,8 @@ export const ClientUserTab = ({
               <p className="text-base">タスクはありません。</p>
             )}
           </TabPanel>
-        ),
-      )}
+        );
+      })}
     </Tab>
   );
 };
