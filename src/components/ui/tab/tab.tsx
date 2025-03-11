@@ -16,7 +16,7 @@ import { cn } from '@/utils/cn';
 type TabKey = string;
 type TabLabel = string | React.JSX.Element;
 
-export type TabItemProps = {
+export type TabPanelProps = {
   tabKey: TabKey;
   label: TabLabel;
   children: ReactNode;
@@ -184,7 +184,7 @@ const TabSelectHeader = ({
         <div className="relative">
           <ChevronDown
             className={cn(
-              'pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 h-5 w-5 transition-transform duration-300 text-foreground',
+              'pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 h-5 w-5 transition-transform duration-300 text-foreground',
               isSelectOpen ? 'rotate-180' : 'rotate-0',
             )}
           />
@@ -214,7 +214,7 @@ const TabSelectHeader = ({
 
 TabSelectHeader.displayName = 'TabSelectHeader';
 
-const TabItem = ({ children, tabKey, className }: TabItemProps) => {
+const TabPanel = ({ children, tabKey, className }: TabPanelProps) => {
   const { currentKey } = useContext(TabContext);
 
   if (currentKey !== tabKey) return null;
@@ -234,4 +234,4 @@ const TabItem = ({ children, tabKey, className }: TabItemProps) => {
   );
 };
 
-export { Tab, TabHeader, TabSelectHeader, TabItem };
+export { Tab, TabHeader, TabSelectHeader, TabPanel };

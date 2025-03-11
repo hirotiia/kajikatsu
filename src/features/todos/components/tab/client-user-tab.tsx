@@ -3,7 +3,7 @@
 import { ReactElement, useCallback, useEffect, useState } from 'react';
 
 import { Cards } from '@/components/ui/card';
-import { Tab, TabHeader, TabItem, TabItemProps } from '@/components/ui/tab';
+import { Tab, TabHeader, TabPanel, TabPanelProps } from '@/components/ui/tab';
 import { fetchTasksByUserIdClient } from '@/lib/supabase/data/tasks/select/fetch-tasks-by-user-id-client';
 import { subscribeDBChanges } from '@/lib/supabase/realtime/subscribe-db-changes';
 import { Task } from '@/types/task.types';
@@ -92,8 +92,8 @@ export const ClientUserTab = ({
         }))}
       />
       {statusList.map(
-        (status): ReactElement<TabItemProps> => (
-          <TabItem key={status} tabKey={status} label={status}>
+        (status): ReactElement<TabPanelProps> => (
+          <TabPanel key={status} tabKey={status} label={status}>
             {isLoading ? (
               <p>読み込み中です...</p>
             ) : tasksByStatus[status]?.length > 0 ? (
@@ -105,7 +105,7 @@ export const ClientUserTab = ({
             ) : (
               <p className="text-base">タスクはありません。</p>
             )}
-          </TabItem>
+          </TabPanel>
         ),
       )}
     </Tab>

@@ -3,7 +3,7 @@
 import { useCallback, useState } from 'react';
 
 import { Cards } from '@/components/ui/card';
-import { Tab, TabSelectHeader, TabItem } from '@/components/ui/tab';
+import { Tab, TabSelectHeader, TabPanel } from '@/components/ui/tab';
 import { useRealtimeTasksChannel } from '@/hooks/use-realtime-tasks-channel';
 import { cn } from '@/utils/cn';
 
@@ -59,7 +59,7 @@ export const RenderMembersTasks = ({
       <TabSelectHeader options={options} />
 
       {members.map(({ user_id, username, tasks }) => (
-        <TabItem
+        <TabPanel
           key={user_id}
           tabKey={user_id}
           label={`${username}さんの担当タスク`}
@@ -79,7 +79,7 @@ export const RenderMembersTasks = ({
               <p>担当しているタスクはありません。</p>
             )}
           </div>
-        </TabItem>
+        </TabPanel>
       ))}
     </Tab>
   );
