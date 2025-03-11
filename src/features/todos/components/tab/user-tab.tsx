@@ -14,7 +14,6 @@ export const UserTab = async ({ userId }: UserTab) => {
   });
 
   const initialTasks = tasks ?? [];
-
   const statusList = await fetchStatus();
 
   return (
