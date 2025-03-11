@@ -34,7 +34,7 @@ type TabContextState = {
   setCurrentKey: React.Dispatch<React.SetStateAction<TabKey>>;
 };
 
-type TabHeader = {
+type Tab = {
   key: TabKey;
   label: TabLabel;
 };
@@ -57,28 +57,28 @@ const Tab = ({ children, defaultKey, className }: TabProps) => {
 type TabHeaderProps = {
   className?: string;
   ariaLabel: string;
-  statusList: TabHeader[];
+  tabs: Tab[];
 };
 
-const TabHeader = ({ className, ariaLabel, statusList }: TabHeaderProps) => {
+const TabHeader = ({ className, ariaLabel, tabs }: TabHeaderProps) => {
   const { currentKey, setCurrentKey } = useContext(TabContext);
   const refs = useRef<
     Record<TabKey, React.RefObject<HTMLButtonElement | null>>
   >({});
 
   const handleKeyDown = (event: KeyboardEvent<HTMLUListElement>) => {
-    const currentIndex = statusList.findIndex(({ key }) => key === currentKey);
+    const currentIndex = tabs.findIndex(({ key }) => key === currentKey);
     if (currentIndex < 0) return;
 
     let newIndex = currentIndex;
 
     switch (event.key) {
       case 'ArrowRight':
-        newIndex = (currentIndex + 1) % statusList.length;
+        newIndex = (currentIndex + 1) % tabs.length;
         event.preventDefault();
         break;
       case 'ArrowLeft':
-        newIndex = (currentIndex - 1 + statusList.length) % statusList.length;
+        newIndex = (currentIndex - 1 + tabs.length) % tabs.length;
         event.preventDefault();
         break;
       case 'Home':
@@ -86,14 +86,14 @@ const TabHeader = ({ className, ariaLabel, statusList }: TabHeaderProps) => {
         event.preventDefault();
         break;
       case 'End':
-        newIndex = statusList.length - 1;
+        newIndex = tabs.length - 1;
         event.preventDefault();
         break;
       default:
         return;
     }
 
-    const newKey = statusList[newIndex].key;
+    const newKey = tabs[newIndex].key;
     setCurrentKey(newKey);
     refs.current[newKey]?.current?.focus();
   };
@@ -108,7 +108,7 @@ const TabHeader = ({ className, ariaLabel, statusList }: TabHeaderProps) => {
       aria-label={ariaLabel}
       onKeyDown={handleKeyDown}
     >
-      {statusList.map(({ key, label }) => {
+      {tabs.map(({ key, label }) => {
         if (!refs.current[key]) {
           refs.current[key] = React.createRef<HTMLButtonElement>();
         }
@@ -151,7 +151,7 @@ TabHeader.displayName = 'TabHeader';
 type TabSelectHeaderProps = {
   children?: React.ReactNode;
   className?: string;
-  options: TabHeader[];
+  options: Tab[];
 };
 
 const TabSelectHeader = ({
