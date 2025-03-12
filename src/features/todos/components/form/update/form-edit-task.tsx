@@ -47,13 +47,11 @@ export function FormEditTask({
   useEffect(() => {
     if (state.type === 'success') {
       addNotification(state);
-      console.log('addNotificaiotn実行');
       opener.close();
     }
 
     if (state.type === 'error') {
       addNotification(state);
-      console.log('addNotificaiotn実行');
       opener.close();
     }
   }, [state, addNotification, opener]);
