@@ -15,7 +15,7 @@
 - [意識したこと](#heading-04)
 - [今後追加したい機能](#heading-05)
 - [ライセンス](#heading-06)
-- [注意](#heading-07)
+- [Webアクセシビリティ](#heading-07)
 - [その他ドキュメント](#heading-08)
 
 
@@ -174,13 +174,27 @@ src
 
 
 
-<h2 id="heading-07">注意</h2>
+<h2 id="heading-07">Webアクセシビリティについて</h2>
 
 <ul>
 <li>componentディレクトリ内でデータの取得は行わないでください。</li>
 <li>できる限りページでデータの取得を行うようにし、コンポーネントはpropsを受け取るだけにとどめてください。</li>
 </ul>
 
+
+
+### 品質チェックツール
+
+
+- (Nu HTML Checker)[https://validator.nu/]
+- (axe)[https://a11y-guidelines.freee.co.jp/explanations/axe.html]
+
+
+
+### アクセシビリティ最適化の参考サイト
+
+
+- https://www.w3.org/WAI/ARIA/apg/
 
 ---
 
