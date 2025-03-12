@@ -45,16 +45,11 @@ export function FormEditTask({
   const { addNotification } = useNotifications();
 
   useEffect(() => {
-    if (state.type === 'success') {
+    if (state.type === 'success' || state.type === 'error') {
       addNotification(state);
       opener.close();
     }
-
-    if (state.type === 'error') {
-      addNotification(state);
-      opener.close();
-    }
-  }, [state, addNotification, opener]);
+  }, [state, addNotification, opener, state.type]);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
