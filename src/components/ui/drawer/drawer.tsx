@@ -196,7 +196,7 @@ const DrawerContent = ({
       )}
       id={name}
       data-state={isOpen ? 'open' : 'closed'}
-      aria-hidden={!isOpen}
+      inert={!isOpen}
       {...(!isOpen && { inert: true })}
       {...props}
     >
