@@ -17,18 +17,18 @@ type AssignTaskButtonProps = {
  */
 export function AssignButton({ taskId }: AssignTaskButtonProps) {
   const { addNotification } = useNotifications();
-  const initialState = {
+  const INITIAL_STATE = {
     type: null,
-    status: null,
-    message: '',
+    status: undefined,
+    message: null,
   };
   const [data, actionSubmit, isPending] = useActionState(
     assignTask,
-    initialState,
+    INITIAL_STATE,
   );
 
   useEffect(() => {
-    if (data.status) {
+    if (data.status !== undefined) {
       addNotification({
         type: data.type,
         status: data.status,

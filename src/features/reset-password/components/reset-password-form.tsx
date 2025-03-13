@@ -11,7 +11,7 @@ import { createClient } from '@/lib/supabase/client';
 import { cn } from '@/utils/cn';
 
 export const ResetPasswordForm = ({ className }: { className?: string }) => {
-  const initialState = {
+  const INITIAL_STATE = {
     type: null,
     status: undefined,
     message: null,
@@ -20,7 +20,7 @@ export const ResetPasswordForm = ({ className }: { className?: string }) => {
   const router = useRouter();
   const [state, submitAction, isPending] = useActionState(
     resetPasswordAction,
-    initialState,
+    INITIAL_STATE,
   );
   const searchParams = useSearchParams();
   const { addNotification } = useNotifications();

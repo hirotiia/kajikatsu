@@ -8,13 +8,16 @@ import { FormInput } from '@/components/ui/form/';
 import { useNotifications } from '@/components/ui/notifications';
 
 export function RegistrationForm() {
-  const initialState = {
+  const INITIAL_STATE = {
     type: null,
     status: undefined,
     message: null,
     fieldErrors: {},
   };
-  const [state, actionSubmit, isPending] = useActionState(signUp, initialState);
+  const [state, actionSubmit, isPending] = useActionState(
+    signUp,
+    INITIAL_STATE,
+  );
   const { addNotification } = useNotifications();
 
   useEffect(() => {

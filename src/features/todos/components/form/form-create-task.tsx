@@ -25,15 +25,15 @@ export const FormCreateTask = ({
   userId,
   hasGroup,
 }: FormCreateTaskProps) => {
-  const initialState = {
-    type: '',
-    status: null,
-    message: '',
+  const INITIAL_STATE = {
+    type: null,
+    status: undefined,
+    message: null,
     formValidationStatus: null,
   };
   const [state, createTaskAction, isPending] = useActionState(
     createTask,
-    initialState,
+    INITIAL_STATE,
   );
   const { addNotification } = useNotifications();
   const { setIsOpen } = useContext(DrawerContext);

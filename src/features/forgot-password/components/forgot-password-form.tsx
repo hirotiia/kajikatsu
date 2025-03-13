@@ -9,7 +9,7 @@ import { FormInput } from '@/components/ui/form/';
 import { useNotifications } from '@/components/ui/notifications';
 
 export const ForgotPasswordForm = () => {
-  const initialState = {
+  const INITIAL_STATE = {
     type: null,
     status: undefined,
     message: null,
@@ -18,7 +18,7 @@ export const ForgotPasswordForm = () => {
   const router = useRouter();
   const [state, submitAction, isPending] = useActionState(
     forgotPasswordAction,
-    initialState,
+    INITIAL_STATE,
   );
 
   const { addNotification } = useNotifications();

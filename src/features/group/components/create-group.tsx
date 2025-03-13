@@ -11,20 +11,20 @@ import { useNotifications } from '@/components/ui/notifications';
 import { useOpener } from '@/hooks/use-opener';
 
 export const CreateGroup = () => {
-  const initialState = {
-    type: '',
-    status: null,
-    message: '',
+  const INITIAL_STATE = {
+    type: null,
+    status: undefined,
+    message: null,
   };
   const openerDialog = useOpener();
   const [state, createGroupAction, isPending] = useActionState(
     createGroup,
-    initialState,
+    INITIAL_STATE,
   );
   const { addNotification } = useNotifications();
 
   useEffect(() => {
-    if (state.status !== null) {
+    if (state.status !== undefined) {
       addNotification(state);
     }
   }, [state, addNotification]);

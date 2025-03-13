@@ -5,13 +5,13 @@ import { createClient } from '@/lib/supabase/server';
 export interface AssignTaskSuccess {
   type: 'success';
   status: 200;
-  message: string;
+  message: string | null;
 }
 
 export interface AssignTaskError {
   type: 'error' | null;
-  status: number | null;
-  message: string;
+  status: number | undefined;
+  message: string | null;
 }
 
 export type AssignTaskResult = AssignTaskSuccess | AssignTaskError;

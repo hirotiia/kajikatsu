@@ -10,14 +10,17 @@ import { useNotifications } from '@/components/ui/notifications';
 
 export const LoginForm = () => {
   const router = useRouter();
-  const initialState = {
+  const INITIAL_STATE = {
     type: null,
     status: undefined,
     message: null,
     fieldErrors: {},
   };
 
-  const [state, submitAction, isPending] = useActionState(signIn, initialState);
+  const [state, submitAction, isPending] = useActionState(
+    signIn,
+    INITIAL_STATE,
+  );
   const { addNotification } = useNotifications();
 
   useEffect(() => {
