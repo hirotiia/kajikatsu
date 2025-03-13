@@ -7,24 +7,26 @@ import { Button } from '@/components/ui/button';
 import { FormInput } from '@/components/ui/form/';
 import { useNotifications } from '@/components/ui/notifications';
 
+const INITIAL_STATE = {
+  type: null,
+  status: undefined,
+  message: null,
+  fieldErrors: {},
+};
+
 export function RegistrationForm() {
-  const INITIAL_STATE = {
-    type: null,
-    status: undefined,
-    message: null,
-    fieldErrors: {},
-  };
+  const { addNotification } = useNotifications();
   const [state, actionSubmit, isPending] = useActionState(
     signUp,
     INITIAL_STATE,
   );
-  const { addNotification } = useNotifications();
 
   useEffect(() => {
-    if (state && state.status !== undefined) {
+    if (state.status !== undefined) {
       addNotification(state);
     }
   }, [state, addNotification]);
+
   return (
     <form
       action={actionSubmit}

@@ -12,16 +12,17 @@ type AssignTaskButtonProps = {
   taskId: string;
 };
 
+const INITIAL_STATE = {
+  type: null,
+  status: undefined,
+  message: null,
+};
+
 /**
  * 「担当する」ボタン。押すとサーバーアクションを呼び出して、タスクの担当者を自分に設定する。
  */
 export function AssignButton({ taskId }: AssignTaskButtonProps) {
   const { addNotification } = useNotifications();
-  const INITIAL_STATE = {
-    type: null,
-    status: undefined,
-    message: null,
-  };
   const [data, actionSubmit, isPending] = useActionState(
     assignTask,
     INITIAL_STATE,

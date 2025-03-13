@@ -10,20 +10,21 @@ import { useNotifications } from '@/components/ui/notifications';
 import { createClient } from '@/lib/supabase/client';
 import { cn } from '@/utils/cn';
 
+const INITIAL_STATE = {
+  type: null,
+  status: undefined,
+  message: null,
+  fieldErrors: {},
+};
+
 export const ResetPasswordForm = ({ className }: { className?: string }) => {
-  const INITIAL_STATE = {
-    type: null,
-    status: undefined,
-    message: null,
-    fieldErrors: {},
-  };
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const { addNotification } = useNotifications();
   const [state, submitAction, isPending] = useActionState(
     resetPasswordAction,
     INITIAL_STATE,
   );
-  const searchParams = useSearchParams();
-  const { addNotification } = useNotifications();
 
   useEffect(() => {
     const setupSession = async () => {

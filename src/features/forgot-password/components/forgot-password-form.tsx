@@ -8,20 +8,20 @@ import { Button } from '@/components/ui/button';
 import { FormInput } from '@/components/ui/form/';
 import { useNotifications } from '@/components/ui/notifications';
 
+const INITIAL_STATE = {
+  type: null,
+  status: undefined,
+  message: null,
+  fieldErrors: {},
+};
+
 export const ForgotPasswordForm = () => {
-  const INITIAL_STATE = {
-    type: null,
-    status: undefined,
-    message: null,
-    fieldErrors: {},
-  };
   const router = useRouter();
+  const { addNotification } = useNotifications();
   const [state, submitAction, isPending] = useActionState(
     forgotPasswordAction,
     INITIAL_STATE,
   );
-
-  const { addNotification } = useNotifications();
 
   useEffect(() => {
     if (state.status !== undefined) {

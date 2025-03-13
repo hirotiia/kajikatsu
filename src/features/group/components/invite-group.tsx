@@ -10,27 +10,32 @@ import { FormSelect } from '@/components/ui/form';
 import { useNotifications } from '@/components/ui/notifications';
 import { useOpener } from '@/hooks/use-opener';
 
+const INITIAL_STATE = {
+  type: null,
+  status: undefined,
+  message: null,
+  url: '',
+};
+
 export const InviteGroup = () => {
-  const INITIAL_STATE = {
-    type: null,
-    status: undefined,
-    message: null,
-    url: '',
-  };
+  const openerDialog = useOpener();
+  const { addNotification } = useNotifications();
+  const [url, setUrl] = useState('');
   const [state, inviteGroupAction, isPending] = useActionState(
     inviteGroup,
     INITIAL_STATE,
   );
-  const openerDialog = useOpener();
-  const { addNotification } = useNotifications();
-  const [url, setUrl] = useState('');
 
   useEffect(() => {
-    if (state.status !== undefined || state.status === 200) {
+    if (state.status !== undefined) {
       addNotification(state);
-      setUrl(state.url);
+
+      if (state.type === 'success') {
+        setUrl(state.url);
+      }
     }
   }, [state, addNotification]);
+
   return (
     <>
       <Button

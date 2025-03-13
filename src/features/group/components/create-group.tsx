@@ -10,34 +10,32 @@ import { FormInput } from '@/components/ui/form/form-input';
 import { useNotifications } from '@/components/ui/notifications';
 import { useOpener } from '@/hooks/use-opener';
 
+const INITIAL_STATE = {
+  type: null,
+  status: undefined,
+  message: null,
+};
+
 export const CreateGroup = () => {
-  const INITIAL_STATE = {
-    type: null,
-    status: undefined,
-    message: null,
-  };
   const openerDialog = useOpener();
+  const { addNotification } = useNotifications();
   const [state, createGroupAction, isPending] = useActionState(
     createGroup,
     INITIAL_STATE,
   );
-  const { addNotification } = useNotifications();
 
   useEffect(() => {
     if (state.status !== undefined) {
       addNotification(state);
-    }
-  }, [state, addNotification]);
 
-  useEffect(() => {
-    if (state.status !== null) {
       openerDialog.close();
     }
 
     return () => {
       state.status = null;
     };
-  }, [state, openerDialog]);
+  }, [state, addNotification, openerDialog]);
+
   return (
     <>
       <Button

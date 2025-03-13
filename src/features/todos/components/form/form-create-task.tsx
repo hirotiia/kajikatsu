@@ -20,28 +20,28 @@ type FormCreateTaskProps = {
   hasGroup: boolean;
 };
 
+const INITIAL_STATE = {
+  type: null,
+  status: undefined,
+  message: null,
+  formValidationStatus: null,
+};
+
 export const FormCreateTask = ({
   groupMembers,
   userId,
   hasGroup,
 }: FormCreateTaskProps) => {
-  const INITIAL_STATE = {
-    type: null,
-    status: undefined,
-    message: null,
-    formValidationStatus: null,
-  };
+  const { addNotification } = useNotifications();
+  const { setIsOpen } = useContext(DrawerContext);
+  const formRef = useRef<HTMLFormElement>(null);
   const [state, createTaskAction, isPending] = useActionState(
     createTask,
     INITIAL_STATE,
   );
-  const { addNotification } = useNotifications();
-  const { setIsOpen } = useContext(DrawerContext);
-
-  const formRef = useRef<HTMLFormElement>(null);
 
   useEffect(() => {
-    if (state.status !== null) {
+    if (state.status !== undefined) {
       addNotification(state);
 
       if (state.type === 'success') {
