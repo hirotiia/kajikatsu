@@ -1,8 +1,11 @@
 'use server';
-// TODO: ユーザー同士で共有するための招待用のグループコードを取得するAPI
+
 import { createClient } from '@/lib/supabase/server';
 import { getUser } from '@/lib/supabase/user/user';
 
+/**
+ * ユーザー同士で共有するための招待用のグループコードを取得するAPI
+ */
 export const generateGroupCode = async (
   state: any,
   formData: FormData,
