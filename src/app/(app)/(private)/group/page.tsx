@@ -70,7 +70,7 @@ export default async function GroupPage() {
             },
           ]}
         />
-        <div className="text-right">
+        <div className="flex gap-3">
           {groupName ? (
             <>
               <InviteGroup />
