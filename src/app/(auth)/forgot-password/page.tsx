@@ -24,12 +24,6 @@ export default async function ForgotPasswordPage() {
             <b>ログインする</b>
           </Link>
         </Text>
-        <Text className="text-primary">
-          アカウントをお持ちですか？
-          <Link href="/login" className="underline hover:no-underline">
-            <b>ログインする</b>
-          </Link>
-        </Text>
         <Divider text="または" />
         <SocialLoginButtons />
       </div>
