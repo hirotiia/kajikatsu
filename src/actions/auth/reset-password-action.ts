@@ -22,7 +22,19 @@ export const resetPasswordAction = async (
 
     const supabase = await createClient();
 
-    // パスワード更新
+    const {
+      data: { session },
+    } = await supabase.auth.getSession();
+
+    if (!session) {
+      return {
+        type: 'error',
+        status: 401,
+        message:
+          'セッションが見つかりません。リセットリンクから再度アクセスしてください。',
+      };
+    }
+
     const { error } = await supabase.auth.updateUser({
       password,
     });
@@ -38,7 +50,7 @@ export const resetPasswordAction = async (
     return {
       type: 'success',
       status: 200,
-      message: 'パスワードをリセットしました。',
+      message: 'パスワードをリセットしました。ホームにリダイレクトします。',
     };
   } catch (error) {
     if (error instanceof z.ZodError) {
