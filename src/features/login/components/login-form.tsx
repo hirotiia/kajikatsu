@@ -8,36 +8,32 @@ import { Button } from '@/components/ui/button';
 import { FormInput } from '@/components/ui/form/';
 import { useNotifications } from '@/components/ui/notifications';
 
+const INITIAL_STATE = {
+  type: null,
+  status: undefined,
+  message: null,
+  fieldErrors: {},
+};
+
 export const LoginForm = () => {
   const router = useRouter();
-  const INITIAL_STATE = {
-    type: null,
-    status: undefined,
-    message: null,
-    fieldErrors: {},
-  };
-
-  const [state, submitAction, isPending] = useActionState(
+  const { addNotification } = useNotifications();
+  const [state, handleSignIn, isPending] = useActionState(
     signIn,
     INITIAL_STATE,
   );
-  const { addNotification } = useNotifications();
 
   useEffect(() => {
-    if (state.type === 'success') {
-      if (state.status !== null) {
-        addNotification(state);
-      }
-      router.push('/dashboard');
-    }
-    if (state.type === 'error') {
-      if (state.status !== null) {
-        addNotification(state);
+    if (state.status !== undefined) {
+      addNotification(state);
+
+      if (state.type === 'success') {
+        router.push('/dashboard');
       }
     }
   }, [state, addNotification, router]);
   return (
-    <form action={submitAction} className="grid w-full gap-6 pt-12">
+    <form action={handleSignIn} className="grid w-full gap-6 pt-12">
       <FormInput
         label="メールアドレス"
         id="email"
