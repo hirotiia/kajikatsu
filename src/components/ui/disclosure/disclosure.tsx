@@ -20,6 +20,8 @@ type DisclosureProps = {
   defaultOpen?: boolean;
 };
 
+// TODO: サイト内検索で合致した場合に中身が開かないので修正する
+// おそらくアニメーションと競合していそう
 export const Disclosure = ({
   id,
   icon = '',
