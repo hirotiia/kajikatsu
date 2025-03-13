@@ -3,6 +3,7 @@
 import React, { TextareaHTMLAttributes, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 
+import { Text } from '@/components/ui/text';
 import { cn } from '@/utils/cn';
 
 interface FormTextareaProps
@@ -81,10 +82,12 @@ export const FormTextarea: React.FC<FormTextareaProps> = ({
         </p>
       )}
       {preview && (
-        <div className="mt-4 rounded-md border border-muted bg-background p-2">
-          <p>プレビュー</p>
-          <ReactMarkdown className="markdown">{value}</ReactMarkdown>
-        </div>
+        <>
+          <Text>プレビュー</Text>
+          <div className="mt-4 rounded-md border border-muted bg-background p-2">
+            <ReactMarkdown className="markdown">{value}</ReactMarkdown>
+          </div>
+        </>
       )}
     </div>
   );

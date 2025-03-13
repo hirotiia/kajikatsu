@@ -61,6 +61,7 @@ export const FormCreateTask = ({
         type="text"
         layout="vertical"
         className=""
+        placeholder="買い物をする"
         error={state.formValidationStatus?.errors?.title}
       />
       <FormSelect
@@ -85,6 +86,7 @@ export const FormCreateTask = ({
         preview
         layout="vertical"
         className="mt-4"
+        placeholder="リンゴとバナナを買う"
         rows={5}
       />
       {hasGroup ? (
