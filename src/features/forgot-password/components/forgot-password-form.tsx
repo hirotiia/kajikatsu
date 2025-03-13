@@ -24,13 +24,11 @@ export const ForgotPasswordForm = () => {
   const { addNotification } = useNotifications();
 
   useEffect(() => {
-    if (state.status !== null) {
+    if (state.status !== undefined) {
       addNotification(state);
     }
-    if (state.type === 'success') {
-      router.push('/dashboard');
-    }
   }, [state, addNotification, router]);
+
   return (
     <form action={submitAction} className="mt-20 grid w-full gap-6">
       <FormInput
