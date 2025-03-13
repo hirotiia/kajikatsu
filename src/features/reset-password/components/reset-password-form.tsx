@@ -47,14 +47,12 @@ export const ResetPasswordForm = ({ className }: { className?: string }) => {
           );
         }
 
-        if (state.type === 'success') {
+        if (state.status !== undefined) {
           addNotification(state);
 
-          setTimeout(() => {
+          if (state.type === 'success') {
             router.push('/dashboard');
-          }, 2000);
-        } else if (state.type === 'error') {
-          addNotification(state);
+          }
         }
       } catch (error: any) {
         addNotification({
