@@ -67,10 +67,8 @@ export function Dialog({ children, opener, id, title }: DialogProps) {
             <X />
           </button>
         </div>
-        <div className="mb-12 mt-3 text-center">
-          <Heading id={`${id}-title`} color="secondary">
-            {title}
-          </Heading>
+        <div className="mb-12 mt-3">
+          <Heading id={`${id}-title`}>{title}</Heading>
         </div>
         <div>{children}</div>
       </div>
