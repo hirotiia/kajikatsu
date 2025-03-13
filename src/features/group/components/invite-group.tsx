@@ -83,7 +83,7 @@ export const InviteGroup = () => {
                 { value: '24', title: '24時間' },
               ]}
             />
-            <Button size="small" className="mx-auto mt-6" disabled={isPending}>
+            <Button className="mx-auto mt-6" disabled={isPending}>
               {isPending ? '作っています...' : '招待リンクを作成する'}
             </Button>
           </form>
