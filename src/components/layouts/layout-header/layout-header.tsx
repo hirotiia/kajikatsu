@@ -21,7 +21,7 @@ const Logo = () => {
         width="80"
         height="80"
       />
-      <span className="text-sm md:text-base">{config.APP_NAME}</span>
+      <span className="text-sm font-bold md:text-base">{config.APP_NAME}</span>
     </Link>
   );
 };
