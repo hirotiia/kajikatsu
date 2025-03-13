@@ -35,15 +35,14 @@ export const ForgotPasswordForm = () => {
     <form action={submitAction} className="mt-20 grid w-full gap-6">
       <FormInput
         label="メールアドレス"
-        id="mail"
-        name="mail"
+        id="email"
+        name="email"
         type="email"
-        className=""
         error={state.fieldErrors?.email ?? []}
         required
       />
       <Button className="mx-auto max-w-screen-sm" disabled={isPending}>
-        {isPending ? 'メールを送信中です...' : 'メールを送信する'}
+        {isPending ? '送信中です...' : 'メールを送信する'}
       </Button>
     </form>
   );
