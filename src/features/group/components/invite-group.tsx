@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Dialog } from '@/components/ui/dialog';
 import { FormSelect } from '@/components/ui/form';
 import { useNotifications } from '@/components/ui/notifications';
+import { Text } from '@/components/ui/text';
 import { useOpener } from '@/hooks/use-opener';
 
 const INITIAL_STATE = {
@@ -49,25 +50,25 @@ export const InviteGroup = () => {
         招待
       </Button>
       <Dialog opener={openerDialog} title="グループに招待する" id="dialog-1">
-        <p className="text-center">
+        <Text className="text-center">
           招待リンクの有効期限を選択して招待URLを作成します。
           <br />
           生成後はQRコードが表示されるので、共有したいメンバーに読み取ってもらいましょう。
-        </p>
+        </Text>
         {url ? (
           <div className="mt-5 text-center">
-            <p className="mt-5">
+            <Text>
               以下のQRコードを読み取ると、グループへの参加手続きができます。
-            </p>
-            <div className="mt-5">
+            </Text>
+            <Text>
               <QRCodeCanvas value={url} size={200} className="m-auto" />
-            </div>
-            <p className="mt-5 break-all text-sm">
+            </Text>
+            <Text className="break-all">
               直接URLを共有する場合はこちら: <br />
               <a href={url} className="text-primary underline">
                 {url}
               </a>
-            </p>
+            </Text>
           </div>
         ) : (
           <form action={inviteGroupAction} className="mt-10 grid items-center">

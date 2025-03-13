@@ -7,6 +7,7 @@ import { deleteGroup } from '@/actions/group/delete-group';
 import { Button } from '@/components/ui/button';
 import { Dialog } from '@/components/ui/dialog';
 import { useNotifications } from '@/components/ui/notifications';
+import { Text } from '@/components/ui/text';
 import { useOpener } from '@/hooks/use-opener';
 
 export const DleteGroup = () => {
@@ -51,11 +52,11 @@ export const DleteGroup = () => {
         脱退
       </Button>
       <Dialog opener={openerDialog} title="グループを脱退する" id="dialog-2">
-        <p className="text-center">
+        <Text className="text-center">
           本当にグループを脱退しますか？
           <br />
           脱退した場合、グループは削除されメンバーは解散になります。
-        </p>
+        </Text>
         <form action={deleteGroupAction} className="mt-10 grid items-center">
           <Button variant="destructive" disabled={isPending}>
             {isPending ? '脱退中です...' : 'グループを脱退する'}
