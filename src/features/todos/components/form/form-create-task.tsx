@@ -116,7 +116,7 @@ export const FormCreateTask = ({
         id="deadline"
         name="deadline"
         label="タスクの期限日"
-        placeholder="期限日を選択"
+        placeholder="期限日を選択してください"
         layout="vertical"
         className="mt-4"
       />
