@@ -1,9 +1,8 @@
-import { Home, LogIn } from 'lucide-react';
+import { Home } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 
 import { config } from '@/config/config';
-import { createClient } from '@/lib/supabase/server';
 import { cn } from '@/utils/cn';
 
 import { UserProfile } from './user-profile';
@@ -34,31 +33,6 @@ export const LayoutHeader = async ({
   isUserProfile = false,
   isHomeLink = false,
 }: HeaderProps) => {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  const switchLinkComponent = (): React.ReactNode => {
-    return user ? (
-      <Link
-        href="/dashboard"
-        className="custom-transition grid place-items-center hover:text-primary"
-      >
-        <Home size={25} />
-        <p>ホーム</p>
-      </Link>
-    ) : (
-      <Link
-        href="/dashboard"
-        className="custom-transition grid place-items-center hover:text-primary"
-      >
-        <LogIn size={25} />
-        <p>ログイン</p>
-      </Link>
-    );
-  };
-
   return (
     <header
       className={cn(
@@ -69,7 +43,15 @@ export const LayoutHeader = async ({
       <Logo />
 
       {isUserProfile && <UserProfile />}
-      {isHomeLink && switchLinkComponent()}
+      {isHomeLink && (
+        <Link
+          href="/dashboard"
+          className="custom-transition grid place-items-center hover:text-primary"
+        >
+          <Home size={25} />
+          <p>ホーム</p>
+        </Link>
+      )}
     </header>
   );
 };
