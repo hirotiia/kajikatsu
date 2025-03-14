@@ -2,6 +2,7 @@ import { Metadata } from 'next';
 
 import { Content } from '@/components/layouts/content/content';
 import { Heading } from '@/components/ui/heading';
+import { Pagination } from '@/components/ui/pagination';
 import { Text } from '@/components/ui/text';
 import { HistoryList } from '@/features/history/components/history-list';
 import { getUserData } from '@/lib/supabase/data/users/get-user-data';
@@ -64,6 +65,7 @@ export default async function TaskHistoryPage() {
         を確認できます。
       </Text>
       <HistoryList />
+      <Pagination total={5} className="mt-6" />
     </Content>
   );
 }
