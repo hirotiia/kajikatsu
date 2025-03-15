@@ -14,7 +14,7 @@ import { RootState } from '@/stores/store';
 import { cn } from '@/utils/cn';
 import { invertOnHover } from '@/utils/invert-on-hover';
 
-export const UserProfile = () => {
+export const UserProfileClient = () => {
   const userState = useSelector((state: RootState) => state.user);
   const [isPending, startTransition] = useTransition();
   const router = useRouter();

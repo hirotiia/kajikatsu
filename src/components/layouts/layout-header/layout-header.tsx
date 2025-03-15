@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { config } from '@/config/config';
 import { cn } from '@/utils/cn';
 
-import { UserProfile } from './user-profile';
+import { UserProfileClient } from './user-profile-client';
 
 interface HeaderProps {
   className?: string;
@@ -42,7 +42,7 @@ export const LayoutHeader = async ({
     >
       <Logo />
 
-      {isUserProfile && <UserProfile />}
+      {isUserProfile && <UserProfileClient />}
       {isHomeLink && (
         <Link
           href="/dashboard"
