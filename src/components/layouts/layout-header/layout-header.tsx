@@ -6,6 +6,7 @@ import { config } from '@/config/config';
 import { cn } from '@/utils/cn';
 
 import { UserProfileClient } from './user-profile-client';
+import { UserProfileContent } from './user-profile-content';
 
 interface HeaderProps {
   className?: string;
@@ -42,7 +43,7 @@ export const LayoutHeader = async ({
     >
       <Logo />
 
-      {isUserProfile && <UserProfileClient />}
+      {isUserProfile && <UserProfileClient content={<UserProfileContent />} />}
       {isHomeLink && (
         <Link
           href="/dashboard"
