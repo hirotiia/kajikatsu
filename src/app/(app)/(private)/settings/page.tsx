@@ -5,12 +5,13 @@ import { Content } from '@/components/layouts/content/content';
 import { Box } from '@/components/ui/box';
 import { Heading } from '@/components/ui/heading';
 import { Text } from '@/components/ui/text';
+import { config } from '@/config/config';
 import { RenderUserProfile } from '@/features/settings/render-user-profile';
 import { createClient } from '@/lib/supabase/server';
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
-    title: '設定',
+    title: `設定｜${config.APP_NAME}`,
   };
 }
 

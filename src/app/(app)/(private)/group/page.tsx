@@ -6,6 +6,7 @@ import { Box } from '@/components/ui/box';
 import { Heading } from '@/components/ui/heading';
 import { DefinitionList } from '@/components/ui/list';
 import { Text } from '@/components/ui/text';
+import { config } from '@/config/config';
 import { CreateGroup } from '@/features/group/components/create-group';
 import { DleteGroup } from '@/features/group/components/delete-group';
 import { InviteGroup } from '@/features/group/components/invite-group';
@@ -17,7 +18,7 @@ import { UserState } from '@/types/user-state.types';
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
-    title: 'グループ',
+    title: `グループ｜${config.APP_NAME}`,
   };
 }
 

@@ -12,6 +12,7 @@ import {
 } from '@/components/ui/drawer';
 import { Heading } from '@/components/ui/heading';
 import { Text } from '@/components/ui/text';
+import { config } from '@/config/config';
 import { FormCreateTask } from '@/features/todos/components/form/form-create-task';
 import { UserTab } from '@/features/todos/components/tab/user-tab';
 import {
@@ -23,7 +24,7 @@ import { getUser } from '@/lib/supabase/user/user';
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
-    title: 'おしごと',
+    title: `おしごと｜${config.APP_NAME}`,
   };
 }
 

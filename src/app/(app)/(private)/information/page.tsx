@@ -4,12 +4,13 @@ import { Content } from '@/components/layouts/content/content';
 import { Box } from '@/components/ui/box';
 import { Heading } from '@/components/ui/heading';
 import { Text } from '@/components/ui/text';
+import { config } from '@/config/config';
 import { JoinRequestList } from '@/features/information/components/join-request-list';
 import { getUser } from '@/lib/supabase/user/user';
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
-    title: 'お知らせ',
+    title: `お知らせ｜${config.APP_NAME}`,
   };
 }
 

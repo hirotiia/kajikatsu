@@ -4,13 +4,14 @@ import { Content } from '@/components/layouts/content/content';
 import { Heading } from '@/components/ui/heading';
 import { Pagination } from '@/components/ui/pagination';
 import { Text } from '@/components/ui/text';
+import { config } from '@/config/config';
 import { HistoryList } from '@/features/history/components/history-list';
 import { getUserData } from '@/lib/supabase/data/users/get-user-data';
 import { getUser } from '@/lib/supabase/user/user';
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
-    title: '履歴',
+    title: `履歴｜${config.APP_NAME}`,
   };
 }
 

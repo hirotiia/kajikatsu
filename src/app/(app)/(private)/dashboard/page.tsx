@@ -6,6 +6,7 @@ import { Box } from '@/components/ui/box/box';
 import { Heading } from '@/components/ui/heading';
 import { List } from '@/components/ui/list/list';
 import { Text } from '@/components/ui/text/text';
+import { config } from '@/config/config';
 import {
   createGroupMembersTask,
   GroupMembersTasks,
@@ -21,7 +22,7 @@ import { getUser } from '@/lib/supabase/user/user';
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
-    title: 'ホーム',
+    title: `ホーム｜${config.APP_NAME}`,
   };
 }
 
