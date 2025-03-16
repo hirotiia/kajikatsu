@@ -50,10 +50,8 @@ type PaginationProps = {
 
 export const Pagination = ({
   total,
-  // TODO：仮対応
-  onClick = (pageNumber: number) => {
-    console.log(pageNumber);
-  },
+  // TODO: 仮対応
+  onClick = (pageNum) => console.log(pageNum),
   currentPage = 1,
   padding = 2,
   className,
