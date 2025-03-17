@@ -13,7 +13,7 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-export default async function SettingPage() {
+export default function SettingPage() {
   return (
     <Content>
       <Heading as="h1">
