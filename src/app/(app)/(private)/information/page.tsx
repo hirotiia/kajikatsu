@@ -5,8 +5,8 @@ import { Box } from '@/components/ui/box';
 import { Heading } from '@/components/ui/heading';
 import { Text } from '@/components/ui/text';
 import { config } from '@/config/config';
-import { JoinRequestList } from '@/features/information/components/join-request-list';
-import { getUser } from '@/lib/supabase/user/user';
+
+import { InformationItems } from './information-items';
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
@@ -14,16 +14,16 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-export default async function InformationPage() {
-  const { user } = await getUser();
-
+export default function InformationPage() {
   return (
     <Content>
       <Heading as="h1">お知らせ</Heading>
       <Text>
         このページでは、グループへの参加リクエストなどの通知を確認できます。
       </Text>
-      <Box>{user?.id && <JoinRequestList userId={user?.id} />}</Box>
+      <Box>
+        <InformationItems />
+      </Box>
     </Content>
   );
 }
