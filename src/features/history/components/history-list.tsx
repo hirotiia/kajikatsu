@@ -108,7 +108,7 @@ export const HistoryList = async ({ className }: HistoryList) => {
   );
 
   if (!historyList) {
-    return <div>Loading...</div>;
+    return <p>履歴が見つかりませんでした。</p>;
   }
 
   return (
