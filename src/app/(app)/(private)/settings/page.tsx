@@ -1,5 +1,4 @@
 import { Metadata } from 'next';
-import { redirect } from 'next/navigation';
 
 import { Content } from '@/components/layouts/content/content';
 import { Box } from '@/components/ui/box';
@@ -7,7 +6,6 @@ import { Heading } from '@/components/ui/heading';
 import { Text } from '@/components/ui/text';
 import { config } from '@/config/config';
 import { RenderUserProfile } from '@/features/settings/render-user-profile';
-import { createClient } from '@/lib/supabase/server';
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
@@ -16,14 +14,6 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function SettingPage() {
-  const supabase = await createClient();
-  const { data: userResult, error: authError } = await supabase.auth.getUser();
-  const user = userResult?.user;
-
-  if (!user || authError) {
-    redirect('/login');
-  }
-
   return (
     <Content>
       <Heading as="h1">
