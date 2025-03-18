@@ -1,19 +1,10 @@
-import { Metadata } from 'next';
-
 import { Content } from '@/components/layouts/content/content';
+import { Box } from '@/components/ui/box';
 import { Heading } from '@/components/ui/heading';
+import { NewsList } from '@/components/ui/list';
 import { Text } from '@/components/ui/text';
-import { config } from '@/config/config';
 
-import { HistoryContent } from './history-content';
-
-export async function generateMetadata(): Promise<Metadata> {
-  return {
-    title: `履歴｜${config.APP_NAME}`,
-  };
-}
-
-export default function TaskHistoryPage() {
+export default async function HistoryPage() {
   return (
     <Content>
       <Heading as="h1">
@@ -50,7 +41,34 @@ export default function TaskHistoryPage() {
         </ruby>
         を確認できます。
       </Text>
-      <HistoryContent />
+      <Box>
+        <NewsList
+          items={[
+            {
+              key: '1111',
+              avatarUrl: '',
+              date: '2025-03-04',
+              title: 'タイトルタイトルタイトルタイトルタイトル',
+              link: '/history/1',
+            },
+            {
+              key: '2222',
+              avatarUrl: '',
+              date: '2025-03-04',
+              title: 'タイトルタイトルタイトルタイトルタイトル',
+              link: '/history/1',
+            },
+            {
+              key: '3333',
+              avatarUrl: '',
+              date: '2025-03-04',
+              title: 'タイトルタイトルタイトルタイトルタイトル',
+              link: '/history/1',
+            },
+          ]}
+          className="mt-6"
+        />
+      </Box>
     </Content>
   );
 }
