@@ -35,7 +35,7 @@ export const LayoutAside = ({ className }: { className?: string }) => {
       <nav className="glassmorphism text-primary-foreground">
         <ul className="items-center max-md:mx-auto max-md:flex max-md:max-w-[500px] max-md:gap-[5px] max-md:p-2">
           {navigation.map(({ name, to, icon: Icon }) => {
-            const isCurrent = pathname === to;
+            const isCurrent = pathname === to || pathname.startsWith(`${to}/`);
 
             return (
               <li key={name} className="max-md:w-[calc(100%/6+5px*5)]">
