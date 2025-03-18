@@ -1,40 +1,42 @@
-import { CircleUserRound } from 'lucide-react';
-import Image from 'next/image';
-import { redirect } from 'next/navigation';
+import { notFound } from 'next/navigation';
+import { JSX } from 'react';
 
-import { Disclosure } from '@/components/ui/disclosure';
+import { NewsList } from '@/components/ui/list';
+import { buildCreatedMessage } from '@/features/history/components/build-create-messages';
+import { buildDeletedMessage } from '@/features/history/components/build-delete-messages';
+import { buildDiffMessages } from '@/features/history/components/build-diff-messages';
 import { fetchActionNameById } from '@/lib/supabase/data/actions/select/fetch-action-name-by-id';
 import { fetchStatusNameById } from '@/lib/supabase/data/statuses/select/fetch-status-name-by-id';
 import { fetchTaskHistory } from '@/lib/supabase/data/task-history/select/fetch-task-history';
 import { fetchUserNameById } from '@/lib/supabase/data/users/fetch-user-name-by-id';
 import { fetchUserData } from '@/lib/supabase/user/fetch-user-data';
 import { getUser } from '@/lib/supabase/user/user';
-import { cn } from '@/utils/cn';
 import { extractChangedFields } from '@/utils/extract-changed-fields';
 
-import { buildCreatedMessage } from './build-create-messages';
-import { buildDeletedMessage } from './build-delete-messages';
-import { buildDiffMessages } from './build-diff-messages';
-
-type HistoryList = {
-  className?: string;
+type HistoryItem = {
+  id: string;
+  userName: string;
+  changedAt: string;
+  avatarURL: string;
+  action: string;
+  taskDiff: string | JSX.Element;
 };
 
-export const HistoryList = async ({ className }: HistoryList) => {
+export const HistoryContent = async ({ className }: { className?: string }) => {
   const { user, authError } = await getUser();
 
   if (authError || !user) {
-    redirect('/login');
+    notFound();
   }
 
   const userId = user?.id ?? null;
   if (!userId) {
-    redirect('/login');
+    notFound();
   }
   const userData = await fetchUserData(userId);
 
   if (!userData?.group?.id) {
-    redirect('/login');
+    notFound();
   }
 
   const historyData = await fetchTaskHistory({
@@ -42,7 +44,7 @@ export const HistoryList = async ({ className }: HistoryList) => {
     groupId: userData?.group?.id,
   });
 
-  const historyList = await Promise.all(
+  const historyList: HistoryItem[] = await Promise.all(
     historyData.map(async (item) => {
       const changeUser = await fetchUserData(item.changed_by);
       const userName = changeUser?.username ?? 'unknown user';
@@ -60,8 +62,6 @@ export const HistoryList = async ({ className }: HistoryList) => {
           if (diff.status_id) {
             const oldStatusId = diff.status_id.old;
             const newStatusId = diff.status_id.new;
-
-            // DBからステータス名を取得
             const oldStatusName = await fetchStatusNameById(oldStatusId);
             const newStatusName = await fetchStatusNameById(newStatusId);
 
@@ -73,14 +73,12 @@ export const HistoryList = async ({ className }: HistoryList) => {
           if (diff.assignee_id) {
             const oldAssigneeId = diff.assignee_id.old;
             const newAssigneeId = diff.assignee_id.new;
-
             const oldAssigneeName = oldAssigneeId
               ? await fetchUserNameById(oldAssigneeId)
               : '未担当';
             const newAssigneeName = newAssigneeId
               ? await fetchUserNameById(newAssigneeId)
               : '未担当';
-
             diff.assignee_id = {
               old: oldAssigneeName,
               new: newAssigneeName,
@@ -100,6 +98,7 @@ export const HistoryList = async ({ className }: HistoryList) => {
 
       return {
         id: item.id,
+        changedAt: item.changed_at ?? '',
         userName,
         avatarURL,
         action,
@@ -108,63 +107,37 @@ export const HistoryList = async ({ className }: HistoryList) => {
     }),
   );
 
-  if (!historyList) {
+  if (!historyList || historyList.length === 0) {
     return <p>履歴が見つかりませんでした。</p>;
   }
 
-  return (
-    <div className={cn('grid gap-y-3 md:mt-6 mt-3', className)}>
-      {historyList.map((history) => {
-        let actionLabel: string;
-        switch (history.action) {
-          case 'created':
-            actionLabel = '新しいタスクを作成';
-            break;
-          case 'updated':
-            actionLabel = 'タスクを更新';
-            break;
-          case 'deleted':
-            actionLabel = 'タスクを削除';
-            break;
-          default:
-            actionLabel = '操作';
-            break;
-        }
+  const newsListItems = historyList.map((item) => {
+    let actionLabel = '';
+    switch (item.action) {
+      case 'created':
+        actionLabel = '新しいタスクを作成';
+        break;
+      case 'updated':
+        actionLabel = 'タスクを更新';
+        break;
+      case 'deleted':
+        actionLabel = 'タスクを削除';
+        break;
+      default:
+        actionLabel = '操作';
+        break;
+    }
 
-        const overview = `${history.userName} が${actionLabel}しました。`;
+    const overview = `${item.userName} が${actionLabel}しました。`;
 
-        if (!history.taskDiff) {
-          return (
-            <div
-              className="flex items-center gap-2 overflow-hidden rounded-full border bg-background p-3 text-foreground"
-              key={history.id}
-            >
-              {history.avatarURL ? (
-                <Image
-                  src={history.avatarURL}
-                  width={30}
-                  height={30}
-                  alt="avatar"
-                  className="size-full object-cover"
-                />
-              ) : (
-                <CircleUserRound size="30">デフォルトアイコン</CircleUserRound>
-              )}
-              <p>{overview}</p>
-            </div>
-          );
-        } else {
-          return (
-            <Disclosure
-              key={history.id}
-              id={history.id}
-              overview={overview}
-              detail={history.taskDiff}
-              icon={history.avatarURL}
-            />
-          );
-        }
-      })}
-    </div>
-  );
+    return {
+      key: item.id,
+      avatarUrl: item.avatarURL,
+      updatedAt: item.changedAt,
+      title: overview,
+      link: `/history/${item.id}`,
+    };
+  });
+
+  return <NewsList items={newsListItems} className={className} />;
 };
