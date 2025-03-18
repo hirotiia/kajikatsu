@@ -1,5 +1,4 @@
 import { Content } from '@/components/layouts/content/content';
-import { Box } from '@/components/ui/box';
 import { Heading } from '@/components/ui/heading';
 import { Text } from '@/components/ui/text';
 
@@ -42,9 +41,8 @@ export default async function HistoryPage() {
         </ruby>
         を確認できます。
       </Text>
-      <Box>
-        <HistoryContent />
-      </Box>
+      <Heading>絞り込み</Heading>
+      <HistoryContent />
     </Content>
   );
 }

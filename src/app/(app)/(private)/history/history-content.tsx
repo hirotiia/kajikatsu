@@ -1,10 +1,10 @@
 import { notFound } from 'next/navigation';
 import { JSX } from 'react';
 
-import { NewsList } from '@/components/ui/list';
 import { buildCreatedMessage } from '@/features/history/components/build-create-messages';
 import { buildDeletedMessage } from '@/features/history/components/build-delete-messages';
 import { buildDiffMessages } from '@/features/history/components/build-diff-messages';
+import { FilteredHistoryList } from '@/features/history/components/filtered-history-list';
 import { fetchActionNameById } from '@/lib/supabase/data/actions/select/fetch-action-name-by-id';
 import { fetchStatusNameById } from '@/lib/supabase/data/statuses/select/fetch-status-name-by-id';
 import { fetchTaskHistory } from '@/lib/supabase/data/task-history/select/fetch-task-history';
@@ -22,7 +22,7 @@ type HistoryItem = {
   taskDiff: string | JSX.Element;
 };
 
-export const HistoryContent = async ({ className }: { className?: string }) => {
+export const HistoryContent = async () => {
   const { user, authError } = await getUser();
 
   if (authError || !user) {
@@ -111,7 +111,7 @@ export const HistoryContent = async ({ className }: { className?: string }) => {
     return <p>履歴が見つかりませんでした。</p>;
   }
 
-  const newsListItems = historyList.map((item) => {
+  const historyListItems = historyList.map((item) => {
     let actionLabel = '';
     switch (item.action) {
       case 'created':
@@ -139,5 +139,5 @@ export const HistoryContent = async ({ className }: { className?: string }) => {
     };
   });
 
-  return <NewsList items={newsListItems} className={className} />;
+  return <FilteredHistoryList historyListItems={historyListItems} />;
 };

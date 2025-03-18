@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { cn } from '@/utils/cn';
 import { toJstIsoString, toJstString } from '@/utils/to-jst-string';
 
-type NewsListItem = {
+export type NewsListItem = {
   key: string;
   avatarUrl?: string;
   updatedAt: string;
