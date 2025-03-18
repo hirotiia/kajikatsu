@@ -2,10 +2,10 @@ import { Metadata } from 'next';
 
 import { Content } from '@/components/layouts/content/content';
 import { Heading } from '@/components/ui/heading';
-import { Pagination } from '@/components/ui/pagination';
 import { Text } from '@/components/ui/text';
 import { config } from '@/config/config';
-import { HistoryList } from '@/features/history/components/history-list';
+
+import { HistoryContent } from './history-content';
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
@@ -50,8 +50,7 @@ export default function TaskHistoryPage() {
         </ruby>
         を確認できます。
       </Text>
-      <HistoryList />
-      <Pagination total={5} className="mt-6" />
+      <HistoryContent />
     </Content>
   );
 }
