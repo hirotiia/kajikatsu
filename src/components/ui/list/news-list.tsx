@@ -24,7 +24,10 @@ export const NewsList = ({ items = [], className }: NewsListProps) => {
   return (
     <ol className={cn('grid gap-y-3', className)}>
       {items.map(({ key, avatarUrl, date, link, title }: NewsListItem) => (
-        <li key={key} className="border-b border-foreground pb-3">
+        <li
+          key={key}
+          className="border-b border-foreground pb-3 last:border-b-0 last:pb-0"
+        >
           <div className="flex gap-x-3 md:items-center">
             <div className="shrink-0 overflow-hidden rounded-full">
               {avatarUrl ? (
