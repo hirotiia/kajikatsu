@@ -1,5 +1,4 @@
-import { Text } from '@/components/ui/text';
-
+import { LayoutFooter } from './layout-footer/layout-footer';
 import { LayoutHeader } from './layout-header/layout-header';
 
 export const PublicLayout = async ({
@@ -15,11 +14,8 @@ export const PublicLayout = async ({
           <main className="col-start-1 row-start-3 pb-24 pt-12 md:col-start-2 md:row-start-2 md:pb-0 md:pt-4">
             {children}
           </main>
-          <footer className="col-start-1 row-start-4 pb-8 pt-4 md:col-start-1 md:col-end-3 md:row-start-3">
-            <Text spacing="none" className="text-right" textSize="sm">
-              <small>©2024 nakano hiroya</small>
-            </Text>
-          </footer>
+
+          <LayoutFooter className="col-start-1 row-start-4 pb-8 pt-4 md:col-start-1 md:col-end-3 md:row-start-3" />
         </div>
       </div>
     </div>

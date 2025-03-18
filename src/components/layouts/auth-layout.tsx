@@ -1,4 +1,4 @@
-import { Text } from '@/components/ui/text';
+import { LayoutFooter } from './layout-footer/layout-footer';
 
 export const AuthLayout = ({ children }: { children: React.ReactNode }) => {
   return (
@@ -8,11 +8,8 @@ export const AuthLayout = ({ children }: { children: React.ReactNode }) => {
           <main className="col-start-1 col-end-3 row-start-1 row-end-2">
             {children}
           </main>
-          <footer className="col-start-1 col-end-3 row-start-2 row-end-3 pb-8 pt-16 md:pt-24">
-            <Text spacing="none" className="text-right" textSize="sm">
-              <small>©2024 nakano hiroya</small>
-            </Text>
-          </footer>
+
+          <LayoutFooter className="col-start-1 col-end-3 row-start-2 row-end-3 pb-8 pt-16 md:pt-24" />
         </div>
       </div>
     </div>
