@@ -56,14 +56,14 @@ export default async function HistoryPage() {
               avatarUrl: '',
               date: '2025-03-04',
               title: 'タイトルタイトルタイトルタイトルタイトル',
-              link: '/history/1',
+              link: '/history/2',
             },
             {
               key: '3333',
               avatarUrl: '',
               date: '2025-03-04',
               title: 'タイトルタイトルタイトルタイトルタイトル',
-              link: '/history/1',
+              link: '/history/3',
             },
           ]}
           className="mt-6"

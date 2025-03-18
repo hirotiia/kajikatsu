@@ -41,6 +41,7 @@ export default async function HistoryDetailPage({ params }: HistoryPageProps) {
   return (
     <Content>
       <Heading as="h1">
+        {currentPage}の
         <ruby>
           履歴<rp>（</rp>
           <rt>りれき</rt>
