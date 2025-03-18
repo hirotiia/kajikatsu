@@ -128,13 +128,13 @@ export const HistoryContent = async ({ className }: { className?: string }) => {
         break;
     }
 
-    const overview = `${item.userName} が${actionLabel}しました。`;
+    const title = `${item.userName}さん が${actionLabel}しました！`;
 
     return {
       key: item.id,
       avatarUrl: item.avatarURL,
       updatedAt: item.changedAt,
-      title: overview,
+      title,
       link: `/history/${item.id}`,
     };
   });
