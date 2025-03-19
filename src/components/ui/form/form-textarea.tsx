@@ -6,6 +6,8 @@ import ReactMarkdown from 'react-markdown';
 import { Text } from '@/components/ui/text';
 import { cn } from '@/utils/cn';
 
+import { Label } from '../label';
+
 interface FormTextareaProps
   extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   label: string;
@@ -27,6 +29,7 @@ export const FormTextarea: React.FC<FormTextareaProps> = ({
   layout = 'horizontal',
   preview = false,
   defaultValue = '',
+  required = false,
   ...props
 }) => {
   const [value, setValue] = useState(defaultValue);
@@ -49,6 +52,15 @@ export const FormTextarea: React.FC<FormTextareaProps> = ({
     >
       <label htmlFor={id} className="text-left">
         {label}
+        {required ? (
+          <Label variant="required" size="sm" className="ml-3">
+            必須
+          </Label>
+        ) : (
+          <Label variant="warning" size="sm" className="ml-3">
+            任意
+          </Label>
+        )}
       </label>
       <div
         className={cn(

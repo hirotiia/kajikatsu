@@ -7,6 +7,7 @@ import ReactDatePicker from 'react-datepicker';
 import { cn } from '@/utils/cn';
 
 import 'react-datepicker/dist/react-datepicker.css';
+import { Label } from '../label';
 
 type FormDatePickerProps = {
   value?: Date;
@@ -16,6 +17,7 @@ type FormDatePickerProps = {
   name: string;
   layout: 'vertical' | 'horizontal';
   placeholder?: string;
+  required?: boolean;
   className: string;
 };
 
@@ -27,6 +29,7 @@ export function FormDatePicker({
   name,
   layout = 'horizontal',
   placeholder,
+  required = false,
   className,
 }: FormDatePickerProps) {
   const [selectedDate, setSelectedDate] = useState<Date | null>(value || null);
@@ -46,7 +49,18 @@ export function FormDatePicker({
         className,
       )}
     >
-      <label htmlFor={id}>{label}</label>
+      <label htmlFor={id}>
+        {label}
+        {required ? (
+          <Label variant="required" size="sm" className="ml-3">
+            必須
+          </Label>
+        ) : (
+          <Label variant="warning" size="sm" className="ml-3">
+            任意
+          </Label>
+        )}
+      </label>
       <div className="relative">
         <ReactDatePicker
           id={id}

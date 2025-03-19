@@ -40,9 +40,13 @@ export const FormInput: React.FC<FormInputProps> = ({
     >
       <label htmlFor={id} className="text-left">
         {label}
-        {required && (
+        {required ? (
           <Label variant="required" size="sm" className="ml-3">
             必須
+          </Label>
+        ) : (
+          <Label variant="warning" size="sm" className="ml-3">
+            任意
           </Label>
         )}
       </label>
