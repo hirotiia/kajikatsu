@@ -3,6 +3,8 @@ import React from 'react';
 
 import { cn } from '@/utils/cn';
 
+import { Label } from '../label';
+
 interface Option {
   value: string;
   title: string;
@@ -45,6 +47,11 @@ export const FormSelect: React.FC<FormSelectProps> = ({
     >
       <label htmlFor={id} className="text-left">
         {label}
+        {required && (
+          <Label variant="required" size="sm" className="ml-3">
+            必須
+          </Label>
+        )}
       </label>
       <div className="group relative">
         <select

@@ -8,7 +8,7 @@ type EnhancedTaskHistory = {
   };
   action: {
     id: string;
-    name: string;
+    name: 'updated' | 'completed' | 'created' | 'deleted' | undefined;
   };
   changedBy: {
     id: string;
@@ -110,7 +110,7 @@ export async function fetchTaskHistoryById(
     },
     action: {
       id: taskHistoryData.action_id,
-      name: actionData?.action_name || 'Unknown Action',
+      name: actionData?.action_name,
     },
     changedBy: {
       id: taskHistoryData.changed_by,

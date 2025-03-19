@@ -61,8 +61,9 @@ export const FormCreateTask = ({
         type="text"
         layout="vertical"
         className=""
-        placeholder="買い物をする"
+        placeholder="例）買い物をする"
         error={state.formValidationStatus?.errors?.title}
+        required
       />
       <FormSelect
         id="status"
@@ -78,6 +79,7 @@ export const FormCreateTask = ({
           { value: '対応中', title: '対応中' },
           { value: '完了', title: '完了' },
         ]}
+        required
       />
       <FormTextarea
         label="タスクの詳細"
@@ -86,7 +88,7 @@ export const FormCreateTask = ({
         preview
         layout="vertical"
         className="mt-4"
-        placeholder="リンゴとバナナを買う"
+        placeholder="例）リンゴとバナナを買う"
         rows={5}
       />
       {hasGroup ? (

@@ -11,7 +11,7 @@ export type Database = {
     Tables: {
       actions: {
         Row: {
-          action_name: string;
+          action_name: 'updated' | 'completed' | 'created' | 'deleted';
           created_at: string | null;
           description: string | null;
           id: string;

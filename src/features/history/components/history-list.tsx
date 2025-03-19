@@ -2,6 +2,7 @@ import Image from 'next/image';
 import { notFound } from 'next/navigation';
 
 import { Heading } from '@/components/ui/heading';
+import { Label } from '@/components/ui/label';
 import { fetchTaskHistoryById } from '@/lib/supabase/data/task-history/select/fetch-task-history-by-id';
 import { cn } from '@/utils/cn';
 import { toJstString } from '@/utils/to-jst-string';
@@ -36,9 +37,7 @@ export const HistoryList = async ({ historyId, className }: HistoryList) => {
           <span>{data.changedBy.username}</span>
         </div>
         <span className="text-sm text-gray-500">{formattedDate}</span>
-        <span className="rounded-full bg-blue-100 px-2 py-1 text-xs text-blue-800">
-          {data.action.name}
-        </span>
+        <Label variant={data.action.name}>{data.action.name}</Label>
       </div>
 
       {data.action.name === 'updated' && (

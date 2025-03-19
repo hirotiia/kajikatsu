@@ -2,6 +2,8 @@ import React, { InputHTMLAttributes } from 'react';
 
 import { cn } from '@/utils/cn';
 
+import { Label } from '../label';
+
 type InputType = InputHTMLAttributes<HTMLInputElement>['type'];
 
 interface FormInputProps extends InputHTMLAttributes<HTMLInputElement> {
@@ -22,6 +24,7 @@ export const FormInput: React.FC<FormInputProps> = ({
   className,
   error,
   layout = 'horizontal',
+  required,
   ...props
 }) => {
   const hasError = error?.length !== 0;
@@ -37,6 +40,11 @@ export const FormInput: React.FC<FormInputProps> = ({
     >
       <label htmlFor={id} className="text-left">
         {label}
+        {required && (
+          <Label variant="required" size="sm" className="ml-3">
+            必須
+          </Label>
+        )}
       </label>
       <div className={cn('', hasError && 'border-destructive')}>
         <input
