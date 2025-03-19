@@ -7,14 +7,9 @@ import { Text } from '@/components/ui/text';
 import { config } from '@/config/config';
 import { HistoryList } from '@/features/history/components/history-list';
 
-export async function generateMetadata({
-  params,
-}: {
-  params: Promise<{ page: string }>;
-}): Promise<Metadata> {
-  const resolvedParams = await params;
+export async function generateMetadata(): Promise<Metadata> {
   return {
-    title: `履歴｜${config.APP_NAME} - Page ${resolvedParams.page}`,
+    title: `履歴詳細｜履歴｜${config.APP_NAME}`,
   };
 }
 
