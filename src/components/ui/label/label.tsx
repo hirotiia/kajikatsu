@@ -41,7 +41,7 @@ export const Label = ({
 }: LabelProps) => {
   return (
     <span
-      className={cn(className, labelVariants({ variant, size }))}
+      className={cn(labelVariants({ variant, size }), className)}
       {...props}
     >
       {children}
