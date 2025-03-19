@@ -17,7 +17,6 @@ export const HistoryList = async ({ historyId, className }: HistoryList) => {
   if (!data) {
     notFound();
   }
-  console.log(data);
 
   const formattedDate = toJstString(data.changedAt);
 
