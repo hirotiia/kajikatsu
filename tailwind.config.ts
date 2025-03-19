@@ -22,6 +22,27 @@ const config: Config = {
         },
         muted: {
           DEFAULT: 'var(--muted)',
+          foreground: 'var(--muted-foreground)',
+        },
+        update: {
+          DEFAULT: 'var(--update)',
+          foreground: 'var(--update-foreground)',
+        },
+        create: {
+          DEFAULT: 'var(--create)',
+          foreground: 'var(--create-foreground)',
+        },
+        warning: {
+          DEFAULT: 'var(--warning)',
+          foreground: 'var(--warning-foreground)',
+        },
+        success: {
+          DEFAULT: 'var(--success)',
+          foreground: 'var(--success-foreground)',
+        },
+        info: {
+          DEFAULT: 'var(--info)',
+          foreground: 'var(--info-foreground)',
         },
       },
       minWidth: {

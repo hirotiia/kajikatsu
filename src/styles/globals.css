@@ -14,6 +14,22 @@
   --destructive-foreground: #f7f9fb;
 
   --muted: #e8f1f5;
+  --muted-foreground: #555555;
+
+  --update: #5465ff;
+  --update-foreground: #ffffff;
+
+  --create: #2cb67d;
+  --create-foreground: #ffffff;
+
+  --warning: #ff9f1c;
+  --warning-foreground: #ffffff;
+
+  --success: #28a745;
+  --success-foreground: #ffffff;
+
+  --info: #4cc9f0;
+  --info-foreground: #ffffff;
 
   --ring: #010816;
 
