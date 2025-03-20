@@ -20,7 +20,7 @@ type NewsListProps = {
 
 export const NewsList = ({ items = [], className }: NewsListProps) => {
   return (
-    <ol className={cn('grid gap-y-3', className)}>
+    <ol className={cn('grid gap-y-3 grid-cols-[auto_auto_1fr]', className)}>
       {items.map(({ key, avatarUrl, updatedAt, link, title }) => {
         const displayDate = toJstString(updatedAt);
         const isoDate = toJstIsoString(updatedAt);
@@ -28,33 +28,29 @@ export const NewsList = ({ items = [], className }: NewsListProps) => {
         return (
           <li
             key={key}
-            className="border-b border-foreground pb-3 last:border-b-0 last:pb-0"
+            className="col-span-3 grid grid-cols-subgrid gap-2 border-b border-foreground pb-3 last:border-b-0 last:pb-0"
           >
-            <div className="flex gap-x-3">
-              <div className="shrink-0 overflow-hidden rounded-full">
-                {avatarUrl ? (
-                  <Image
-                    src={avatarUrl}
-                    alt="ユーザーアバター"
-                    width={30}
-                    height={30}
-                  />
-                ) : (
-                  <Frown size={30}>アイコン未登録のユーザー</Frown>
-                )}
-              </div>
-              <div className="md:flex md:gap-x-3">
-                <div className="shrink-0">
-                  <time dateTime={isoDate}>{displayDate}</time>
-                </div>
-                <Link
-                  href={link}
-                  className="custom-transition hover:text-primary"
-                >
-                  <b>{title}</b>
-                </Link>
-              </div>
-            </div>
+            {avatarUrl ? (
+              <Image
+                src={avatarUrl}
+                alt="ユーザーアバター"
+                width={30}
+                height={30}
+                className="rounded-full"
+              />
+            ) : (
+              <Frown size={30} className="rounded-full">
+                アイコン未登録のユーザー
+              </Frown>
+            )}
+
+            <time dateTime={isoDate}>{displayDate}</time>
+            <Link
+              href={link}
+              className="custom-transition w-full hover:text-primary"
+            >
+              <b>{title}</b>
+            </Link>
           </li>
         );
       })}
