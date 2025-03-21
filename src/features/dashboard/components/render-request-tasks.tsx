@@ -48,6 +48,11 @@ export const RenderRequestTasks = ({
   };
 
   return (
-    <Cards items={items} className={className} renderActions={renderActions} />
+    <Cards
+      background="glassmorphism"
+      items={items}
+      className={className}
+      renderActions={renderActions}
+    />
   );
 };

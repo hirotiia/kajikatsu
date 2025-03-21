@@ -67,6 +67,7 @@ export const RenderMembersTasks = ({
           <div className="space-y-4">
             {tasks.length > 0 ? (
               <Cards
+                background="glassmorphism"
                 items={tasks.map((task) => ({
                   id: task.id,
                   title: task.title,
