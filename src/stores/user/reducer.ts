@@ -20,8 +20,8 @@ const initialState: UserStoreState = {
  */
 export const fetchAsyncUserData = createAsyncThunk(
   'user/fetchUserData',
-  async (userId: string) => {
-    const userData = await fetchUserDataClient(userId);
+  async () => {
+    const userData = await fetchUserDataClient();
     if (!userData) throw new Error('ユーザーデータの取得に失敗しました。');
     return userData;
   },

@@ -1,15 +1,17 @@
 'use client';
+
 import { CircleX, LoaderCircle } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import React, { useTransition } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect, useTransition } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { signOut } from '@/actions/auth/auth';
 import { Button } from '@/components/ui/button';
 import { Popover } from '@/components/ui/popover';
 import { Text } from '@/components/ui/text';
 import { UserInfo } from '@/components/ui/user';
-import { RootState } from '@/stores/store';
+import { AppDispatch, RootState } from '@/stores/store';
+import { fetchAsyncUserData } from '@/stores/user/reducer';
 import { cn } from '@/utils/cn';
 import { invertOnHover } from '@/utils/invert-on-hover';
 
@@ -18,9 +20,15 @@ type UserProfileClientProps = {
 };
 
 export const UserProfileClient = ({ content }: UserProfileClientProps) => {
+  const dispatch = useDispatch<AppDispatch>();
+
   const userState = useSelector((state: RootState) => state.user);
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
+
+  useEffect(() => {
+    dispatch(fetchAsyncUserData());
+  }, [dispatch]);
 
   const handleSignOut = () => {
     startTransition(async () => {

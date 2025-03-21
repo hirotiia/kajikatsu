@@ -3,7 +3,6 @@ import { Metadata, Viewport } from 'next';
 import { config } from '@/config/config';
 import '@/styles/globals.css';
 import { zen_maru_gothic } from '@/font/font';
-import { createClient } from '@/lib/supabase/server';
 import { cn } from '@/utils/cn';
 
 import { AppProvider } from './provider';
@@ -47,17 +46,10 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  const userId = user?.id ?? null;
-
   return (
     <html lang="ja">
       <body className={cn('h-full', zen_maru_gothic.className)}>
-        <AppProvider userId={userId}>{children}</AppProvider>
+        <AppProvider>{children}</AppProvider>
       </body>
     </html>
   );
