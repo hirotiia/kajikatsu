@@ -94,7 +94,7 @@ export const ClientUserTab = ({
         ariaLabel="あなたのおしごと一覧"
         tabs={statusList.map(({ id, label }) => ({
           key: id,
-          label,
+          label: `${label}(${tasksByStatus[id]?.length ?? 0})`,
         }))}
       />
       {statusList.map(({ id, label }): ReactElement<TabPanelProps> => {
