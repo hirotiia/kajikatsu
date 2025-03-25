@@ -4,11 +4,12 @@ import { fetchUserData } from '@/lib/supabase/user/fetch-user-data';
 
 export const MyTaskTabContent = async () => {
   const data = await fetchUserData();
+
   if (!data) {
     return <p>ユーザー情報を取得できませんでした。</p>;
   }
+
   const hasGroup: boolean = !!data?.group;
-  console.log(hasGroup);
 
   return hasGroup ? (
     <GroupUserTab userId={data.userId} groupId={data.group?.id ?? ''} />
