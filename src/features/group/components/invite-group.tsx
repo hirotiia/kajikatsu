@@ -77,6 +77,7 @@ export const InviteGroup = () => {
               name="expires_at"
               label="招待リンクの有効期限"
               layout="vertical"
+              required
               options={[
                 { value: '1', title: '1時間' },
                 { value: '5', title: '5時間' },
