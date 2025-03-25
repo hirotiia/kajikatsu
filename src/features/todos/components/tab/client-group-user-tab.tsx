@@ -14,7 +14,7 @@ import { cn } from '@/utils/cn';
 import { FormDeleteTask } from '../form/form-delete-task';
 import { FormUpdateTask } from '../form/update/form-update-task';
 
-type ClientUserTabProps = {
+type ClientGroupUserTabProps = {
   userId: string;
   groupId: string;
   initialTasks: Task[];
@@ -23,14 +23,14 @@ type ClientUserTabProps = {
   groupMembers: GroupMember[] | null;
 };
 
-export const ClientUserTab = ({
+export const ClientGroupUserTab = ({
   userId,
   groupId,
   initialTasks,
   className,
   statusList,
   groupMembers,
-}: ClientUserTabProps) => {
+}: ClientGroupUserTabProps) => {
   const [tasks, setTasks] = useState<Task[]>(initialTasks);
   const [isLoading, setIsLoading] = useState(false);
 
