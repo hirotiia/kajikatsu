@@ -9,6 +9,7 @@ export type GroupData = {
 };
 
 export type UserState = {
+  userId: string;
   username: string;
   avatar_url: string | null;
   group: GroupData | null;

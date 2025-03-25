@@ -12,6 +12,7 @@ import {
 } from '@/components/ui/form';
 import { useNotifications } from '@/components/ui/notifications';
 import { Statuses } from '@/lib/supabase/data/statuses/select/fetch-status';
+import { GroupMember } from '@/lib/supabase/data/users/fetch-group-members-client';
 
 /**
  * 編集フォームに必要な初期値
@@ -24,6 +25,8 @@ type EditTaskProps = {
   defaultStatusId?: string;
   opener: { close: () => void; isOpen: boolean };
   statusList: Statuses;
+  defaultUserId: string;
+  groupMembers: GroupMember[] | null;
 };
 
 export function FormEditTask({
@@ -34,6 +37,8 @@ export function FormEditTask({
   defaultStatusId = '',
   opener,
   statusList,
+  defaultUserId,
+  groupMembers,
 }: EditTaskProps) {
   const [state, updateTaskAction, isPending] = useActionState(updateTask, {
     type: '',
@@ -59,12 +64,14 @@ export function FormEditTask({
     const description = formData.get('description')?.toString() ?? '';
     const expiresAt = formData.get('expires_at')?.toString() ?? '';
     const statusId = formData.get('status')?.toString() ?? '';
+    const assignmentId = formData.get('assignment')?.toString() ?? '';
 
     const isChanged =
       title !== defaultTitle ||
       description !== defaultDescription ||
       expiresAt !== defaultExpiresAt ||
-      statusId !== defaultStatusId;
+      statusId !== defaultStatusId ||
+      assignmentId !== defaultUserId;
 
     if (!isChanged) {
       addNotification({
@@ -79,6 +86,7 @@ export function FormEditTask({
 
     startTransition(() => {
       updateTaskAction(formData);
+      opener.close();
     });
   };
 
@@ -94,6 +102,7 @@ export function FormEditTask({
         defaultValue={defaultTitle}
         layout="vertical"
         error={state.formValidationStatus?.errors?.title}
+        required
       />
 
       <FormTextarea
@@ -124,6 +133,7 @@ export function FormEditTask({
         className="mt-4"
         defaultValue={defaultStatusId}
         error={state.formValidationStatus?.errors?.status}
+        required
         options={[
           { value: '', title: '選択してください' },
           ...statusList.map(({ id, label }) => ({
@@ -132,6 +142,25 @@ export function FormEditTask({
           })),
         ]}
       />
+
+      {groupMembers && groupMembers.length > 0 && (
+        <FormSelect
+          id="assignment"
+          name="assignment"
+          label="担当者"
+          layout="vertical"
+          className="mt-4"
+          defaultValue={defaultUserId}
+          error={state.formValidationStatus?.errors?.assignment}
+          options={[
+            { value: '', title: '選択してください' },
+            ...groupMembers.map(({ user_id, username }) => ({
+              value: user_id,
+              title: username,
+            })),
+          ]}
+        />
+      )}
     </>
   );
 

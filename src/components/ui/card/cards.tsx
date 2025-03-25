@@ -6,7 +6,7 @@ import { Text } from '@/components/ui/text';
 import { Task } from '@/types/task.types';
 import { cn } from '@/utils/cn';
 
-type Card = Omit<Task, 'createdAt' | 'updatedAt'>;
+type Card = Omit<Task, 'createdAt' | 'updatedAt' | 'assigneeId'>;
 
 const cardItemVariants = cva('rounded-lg p-4 shadow-sm transition-colors', {
   variants: {

@@ -1,14 +1,18 @@
-import { redirect } from 'next/navigation';
-
+import { GroupUserTab } from '@/features/todos/components/tab/group-user-tab';
 import { UserTab } from '@/features/todos/components/tab/user-tab';
-import { getUser } from '@/lib/supabase/user/user';
+import { fetchUserData } from '@/lib/supabase/user/fetch-user-data';
 
 export const MyTaskTabContent = async () => {
-  const { user, authError } = await getUser();
-
-  if (authError || !user) {
-    redirect('/login');
+  const data = await fetchUserData();
+  if (!data) {
+    return <p>ユーザー情報を取得できませんでした。</p>;
   }
+  const hasGroup: boolean = !!data?.group;
+  console.log(hasGroup);
 
-  return <UserTab userId={user.id} />;
+  return hasGroup ? (
+    <GroupUserTab userId={data.userId} groupId={data.group?.id ?? ''} />
+  ) : (
+    <UserTab userId={data.userId} />
+  );
 };

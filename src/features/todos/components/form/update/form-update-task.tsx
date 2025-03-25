@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Dialog } from '@/components/ui/dialog';
 import { useOpener } from '@/hooks/use-opener';
 import { Statuses } from '@/lib/supabase/data/statuses/select/fetch-status';
+import { GroupMember } from '@/lib/supabase/data/users/fetch-group-members-client';
 
 import { FormEditTask } from './form-edit-task';
 
@@ -16,6 +17,8 @@ type FormUpdateTaskProps = {
   expiresAt?: string;
   statusId: string;
   statusList?: Statuses;
+  userId?: string;
+  groupMembers?: GroupMember[] | null;
 };
 
 export const FormUpdateTask = ({
@@ -25,6 +28,8 @@ export const FormUpdateTask = ({
   expiresAt,
   statusId,
   statusList = [],
+  userId,
+  groupMembers,
 }: FormUpdateTaskProps) => {
   const opener = useOpener();
 
@@ -50,6 +55,8 @@ export const FormUpdateTask = ({
           defaultStatusId={statusId}
           statusList={statusList}
           opener={opener}
+          defaultUserId={userId ?? ''}
+          groupMembers={groupMembers ?? null}
         />
       </Dialog>
     </>

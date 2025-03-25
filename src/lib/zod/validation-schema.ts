@@ -13,7 +13,8 @@ export const updateTaskSchema = z.object({
   title: z.string().min(1, 'タイトルが入力されていません。'),
   description: z.string().nullable(),
   expires_at: z.string().nullable(),
-  status_id: z.string().uuid().nullable(),
+  status_id: z.string().uuid('ステータスを選択してください。'),
+  assignment_id: z.string().uuid().nullable(),
 });
 
 export const loginSchema = z.object({

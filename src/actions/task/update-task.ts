@@ -19,6 +19,7 @@ export async function updateTask(state: any, formData: FormData): Promise<any> {
       description: formData.get('description') || null,
       expires_at: formData.get('expires_at') || null,
       status_id: formData.get('status') || null,
+      assignment_id: formData.get('assignment') || null,
     });
 
     if (!parsed.success) {
@@ -32,7 +33,8 @@ export async function updateTask(state: any, formData: FormData): Promise<any> {
       };
     }
 
-    const { taskId, title, description, expires_at, status_id } = parsed.data;
+    const { taskId, title, description, expires_at, status_id, assignment_id } =
+      parsed.data;
 
     // SupabaseでtasksをUPDATE
     const { error } = await supabase
@@ -43,6 +45,7 @@ export async function updateTask(state: any, formData: FormData): Promise<any> {
         expires_at,
         status_id,
         updated_by: user.id,
+        assignee_id: assignment_id,
       })
       .eq('id', taskId);
 

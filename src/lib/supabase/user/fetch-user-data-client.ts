@@ -68,6 +68,7 @@ export async function fetchUserDataClient(
       }
 
       return {
+        userId,
         username: userData?.username ?? '',
         avatar_url: userData?.avatar_url ?? null,
         group: null,
@@ -75,6 +76,7 @@ export async function fetchUserDataClient(
     }
 
     return {
+      userId,
       username: groupData.users?.username ?? '',
       avatar_url: groupData.users?.avatar_url ?? null,
       group: groupData.group_id
