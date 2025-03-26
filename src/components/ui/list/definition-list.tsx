@@ -1,5 +1,5 @@
 import { cva, VariantProps } from 'class-variance-authority';
-import React from 'react';
+import React, { JSX } from 'react';
 
 import { cn } from '@/utils/cn';
 
@@ -42,7 +42,7 @@ const ddStyles = cva('ml-4', {
 
 export type DefinitionListItem = {
   term: string;
-  definitions: string[];
+  definitions: (string | JSX.Element)[];
 };
 
 type DLVariants = VariantProps<typeof dlStyles>;

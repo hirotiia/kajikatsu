@@ -1,14 +1,17 @@
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
+import { JSX } from 'react';
 
 import { Box } from '@/components/ui/box';
 import { Heading } from '@/components/ui/heading';
 import { Label } from '@/components/ui/label';
+import { DefinitionListItem, DefinitionList } from '@/components/ui/list';
 import { fetchTaskHistoryById } from '@/lib/supabase/data/task-history/select/fetch-task-history-by-id';
+import { fetchUserNameById } from '@/lib/supabase/data/users/fetch-user-name-by-id';
 import { cn } from '@/utils/cn';
 import { toJstString } from '@/utils/to-jst-string';
 
-type HistoryDetail = {
+type HistoryDetailProps = {
   historyId: string;
   className?: string;
 };
@@ -16,7 +19,7 @@ type HistoryDetail = {
 export const HistoryDetail = async ({
   historyId,
   className,
-}: HistoryDetail) => {
+}: HistoryDetailProps) => {
   const data = await fetchTaskHistoryById(historyId);
 
   if (!data) {
@@ -51,13 +54,20 @@ export const HistoryDetail = async ({
               <Heading as="h3" underline underlineSize="full">
                 変更前
               </Heading>
-              <TaskDetails task={data.details.old} />
+              <TaskDetails
+                task={data.details.old}
+                changes={data.details.changes}
+                isOld
+              />
             </Box>
             <Box mt="none" className="flex-1">
               <Heading as="h3" underline underlineSize="full">
                 変更後
               </Heading>
-              <TaskDetails task={data.details.new} />
+              <TaskDetails
+                task={data.details.new}
+                changes={data.details.changes}
+              />
             </Box>
           </div>
           <ChangesList changes={data.details.changes} />
@@ -65,79 +75,171 @@ export const HistoryDetail = async ({
       )}
 
       {data.action.name === 'created' && (
-        <div className="rounded border bg-gray-50 p-3 [&>*:first-child]:mt-0 [&>*:first-child]:md:mt-0">
+        <Box>
           <Heading as="h3">作成されたタスク</Heading>
           <TaskDetails task={data.details.new} />
-        </div>
+        </Box>
       )}
 
       {data.action.name === 'deleted' && (
-        <div className="rounded border bg-gray-50 p-3 [&>*:first-child]:mt-0 [&>*:first-child]:md:mt-0">
+        <Box>
           <Heading as="h3">削除されたタスク</Heading>
           <TaskDetails task={data.details.old} />
-        </div>
+        </Box>
       )}
     </div>
   );
 };
 
-const TaskDetails = ({ task }: { task: any }) => {
+type ChangeItem = {
+  field: string;
+  oldValue: string | null;
+  newValue: string | null;
+};
+
+type TaskDetailsProps = {
+  task: any;
+  changes?: ChangeItem[];
+  isOld?: boolean;
+};
+
+const TaskDetails = async ({
+  task,
+  changes = [],
+  isOld = false,
+}: TaskDetailsProps) => {
   if (!task) return null;
+  const items: DefinitionListItem[] = [];
 
-  return (
-    <div className="space-y-2">
-      <div>
-        <span className="text-sm font-medium text-gray-500">タイトル:</span>
-        <span className="ml-2">{task.title}</span>
-      </div>
+  async function getDisplayValue(fieldKey: string, defaultValue: string) {
+    const changedItem = changes.find((c) => c.field === fieldKey);
+    let rawValue = task[fieldKey] || defaultValue;
+    let textClasses = '';
 
-      {task.description && (
-        <div>
-          <span className="text-sm font-medium text-gray-500">説明:</span>
-          <p className="ml-2 whitespace-pre-wrap text-sm">{task.description}</p>
-        </div>
-      )}
+    if (changedItem) {
+      rawValue = isOld
+        ? changedItem.oldValue || defaultValue
+        : changedItem.newValue || defaultValue;
 
-      {task.status && (
-        <div>
-          <span className="text-sm font-medium text-gray-500">ステータス:</span>
-          <span className="ml-2">{task.status.name}</span>
-        </div>
-      )}
+      textClasses = isOld ? 'text-red-500 line-through' : 'text-green-600';
+    }
 
-      {task.assignee && (
-        <div>
-          <span className="text-sm font-medium text-gray-500">担当者:</span>
-          <span className="ml-2">{task.assignee.username}</span>
-        </div>
-      )}
+    return {
+      rawValue,
+      textClasses,
+    };
+  }
 
-      {task.group && (
-        <div>
-          <span className="text-sm font-medium text-gray-500">グループ:</span>
-          <span className="ml-2">{task.group.name}</span>
-        </div>
-      )}
+  function makeItem(term: string, content: JSX.Element) {
+    items.push({
+      term,
+      definitions: [content],
+    });
+  }
 
-      {task.expiresAt && (
-        <div>
-          <span className="text-sm font-medium text-gray-500">期限:</span>
-          <span className="ml-2">{toJstString(task.expiresAt)}</span>
-        </div>
-      )}
-    </div>
-  );
+  if ('title' in task) {
+    const { rawValue, textClasses } = await getDisplayValue('title', 'なし');
+    makeItem(
+      'タイトル',
+      <span key="title-value" className={textClasses}>
+        {rawValue}
+      </span>,
+    );
+  }
+
+  if ('description' in task) {
+    const fieldKey = 'description';
+    const { rawValue, textClasses } = await getDisplayValue(fieldKey, 'なし');
+    makeItem(
+      '説明',
+      <span
+        key={`${fieldKey}-value`}
+        className={textClasses}
+        style={{ whiteSpace: 'pre-wrap' }}
+      >
+        {rawValue}
+      </span>,
+    );
+  }
+
+  if (task.status) {
+    const { textClasses } = await getDisplayValue('status_id', 'なし');
+    makeItem(
+      'ステータス',
+      <span key="status-value" className={textClasses}>
+        {task.status.name || '不明'}
+      </span>,
+    );
+  }
+
+  {
+    const { rawValue, textClasses } = await getDisplayValue(
+      'assignee_id',
+      'なし',
+    );
+
+    let displayUser = rawValue;
+
+    const userName = await fetchUserNameById(rawValue);
+    displayUser = userName || '不明ユーザー';
+
+    if (changes.length === 0 && task.assignee?.username) {
+      displayUser = task.assignee.username;
+    }
+
+    makeItem(
+      '担当者',
+      <span key="assignee-value" className={textClasses}>
+        {displayUser}
+      </span>,
+    );
+  }
+
+  if (task.group) {
+    const { textClasses } = await getDisplayValue('group_id', '未加入');
+    const displayGroupName = task.group.name || '未加入';
+
+    makeItem(
+      'グループ',
+      <span key="group-value" className={textClasses}>
+        {displayGroupName}
+      </span>,
+    );
+  } else {
+    items.push({
+      term: 'グループ',
+      definitions: ['未加入'],
+    });
+  }
+
+  {
+    const { rawValue, textClasses } = await getDisplayValue(
+      'expires_at',
+      'なし',
+    );
+
+    const dateText = task.expiresAt ? toJstString(task.expiresAt) : rawValue;
+
+    makeItem(
+      '期限',
+      <span key="expiresAt-value" className={textClasses}>
+        {dateText}
+      </span>,
+    );
+  }
+
+  return <DefinitionList items={items} />;
 };
 
-const ChangesList = ({ changes }: { changes: any }) => {
+const ChangesList = ({ changes }: { changes: ChangeItem[] }) => {
   if (!changes || changes.length === 0) return null;
 
   return (
     <div className="mt-4">
       <Heading as="h3">変更内容</Heading>
       <ul className="list-disc space-y-1 pl-5">
-        {changes.map((change: any, index: any) => (
-          <li key={index} className="text-sm">
+        {changes.map((change, index) => (
+          <li key={`${change.field}-${index}`} className="text-sm">
             <span className="font-medium">{change.field}:</span>
             <span className="text-destructive line-through">
               {change.oldValue || 'なし'}
