@@ -5,7 +5,7 @@ import { Box } from '@/components/ui/box';
 import { Heading } from '@/components/ui/heading';
 import { Text } from '@/components/ui/text';
 import { config } from '@/config/config';
-import { HistoryList } from '@/features/history/components/history-list';
+import { HistoryDetail } from '@/features/history/components/history-detail';
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
@@ -63,7 +63,7 @@ export default async function HistoryDetailPage({ params }: HistoryPageProps) {
         を確認できます。
       </Text>
       <Box>
-        <HistoryList historyId={resolvedParams.page} />
+        <HistoryDetail historyId={resolvedParams.page} />
       </Box>
     </Content>
   );

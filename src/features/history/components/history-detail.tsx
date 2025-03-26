@@ -7,12 +7,15 @@ import { fetchTaskHistoryById } from '@/lib/supabase/data/task-history/select/fe
 import { cn } from '@/utils/cn';
 import { toJstString } from '@/utils/to-jst-string';
 
-type HistoryList = {
+type HistoryDetail = {
   historyId: string;
   className?: string;
 };
 
-export const HistoryList = async ({ historyId, className }: HistoryList) => {
+export const HistoryDetail = async ({
+  historyId,
+  className,
+}: HistoryDetail) => {
   const data = await fetchTaskHistoryById(historyId);
 
   if (!data) {
