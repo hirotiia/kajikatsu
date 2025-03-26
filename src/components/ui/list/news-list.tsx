@@ -48,6 +48,7 @@ export const NewsList = ({ items = [], className }: NewsListProps) => {
             <Link
               href={link}
               className="custom-transition w-full hover:text-primary"
+              prefetch
             >
               <b>{title}</b>
             </Link>
