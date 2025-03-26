@@ -32,6 +32,7 @@ const boxVariants = cva('border p-2 md:p-4', {
       sm: 'mt-2',
       md: 'mt-3',
       lg: 'mt-4',
+      none: 'mt-0',
     },
   },
   defaultVariants: {

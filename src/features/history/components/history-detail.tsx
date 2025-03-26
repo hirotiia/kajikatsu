@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
 
+import { Box } from '@/components/ui/box';
 import { Heading } from '@/components/ui/heading';
 import { Label } from '@/components/ui/label';
 import { fetchTaskHistoryById } from '@/lib/supabase/data/task-history/select/fetch-task-history-by-id';
@@ -44,19 +45,23 @@ export const HistoryDetail = async ({
       </div>
 
       {data.action.name === 'updated' && (
-        <div className="grid grid-cols-2 gap-4">
-          <div className="rounded border bg-gray-50 p-3 [&>*:first-child]:mt-0 [&>*:first-child]:md:mt-0">
-            <Heading as="h3">変更前</Heading>
-            <TaskDetails task={data.details.old} />
+        <>
+          <div className="flex flex-col gap-3 md:flex-row">
+            <Box mt="none" className="flex-1">
+              <Heading as="h3" underline underlineSize="full">
+                変更前
+              </Heading>
+              <TaskDetails task={data.details.old} />
+            </Box>
+            <Box mt="none" className="flex-1">
+              <Heading as="h3" underline underlineSize="full">
+                変更後
+              </Heading>
+              <TaskDetails task={data.details.new} />
+            </Box>
           </div>
-          <div className="rounded border bg-gray-50 p-3 [&>*:first-child]:mt-0 [&>*:first-child]:md:mt-0">
-            <Heading as="h3">変更後</Heading>
-            <TaskDetails task={data.details.new} />
-          </div>
-          <div className="col-span-2">
-            <ChangesList changes={data.details.changes} />
-          </div>
-        </div>
+          <ChangesList changes={data.details.changes} />
+        </>
       )}
 
       {data.action.name === 'created' && (

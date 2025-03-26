@@ -3,10 +3,6 @@ import React from 'react';
 
 import { cn } from '@/utils/cn';
 
-/*
-  cva を用いてデフォルトのスタイルを定義
-  - 必要に応じて variant で大きさ/色/余白などを切り替え可能
-*/
 const dlStyles = cva('mb-4', {
   variants: {
     spacing: {
@@ -20,9 +16,6 @@ const dlStyles = cva('mb-4', {
   },
 });
 
-/**
- * dt / dd のテキストサイズを variant で制御
- */
 const dtStyles = cva('font-semibold', {
   variants: {
     textSize: {

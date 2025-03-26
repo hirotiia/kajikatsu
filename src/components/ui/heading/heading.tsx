@@ -33,7 +33,11 @@ const headingVariants = cva('font-bold', {
     },
     underline: {
       false: '',
-      true: 'relative pb-2 after:absolute after:bottom-0 after:h-[2px] after:w-[50px] after:bg-current after:content-[""] md:pb-3',
+      true: 'relative pb-2 after:absolute after:bottom-0 after:bg-current after:content-[""] md:pb-3',
+    },
+    underlineSize: {
+      sm: 'after:h-[2px] after:w-[50px]',
+      full: 'after:h-[2px] after:w-full',
     },
     align: {
       left: 'text-left after:left-0 after:-translate-x-0',
@@ -45,6 +49,7 @@ const headingVariants = cva('font-bold', {
     size: 'h2',
     margin: 'h2',
     underline: false,
+    underlineSize: 'sm',
     align: 'left',
   },
 });
@@ -59,6 +64,7 @@ export const Heading = ({
   className,
   variant,
   underline,
+  underlineSize,
   align,
 }: Props) => {
   return (
@@ -70,6 +76,7 @@ export const Heading = ({
           margin: Tag,
           className,
           underline,
+          underlineSize,
           align,
         }),
       )}
