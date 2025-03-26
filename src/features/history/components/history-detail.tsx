@@ -23,7 +23,6 @@ export const HistoryDetail = async ({
   if (!data) {
     notFound();
   }
-  console.log(data.details);
 
   const formattedDate = toJstString(data.changedAt);
 
