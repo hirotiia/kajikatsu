@@ -1,6 +1,5 @@
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
-import { JSX } from 'react';
 
 import { Box } from '@/components/ui/box';
 import { Heading } from '@/components/ui/heading';
@@ -21,10 +20,10 @@ export const HistoryDetail = async ({
   className,
 }: HistoryDetailProps) => {
   const data = await fetchTaskHistoryById(historyId);
-
   if (!data) {
     notFound();
   }
+  console.log(data.details);
 
   const formattedDate = toJstString(data.changedAt);
 
@@ -70,7 +69,6 @@ export const HistoryDetail = async ({
               />
             </Box>
           </div>
-          <ChangesList changes={data.details.changes} />
         </>
       )}
 
@@ -91,6 +89,9 @@ export const HistoryDetail = async ({
   );
 };
 
+/* -------------------------------
+ *  TaskDetails
+ * ----------------------------- */
 type ChangeItem = {
   field: string;
   oldValue: string | null;
@@ -103,152 +104,106 @@ type TaskDetailsProps = {
   isOld?: boolean;
 };
 
+/**
+ * 「タスク詳細」を DefinitionList で表示
+ * - 主キーをユーザー名等に置き換える処理 → 値が無い場合の補完 → 差分検知(赤線/緑字)
+ */
 const TaskDetails = async ({
   task,
   changes = [],
   isOld = false,
 }: TaskDetailsProps) => {
   if (!task) return null;
-  const items: DefinitionListItem[] = [];
 
-  async function getDisplayValue(fieldKey: string, defaultValue: string) {
+  const items: DefinitionListItem[] = [];
+  const FIELD_CONFIG: Array<{
+    fieldKey: string;
+    label: string;
+    defaultValue: string;
+    multiline?: boolean;
+    transform?: (val: any, task: any) => Promise<string>;
+  }> = [
+    {
+      fieldKey: 'title',
+      label: 'タイトル',
+      defaultValue: 'なし',
+    },
+    {
+      fieldKey: 'description',
+      label: '説明',
+      defaultValue: 'なし',
+      multiline: true,
+    },
+    {
+      fieldKey: 'status_id',
+      label: 'ステータス',
+      defaultValue: 'なし',
+      transform: async (_, t) => t.status?.name ?? '不明',
+    },
+    {
+      fieldKey: 'assignee_id',
+      label: '担当者',
+      defaultValue: 'なし',
+
+      transform: async (value, t) => {
+        if (!value && t.assignee?.username) {
+          return t.assignee.username;
+        }
+
+        if (value) {
+          const name = await fetchUserNameById(value);
+          return name ?? '不明ユーザー';
+        }
+        return 'なし';
+      },
+    },
+    {
+      fieldKey: 'group_id',
+      label: 'グループ',
+      defaultValue: '未加入',
+      transform: async (_, t) => t.group?.name ?? '未加入',
+    },
+    {
+      fieldKey: 'expires_at',
+      label: '期限',
+      defaultValue: 'なし',
+      transform: async (_, t) =>
+        t.expiresAt ? toJstString(t.expiresAt) : 'なし',
+    },
+  ];
+
+  for (const config of FIELD_CONFIG) {
+    const { fieldKey, label, defaultValue, multiline, transform } = config;
+    const rawVal = task[fieldKey] ?? '';
+
+    let transformedVal = rawVal || defaultValue;
+    if (typeof transform === 'function') {
+      transformedVal = await transform(rawVal, task);
+    }
+
     const changedItem = changes.find((c) => c.field === fieldKey);
-    let rawValue = task[fieldKey] || defaultValue;
-    let textClasses = '';
+    let finalVal = transformedVal;
+    let textClass = '';
 
     if (changedItem) {
-      rawValue = isOld
-        ? changedItem.oldValue || defaultValue
-        : changedItem.newValue || defaultValue;
-
-      textClasses = isOld ? 'text-red-500 line-through' : 'text-green-600';
+      const base = isOld ? changedItem.oldValue : changedItem.newValue;
+      finalVal = base || defaultValue;
+      textClass = isOld ? 'text-red-500 line-through' : 'text-green-600';
     }
 
-    return {
-      rawValue,
-      textClasses,
-    };
-  }
-
-  function makeItem(term: string, content: JSX.Element) {
     items.push({
-      term,
-      definitions: [content],
+      term: label,
+      definitions: [
+        <span
+          key={fieldKey}
+          className={textClass}
+          style={multiline ? { whiteSpace: 'pre-wrap' } : {}}
+        >
+          {finalVal}
+        </span>,
+      ],
     });
-  }
-
-  if ('title' in task) {
-    const { rawValue, textClasses } = await getDisplayValue('title', 'なし');
-    makeItem(
-      'タイトル',
-      <span key="title-value" className={textClasses}>
-        {rawValue}
-      </span>,
-    );
-  }
-
-  if ('description' in task) {
-    const fieldKey = 'description';
-    const { rawValue, textClasses } = await getDisplayValue(fieldKey, 'なし');
-    makeItem(
-      '説明',
-      <span
-        key={`${fieldKey}-value`}
-        className={textClasses}
-        style={{ whiteSpace: 'pre-wrap' }}
-      >
-        {rawValue}
-      </span>,
-    );
-  }
-
-  if (task.status) {
-    const { textClasses } = await getDisplayValue('status_id', 'なし');
-    makeItem(
-      'ステータス',
-      <span key="status-value" className={textClasses}>
-        {task.status.name || '不明'}
-      </span>,
-    );
-  }
-
-  {
-    const { rawValue, textClasses } = await getDisplayValue(
-      'assignee_id',
-      'なし',
-    );
-
-    let displayUser = rawValue;
-
-    const userName = await fetchUserNameById(rawValue);
-    displayUser = userName || '不明ユーザー';
-
-    if (changes.length === 0 && task.assignee?.username) {
-      displayUser = task.assignee.username;
-    }
-
-    makeItem(
-      '担当者',
-      <span key="assignee-value" className={textClasses}>
-        {displayUser}
-      </span>,
-    );
-  }
-
-  if (task.group) {
-    const { textClasses } = await getDisplayValue('group_id', '未加入');
-    const displayGroupName = task.group.name || '未加入';
-
-    makeItem(
-      'グループ',
-      <span key="group-value" className={textClasses}>
-        {displayGroupName}
-      </span>,
-    );
-  } else {
-    items.push({
-      term: 'グループ',
-      definitions: ['未加入'],
-    });
-  }
-
-  {
-    const { rawValue, textClasses } = await getDisplayValue(
-      'expires_at',
-      'なし',
-    );
-
-    const dateText = task.expiresAt ? toJstString(task.expiresAt) : rawValue;
-
-    makeItem(
-      '期限',
-      <span key="expiresAt-value" className={textClasses}>
-        {dateText}
-      </span>,
-    );
   }
 
   return <DefinitionList items={items} />;
-};
-
-const ChangesList = ({ changes }: { changes: ChangeItem[] }) => {
-  if (!changes || changes.length === 0) return null;
-
-  return (
-    <div className="mt-4">
-      <Heading as="h3">変更内容</Heading>
-      <ul className="list-disc space-y-1 pl-5">
-        {changes.map((change, index) => (
-          <li key={`${change.field}-${index}`} className="text-sm">
-            <span className="font-medium">{change.field}:</span>
-            <span className="text-destructive line-through">
-              {change.oldValue || 'なし'}
-            </span>
-            <span className="text-gray-500">→</span>
-            <span className="text-green-600">{change.newValue || 'なし'}</span>
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
 };

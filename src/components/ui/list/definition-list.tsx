@@ -72,11 +72,11 @@ export function DefinitionList({
 }: DefinitionListProps) {
   return (
     <dl className={cn(dlStyles({ spacing }), className)}>
-      {items.map(({ term, definitions }, idx) => (
-        <React.Fragment key={idx}>
+      {items.map(({ term, definitions }) => (
+        <React.Fragment key={term}>
           <dt className={cn(dtStyles({ textSize }))}>{term}</dt>
           {definitions.map((definition, idx) => (
-            <dd key={idx} className={cn(ddStyles({ textSize }))}>
+            <dd key={`${term}-${idx}`} className={cn(ddStyles({ textSize }))}>
               {definition}
             </dd>
           ))}
