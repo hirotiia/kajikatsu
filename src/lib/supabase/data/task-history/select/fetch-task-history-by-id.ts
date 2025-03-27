@@ -42,21 +42,23 @@ export async function fetchTaskHistoryById(
     ? await enhanceTaskDetails(details.new, supabase)
     : null;
 
-  // 変更点を特定
-  const changes = identifyChanges(details.old, details.new);
+  let actionName = actionData?.action_name;
+
+  if (
+    actionName === 'updated' &&
+    enhancedOld &&
+    enhancedNew &&
+    enhancedOld.status.name !== '完了' &&
+    enhancedNew.status.name === '完了'
+  ) {
+    actionName = 'completed';
+  }
 
   const enhancedTaskHistory: EnhancedTaskHistory = {
-    id: taskHistoryData.id,
-    task: {
-      id: taskHistoryData.task_id,
-      title: enhancedNew?.title || enhancedOld?.title || 'Unknown Task',
-    },
     action: {
-      id: taskHistoryData.action_id,
-      name: actionData?.action_name,
+      name: actionName,
     },
     changedBy: {
-      id: taskHistoryData.changed_by,
       username: changedByUser?.username || 'Unknown User',
       avatarUrl: changedByUser?.avatar_url || '',
     },
@@ -64,7 +66,6 @@ export async function fetchTaskHistoryById(
     details: {
       old: enhancedOld,
       new: enhancedNew,
-      changes,
     },
   };
 
@@ -81,22 +82,8 @@ async function enhanceTaskDetails(
   // ステータス情報の取得
   const { data: statusData } = await supabase
     .from('statuses')
-    .select('id, status_name')
+    .select('status_name')
     .eq('id', taskDetails.status_id)
-    .single();
-
-  // 作成者情報の取得
-  const { data: createdByUser } = await supabase
-    .from('users')
-    .select('id, username')
-    .eq('id', taskDetails.created_by)
-    .single();
-
-  // 更新者情報の取得
-  const { data: updatedByUser } = await supabase
-    .from('users')
-    .select('id, username')
-    .eq('id', taskDetails.updated_by)
     .single();
 
   // 担当者情報の取得（存在する場合）
@@ -104,7 +91,7 @@ async function enhanceTaskDetails(
   if (taskDetails.assignee_id) {
     const { data } = await supabase
       .from('users')
-      .select('id, username')
+      .select('username')
       .eq('id', taskDetails.assignee_id)
       .single();
     assigneeData = data;
@@ -113,107 +100,24 @@ async function enhanceTaskDetails(
   // グループ情報の取得
   const { data: groupData } = await supabase
     .from('groups')
-    .select('id, name')
+    .select('name')
     .eq('id', taskDetails.group_id)
     .single();
 
   return {
-    id: taskDetails.id,
     title: taskDetails.title,
-    description: taskDetails.description,
+    description: taskDetails.description ?? '',
     status: {
-      id: taskDetails.status_id,
       name: statusData?.status_name || 'Unknown Status',
     },
-    isDeleted: taskDetails.is_deleted,
-    createdBy: {
-      id: taskDetails.created_by,
-      username: createdByUser?.username || 'Unknown User',
-    },
-    createdAt: taskDetails.created_at,
-    updatedBy: {
-      id: taskDetails.updated_by,
-      username: updatedByUser?.username || 'Unknown User',
-    },
-    updatedAt: taskDetails.updated_at,
     expiresAt: taskDetails.expires_at,
     assignee: assigneeData
       ? {
-          id: assigneeData.id,
           username: assigneeData.username,
         }
       : null,
     group: {
-      id: taskDetails.group_id,
       name: groupData?.name || 'Unknown Group',
     },
   };
-}
-
-/**
- * oldとnewの状態を比較して変更点を識別する
- */
-function identifyChanges(
-  oldData: any,
-  newData: any,
-): Array<{ field: string; oldValue: any; newValue: any; fieldLabel: string }> {
-  if (!oldData || !newData) {
-    return [];
-  }
-
-  const changes: Array<{
-    field: string;
-    oldValue: any;
-    newValue: any;
-    fieldLabel: string;
-  }> = [];
-  const fieldLabels: Record<string, string> = {
-    title: 'タイトル',
-    description: '説明',
-    status_id: 'ステータス',
-    is_deleted: '削除フラグ',
-    expires_at: '期限日',
-    assignee_id: '担当者',
-    group_id: 'グループ',
-  };
-
-  // oldとnewの状態を比較
-  Object.keys(fieldLabels).forEach((field) => {
-    if (JSON.stringify(oldData[field]) !== JSON.stringify(newData[field])) {
-      changes.push({
-        field,
-        oldValue: oldData[field],
-        newValue: newData[field],
-        fieldLabel: fieldLabels[field],
-      });
-    }
-  });
-
-  return changes;
-}
-
-/**
- * 表示用に変更をフォーマットする関数 (UIコンポーネントで使用)
- */
-export function formatChangeValue(
-  field: string,
-  value: any,
-  enhancedDetails: EnhancedTaskDetails | null,
-): string {
-  if (value === null) return '未設定';
-
-  switch (field) {
-    case 'status_id':
-      return enhancedDetails?.status.name || '不明なステータス';
-    case 'assignee_id':
-      return enhancedDetails?.assignee?.username || '未割り当て';
-    case 'is_deleted':
-      return value ? '削除済み' : '有効';
-    case 'expires_at':
-      return value ? new Date(value).toLocaleDateString('ja-JP') : '期限なし';
-    case 'group_id':
-      return enhancedDetails?.group.name || '不明なグループ';
-    default:
-      return String(value);
-  }
 }

@@ -38,17 +38,10 @@ export type TaskDetails = {
 };
 
 export type EnhancedTaskHistory = {
-  id: string;
-  task: {
-    id: string;
-    title: string;
-  };
   action: {
-    id: string;
     name: 'updated' | 'completed' | 'created' | 'deleted' | undefined;
   };
   changedBy: {
-    id: string;
     username: string;
     avatarUrl: string | null;
   };
@@ -56,41 +49,20 @@ export type EnhancedTaskHistory = {
   details: {
     old: EnhancedTaskDetails | null;
     new: EnhancedTaskDetails | null;
-    changes: Array<{
-      field: string;
-      oldValue: any;
-      newValue: any;
-      fieldLabel: string;
-    }>;
   };
 };
 
 export type EnhancedTaskDetails = {
-  id: string;
   title: string;
   description: string | '';
   status: {
-    id: string;
     name: string;
   };
-  isDeleted: boolean;
-  createdBy: {
-    id: string;
-    username: string;
-  };
-  createdAt: string;
-  updatedBy: {
-    id: string;
-    username: string;
-  };
-  updatedAt: string;
   expiresAt: string | null;
   assignee: {
-    id: string;
     username: string;
   } | null;
   group: {
-    id: string;
     name: string;
   };
 };

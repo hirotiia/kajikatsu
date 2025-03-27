@@ -4,11 +4,15 @@ import { notFound } from 'next/navigation';
 import { Box } from '@/components/ui/box';
 import { Heading } from '@/components/ui/heading';
 import { Label } from '@/components/ui/label';
-import { DefinitionListItem, DefinitionList } from '@/components/ui/list';
+import { DefinitionList } from '@/components/ui/list';
 import { fetchTaskHistoryById } from '@/lib/supabase/data/task-history/select/fetch-task-history-by-id';
-import { fetchUserNameById } from '@/lib/supabase/data/users/fetch-user-name-by-id';
 import { cn } from '@/utils/cn';
 import { toJstString } from '@/utils/to-jst-string';
+
+import {
+  formatTaskHistoryForDefinitionList,
+  formatTaskHistoryComparisonForDefinitionList,
+} from './format-task-hisotry-for-definition-list';
 
 type HistoryDetailProps = {
   historyId: string;
@@ -19,190 +23,121 @@ export const HistoryDetail = async ({
   historyId,
   className,
 }: HistoryDetailProps) => {
-  const data = await fetchTaskHistoryById(historyId);
-  if (!data) {
+  const taskHistory = await fetchTaskHistoryById(historyId);
+  if (!taskHistory) {
     notFound();
   }
 
-  const formattedDate = toJstString(data.changedAt);
+  const formattedDate = toJstString(taskHistory.changedAt);
 
   return (
     <div className={cn('', className)}>
       <div className="mb-4 flex items-center gap-2">
         <div className="flex items-center gap-2">
-          {data.changedBy.avatarUrl && (
+          {taskHistory.changedBy.avatarUrl && (
             <Image
-              src={data.changedBy.avatarUrl}
-              alt={`${data.changedBy.username}さんのアバター`}
+              src={taskHistory.changedBy.avatarUrl}
+              alt={`${taskHistory.changedBy.username}さんのアバター`}
               className="size-8 rounded-full"
               width={30}
               height={30}
             />
           )}
-          <span>{data.changedBy.username}</span>
+          <span>{taskHistory.changedBy.username}</span>
         </div>
         <span className="text-sm text-gray-500">{formattedDate}</span>
-        <Label variant={data.action.name}>{data.action.name}</Label>
+        <Label variant={taskHistory.action.name}>
+          {formatActionName(taskHistory.action.name)}
+        </Label>
       </div>
 
-      {data.action.name === 'updated' && (
+      {taskHistory.action.name === 'updated' && (
         <>
           <div className="flex flex-col gap-3 md:flex-row">
             <Box mt="none" className="flex-1">
               <Heading as="h3" underline underlineSize="full">
                 変更前
               </Heading>
-              <TaskDetails
-                task={data.details.old}
-                changes={data.details.changes}
-                isOld
-              />
+              {renderUpdateComparison(taskHistory, true)}
             </Box>
             <Box mt="none" className="flex-1">
               <Heading as="h3" underline underlineSize="full">
                 変更後
               </Heading>
-              <TaskDetails
-                task={data.details.new}
-                changes={data.details.changes}
-              />
+              {renderUpdateComparison(taskHistory, false)}
             </Box>
           </div>
         </>
       )}
 
-      {data.action.name === 'created' && (
+      {taskHistory.action.name === 'created' && (
         <Box>
-          <Heading as="h3">作成されたタスク</Heading>
-          <TaskDetails task={data.details.new} />
+          <Heading as="h3" underline underlineSize="full">
+            作成されたタスク
+          </Heading>
+          <DefinitionList
+            items={formatTaskHistoryForDefinitionList(taskHistory)}
+          />
         </Box>
       )}
 
-      {data.action.name === 'deleted' && (
+      {taskHistory.action.name === 'deleted' && (
         <Box>
-          <Heading as="h3">削除されたタスク</Heading>
-          <TaskDetails task={data.details.old} />
+          <Heading as="h3" underline underlineSize="full">
+            削除されたタスク
+          </Heading>
+          <DefinitionList
+            items={formatTaskHistoryForDefinitionList(taskHistory, true)}
+          />
+        </Box>
+      )}
+
+      {taskHistory.action.name === 'completed' && (
+        <Box>
+          <Heading as="h3" underline underlineSize="full">
+            完了したタスク
+          </Heading>
+          <DefinitionList
+            items={formatTaskHistoryForDefinitionList(taskHistory)}
+          />
         </Box>
       )}
     </div>
   );
 };
 
-/* -------------------------------
- *  TaskDetails
- * ----------------------------- */
-type ChangeItem = {
-  field: string;
-  oldValue: string | null;
-  newValue: string | null;
-};
-
-type TaskDetailsProps = {
-  task: any;
-  changes?: ChangeItem[];
-  isOld?: boolean;
-};
+/**
+ * アクション名を日本語表示に変換する
+ */
+function formatActionName(
+  actionName: 'updated' | 'completed' | 'created' | 'deleted' | undefined,
+): string {
+  switch (actionName) {
+    case 'updated':
+      return '更新';
+    case 'completed':
+      return '完了';
+    case 'created':
+      return '作成';
+    case 'deleted':
+      return '削除';
+    default:
+      return 'その他';
+  }
+}
 
 /**
- * 「タスク詳細」を DefinitionList で表示
- * - 主キーをユーザー名等に置き換える処理 → 値が無い場合の補完 → 差分検知(赤線/緑字)
+ * 変更前後の比較を表示するコンポーネント
  */
-const TaskDetails = async ({
-  task,
-  changes = [],
-  isOld = false,
-}: TaskDetailsProps) => {
-  if (!task) return null;
+function renderUpdateComparison(taskHistory: any, isOld: boolean) {
+  const { beforeItems, afterItems } =
+    formatTaskHistoryComparisonForDefinitionList(taskHistory);
 
-  const items: DefinitionListItem[] = [];
-  const FIELD_CONFIG: Array<{
-    fieldKey: string;
-    label: string;
-    defaultValue: string;
-    multiline?: boolean;
-    transform?: (val: any, task: any) => Promise<string>;
-  }> = [
-    {
-      fieldKey: 'title',
-      label: 'タイトル',
-      defaultValue: 'なし',
-    },
-    {
-      fieldKey: 'description',
-      label: '説明',
-      defaultValue: 'なし',
-      multiline: true,
-    },
-    {
-      fieldKey: 'status_id',
-      label: 'ステータス',
-      defaultValue: 'なし',
-      transform: async (_, t) => t.status?.name ?? '不明',
-    },
-    {
-      fieldKey: 'assignee_id',
-      label: '担当者',
-      defaultValue: 'なし',
-
-      transform: async (value, t) => {
-        if (!value && t.assignee?.username) {
-          return t.assignee.username;
-        }
-
-        if (value) {
-          const name = await fetchUserNameById(value);
-          return name ?? '不明ユーザー';
-        }
-        return 'なし';
-      },
-    },
-    {
-      fieldKey: 'group_id',
-      label: 'グループ',
-      defaultValue: '未加入',
-      transform: async (_, t) => t.group?.name ?? '未加入',
-    },
-    {
-      fieldKey: 'expires_at',
-      label: '期限',
-      defaultValue: 'なし',
-      transform: async (_, t) =>
-        t.expiresAt ? toJstString(t.expiresAt) : 'なし',
-    },
-  ];
-
-  for (const config of FIELD_CONFIG) {
-    const { fieldKey, label, defaultValue, multiline, transform } = config;
-    const rawVal = task[fieldKey] ?? '';
-
-    let transformedVal = rawVal || defaultValue;
-    if (typeof transform === 'function') {
-      transformedVal = await transform(rawVal, task);
-    }
-
-    const changedItem = changes.find((c) => c.field === fieldKey);
-    let finalVal = transformedVal;
-    let textClass = '';
-
-    if (changedItem) {
-      const base = isOld ? changedItem.oldValue : changedItem.newValue;
-      finalVal = base || defaultValue;
-      textClass = isOld ? 'text-red-500 line-through' : 'text-green-600';
-    }
-
-    items.push({
-      term: label,
-      definitions: [
-        <span
-          key={fieldKey}
-          className={textClass}
-          style={multiline ? { whiteSpace: 'pre-wrap' } : {}}
-        >
-          {finalVal}
-        </span>,
-      ],
-    });
-  }
-
-  return <DefinitionList items={items} />;
-};
+  return (
+    <DefinitionList
+      items={isOld ? beforeItems : afterItems}
+      spacing="md"
+      textSize="sm"
+    />
+  );
+}
