@@ -21,7 +21,7 @@ const dtStyles = cva('font-semibold', {
   },
 });
 
-const ddContainerStyles = cva('grid grid-cols-subgrid gap-y-2');
+const ddContainerStyles = cva('grid gap-y-2');
 
 const ddStyles = cva('', {
   variants: {
