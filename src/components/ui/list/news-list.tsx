@@ -31,23 +31,26 @@ export const NewsList = ({ items = [], className }: NewsListProps) => {
             className="col-span-3 grid grid-cols-subgrid gap-2 border-b border-foreground pb-3 last:border-b-0 last:pb-0"
           >
             {avatarUrl ? (
-              <Image
-                src={avatarUrl}
-                alt="ユーザーアバター"
-                width={30}
-                height={30}
-                className="rounded-full"
-              />
+              <div className="size-[30px] overflow-hidden rounded-full">
+                <Image
+                  src={avatarUrl}
+                  alt="ユーザーアバター"
+                  width={30}
+                  height={30}
+                />
+              </div>
             ) : (
               <Frown size={30} className="rounded-full">
                 アイコン未登録のユーザー
               </Frown>
             )}
 
-            <time dateTime={isoDate}>{displayDate}</time>
+            <time dateTime={isoDate} className="text-sm md:text-base">
+              {displayDate}
+            </time>
             <Link
               href={link}
-              className="custom-transition w-full hover:text-primary"
+              className="custom-transition w-full text-sm hover:text-primary md:text-base"
               prefetch
             >
               <b>{title}</b>
