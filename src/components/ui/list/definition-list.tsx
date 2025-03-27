@@ -3,17 +3,8 @@ import React, { JSX } from 'react';
 
 import { cn } from '@/utils/cn';
 
-const dlStyles = cva('mb-4', {
-  variants: {
-    spacing: {
-      sm: 'space-y-2',
-      md: 'space-y-4',
-      lg: 'space-y-6',
-    },
-  },
-  defaultVariants: {
-    spacing: 'md',
-  },
+const dlStyles = cva('grid grid-cols-[auto_1fr] gap-x-4', {
+  variants: {},
 });
 
 const dtStyles = cva('font-semibold', {
@@ -28,7 +19,7 @@ const dtStyles = cva('font-semibold', {
   },
 });
 
-const ddStyles = cva('ml-4', {
+const ddStyles = cva('', {
   variants: {
     textSize: {
       sm: 'text-sm md:text-base',
@@ -45,14 +36,12 @@ export type DefinitionListItem = {
   definitions: (string | JSX.Element)[];
 };
 
-type DLVariants = VariantProps<typeof dlStyles>;
 type DTVariants = VariantProps<typeof dtStyles>;
 
 export type DefinitionListProps = {
   /** 定義リストの項目配列 */
   items: DefinitionListItem[];
   className?: string;
-  spacing?: DLVariants['spacing'];
   textSize?: DTVariants['textSize'];
 };
 
@@ -67,14 +56,13 @@ export type DefinitionListProps = {
 export function DefinitionList({
   items,
   className,
-  spacing = 'md',
   textSize = 'sm',
 }: DefinitionListProps) {
   return (
-    <dl className={cn(dlStyles({ spacing }), className)}>
+    <dl className={cn(dlStyles({}), className)}>
       {items.map(({ term, definitions }) => (
         <React.Fragment key={term}>
-          <dt className={cn(dtStyles({ textSize }))}>{term}</dt>
+          <dt className={cn(dtStyles({ textSize }))}>{term}：</dt>
           {definitions.map((definition, idx) => (
             <dd key={`${term}-${idx}`} className={cn(ddStyles({ textSize }))}>
               {definition}

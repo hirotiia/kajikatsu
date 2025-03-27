@@ -134,10 +134,6 @@ function renderUpdateComparison(taskHistory: any, isOld: boolean) {
     formatTaskHistoryComparisonForDefinitionList(taskHistory);
 
   return (
-    <DefinitionList
-      items={isOld ? beforeItems : afterItems}
-      spacing="md"
-      textSize="sm"
-    />
+    <DefinitionList items={isOld ? beforeItems : afterItems} textSize="sm" />
   );
 }

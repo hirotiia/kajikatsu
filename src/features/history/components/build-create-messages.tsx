@@ -14,7 +14,7 @@ export function buildCreatedMessage(newTask: any): string | React.JSX.Element {
       <p>
         <b>【作成されたタスク】</b>
       </p>
-      <DefinitionList items={items} spacing="md" />
+      <DefinitionList items={items} />
     </div>
   );
 }

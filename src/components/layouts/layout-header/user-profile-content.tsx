@@ -25,7 +25,6 @@ export const UserProfileContent = async () => {
       </p>
       <DefinitionList
         className="pl-1 md:pl-3"
-        spacing="sm"
         items={[
           {
             term: 'グループ名',

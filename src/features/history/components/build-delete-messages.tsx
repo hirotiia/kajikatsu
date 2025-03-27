@@ -14,7 +14,7 @@ export function buildDeletedMessage(oldTask: any): string | React.JSX.Element {
       <p>
         <b>【削除されたタスク】</b>
       </p>
-      <DefinitionList items={items} spacing="md" />
+      <DefinitionList items={items} />
     </div>
   );
 }
