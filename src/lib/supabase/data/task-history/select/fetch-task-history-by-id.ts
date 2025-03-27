@@ -42,21 +42,9 @@ export async function fetchTaskHistoryById(
     ? await enhanceTaskDetails(details.new, supabase)
     : null;
 
-  let actionName = actionData?.action_name;
-
-  if (
-    actionName === 'updated' &&
-    enhancedOld &&
-    enhancedNew &&
-    enhancedOld.status.name !== '完了' &&
-    enhancedNew.status.name === '完了'
-  ) {
-    actionName = 'completed';
-  }
-
   const enhancedTaskHistory: EnhancedTaskHistory = {
     action: {
-      name: actionName,
+      name: actionData?.action_name,
     },
     changedBy: {
       username: changedByUser?.username || 'Unknown User',

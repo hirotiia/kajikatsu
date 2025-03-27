@@ -123,6 +123,9 @@ export const HistoryContent = async () => {
       case 'deleted':
         actionLabel = 'タスクを削除';
         break;
+      case 'completed':
+        actionLabel = 'タスクを完了';
+        break;
       default:
         actionLabel = '操作';
         break;
