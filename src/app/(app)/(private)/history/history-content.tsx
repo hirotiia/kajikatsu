@@ -1,4 +1,4 @@
-import { notFound } from 'next/navigation';
+import { redirect } from 'next/navigation';
 import { JSX } from 'react';
 
 import { buildCreatedMessage } from '@/features/history/components/build-create-messages';
@@ -23,22 +23,13 @@ type HistoryItem = {
 };
 
 export const HistoryContent = async () => {
-  const { user, authError } = await getUser();
-
-  if (authError || !user) {
-    notFound();
-  }
-
+  const { user } = await getUser();
   const userId = user?.id ?? null;
+
   if (!userId) {
-    notFound();
+    redirect('/login');
   }
   const userData = await fetchUserData(userId);
-
-  if (!userData?.group?.id) {
-    notFound();
-  }
-
   const historyData = await fetchTaskHistory({
     userId,
     groupId: userData?.group?.id,
