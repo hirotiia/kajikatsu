@@ -3,7 +3,11 @@ import React, { JSX } from 'react';
 
 import { cn } from '@/utils/cn';
 
-const dlStyles = cva('grid grid-cols-[auto_1fr] gap-x-4 gap-y-2');
+const dlStyles = cva('grid gap-y-4');
+
+const itemStyles = cva(
+  'grid grid-cols-[85px_1fr] gap-x-1 md:grid-cols-[100px_1fr] md:gap-x-4',
+);
 
 const dtStyles = cva('font-semibold', {
   variants: {
@@ -16,6 +20,8 @@ const dtStyles = cva('font-semibold', {
     textSize: 'sm',
   },
 });
+
+const ddContainerStyles = cva('grid grid-cols-subgrid gap-y-2');
 
 const ddStyles = cva('', {
   variants: {
@@ -45,8 +51,8 @@ export type DefinitionListProps = {
 /**
  * DefinitionList コンポーネント
  *
- * グリッドレイアウトを使用して用語と定義を整列させる
- * 用語の後にコロンを表示し、定義は複数行に対応
+ * 各項目が横並びになり、複数の定義がある場合は縦に積み重なる
+ * dtとddは横並びで、複数のddは縦積みになる
  */
 export function DefinitionList({
   items,
@@ -61,14 +67,20 @@ export function DefinitionList({
         if (!definitions?.length) return null;
 
         return (
-          <React.Fragment key={term}>
+          <div key={term} className={cn(itemStyles())}>
             <dt className={cn(dtStyles({ textSize }))}>{term}：</dt>
-            {definitions.map((definition, idx) => (
-              <dd key={`${term}-${idx}`} className={cn(ddStyles({ textSize }))}>
-                {definition}
-              </dd>
-            ))}
-          </React.Fragment>
+
+            <div className={cn(ddContainerStyles())}>
+              {definitions.map((definition, idx) => (
+                <dd
+                  key={`${term}-${idx}`}
+                  className={cn(ddStyles({ textSize }))}
+                >
+                  {definition}
+                </dd>
+              ))}
+            </div>
+          </div>
         );
       })}
     </dl>
