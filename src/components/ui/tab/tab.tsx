@@ -128,7 +128,7 @@ const TabHeader = ({ className, ariaLabel, tabs }: TabHeaderProps) => {
               ref={refs.current[key]}
               tabIndex={key === currentKey ? 0 : -1}
               className={cn(
-                'w-full text-sm px-4 py-2 text-center border border-transparent focus:outline-none focus:border-foreground',
+                'size-full text-sm px-4 py-2 text-center border border-transparent focus:outline-none focus:border-foreground',
                 key === currentKey
                   ? 'bg-primary text-background'
                   : 'bg-primary-foreground text-primary custom-transition hover:bg-primary hover:text-primary-foreground',
