@@ -33,7 +33,7 @@ export async function fetchUserData(
       userId = user.id;
     }
 
-    const { data: groupData, error: groupError } = await supabase
+    const { data: groupData } = await supabase
       .from('user_groups')
       .select(
         `
@@ -46,10 +46,6 @@ export async function fetchUserData(
       )
       .eq('user_id', userId)
       .single();
-
-    if (groupError) {
-      console.error('グループ情報の取得に失敗しました:', groupError);
-    }
 
     if (!groupData) {
       // 追加で users テーブルを問い合わせ、個別ユーザー情報を取得
