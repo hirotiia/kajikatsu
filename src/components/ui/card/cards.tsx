@@ -5,6 +5,7 @@ import ReactMarkdown from 'react-markdown';
 import { Text } from '@/components/ui/text';
 import { Task } from '@/types/task.types';
 import { cn } from '@/utils/cn';
+import { toFormatJST } from '@/utils/to-jst-string';
 
 type Card = Omit<Task, 'createdAt' | 'updatedAt' | 'assigneeId'>;
 
@@ -39,6 +40,7 @@ export function Cards({
       {items.map((item) => {
         const { id, title, description, expiresAt, statusName } = item;
         const actionButtons = renderActions?.(item) ?? [];
+        const formatedExpiresAt = toFormatJST(expiresAt);
 
         return (
           <li
@@ -62,7 +64,7 @@ export function Cards({
             )}
 
             <p className="mt-1 text-xs text-destructive">
-              期限：{expiresAt ?? '設定なし'}
+              期限：{formatedExpiresAt ?? '設定なし'}
             </p>
 
             {statusName && (

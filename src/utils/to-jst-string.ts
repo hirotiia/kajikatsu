@@ -56,8 +56,8 @@ export const toJstIsoString = (timestamp: string): string => {
  * @param timestamp - UTCタイムスタンプ文字列 (例: "2025-01-28T08:01:02.490806")
  * @returns {string} - 日本時間でフォーマットされた日時文字列 (例: "2025/01/28 14:30:45")
  */
-export function toFormatJST(timestamp: string | Date | null): string {
-  if (!timestamp) return '';
+export function toFormatJST(timestamp: string | Date | null): string | null {
+  if (!timestamp) return null;
 
   try {
     let normalizedTimestamp = timestamp;
