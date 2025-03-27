@@ -59,3 +59,7 @@ export const resetPasswordSchema = z
     message: 'パスワードが一致していません',
     path: ['confirmPassword'],
   });
+
+export const createGroupSchema = z.object({
+  group: z.string().nonempty('グループ名が入力されていません。'),
+});

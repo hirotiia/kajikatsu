@@ -25,15 +25,15 @@ export const CreateGroup = () => {
   );
 
   useEffect(() => {
-    if (state.status !== undefined) {
-      addNotification(state);
-
+    if (
+      state.type === 'success' ||
+      (state.type === 'error' && !state.fieldErrors)
+    ) {
+      if (state.message) {
+        addNotification(state);
+      }
       openerDialog.close();
     }
-
-    return () => {
-      state.status = null;
-    };
   }, [state, addNotification, openerDialog]);
 
   return (
@@ -56,10 +56,10 @@ export const CreateGroup = () => {
             name="group"
             type="text"
             className=""
-            error={['グループ名を入力してください']}
+            error={state.fieldErrors?.group ?? []}
             required
           />
-          <Button disabled={isPending}>
+          <Button disabled={isPending} className="mt-6">
             {isPending ? '作成中です...' : 'グループを作成する'}
           </Button>
         </form>
