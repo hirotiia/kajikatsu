@@ -115,16 +115,16 @@ export const HistoryContent = async () => {
     let actionLabel = '';
     switch (item.action) {
       case 'created':
-        actionLabel = '新しいタスクを作成';
+        actionLabel = '新しいおしごとを作成';
         break;
       case 'updated':
-        actionLabel = 'タスクを更新';
+        actionLabel = 'おしごとを更新';
         break;
       case 'deleted':
-        actionLabel = 'タスクを削除';
+        actionLabel = 'おしごとを削除';
         break;
       case 'completed':
-        actionLabel = 'タスクを完了';
+        actionLabel = 'おしごとを完了';
         break;
       default:
         actionLabel = '操作';

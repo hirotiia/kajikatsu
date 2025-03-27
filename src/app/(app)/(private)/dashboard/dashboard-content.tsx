@@ -52,7 +52,7 @@ export const DashboardContent = async () => {
             />
           </Box>
 
-          <Heading>グループメンバーごとのタスク</Heading>
+          <Heading>グループメンバーごとのおしごと</Heading>
 
           <RenderMembersTasks
             groupId={userData?.group?.id}
