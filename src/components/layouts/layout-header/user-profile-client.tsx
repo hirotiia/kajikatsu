@@ -60,6 +60,7 @@ export const UserProfileClient = ({ content }: UserProfileClientProps) => {
                     disabled={isPending}
                     size="full"
                     rounded="md"
+                    className="mt-6"
                   >
                     {isPending ? 'Signing out...' : 'Sign out'}
                   </Button>
