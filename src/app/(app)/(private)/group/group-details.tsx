@@ -29,7 +29,7 @@ export const GroupDetails = async () => {
           },
         ]}
       />
-      <div className="flex gap-3">
+      <div className="mt-6 flex gap-3">
         {groupName ? (
           <>
             <InviteGroup />
