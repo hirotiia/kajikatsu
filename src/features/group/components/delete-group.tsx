@@ -1,7 +1,8 @@
 'use client';
 
 import { Trash2 } from 'lucide-react';
-import { useActionState, useEffect } from 'react';
+import { useActionState, useEffect, useRef } from 'react';
+import { useDispatch } from 'react-redux';
 
 import { deleteGroup } from '@/actions/group/delete-group';
 import { Button } from '@/components/ui/button';
@@ -9,6 +10,8 @@ import { Dialog } from '@/components/ui/dialog';
 import { useNotifications } from '@/components/ui/notifications';
 import { Text } from '@/components/ui/text';
 import { useOpener } from '@/hooks/use-opener';
+import { AppDispatch } from '@/stores';
+import { fetchAsyncUserData } from '@/stores/user/reducer';
 
 export const DleteGroup = () => {
   const [state, deleteGroupAction, isPending] = useActionState(
@@ -17,26 +20,27 @@ export const DleteGroup = () => {
   );
   const openerDialog = useOpener();
   const { addNotification } = useNotifications();
+  const dispatch = useDispatch<AppDispatch>();
+  const processedRef = useRef(false);
 
   useEffect(() => {
-    if (state === null) return;
+    if (state === null || processedRef.current) return;
+
     if (state.status !== 0) {
+      addNotification(state);
       openerDialog.close();
+
+      if (state.type === 'success') {
+        dispatch(fetchAsyncUserData());
+      }
+
+      processedRef.current = true;
     }
 
     return () => {
-      if (state !== null) {
-        state.status = 0;
-      }
+      processedRef.current = false;
     };
-  }, [state, openerDialog]);
-
-  useEffect(() => {
-    if (state === null) return;
-    if (state.status !== 0) {
-      addNotification(state);
-    }
-  }, [state, addNotification]);
+  }, [state, dispatch, openerDialog, addNotification]);
 
   return (
     <>

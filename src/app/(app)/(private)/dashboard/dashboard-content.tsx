@@ -43,7 +43,9 @@ export const DashboardContent = async () => {
 
       {hasGroup && userData?.group?.id ? (
         <>
-          <Heading>これお願い！</Heading>
+          <Heading underline underlineSize="full">
+            これお願い！
+          </Heading>
 
           <Box bg="primary">
             <RenderRequestTasks
@@ -52,7 +54,9 @@ export const DashboardContent = async () => {
             />
           </Box>
 
-          <Heading>グループメンバーごとのおしごと</Heading>
+          <Heading underline underlineSize="full">
+            グループメンバーごとのおしごと
+          </Heading>
 
           <RenderMembersTasks
             groupId={userData?.group?.id}
