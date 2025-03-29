@@ -32,8 +32,10 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: config.APP_NAME,
     description: config.description,
-    images: [`${config.url}/twitter-card.jpg`],
+    // images: [`${config.url}/twitter-card.jpg`],
+    creator: '@9w2ZvESJdAyosV8',
   },
+  themeColor: '#b9edfc',
 };
 
 export const viewport: Viewport = {
