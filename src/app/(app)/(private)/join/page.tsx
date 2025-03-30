@@ -1,52 +1,68 @@
-'use client';
-
-import { LoaderCircle } from 'lucide-react';
-import useSWR from 'swr';
+import { Metadata } from 'next';
 
 import { Content } from '@/components/layouts/content/content';
+import { config } from '@/config/config';
+import { requestGroupMember } from '@/lib/supabase/action/request-group-member';
+import { fetchUserData } from '@/lib/supabase/user/fetch-user-data';
 
-const fetcher = async ([url, body]: [
-  string,
-  { invitation_token: string; expires_at: string },
-]) => {
-  const response = await fetch(url, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(body),
-  });
+export async function generateMetadata(): Promise<Metadata> {
+  return {
+    title: `招待ページ｜${config.APP_NAME}`,
+  };
+}
 
-  if (!response.ok) {
-    throw new Error('Request failed');
-  }
-
-  return response.json();
+type JoinPageProps = {
+  params: Promise<{ invitation_token: string; expires_at: string }>;
 };
 
-export default function JoinPage({ searchParams }: { searchParams: any }) {
-  const { invitation_token, expires_at } = searchParams;
+export default async function JoinPage({ params }: JoinPageProps) {
+  const resolvedParams = await params;
+  const invitationToken = resolvedParams.invitation_token;
+  const expiresAt = resolvedParams.expires_at;
+  const userData = await fetchUserData();
 
-  const { data, error, isValidating } = useSWR(
-    invitation_token && expires_at
-      ? ['/api/post/send-request', { invitation_token, expires_at }]
-      : null,
-    fetcher,
-  );
+  if (!userData) {
+    return <p>ユーザー情報が取得できませんでした。</p>;
+  }
+
+  if (userData?.group) {
+    return (
+      <>
+        <p>すでにグループに入っています。</p>
+        <p>
+          グループに入り直したい場合は、一度所属しているグループを抜ける必要があります。
+        </p>
+      </>
+    );
+  }
+
+  const isExpired = checkIfExpired(expiresAt);
+  if (isExpired) {
+    return (
+      <Content>
+        <p>
+          招待リンクの有効期限が切れています。新しい招待リンクを発行してください。
+        </p>
+      </Content>
+    );
+  }
+
+  const resultMessage = await requestGroupMember({
+    token: invitationToken,
+    userId: userData?.userId,
+  });
 
   return (
     <Content>
-      <p>
-        {isValidating ? (
-          <LoaderCircle className="animate-spin text-primary" size={30}>
-            読み込み中...
-          </LoaderCircle>
-        ) : data ? (
-          data.message
-        ) : (
-          error.message
-        )}
-      </p>
+      <p>{resultMessage}</p>
     </Content>
   );
 }
+
+// 有効期限チェック
+const checkIfExpired = (expiresAt: string): boolean => {
+  const expirationDate = new Date(expiresAt);
+  const currentDate = new Date();
+
+  return currentDate > expirationDate;
+};

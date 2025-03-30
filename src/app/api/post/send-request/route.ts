@@ -1,7 +1,3 @@
-/**
- * グループトークンと有効期限を元にグループ申請を送る
- */
-
 import { NextResponse } from 'next/server';
 
 import { createClient } from '@/lib/supabase/server';
@@ -20,6 +16,9 @@ type ErrorResponse = {
 
 type ApiResponse = SuccessResponse | ErrorResponse;
 
+/**
+ * グループトークンと有効期限を元にグループ申請を送る
+ */
 export async function POST(
   request: Request,
 ): Promise<NextResponse<ApiResponse>> {
