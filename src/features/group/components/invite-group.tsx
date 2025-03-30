@@ -11,6 +11,11 @@ import { useNotifications } from '@/components/ui/notifications';
 import { Text } from '@/components/ui/text';
 import { useOpener } from '@/hooks/use-opener';
 
+type InviteGroupProps = {
+  userId: string;
+  groupId: string;
+};
+
 const INITIAL_STATE = {
   type: null,
   status: undefined,
@@ -18,7 +23,7 @@ const INITIAL_STATE = {
   url: '',
 };
 
-export const InviteGroup = () => {
+export const InviteGroup = ({ userId, groupId }: InviteGroupProps) => {
   const openerDialog = useOpener();
   const { addNotification } = useNotifications();
   const [url, setUrl] = useState('');
@@ -72,6 +77,8 @@ export const InviteGroup = () => {
           </div>
         ) : (
           <form action={inviteGroupAction} className="mt-10 grid items-center">
+            <input type="hidden" name="userId" value={userId} />
+            <input type="hidden" name="groupId" value={groupId} />
             <FormSelect
               id="expires_at"
               name="expires_at"
@@ -79,9 +86,9 @@ export const InviteGroup = () => {
               layout="vertical"
               required
               options={[
-                { value: '1', title: '1時間' },
-                { value: '5', title: '5時間' },
-                { value: '24', title: '24時間' },
+                { value: '60', title: '1時間' },
+                { value: '300', title: '5時間' },
+                { value: '1440', title: '24時間' },
               ]}
             />
             <Button className="mx-auto mt-6" disabled={isPending}>

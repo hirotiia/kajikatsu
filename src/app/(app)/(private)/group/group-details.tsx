@@ -22,7 +22,7 @@ export const GroupDetails = async () => {
       <div className="mt-6 flex gap-3">
         {data.group ? (
           <>
-            <InviteGroup />
+            <InviteGroup userId={data.userId} groupId={data.group.id} />
             <DleteGroup />
           </>
         ) : (

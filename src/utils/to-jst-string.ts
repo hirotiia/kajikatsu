@@ -89,3 +89,22 @@ export function toFormatJST(timestamp: string | Date | null): string | null {
     return typeof timestamp === 'string' ? timestamp : '';
   }
 }
+
+/**
+ * 現在時刻から指定された分数後の日本時間のISO形式の日時を返す
+ * @param minutes - 追加する分数
+ * @returns - 日本時間のISO形式の日時文字列
+ */
+export function calculateExpirationTime(minutes: number | string): string {
+  const MILLISECONDS_PER_MINUTE = 60 * 1000;
+  const JAPAN_TIMEZONE_OFFSET = 9 * 60 * MILLISECONDS_PER_MINUTE;
+
+  const mins = typeof minutes === 'string' ? parseInt(minutes, 10) : minutes;
+  const now = new Date();
+  const utcExpirationTime = now.getTime() + mins * MILLISECONDS_PER_MINUTE;
+  const japanExpirationDate = new Date(
+    utcExpirationTime + JAPAN_TIMEZONE_OFFSET,
+  );
+
+  return japanExpirationDate.toISOString();
+}
