@@ -38,7 +38,7 @@ export const requestGroupMember = async (
         .single();
 
     if (!invitationColumn || invitationColumnError) {
-      return '有効な招待リンクではありません。';
+      return invitationColumnError.message;
     }
 
     // このユーザーがすでにグループに申請を送っているかどうか確認する
