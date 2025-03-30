@@ -18,22 +18,22 @@ type InviteGroupProps = {
 
 const INITIAL_STATE = {
   type: null,
-  status: undefined,
-  message: null,
+  status: 0,
+  message: '',
   url: '',
 };
 
 export const InviteGroup = ({ userId, groupId }: InviteGroupProps) => {
   const openerDialog = useOpener();
   const { addNotification } = useNotifications();
-  const [url, setUrl] = useState('');
+  const [url, setUrl] = useState(INITIAL_STATE.url);
   const [state, inviteGroupAction, isPending] = useActionState(
     inviteGroup,
     INITIAL_STATE,
   );
 
   useEffect(() => {
-    if (state.status !== undefined) {
+    if (state.status !== 0) {
       addNotification(state);
 
       if (state.type === 'success') {
