@@ -77,8 +77,8 @@ export const InviteGroup = ({ userId, groupId }: InviteGroupProps) => {
           </div>
         ) : (
           <form action={inviteGroupAction} className="mt-10 grid items-center">
-            <input type="hidden" name="userId" value={userId} />
-            <input type="hidden" name="groupId" value={groupId} />
+            <input type="hidden" name="user_id" value={userId} />
+            <input type="hidden" name="group_id" value={groupId} />
             <FormSelect
               id="expires_at"
               name="expires_at"

@@ -25,8 +25,8 @@ export const inviteGroup = async (
   try {
     const supabase = await createClient();
     const expiresAt = formData.get('expires_at') as string;
-    const groupId = formData.get('groupId') as string;
-    const userId = formData.get('userId') as string;
+    const groupId = formData.get('group_id') as string;
+    const userId = formData.get('user_id') as string;
 
     // 有効期限をISO形式で計算
     const expirationTimestamp = calculateExpirationTime(expiresAt);
@@ -50,7 +50,7 @@ export const inviteGroup = async (
     return {
       type: 'success',
       status: 200,
-      message: 'リンクが生成されました。',
+      message: '招待用のQRコードが生成されました。',
       url: url,
     };
   } catch (error) {
