@@ -7,7 +7,7 @@ import { fetchUserData } from '@/lib/supabase/user/fetch-user-data';
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
-    title: `招待ページ｜${config.APP_NAME}`,
+    title: `リクエスト申請｜${config.APP_NAME}`,
   };
 }
 
