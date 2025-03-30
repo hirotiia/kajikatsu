@@ -85,7 +85,7 @@ export const InviteGroup = () => {
               ]}
             />
             <Button className="mx-auto mt-6" disabled={isPending}>
-              {isPending ? '作っています...' : '招待リンクを作成する'}
+              {isPending ? '少々お待ちください...' : 'QRコードで招待する'}
             </Button>
           </form>
         )}
