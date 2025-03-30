@@ -35,12 +35,12 @@ export const metadata: Metadata = {
     // images: [`${config.url}/twitter-card.jpg`],
     creator: '@9w2ZvESJdAyosV8',
   },
-  themeColor: '#b9edfc',
 };
 
 export const viewport: Viewport = {
   initialScale: 1,
   width: 'device-width',
+  themeColor: '#b9edfc',
 };
 
 export default async function RootLayout({
