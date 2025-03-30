@@ -38,10 +38,12 @@ export const requestGroupMember = async (
         .single();
 
     if (invitationColumnError) {
-      return token + invitationColumnError.message;
+      return token
+        ? token
+        : 'トークンがありません' + invitationColumnError.message;
     }
     if (!invitationColumn) {
-      return token + !invitationColumn && 'カラムにデータがありません。';
+      return 'カラムにデータがありません。';
     }
 
     // このユーザーがすでにグループに申請を送っているかどうか確認する
