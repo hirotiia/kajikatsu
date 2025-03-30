@@ -11,13 +11,14 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-type PageProps = {
-  searchParams: { invitation_token?: string; expires_at?: string };
-};
-
-export default async function JoinPage({ searchParams }: PageProps) {
-  const invitationToken = searchParams.invitation_token;
-  const expiresAt = searchParams.expires_at;
+export default async function JoinPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ invitation_token: string; expires_at: string }>;
+}) {
+  const resolvedParams = await searchParams;
+  const invitationToken = resolvedParams.invitation_token;
+  const expiresAt = resolvedParams.expires_at;
 
   if (!invitationToken || !expiresAt) {
     return (
