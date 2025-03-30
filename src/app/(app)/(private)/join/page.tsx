@@ -11,28 +11,41 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-type JoinPageProps = {
-  params: Promise<{ invitation_token: string; expires_at: string }>;
+type SearchParams = {
+  searchParams: { invitation_token?: string; expires_at?: string };
 };
 
-export default async function JoinPage({ params }: JoinPageProps) {
-  const resolvedParams = await params;
-  const invitationToken = resolvedParams.invitation_token;
-  const expiresAt = resolvedParams.expires_at;
+export default async function JoinPage({ searchParams }: SearchParams) {
+  const invitationToken = searchParams.invitation_token;
+  const expiresAt = searchParams.expires_at;
+
+  if (!invitationToken || !expiresAt) {
+    return (
+      <Content>
+        <p>
+          無効な招待リンクです。招待トークンまたは有効期限が見つかりません。
+        </p>
+      </Content>
+    );
+  }
   const userData = await fetchUserData();
 
   if (!userData) {
-    return <p>ユーザー情報が取得できませんでした。</p>;
+    return (
+      <Content>
+        <p>ユーザー情報が取得できませんでした。</p>
+      </Content>
+    );
   }
 
   if (userData?.group) {
     return (
-      <>
+      <Content>
         <p>すでにグループに入っています。</p>
         <p>
           グループに入り直したい場合は、一度所属しているグループを抜ける必要があります。
         </p>
-      </>
+      </Content>
     );
   }
 
