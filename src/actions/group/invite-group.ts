@@ -45,7 +45,7 @@ export const inviteGroup = async (
       throw new Error('環境変数 NEXT_PUBLIC_PROJECT_URL が設定されていません');
     }
 
-    const url = `${baseUrl}/join?invitation_token=${invitationToken}&expiresAt=${expirationTimestamp}`;
+    const url = `${baseUrl}/join?invitation_token=${invitationToken}&expires_at=${expirationTimestamp}`;
 
     return {
       type: 'success',

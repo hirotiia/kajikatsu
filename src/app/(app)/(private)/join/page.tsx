@@ -67,6 +67,8 @@ export default async function JoinPage({ searchParams }: SearchParams) {
 
   return (
     <Content>
+      <p>{invitationToken}</p>
+      <p>{expiresAt}</p>
       <p>{resultMessage}</p>
     </Content>
   );
