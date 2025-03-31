@@ -1,7 +1,5 @@
 drop trigger if exists "trg_log_task_delete" on "public"."tasks";
 
-drop policy "Allow update on own tasks" on "public"."tasks";
-
 alter table "public"."join_requests" drop constraint "join_requests_status_check";
 
 alter table "public"."group_invitations" alter column "invitation_token" drop default;
@@ -24,29 +22,29 @@ CREATE OR REPLACE FUNCTION public.clean_up_group_data()
 AS $function$
 BEGIN
     -- 1. グループの招待を削除
-    DELETE FROM public.group_invitations 
+    DELETE FROM public.group_invitations
     WHERE group_id = OLD.id;
-    
+
     -- 2. グループの参加リクエストを削除（group_invitationsのカスケード削除で自動的に削除される可能性もある）
-    DELETE FROM public.join_requests 
+    DELETE FROM public.join_requests
     WHERE invitation_id IN (
         SELECT id FROM public.group_invitations WHERE group_id = OLD.id
     );
-    
+
     -- 3. グループのタスク履歴を削除
-    DELETE FROM public.task_history 
+    DELETE FROM public.task_history
     WHERE task_id IN (
         SELECT id FROM public.tasks WHERE group_id = OLD.id
     );
-    
+
     -- 4. グループのタスクを削除
-    DELETE FROM public.tasks 
+    DELETE FROM public.tasks
     WHERE group_id = OLD.id;
-    
+
     -- 5. ユーザーとグループの関連付けを削除
-    DELETE FROM public.user_groups 
+    DELETE FROM public.user_groups
     WHERE group_id = OLD.id;
-    
+
     RETURN OLD;
 END;
 $function$
