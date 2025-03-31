@@ -1,7 +1,8 @@
 'use client';
 
-import { Information } from '@/components/ui/information';
+import { Button } from '@/components/ui/button';
 import { useNotifications } from '@/components/ui/notifications';
+import { Text } from '@/components/ui/text';
 import { useJoinRequests } from '@/features/information/api/get-requests';
 
 type JoinRequestListProps = {
@@ -55,14 +56,34 @@ export const JoinRequestList = ({ userId }: JoinRequestListProps) => {
     <div>
       <p>{joinRequests.length}件のお知らせがあります。</p>
       {joinRequests.map((request) => (
-        <Information
+        <div
           key={request.id}
-          username={request.users.username}
-          groupName={request.group_invitations.groups.name}
-          className="mt-3"
-          onApprove={() => handleApprove(request.id)}
-          onReject={() => handleReject(request.id)}
-        />
+          className="mt-3 flex flex-col justify-between gap-3 rounded-md border border-foreground bg-background p-4 md:flex-row md:items-center"
+        >
+          <Text spacing="none">
+            <b>{request.users.username}</b>さんからあなたのグループ
+            <b>{request.group_invitations.groups.name}</b>
+            への参加リクエストが届きました！
+          </Text>
+
+          <div className="flex gap-1">
+            <Button
+              size="small"
+              rounded="md"
+              onClick={() => handleApprove(request.id)}
+            >
+              承認
+            </Button>
+            <Button
+              size="small"
+              rounded="md"
+              variant="destructive"
+              onClick={() => handleReject(request.id)}
+            >
+              拒否
+            </Button>
+          </div>
+        </div>
       ))}
     </div>
   );
