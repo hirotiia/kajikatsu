@@ -68,8 +68,6 @@ export default async function JoinPage({
 
   return (
     <Content>
-      <p>{invitationToken}</p>
-      <p>{expiresAt}</p>
       <p>{resultMessage}</p>
     </Content>
   );
