@@ -30,7 +30,7 @@ export const GroupDetails = async () => {
             />
           </>
         ) : (
-          <CreateGroup />
+          <CreateGroup userId={data.userId} />
         )}
       </div>
     </>

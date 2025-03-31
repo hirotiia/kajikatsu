@@ -3,126 +3,77 @@
 import { z } from 'zod';
 
 import { createClient } from '@/lib/supabase/server';
-import { getUser } from '@/lib/supabase/user/user';
 import { createGroupSchema } from '@/lib/zod/validation-schema';
+import { NotificationType } from '@/stores/notifications';
+
+type GroupActionResponse = Omit<NotificationType, 'id'> & {
+  fieldErrors?: Record<string, string[] | undefined>;
+};
 
 export const createGroup = async (
   state: any,
   formData: FormData,
-): Promise<any | null> => {
+): Promise<GroupActionResponse> => {
   try {
     // Zodバリデーションを実行
-    const { group } = createGroupSchema.parse({
-      group: formData.get('group'),
+    const { groupName } = createGroupSchema.parse({
+      groupName: formData.get('group_name'),
     });
 
-    const supabase = await createClient();
-    const { user, authError } = await getUser();
-    const insertData = {
-      name: group,
-    };
+    const userId = formData.get('user_id') as string;
 
-    if (authError) {
+    if (!userId) {
       return {
         type: 'error',
-        status: authError.code,
-        message: authError.message,
-      };
-    }
-
-    // すでに何かしらのグループに入っているか確認する
-    const user_id = user?.id;
-    if (!user_id) {
-      return {
-        type: 'error',
-        status: 'error',
+        status: 400,
         message: 'ユーザー情報の取得に失敗しました。',
       };
     }
-    const { count, error } = await supabase
-      .from('user_groups')
-      .select('*', { count: 'exact', head: true })
-      .eq('user_id', user_id);
 
-    if (error) {
-      return {
-        type: 'error',
-        status: error.code,
-        message: error.message,
-      };
-    }
-
-    if (count && count > 0) {
-      return {
-        type: 'warning',
-        status: '警告',
-        message: 'すでにグループに入っています。',
-      };
-    }
+    const supabase = await createClient();
 
     // グループを作成する
     const { data, error: createGroupError } = await supabase
       .from('groups')
-      .insert([insertData])
+      .insert([{ name: groupName }])
       .select();
 
     if (createGroupError) {
       return {
         type: 'error',
-        status: createGroupError.code,
+        status: 400,
         message: createGroupError.message,
       };
     }
 
-    const group_id = data[0]?.id;
+    const groupId = data[0]?.id;
 
-    const { error: invitationError } = await supabase
-      .from('group_invitations')
-      .insert([
-        {
-          group_id,
-          created_by: user_id,
-          expires_at: null,
-        },
-      ]);
-
-    if (invitationError) {
-      return {
-        type: 'error',
-        status: invitationError.code,
-        message: invitationError.message,
-      };
-    }
-
-    const { data: roleData, error: roleError } = await supabase
+    const { data: roleData } = await supabase
       .from('roles')
       .select('id')
       .eq('name', 'owner')
       .single();
 
-    if (roleError) {
+    if (!roleData?.id) {
       return {
         type: 'error',
-        status: roleError.code,
-        message: roleError.message,
+        status: 400,
+        message: '権限情報が取得できませんでした。',
       };
     }
-    const role_id = roleData.id;
 
-    const insertRelationData = {
-      user_id,
-      group_id,
-      role_id,
-    };
-
-    const { error: setDataError } = await supabase
-      .from('user_groups')
-      .insert([insertRelationData]);
+    const { error: setDataError } = await supabase.from('user_groups').insert([
+      {
+        group_id: groupId,
+        user_id: userId,
+        role_id: roleData.id,
+      },
+    ]);
 
     if (setDataError) {
       return {
         type: 'error',
-        status: setDataError.code,
+        status: 400,
         message: setDataError.message,
       };
     }
@@ -137,15 +88,14 @@ export const createGroup = async (
       return {
         type: 'error',
         status: 400,
-        message: 'グループ名が入力されていません。',
+        message: 'フォームのバリデーションエラー',
         fieldErrors: error.flatten().fieldErrors,
       };
     }
 
-    // その他のエラー
     return {
       type: 'error',
-      status: 'unknown_error',
+      status: 500,
       message: '予期せぬエラーが発生しました。',
     };
   }

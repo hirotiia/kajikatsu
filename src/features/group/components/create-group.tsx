@@ -10,13 +10,17 @@ import { FormInput } from '@/components/ui/form/form-input';
 import { useNotifications } from '@/components/ui/notifications';
 import { useOpener } from '@/hooks/use-opener';
 
-const INITIAL_STATE = {
-  type: null,
-  status: undefined,
-  message: null,
+type CreateGroupProps = {
+  userId: string;
 };
 
-export const CreateGroup = () => {
+const INITIAL_STATE = {
+  type: null,
+  status: 0,
+  message: '',
+};
+
+export const CreateGroup = ({ userId }: CreateGroupProps) => {
   const openerDialog = useOpener();
   const { addNotification } = useNotifications();
   const [state, createGroupAction, isPending] = useActionState(
@@ -27,7 +31,7 @@ export const CreateGroup = () => {
   useEffect(() => {
     if (
       state.type === 'success' ||
-      (state.type === 'error' && !state.fieldErrors)
+      (state.type === 'error' && !('fieldErrors' in state))
     ) {
       if (state.message) {
         addNotification(state);
@@ -50,13 +54,14 @@ export const CreateGroup = () => {
       </Button>
       <Dialog opener={openerDialog} title="グループを作成する" id="dialog-3">
         <form action={createGroupAction} className="grid items-center">
+          <input type="hidden" name="user_id" value={userId} />
           <FormInput
             label="グループ名"
-            id="group"
-            name="group"
+            id="group_name"
+            name="group_name"
             type="text"
             className=""
-            error={state.fieldErrors?.group ?? []}
+            error={state.fieldErrors?.groupName ?? []}
             required
           />
           <Button disabled={isPending} className="mt-6">

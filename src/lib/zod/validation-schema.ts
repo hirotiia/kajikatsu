@@ -61,5 +61,5 @@ export const resetPasswordSchema = z
   });
 
 export const createGroupSchema = z.object({
-  group: z.string().nonempty('グループ名が入力されていません。'),
+  groupName: z.string().nonempty('グループ名が入力されていません。'),
 });
