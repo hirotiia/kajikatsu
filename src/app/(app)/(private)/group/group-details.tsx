@@ -6,9 +6,11 @@ import { fetchUserData } from '@/lib/supabase/user/fetch-user-data';
 
 export const GroupDetails = async () => {
   const data = await fetchUserData();
+
   if (!data) {
     throw new Error('ユーザー情報の取得に失敗しました。');
   }
+
   return (
     <>
       <DefinitionList
@@ -30,7 +32,9 @@ export const GroupDetails = async () => {
             />
           </>
         ) : (
-          <CreateGroup userId={data.userId} />
+          <>
+            <CreateGroup userId={data.userId} />
+          </>
         )}
       </div>
     </>

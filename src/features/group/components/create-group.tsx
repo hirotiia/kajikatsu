@@ -1,7 +1,7 @@
 'use client';
 
 import { Plus } from 'lucide-react';
-import { useActionState, useEffect } from 'react';
+import { useActionState } from 'react';
 
 import { createGroup } from '@/actions/group/create-group';
 import { Button } from '@/components/ui/button';
@@ -23,22 +23,31 @@ const INITIAL_STATE = {
 export const CreateGroup = ({ userId }: CreateGroupProps) => {
   const openerDialog = useOpener();
   const { addNotification } = useNotifications();
-  const [state, createGroupAction, isPending] = useActionState(
-    createGroup,
-    INITIAL_STATE,
-  );
 
-  useEffect(() => {
+  const createGroupWithNotifications = async (
+    prevState: any,
+    formData: FormData,
+  ) => {
+    const result = await createGroup(prevState, formData);
+
     if (
-      state.type === 'success' ||
-      (state.type === 'error' && !('fieldErrors' in state))
+      result.type === 'success' ||
+      (result.type === 'error' && !('fieldErrors' in result))
     ) {
-      if (state.message) {
-        addNotification(state);
+      if (result.message) {
+        addNotification(result);
       }
       openerDialog.close();
     }
-  }, [state, addNotification, openerDialog]);
+
+    // 結果を返す（state更新に使われる）
+    return result;
+  };
+
+  const [state, formAction, isPending] = useActionState(
+    createGroupWithNotifications,
+    INITIAL_STATE,
+  );
 
   return (
     <>
@@ -53,7 +62,7 @@ export const CreateGroup = ({ userId }: CreateGroupProps) => {
         作成
       </Button>
       <Dialog opener={openerDialog} title="グループを作成する" id="dialog-3">
-        <form action={createGroupAction} className="grid items-center">
+        <form action={formAction} className="grid items-center">
           <input type="hidden" name="user_id" value={userId} />
           <FormInput
             label="グループ名"

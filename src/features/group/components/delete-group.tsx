@@ -1,7 +1,7 @@
 'use client';
 
 import { Trash2 } from 'lucide-react';
-import { useActionState, useEffect, useRef } from 'react';
+import { useActionState } from 'react';
 import { useDispatch } from 'react-redux';
 
 import { deleteGroup } from '@/actions/group/delete-group';
@@ -20,33 +20,33 @@ type DleteGroupProps = {
 };
 
 export const DleteGroup = ({ userId, groupId, roleId }: DleteGroupProps) => {
-  const [state, deleteGroupAction, isPending] = useActionState(
-    deleteGroup,
-    null,
-  );
   const openerDialog = useOpener();
   const { addNotification } = useNotifications();
   const dispatch = useDispatch<AppDispatch>();
-  const processedRef = useRef(false);
 
-  useEffect(() => {
-    if (state === null || processedRef.current) return;
+  const deleteGroupWithNotifications = async (
+    prevState: any,
+    formData: FormData,
+  ) => {
+    const result = await deleteGroup(prevState, formData);
 
-    if (state.status !== 0) {
-      addNotification(state);
+    if (result !== null && result.status !== 0) {
+      addNotification(result);
       openerDialog.close();
 
-      if (state.type === 'success') {
+      if (result.type === 'success') {
         dispatch(fetchAsyncUserData());
       }
-
-      processedRef.current = true;
     }
 
-    return () => {
-      processedRef.current = false;
-    };
-  }, [state, dispatch, openerDialog, addNotification]);
+    // 結果を返す（state更新に使われる）
+    return result;
+  };
+
+  const [, formAction, isPending] = useActionState(
+    deleteGroupWithNotifications,
+    null,
+  );
 
   return (
     <>
@@ -67,7 +67,7 @@ export const DleteGroup = ({ userId, groupId, roleId }: DleteGroupProps) => {
           <br />
           脱退した場合、グループは削除されメンバーは解散になります。
         </Text>
-        <form action={deleteGroupAction} className="mt-10 grid items-center">
+        <form action={formAction} className="mt-10 grid items-center">
           <input type="hidden" name="user_id" value={userId} />
           <input type="hidden" name="group_id" value={groupId} />
           <input type="hidden" name="role_id" value={roleId} />
