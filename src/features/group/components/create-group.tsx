@@ -60,7 +60,7 @@ export const CreateGroup = ({ userId }: CreateGroupProps) => {
             id="group_name"
             name="group_name"
             type="text"
-            className=""
+            layout="vertical"
             error={state.fieldErrors?.groupName ?? []}
             required
           />
