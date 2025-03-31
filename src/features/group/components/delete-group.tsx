@@ -13,7 +13,13 @@ import { useOpener } from '@/hooks/use-opener';
 import { AppDispatch } from '@/stores';
 import { fetchAsyncUserData } from '@/stores/user/reducer';
 
-export const DleteGroup = () => {
+type DleteGroupProps = {
+  userId: string;
+  groupId: string;
+  roleId: string;
+};
+
+export const DleteGroup = ({ userId, groupId, roleId }: DleteGroupProps) => {
   const [state, deleteGroupAction, isPending] = useActionState(
     deleteGroup,
     null,
@@ -62,6 +68,9 @@ export const DleteGroup = () => {
           脱退した場合、グループは削除されメンバーは解散になります。
         </Text>
         <form action={deleteGroupAction} className="mt-10 grid items-center">
+          <input type="hidden" name="user_id" value={userId} />
+          <input type="hidden" name="group_id" value={groupId} />
+          <input type="hidden" name="role_id" value={roleId} />
           <Button variant="destructive" disabled={isPending}>
             {isPending ? '脱退中です...' : 'グループを脱退する'}
           </Button>

@@ -23,7 +23,11 @@ export const GroupDetails = async () => {
         {data.group ? (
           <>
             <InviteGroup userId={data.userId} groupId={data.group.id} />
-            <DleteGroup />
+            <DleteGroup
+              userId={data.userId}
+              groupId={data.group.id}
+              roleId={data.group.role.id}
+            />
           </>
         ) : (
           <CreateGroup />
