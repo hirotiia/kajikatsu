@@ -7,7 +7,7 @@ import { Text } from '@/components/ui/text/text';
 import { fetchUserData } from '@/lib/supabase/user/fetch-user-data';
 
 import { DashboardAllMembersTasks } from './dashboard-all-members-tasks';
-import { DashboardRequestContent } from './dashboard-request-content';
+import { DashboardRequestTasks } from './dashboard-request-tasks';
 
 export const DashboardContent = async () => {
   const data = await fetchUserData();
@@ -29,7 +29,7 @@ export const DashboardContent = async () => {
           </Heading>
           <Box bg="primary">
             <Suspense fallback={<p>読み込む中です...</p>}>
-              <DashboardRequestContent groupId={data.group.id} />
+              <DashboardRequestTasks groupId={data.group.id} />
             </Suspense>
           </Box>
           <Heading underline underlineSize="full">

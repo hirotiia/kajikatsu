@@ -1,14 +1,14 @@
 import { createRequestMembersTask } from '@/features/dashboard/api/create-request-members-task';
 import { RenderRequestTasks } from '@/features/dashboard/components/render-request-tasks';
 
-type DashboardRequestContentProps = {
+type DashboardRequestTasksProps = {
   groupId: string;
   className?: string;
 };
-export const DashboardRequestContent = async ({
+export const DashboardRequestTasks = async ({
   groupId,
   className,
-}: DashboardRequestContentProps) => {
+}: DashboardRequestTasksProps) => {
   const initialTasks = await createRequestMembersTask(groupId);
   return (
     <RenderRequestTasks
