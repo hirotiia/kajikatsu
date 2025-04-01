@@ -4,40 +4,48 @@ import { useCallback, useEffect, useState } from 'react';
 
 import { Cards } from '@/components/ui/card';
 import { Tab, TabSelectHeader, TabPanel } from '@/components/ui/tab';
+import { fetchTasks } from '@/lib/supabase/data/tasks/select/fetch-tasks';
 import { subscribeDBChanges } from '@/lib/supabase/realtime/subscribe-db-changes';
 import { MemberWithTasks } from '@/types/member-with-tasks';
 import { cn } from '@/utils/cn';
 
-import { createGroupMembersTaskClient } from '../api/create-group-members-task-client';
-
-type Props = {
+type RenderMembersTasksProps = {
   groupId: string;
   className?: string;
   initialState: MemberWithTasks[];
 };
-
 export const RenderMembersTasks = ({
   groupId,
   className,
   initialState,
-}: Props) => {
-  console.log(initialState);
-
+}: RenderMembersTasksProps) => {
   const [members, setMembers] = useState<MemberWithTasks[]>(initialState);
 
-  const defaultKey = members[0]?.user_id ?? 'no-member';
+  const defaultKey = members[0]?.user_id;
   const options = members.map(({ user_id, username }) => ({
     key: user_id,
     label: username,
   }));
 
-  const fetchAllMembersTasks = useCallback(async () => {
-    const res = await createGroupMembersTaskClient(groupId);
+  const updateTasksDiff = useCallback(async () => {
+    try {
+      const tasksResult = await fetchTasks({ groupId });
+      const tasks = tasksResult.data || [];
 
-    if (res.error) {
-      throw new Error(res.error);
-    } else {
-      setMembers(res.data?.members ?? []);
+      setMembers((currentMembers) =>
+        currentMembers.map((member) => {
+          const memberTasks = tasks.filter(
+            (task) => task.assigneeId === member.user_id,
+          );
+
+          return {
+            ...member,
+            tasks: memberTasks,
+          };
+        }),
+      );
+    } catch (error) {
+      console.error('タスク更新中にエラーが発生しました:', error);
     }
   }, [groupId]);
 
@@ -45,13 +53,13 @@ export const RenderMembersTasks = ({
     const channel = subscribeDBChanges({
       table: 'tasks',
       filter: `group_id=eq.${groupId}`,
-      onChange: fetchAllMembersTasks,
+      onChange: updateTasksDiff,
     });
 
     return () => {
       channel.unsubscribe();
     };
-  }, [fetchAllMembersTasks, groupId]);
+  }, [updateTasksDiff, groupId]);
 
   return (
     <Tab defaultKey={defaultKey} className={cn('', className)}>
