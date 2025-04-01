@@ -1,6 +1,6 @@
 'use client';
 
-import { useActionState, useEffect } from 'react';
+import { useActionState } from 'react';
 
 import { assignTask } from '@/actions/task/assign-task';
 
@@ -10,6 +10,7 @@ import { Button } from './button';
 
 type AssignTaskButtonProps = {
   taskId: string;
+  onAssign?: (taskId: string) => void;
 };
 
 const INITIAL_STATE = {
@@ -21,25 +22,34 @@ const INITIAL_STATE = {
 /**
  * 「担当する」ボタン。押すとサーバーアクションを呼び出して、タスクの担当者を自分に設定する。
  */
-export function AssignButton({ taskId }: AssignTaskButtonProps) {
+export function AssignButton({ taskId, onAssign }: AssignTaskButtonProps) {
   const { addNotification } = useNotifications();
-  const [data, actionSubmit, isPending] = useActionState(
-    assignTask,
+
+  const handleAssignFunction = async (prevState: any, formData: FormData) => {
+    const result = await assignTask(prevState, formData);
+
+    if (result.status !== undefined) {
+      addNotification({
+        type: result.type,
+        status: result.status,
+        message: result.message,
+      });
+    }
+
+    if (onAssign && result.type === 'success') {
+      onAssign(taskId);
+    }
+
+    return result;
+  };
+
+  const [, formAction, isPending] = useActionState(
+    handleAssignFunction,
     INITIAL_STATE,
   );
 
-  useEffect(() => {
-    if (data.status !== undefined) {
-      addNotification({
-        type: data.type,
-        status: data.status,
-        message: data.message,
-      });
-    }
-  }, [data, addNotification]);
-
   return (
-    <form action={actionSubmit}>
+    <form action={formAction}>
       <input type="hidden" name="taskId" value={taskId} />
       <Button size="small" disabled={isPending}>
         {isPending ? '更新中...' : '担当する'}
