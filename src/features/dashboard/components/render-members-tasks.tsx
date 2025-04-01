@@ -5,18 +5,22 @@ import { useCallback, useEffect, useState } from 'react';
 import { Cards } from '@/components/ui/card';
 import { Tab, TabSelectHeader, TabPanel } from '@/components/ui/tab';
 import { subscribeDBChanges } from '@/lib/supabase/realtime/subscribe-db-changes';
+import { Task } from '@/types/task.types';
 import { cn } from '@/utils/cn';
 
-import {
-  createGroupMembersTaskClient,
-  GroupMembersTasks,
-  MemberWithTasks,
-} from '../api/create-group-members-task-client';
+import { createGroupMembersTaskClient } from '../api/create-group-members-task-client';
 
+type MemberWithTasks = {
+  user_id: string;
+  username: string;
+  avatar_url: string | null;
+  role: string;
+  tasks: Task[];
+};
 type Props = {
   groupId: string;
   className?: string;
-  initialState: GroupMembersTasks;
+  initialState: MemberWithTasks[];
 };
 
 export const RenderMembersTasks = ({
@@ -24,9 +28,9 @@ export const RenderMembersTasks = ({
   className,
   initialState,
 }: Props) => {
-  const [members, setMembers] = useState<MemberWithTasks[]>(
-    initialState.members,
-  );
+  console.log(initialState);
+
+  const [members, setMembers] = useState<MemberWithTasks[]>(initialState);
 
   const defaultKey = members[0]?.user_id ?? 'no-member';
   const options = members.map(({ user_id, username }) => ({
@@ -36,15 +40,12 @@ export const RenderMembersTasks = ({
 
   // データ取得処理
   const fetchAllMembersTasks = useCallback(async () => {
-    try {
-      const res = await createGroupMembersTaskClient(groupId);
-      if (res.error) {
-        throw new Error(res.error);
-      } else {
-        setMembers(res.data?.members ?? []);
-      }
-    } catch (err: any) {
-      return <p>グループのタスクの取得に失敗しました。{err}</p>;
+    const res = await createGroupMembersTaskClient(groupId);
+
+    if (res.error) {
+      throw new Error(res.error);
+    } else {
+      setMembers(res.data?.members ?? []);
     }
   }, [groupId]);
 
@@ -59,6 +60,7 @@ export const RenderMembersTasks = ({
       channel.unsubscribe();
     };
   }, [fetchAllMembersTasks, groupId]);
+
   return (
     <Tab defaultKey={defaultKey} className={cn('', className)}>
       <TabSelectHeader options={options} />
