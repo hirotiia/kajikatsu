@@ -1,14 +1,6 @@
 import { fetchTasksByUserIdClient } from '@/lib/supabase/data/tasks/select/fetch-tasks-by-user-id-client';
 import { fetchGroupMembersClient } from '@/lib/supabase/data/users/fetch-group-members-client';
-import { Task } from '@/types/task.types';
-
-export type MemberWithTasks = {
-  user_id: string;
-  username: string;
-  avatar_url: string;
-  role: string;
-  tasks: Task[];
-};
+import { MemberWithTasks } from '@/types/member-with-tasks';
 
 export type GroupMembersTasks = {
   members: MemberWithTasks[];

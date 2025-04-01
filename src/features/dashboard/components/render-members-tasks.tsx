@@ -5,18 +5,11 @@ import { useCallback, useEffect, useState } from 'react';
 import { Cards } from '@/components/ui/card';
 import { Tab, TabSelectHeader, TabPanel } from '@/components/ui/tab';
 import { subscribeDBChanges } from '@/lib/supabase/realtime/subscribe-db-changes';
-import { Task } from '@/types/task.types';
+import { MemberWithTasks } from '@/types/member-with-tasks';
 import { cn } from '@/utils/cn';
 
 import { createGroupMembersTaskClient } from '../api/create-group-members-task-client';
 
-type MemberWithTasks = {
-  user_id: string;
-  username: string;
-  avatar_url: string | null;
-  role: string;
-  tasks: Task[];
-};
 type Props = {
   groupId: string;
   className?: string;
