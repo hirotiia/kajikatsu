@@ -1,10 +1,10 @@
 'use client';
 
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import { Cards } from '@/components/ui/card';
 import { Tab, TabSelectHeader, TabPanel } from '@/components/ui/tab';
-import { useRealtimeTasksChannel } from '@/hooks/use-realtime-tasks-channel';
+import { subscribeDBChanges } from '@/lib/supabase/realtime/subscribe-db-changes';
 import { cn } from '@/utils/cn';
 
 import {
@@ -48,11 +48,17 @@ export const RenderMembersTasks = ({
     }
   }, [groupId]);
 
-  // Realtime購読: tasks テーブルに変更があったら再取得する
-  useRealtimeTasksChannel({
-    table: 'tasks',
-    onChange: fetchAllMembersTasks,
-  });
+  useEffect(() => {
+    const channel = subscribeDBChanges({
+      table: 'tasks',
+      filter: `group_id=eq.${groupId}`,
+      onChange: fetchAllMembersTasks,
+    });
+
+    return () => {
+      channel.unsubscribe();
+    };
+  }, [fetchAllMembersTasks, groupId]);
   return (
     <Tab defaultKey={defaultKey} className={cn('', className)}>
       <TabSelectHeader options={options} />
