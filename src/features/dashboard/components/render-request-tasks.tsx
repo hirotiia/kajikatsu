@@ -19,7 +19,7 @@ export const RenderRequestTasks = ({
 }: RenderRequestTasksProps) => {
   const [tasks, setTasks] = useState<Task[]>(initialData);
 
-  const updateTasksDiff = useCallback(async () => {
+  const updateTasks = useCallback(async () => {
     try {
       const tasksResult = await fetchTasksClient({
         groupId,
@@ -38,13 +38,13 @@ export const RenderRequestTasks = ({
     const channel = subscribeDBChanges({
       table: 'tasks',
       filter: `group_id=eq.${groupId}`,
-      onChange: updateTasksDiff,
+      onChange: updateTasks,
     });
 
     return () => {
       channel.unsubscribe();
     };
-  }, [groupId, updateTasksDiff]);
+  }, [groupId, updateTasks]);
 
   if (tasks.length === 0) {
     return <p>お願いされているおしごとはありません。</p>;
