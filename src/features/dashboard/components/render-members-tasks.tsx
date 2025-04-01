@@ -15,7 +15,7 @@ import {
 
 type Props = {
   groupId: string;
-  className: string;
+  className?: string;
   initialState: GroupMembersTasks;
 };
 
@@ -28,7 +28,6 @@ export const RenderMembersTasks = ({
     initialState.members,
   );
 
-  // 先頭メンバーの user_id をデフォルトのタブキーに
   const defaultKey = members[0]?.user_id ?? 'no-member';
   const options = members.map(({ user_id, username }) => ({
     key: user_id,

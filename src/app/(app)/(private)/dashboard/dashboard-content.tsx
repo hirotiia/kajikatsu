@@ -1,68 +1,46 @@
-import { redirect } from 'next/navigation';
+import { Suspense } from 'react';
 
 import { Box } from '@/components/ui/box/box';
 import { Heading } from '@/components/ui/heading';
 import { List } from '@/components/ui/list/list';
 import { Text } from '@/components/ui/text/text';
-import {
-  createGroupMembersTask,
-  GroupMembersTasks,
-} from '@/features/dashboard/api/create-group-members-task';
-import {
-  createRequestMembersTask,
-  RequestMembersTasks,
-} from '@/features/dashboard/api/create-request-members-task';
-import { RenderMembersTasks } from '@/features/dashboard/components/render-members-tasks';
-import { RenderRequestTasks } from '@/features/dashboard/components/render-request-tasks';
 import { fetchUserData } from '@/lib/supabase/user/fetch-user-data';
-import { getUser } from '@/lib/supabase/user/user';
+
+import { DashboardAllMembersTasks } from './dashboard-all-members-tasks';
+import { DashboardRequestContent } from './dashboard-request-content';
 
 export const DashboardContent = async () => {
-  const { user, authError } = await getUser();
-  if (!user || authError) {
-    redirect('/login');
+  const data = await fetchUserData();
+
+  if (!data) {
+    return;
   }
 
-  const userData = await fetchUserData(user.id);
-  const hasGroup = Boolean(userData?.group?.id);
-
-  let initialRequestTasks: RequestMembersTasks = { members: [] };
-  if (hasGroup && userData?.group?.id) {
-    initialRequestTasks = await createRequestMembersTask(userData.group.id);
-  }
-
-  let initialAllMembersTasks: GroupMembersTasks = { members: [] };
-  if (hasGroup && userData?.group?.id) {
-    initialAllMembersTasks = await createGroupMembersTask(userData.group.id);
-  }
   return (
     <>
       <Text className="mb-6 text-lg">
-        <b>ようこそ、{userData?.username ?? 'unknown user'}さん👏</b>
+        <b>ようこそ、{data.username ?? 'unknown user'}さん👏</b>
       </Text>
 
-      {hasGroup && userData?.group?.id ? (
+      {data.group ? (
         <>
           <Heading underline underlineSize="full">
             これお願い！
           </Heading>
-
           <Box bg="primary">
-            <RenderRequestTasks
-              groupId={userData.group.id}
-              initialData={initialRequestTasks}
-            />
+            <Suspense fallback={<p>読み込む中です...</p>}>
+              <DashboardRequestContent groupId={data.group.id} />
+            </Suspense>
           </Box>
-
           <Heading underline underlineSize="full">
             グループメンバーごとのおしごと
           </Heading>
-
-          <RenderMembersTasks
-            groupId={userData?.group?.id}
-            className="mt-6"
-            initialState={initialAllMembersTasks}
-          />
+          <Suspense fallback={<p>読み込む中です...</p>}>
+            <DashboardAllMembersTasks
+              className="mt-6"
+              groupId={data.group.id}
+            />
+          </Suspense>
         </>
       ) : (
         <>
@@ -92,9 +70,6 @@ export const DashboardContent = async () => {
           <Box>
             <List
               listItems={[
-                {
-                  text: '「まだグループに入っていません」と出ます。',
-                },
                 {
                   text: 'グループに入ると、お仕事リストが見られるようになるよ！',
                 },
