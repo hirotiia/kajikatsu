@@ -1,5 +1,5 @@
-import { createRequestMembersTask } from '@/features/dashboard/api/create-request-members-task';
 import { RenderRequestTasks } from '@/features/dashboard/components/render-request-tasks';
+import { fetchTasks } from '@/lib/supabase/data/tasks/select/fetch-tasks';
 
 type DashboardRequestTasksProps = {
   groupId: string;
@@ -7,6 +7,11 @@ type DashboardRequestTasksProps = {
 export const DashboardRequestTasks = async ({
   groupId,
 }: DashboardRequestTasksProps) => {
-  const initialTasks = await createRequestMembersTask(groupId);
+  const resultTasks = await fetchTasks({
+    groupId,
+    assigneeId: null,
+  });
+
+  const initialTasks = resultTasks.data || [];
   return <RenderRequestTasks groupId={groupId} initialData={initialTasks} />;
 };

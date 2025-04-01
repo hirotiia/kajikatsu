@@ -1,54 +1,71 @@
 'use client';
 
+import { useCallback, useEffect, useState } from 'react';
+
 import { AssignButton } from '@/components/ui/button';
 import { Cards } from '@/components/ui/card';
-
-import { RequestMembersTasks } from '../api/create-request-members-task';
-import { useRequestTasks } from '../api/get-request-tasks';
+import { fetchTasksClient } from '@/lib/supabase/data/tasks/select/fetch-tasks-client';
+import { subscribeDBChanges } from '@/lib/supabase/realtime/subscribe-db-changes';
+import { Task } from '@/types/task.types';
 
 type RenderRequestTasksProps = {
   groupId: string;
-  initialData: RequestMembersTasks;
+  initialData: Task[];
 };
 
 export const RenderRequestTasks = ({
   groupId,
   initialData,
 }: RenderRequestTasksProps) => {
-  const { tasks, error, isLoading } = useRequestTasks(groupId, initialData);
+  const [tasks, setTasks] = useState<Task[]>(initialData);
 
-  if (isLoading) {
-    return <p>読み込み中...</p>;
-  }
+  const updateTasksDiff = useCallback(async () => {
+    try {
+      const tasksResult = await fetchTasksClient({
+        groupId,
+        assigneeId: null,
+      });
 
-  if (error) {
-    return <p className="text-destructive-foreground">エラー: {error}</p>;
-  }
+      const newTasks = tasksResult.data || [];
+
+      setTasks(newTasks);
+    } catch (error) {
+      console.error('タスク更新中にエラーが発生しました', error);
+    }
+  }, [groupId]);
+
+  useEffect(() => {
+    const channel = subscribeDBChanges({
+      table: 'tasks',
+      filter: `group_id=eq.${groupId}`,
+      onChange: updateTasksDiff,
+    });
+
+    return () => {
+      channel.unsubscribe();
+    };
+  }, [groupId, updateTasksDiff]);
 
   if (tasks.length === 0) {
-    return (
-      <p className="text-sm md:text-base">
-        お願いされているタスクはありません。
-      </p>
-    );
+    return <p>お願いされているおしごとはありません。</p>;
   }
 
-  const items = tasks.map((task) => ({
-    id: task.id,
-    title: task.title,
-    description: task.description,
-    expiresAt: task.expiresAt,
-    statusName: task.statusName,
-  }));
-
-  const renderActions = (item: (typeof items)[number]) => {
-    return [<AssignButton key="assign" taskId={item.id} />];
+  const renderActions = (
+    card: Omit<Task, 'createdAt' | 'updatedAt' | 'assigneeId'>,
+  ) => {
+    return [<AssignButton key="assign" taskId={card.id} />];
   };
 
   return (
     <Cards
       background="glassmorphism"
-      items={items}
+      items={tasks.map((task) => ({
+        id: task.id,
+        title: task.title,
+        description: task.description,
+        expiresAt: task.expiresAt,
+        statusName: task.statusName,
+      }))}
       renderActions={renderActions}
     />
   );
