@@ -50,7 +50,7 @@ export const ClientUserTab = ({
     const channel = subscribeDBChanges({
       schema: 'public',
       table: 'tasks',
-      filter: `created_by=eq.${userId},group_id=is.null`,
+      filter: `created_by=eq.${userId}`,
       onChange: fetchLatestTasks,
     });
 
