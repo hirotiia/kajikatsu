@@ -1,9 +1,7 @@
 import { createClient } from '@/lib/supabase/server';
 
 // グループ内のメンバーのidを配列で返す
-export const fetchMembersIdClient = async (
-  groupId: string,
-): Promise<string[]> => {
+export const fetchMembersId = async (groupId: string): Promise<string[]> => {
   const supabase = await createClient();
 
   try {

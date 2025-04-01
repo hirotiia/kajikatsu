@@ -1,6 +1,6 @@
 import { RenderMembersTasks } from '@/features/dashboard/components/render-members-tasks';
 import { fetchTasks } from '@/lib/supabase/data/tasks/select/fetch-tasks';
-import { fetchMembersIdClient } from '@/lib/supabase/data/users/fetch-members-id-client';
+import { fetchMembersId } from '@/lib/supabase/data/users/fetch-members-id';
 import { fetchUserData } from '@/lib/supabase/user/fetch-user-data';
 import { Task } from '@/types/task.types';
 
@@ -20,13 +20,12 @@ export const DashboardAllMembersTasks = async ({
   groupId,
   className,
 }: DashboardAllMembersTasksProps) => {
-  const groupTasksResult = await fetchTasks({
-    groupId,
-  });
+  const [groupTasksResult, groupMembersId] = await Promise.all([
+    fetchTasks({ groupId }),
+    fetchMembersId(groupId),
+  ]);
 
   const groupTasks = groupTasksResult.data || [];
-
-  const groupMembersId = await fetchMembersIdClient(groupId);
 
   const membersWithTasks: MemberWithTasks[] = await Promise.all(
     groupMembersId.map(async (userId) => {

@@ -31,7 +31,6 @@ export const RenderMembersTasks = ({
     label: username,
   }));
 
-  // データ取得処理
   const fetchAllMembersTasks = useCallback(async () => {
     const res = await createGroupMembersTaskClient(groupId);
 

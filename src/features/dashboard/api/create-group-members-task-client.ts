@@ -16,7 +16,6 @@ export const createGroupMembersTaskClient = async (groupId: string) => {
 
     const groupMembers = data?.group_members ?? [];
 
-    // 各メンバーの担当タスクをまとめて取得
     const memberTasksPromises = groupMembers.map(async (member) => {
       const tasksResult = await fetchTasksByUserIdClient(member.user_id, {
         filterType: 'assignee',
