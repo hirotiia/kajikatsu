@@ -5,7 +5,7 @@ import { ReactElement, useCallback, useEffect, useState } from 'react';
 import { Cards } from '@/components/ui/card';
 import { Tab, TabHeader, TabPanel, TabPanelProps } from '@/components/ui/tab';
 import { Statuses } from '@/lib/supabase/data/statuses/select/fetch-status';
-import { fetchTasksByGroupIdClient } from '@/lib/supabase/data/tasks/select/fetch-tasks-by-group-id-client';
+import { fetchTasksClient } from '@/lib/supabase/data/tasks/select/fetch-tasks-client';
 import { GroupMember } from '@/lib/supabase/data/users/fetch-group-members-client';
 import { subscribeDBChanges } from '@/lib/supabase/realtime/subscribe-db-changes';
 import { Task } from '@/types/task.types';
@@ -37,14 +37,17 @@ export const ClientGroupUserTab = ({
   const fetchLatestTasks = useCallback(async () => {
     setIsLoading(true);
 
-    const { data, error } = await fetchTasksByGroupIdClient(groupId);
+    const { data, error } = await fetchTasksClient({
+      groupId,
+      assigneeId: userId,
+    });
+
     if (error || !data) {
       setIsLoading(false);
       return;
     }
 
-    const tasksAssignedToMe = data.filter((task) => task.assigneeId === userId);
-    setTasks(tasksAssignedToMe);
+    setTasks(data);
     setIsLoading(false);
   }, [userId, groupId]);
 

@@ -1,5 +1,5 @@
 import { fetchStatus } from '@/lib/supabase/data/statuses/select/fetch-status';
-import { fetchTasksByUserId } from '@/lib/supabase/data/tasks/select/fetch-tasks-by-user-id';
+import { fetchTasks } from '@/lib/supabase/data/tasks/select/fetch-tasks';
 import { fetchGroupMembers } from '@/lib/supabase/data/users/fetch-group-members';
 
 import { ClientGroupUserTab } from './client-group-user-tab';
@@ -11,28 +11,28 @@ type GroupUserTabProps = {
 
 export const GroupUserTab = async ({ userId, groupId }: GroupUserTabProps) => {
   const [tasksResult, groupMembersResult, statusList] = await Promise.all([
-    fetchTasksByUserId(userId, {
-      filterType: 'assignee',
-      filterValue: userId,
+    fetchTasks({
+      groupId,
+      assigneeId: userId,
     }),
-    groupId
-      ? fetchGroupMembers(groupId)
-      : Promise.resolve({ data: { group_members: [] }, error: null }),
+    fetchGroupMembers(groupId),
     fetchStatus(),
   ]);
 
   const { data: tasksData } = tasksResult;
   const { data: groupMembersData } = groupMembersResult;
 
-  const groupMembers = groupId ? (groupMembersData?.group_members ?? []) : null;
+  const groupMembers = groupMembersData?.group_members ?? [];
 
   return (
-    <ClientGroupUserTab
-      userId={userId}
-      initialTasks={tasksData ?? []}
-      statusList={statusList}
-      groupMembers={groupMembers}
-      groupId={groupId}
-    />
+    <>
+      <ClientGroupUserTab
+        userId={userId}
+        initialTasks={tasksData ?? []}
+        statusList={statusList}
+        groupMembers={groupMembers}
+        groupId={groupId}
+      />
+    </>
   );
 };
