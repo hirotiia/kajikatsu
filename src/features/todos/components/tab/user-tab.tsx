@@ -18,10 +18,6 @@ export const UserTab = async ({ userId }: UserTabProps) => {
 
   const { data: tasksData } = tasksResult;
 
-  console.log('----------------------------');
-  console.log(tasksResult);
-  console.log('----------------------------');
-
   return (
     <ClientUserTab
       userId={userId}

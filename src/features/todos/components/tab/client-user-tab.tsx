@@ -5,7 +5,7 @@ import { ReactElement, useCallback, useEffect, useState } from 'react';
 import { Cards } from '@/components/ui/card';
 import { Tab, TabHeader, TabPanel, TabPanelProps } from '@/components/ui/tab';
 import { Statuses } from '@/lib/supabase/data/statuses/select/fetch-status';
-import { fetchTasksByUserIdClient } from '@/lib/supabase/data/tasks/select/fetch-tasks-by-user-id-client';
+import { fetchTasksClient } from '@/lib/supabase/data/tasks/select/fetch-tasks-client';
 import { subscribeDBChanges } from '@/lib/supabase/realtime/subscribe-db-changes';
 import { Task } from '@/types/task.types';
 import { cn } from '@/utils/cn';
@@ -32,17 +32,17 @@ export const ClientUserTab = ({
   const fetchLatestTasks = useCallback(async () => {
     setIsLoading(true);
 
-    const { data, error } = await fetchTasksByUserIdClient(userId, {
-      filterType: 'assignee',
-      filterValue: userId,
+    const { data, error } = await fetchTasksClient({
+      createdBy: userId,
+      groupId: null,
     });
+
     if (error || !data) {
       setIsLoading(false);
       return;
     }
 
-    const tasksAssignedToMe = data.filter((task) => task.assigneeId === userId);
-    setTasks(tasksAssignedToMe);
+    setTasks(data);
     setIsLoading(false);
   }, [userId]);
 
@@ -50,7 +50,7 @@ export const ClientUserTab = ({
     const channel = subscribeDBChanges({
       schema: 'public',
       table: 'tasks',
-      filter: `assignee_id=eq.${userId}`,
+      filter: `created_by=eq.${userId},group_id=is.null`,
       onChange: fetchLatestTasks,
     });
 
