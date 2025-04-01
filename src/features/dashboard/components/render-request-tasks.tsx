@@ -7,13 +7,11 @@ import { RequestMembersTasks } from '../api/create-request-members-task';
 import { useRequestTasks } from '../api/get-request-tasks';
 
 type RenderRequestTasksProps = {
-  className?: string;
   groupId: string;
   initialData: RequestMembersTasks;
 };
 
 export const RenderRequestTasks = ({
-  className,
   groupId,
   initialData,
 }: RenderRequestTasksProps) => {
@@ -51,7 +49,6 @@ export const RenderRequestTasks = ({
     <Cards
       background="glassmorphism"
       items={items}
-      className={className}
       renderActions={renderActions}
     />
   );
