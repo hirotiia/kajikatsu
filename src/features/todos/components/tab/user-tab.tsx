@@ -1,5 +1,5 @@
 import { fetchStatus } from '@/lib/supabase/data/statuses/select/fetch-status';
-import { fetchTasksByUserId } from '@/lib/supabase/data/tasks/select/fetch-tasks-by-user-id';
+import { fetchTasks } from '@/lib/supabase/data/tasks/select/fetch-tasks';
 
 import { ClientUserTab } from './client-user-tab';
 
@@ -9,14 +9,18 @@ type UserTabProps = {
 
 export const UserTab = async ({ userId }: UserTabProps) => {
   const [tasksResult, statusList] = await Promise.all([
-    fetchTasksByUserId(userId, {
-      filterType: 'assignee',
-      filterValue: userId,
+    fetchTasks({
+      createdBy: userId,
+      groupId: null,
     }),
     fetchStatus(),
   ]);
 
   const { data: tasksData } = tasksResult;
+
+  console.log('----------------------------');
+  console.log(tasksResult);
+  console.log('----------------------------');
 
   return (
     <ClientUserTab

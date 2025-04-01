@@ -96,7 +96,7 @@ export const FormTextarea: React.FC<FormTextareaProps> = ({
       {preview && (
         <>
           <Text>プレビュー</Text>
-          <div className="mt-4 rounded-md border border-muted bg-background p-2">
+          <div className="mt-1 rounded-md border border-muted bg-background p-2">
             <ReactMarkdown className="markdown">{value}</ReactMarkdown>
           </div>
         </>

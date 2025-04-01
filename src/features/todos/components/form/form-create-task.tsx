@@ -107,12 +107,7 @@ export const FormCreateTask = ({
           ]}
         />
       ) : (
-        <FormSelect
-          id="assignment"
-          label="担当者"
-          name="assignment"
-          options={[{ title: 'あなた', value: userId }]}
-        />
+        <input type="hidden" name="assignment" value={userId} />
       )}
       <FormDatePicker
         id="deadline"

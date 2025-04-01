@@ -20,7 +20,6 @@ type FilterOptions = {
  * @param options フィルタリングオプション
  * @returns `Promise<Result<Task[]>>`
  */
-
 export const fetchTasks = async (
   options: FilterOptions = {},
 ): Promise<Result<Task[]>> => {
