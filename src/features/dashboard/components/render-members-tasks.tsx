@@ -4,7 +4,7 @@ import { useCallback, useEffect, useState } from 'react';
 
 import { Cards } from '@/components/ui/card';
 import { Tab, TabSelectHeader, TabPanel } from '@/components/ui/tab';
-import { fetchTasks } from '@/lib/supabase/data/tasks/select/fetch-tasks';
+import { fetchTasksClient } from '@/lib/supabase/data/tasks/select/fetch-tasks-client';
 import { subscribeDBChanges } from '@/lib/supabase/realtime/subscribe-db-changes';
 import { MemberWithTasks } from '@/types/member-with-tasks';
 import { cn } from '@/utils/cn';
@@ -29,7 +29,7 @@ export const RenderMembersTasks = ({
 
   const updateTasksDiff = useCallback(async () => {
     try {
-      const tasksResult = await fetchTasks({ groupId });
+      const tasksResult = await fetchTasksClient({ groupId });
       const tasks = tasksResult.data || [];
 
       setMembers((currentMembers) =>
