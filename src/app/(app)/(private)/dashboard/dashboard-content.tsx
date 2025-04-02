@@ -28,7 +28,7 @@ export const DashboardContent = async () => {
             これお願い！
           </Heading>
           <Box bg="primary">
-            <Suspense fallback={<p>読み込む中です...</p>}>
+            <Suspense fallback={<p>読み込み中です...</p>}>
               <DashboardRequestTasks groupId={data.group.id} />
             </Suspense>
           </Box>
