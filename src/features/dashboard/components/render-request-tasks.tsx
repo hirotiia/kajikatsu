@@ -1,9 +1,11 @@
 'use client';
 
-import { useCallback, useOptimistic, useState } from 'react';
+import { useCallback, useEffect, useOptimistic, useState } from 'react';
 
 import { AssignButton } from '@/components/ui/button';
 import { Cards } from '@/components/ui/card';
+import { fetchTasksClient } from '@/lib/supabase/data/tasks/select/fetch-tasks-client';
+import { subscribeDBChanges } from '@/lib/supabase/realtime/subscribe-db-changes';
 import { Task } from '@/types/task.types';
 
 type RenderRequestTasksProps = {
@@ -22,6 +24,33 @@ export const RenderRequestTasks = ({
       return currentTasks.filter((task) => task.id !== taskIdToRemove);
     },
   );
+
+  const fetchLatestTasks = useCallback(async () => {
+    const { data, error } = await fetchTasksClient({
+      groupId,
+      assigneeId: null,
+    });
+
+    if (error || !data) {
+      return;
+    }
+
+    setTasks(data);
+  }, [groupId]);
+
+  useEffect(() => {
+    const channel = subscribeDBChanges({
+      schema: 'public',
+      table: 'tasks',
+      filter: `group_id=eq.${groupId}`,
+      onChange: fetchLatestTasks,
+      unique: 'render-request-tasks',
+    });
+
+    return () => {
+      channel.unsubscribe();
+    };
+  }, [fetchLatestTasks, groupId]);
 
   const handleAssign = useCallback(
     (taskId: string) => {
