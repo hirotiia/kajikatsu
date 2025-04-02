@@ -6,5 +6,10 @@
     "source.fixAll.eslint": "explicit",
     "source.addMissingImports": "explicit"
   },
-  "[prisma]": { "editor.defaultFormatter": "Prisma.prisma" }
+  "[prisma]": {
+    "editor.defaultFormatter": "Prisma.prisma"
+  },
+  "yaml.schemas": {
+    "https://json.schemastore.org/github-issue-config.json": "file:///Users/nakanohiroya/works/kajikatsu/kajikatsu/.github/ISSUE_TEMPLATE/config.yml"
+  }
 }

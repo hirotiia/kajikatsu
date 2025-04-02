@@ -1,0 +1,43 @@
+name: 💡 機能リクエスト
+description: 新機能のアイデアを提案する
+body:
+  - type: textarea
+    id: background
+    attributes:
+      label: 背景
+      description: どのような課題を抱えてissueを立てたのか、経緯や前提を記載してください。
+      placeholder: 例）〜の操作が面倒です。
+    validations:
+      required: true
+
+  - type: textarea
+    id: merit
+    attributes:
+      label: メリット
+      description: 改善することでどのようなメリットがあるのかを記載してください。
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: 提案する解決策
+      description: 考えられる解決策を説明してください
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: 代替案
+      description: 検討した他の解決策があれば記述してください
+    validations:
+      required: false
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: その他の情報
+      description: スクリーンショットや参考資料などがあれば追加してください
+    validations:
+      required: false
