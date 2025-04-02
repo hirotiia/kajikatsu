@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useOptimistic } from 'react';
+import { useCallback, useOptimistic, useState } from 'react';
 
 import { AssignButton } from '@/components/ui/button';
 import { Cards } from '@/components/ui/card';
@@ -13,12 +13,15 @@ type RenderRequestTasksProps = {
 export const RenderRequestTasks = ({
   initialData,
 }: RenderRequestTasksProps) => {
+  const [tasks, setTasks] = useState(initialData);
   const [optimisticTasks, addOptimisticTask] = useOptimistic(
-    initialData,
+    tasks,
     (currentTasks, taskIdToRemove) => {
       return currentTasks.filter((task) => task.id !== taskIdToRemove);
     },
   );
+
+  console.log(setTasks);
 
   const handleAssign = useCallback(
     (taskId: string) => {
