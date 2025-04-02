@@ -35,7 +35,7 @@ export const DashboardContent = async () => {
           <Heading underline underlineSize="full">
             グループメンバーごとのおしごと
           </Heading>
-          <Suspense fallback={<p>読み込む中です...</p>}>
+          <Suspense fallback={<p>読み込み中です...</p>}>
             <DashboardAllMembersTasks
               className="mt-6"
               groupId={data.group.id}
