@@ -6,7 +6,7 @@ import { List } from '@/components/ui/list/list';
 import { Text } from '@/components/ui/text/text';
 import { fetchUserData } from '@/lib/supabase/user/fetch-user-data';
 
-// import { DashboardAllMembersTasks } from './dashboard-all-members-tasks';
+import { DashboardAllMembersTasks } from './dashboard-all-members-tasks';
 import { DashboardRequestTasks } from './dashboard-request-tasks';
 
 export const DashboardContent = async () => {
@@ -36,10 +36,10 @@ export const DashboardContent = async () => {
             グループメンバーごとのおしごと
           </Heading>
           <Suspense fallback={<p>読み込む中です...</p>}>
-            {/* <DashboardAllMembersTasks
+            <DashboardAllMembersTasks
               className="mt-6"
               groupId={data.group.id}
-            /> */}
+            />
           </Suspense>
         </>
       ) : (
