@@ -7,10 +7,12 @@ import { Cards } from '@/components/ui/card';
 import { Task } from '@/types/task.types';
 
 type RenderRequestTasksProps = {
+  groupId: string;
   initialData: Task[];
 };
 
 export const RenderRequestTasks = ({
+  groupId,
   initialData,
 }: RenderRequestTasksProps) => {
   const [tasks, setTasks] = useState(initialData);
@@ -20,8 +22,6 @@ export const RenderRequestTasks = ({
       return currentTasks.filter((task) => task.id !== taskIdToRemove);
     },
   );
-
-  console.log(setTasks);
 
   const handleAssign = useCallback(
     (taskId: string) => {
@@ -42,6 +42,8 @@ export const RenderRequestTasks = ({
         key="assign"
         taskId={card.id}
         onAssign={() => handleAssign(card.id)}
+        groupId={groupId}
+        setTasks={setTasks}
       />,
     ];
   };

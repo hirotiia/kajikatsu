@@ -13,5 +13,5 @@ export const DashboardRequestTasks = async ({
   });
 
   const initialTasks = resultTasks.data || [];
-  return <RenderRequestTasks initialData={initialTasks} />;
+  return <RenderRequestTasks groupId={groupId} initialData={initialTasks} />;
 };
