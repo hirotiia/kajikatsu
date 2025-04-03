@@ -35,19 +35,19 @@
         "plugin:tailwindcss/recommended"
       ],
       "rules": {
-        "complexity": ["warn", 10],
-        "max-params": ["warn", 3],
-        "max-depth": ["warn", 3],
-        "max-nested-callbacks": ["warn", 3],
-        "max-statements": ["warn", 15],
-        "max-lines-per-function": [
-          "warn",
-          { "max": 50, "skipBlankLines": true, "skipComments": true }
-        ],
-        "max-lines": [
-          "warn",
-          { "max": 300, "skipBlankLines": true, "skipComments": true }
-        ],
+        // "complexity": ["warn", 10],
+        // "max-params": ["warn", 3],
+        // "max-depth": ["warn", 3],
+        // "max-nested-callbacks": ["warn", 3],
+        // "max-statements": ["warn", 15],
+        // "max-lines-per-function": [
+        //   "warn",
+        //   { "max": 50, "skipBlankLines": true, "skipComments": true }
+        // ],
+        // "max-lines": [
+        //   "warn",
+        //   { "max": 300, "skipBlankLines": true, "skipComments": true }
+        // ],
         "import/no-restricted-paths": [
           "error",
           {

@@ -10,7 +10,7 @@ export const taskSchema = z.object({
 
 export const updateTaskSchema = z.object({
   taskId: z.string().uuid(),
-  title: z.string().min(1, 'タイトルが入力されていません。'),
+  title: z.string().min(1, 'タイトルの入力は必須です。'),
   description: z.string().nullable(),
   expires_at: z.string().nullable(),
   status_id: z.string().uuid('ステータスを選択してください。'),
