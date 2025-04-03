@@ -8,12 +8,14 @@ import { createClient } from '@/lib/supabase/client';
  * @param table - テーブル名
  * @param filter - 例: "assignee_id=is.null,group_id=eq.<groupId>"
  * @param onChange - 変更が起こったときのコールバック
+ * @param unique - ユニークなチャネル名にしたい場合
  */
 type SubscribeParams = {
   schema?: string;
   table: string;
   filter?: string;
   onChange: () => void;
+  unique?: string;
 };
 
 export function subscribeDBChanges({
@@ -21,9 +23,10 @@ export function subscribeDBChanges({
   table,
   filter,
   onChange,
+  unique,
 }: SubscribeParams): RealtimeChannel {
   const supabase = createClient();
-  const channelName = `${schema}:${table}${filter ? `:${filter}` : ''}`;
+  const channelName = `${schema}:${table}${filter ? `:${filter}` : ''}:${unique}`;
 
   const channel = supabase
     .channel(channelName)
