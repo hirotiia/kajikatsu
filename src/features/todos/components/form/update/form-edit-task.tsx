@@ -44,18 +44,17 @@ export function FormEditTask({
   defaultUserId,
   groupMembers,
 }: EditTaskProps) {
+  const { addNotification } = useNotifications();
   const [state, updateTaskAction, isPending] = useActionState(
     updateTask,
     INITAL_DATA,
   );
 
-  const { addNotification } = useNotifications();
-
   useEffect(() => {
-    if (state.status !== null) {
+    if (state.type !== null || state.status !== 0) {
       addNotification(state);
 
-      if (state.type === 'success' && !state.formValidationStatus?.errors) {
+      if (!state.formValidationStatus?.errors) {
         opener.close();
       }
     }
@@ -96,8 +95,8 @@ export function FormEditTask({
     });
   };
 
-  const renderFormFields = () => (
-    <>
+  return (
+    <form onSubmit={handleSubmit}>
       <input type="hidden" name="userId" value={defaultUserId} />
       <input type="hidden" name="taskId" value={taskId} />
 
@@ -168,24 +167,14 @@ export function FormEditTask({
           ]}
         />
       )}
-    </>
-  );
-
-  const renderButtons = () => (
-    <div className="mt-6 grid gap-y-2">
-      <Button variant="default" disabled={isPending}>
-        {isPending ? '更新中です...' : '更新'}
-      </Button>
-      <Button variant="destructive" type="button" onClick={opener.close}>
-        キャンセル
-      </Button>
-    </div>
-  );
-
-  return (
-    <form onSubmit={handleSubmit}>
-      {renderFormFields()}
-      {renderButtons()}
+      <div className="mt-6 grid gap-y-2">
+        <Button variant="default" disabled={isPending}>
+          {isPending ? '更新中です...' : '更新'}
+        </Button>
+        <Button variant="destructive" type="button" onClick={opener.close}>
+          キャンセル
+        </Button>
+      </div>
     </form>
   );
 }
