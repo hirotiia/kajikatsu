@@ -6,14 +6,9 @@ import { updateTaskSchema } from '@/lib/zod/validation-schema';
 export async function updateTask(state: any, formData: FormData): Promise<any> {
   try {
     const supabase = await createClient();
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
-    if (!user) {
-      throw new Error('ユーザーが認証されていません。');
-    }
 
     const parsed = updateTaskSchema.safeParse({
+      userId: formData.get('userId'),
       taskId: formData.get('taskId'),
       title: formData.get('title'),
       description: formData.get('description') || null,
@@ -27,16 +22,21 @@ export async function updateTask(state: any, formData: FormData): Promise<any> {
         status: null,
         formValidationStatus: {
           errors: parsed.error.flatten().fieldErrors,
-          message:
-            '未入力または不正な入力値があります。タスクの更新が失敗しました。',
         },
       };
     }
 
-    const { taskId, title, description, expires_at, status_id, assignment_id } =
-      parsed.data;
+    const {
+      userId,
+      taskId,
+      title,
+      description,
+      expires_at,
+      status_id,
+      assignment_id,
+    } = parsed.data;
 
-    // SupabaseでtasksをUPDATE
+    // 入力された内容でタスクの編集
     const { error } = await supabase
       .from('tasks')
       .update({
@@ -44,7 +44,7 @@ export async function updateTask(state: any, formData: FormData): Promise<any> {
         description,
         expires_at,
         status_id,
-        updated_by: user.id,
+        updated_by: userId,
         assignee_id: assignment_id,
       })
       .eq('id', taskId);

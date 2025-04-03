@@ -72,7 +72,7 @@ export const ClientGroupUserTab = ({
     {},
   );
 
-  const defaultKey = statusList[0]?.id || '';
+  const defaultKey = statusList[0]?.id;
 
   const renderActions = (item: {
     id: string;
@@ -84,13 +84,13 @@ export const ClientGroupUserTab = ({
   }) => [
     <FormUpdateTask
       key="update"
+      userId={userId}
       taskId={item.id}
       title={item.title}
       description={item.description ?? ''}
       expiresAt={item.expiresAt ?? ''}
       statusId={item.statusId ?? ''}
       statusList={statusList}
-      userId={userId}
       groupMembers={groupMembers}
     />,
     <FormDeleteTask key="delete" taskId={item.id} />,

@@ -9,6 +9,7 @@ export const taskSchema = z.object({
 });
 
 export const updateTaskSchema = z.object({
+  userId: z.string().uuid(),
   taskId: z.string().uuid(),
   title: z.string().min(1, 'タイトルの入力は必須です。'),
   description: z.string().nullable(),

@@ -14,9 +14,6 @@ import { useNotifications } from '@/components/ui/notifications';
 import { Statuses } from '@/lib/supabase/data/statuses/select/fetch-status';
 import { GroupMember } from '@/lib/supabase/data/users/fetch-group-members-client';
 
-/**
- * 編集フォームに必要な初期値
- */
 type EditTaskProps = {
   taskId: string;
   defaultTitle: string;
@@ -27,6 +24,13 @@ type EditTaskProps = {
   statusList: Statuses;
   defaultUserId: string;
   groupMembers: GroupMember[] | null;
+};
+
+const INITAL_DATA = {
+  type: null,
+  status: 0,
+  message: '',
+  formValidationStatus: null,
 };
 
 export function FormEditTask({
@@ -40,20 +44,22 @@ export function FormEditTask({
   defaultUserId,
   groupMembers,
 }: EditTaskProps) {
-  const [state, updateTaskAction, isPending] = useActionState(updateTask, {
-    type: '',
-    status: null,
-    message: '',
-    formValidationStatus: null,
-  });
+  const [state, updateTaskAction, isPending] = useActionState(
+    updateTask,
+    INITAL_DATA,
+  );
 
   const { addNotification } = useNotifications();
 
   useEffect(() => {
     if (state.status !== null) {
       addNotification(state);
+
+      if (state.type === 'success' && !state.formValidationStatus?.errors) {
+        opener.close();
+      }
     }
-  }, [state, addNotification]);
+  }, [state, addNotification, opener]);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -92,6 +98,7 @@ export function FormEditTask({
 
   const renderFormFields = () => (
     <>
+      <input type="hidden" name="userId" value={defaultUserId} />
       <input type="hidden" name="taskId" value={taskId} />
 
       <FormInput

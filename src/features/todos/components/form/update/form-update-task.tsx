@@ -11,24 +11,24 @@ import { GroupMember } from '@/lib/supabase/data/users/fetch-group-members-clien
 import { FormEditTask } from './form-edit-task';
 
 type FormUpdateTaskProps = {
+  userId?: string;
   taskId: string;
   title: string;
   description?: string;
   expiresAt?: string;
   statusId: string;
   statusList?: Statuses;
-  userId?: string;
   groupMembers?: GroupMember[] | null;
 };
 
 export const FormUpdateTask = ({
+  userId,
   taskId,
   title,
   description,
   expiresAt,
   statusId,
   statusList = [],
-  userId,
   groupMembers,
 }: FormUpdateTaskProps) => {
   const opener = useOpener();
