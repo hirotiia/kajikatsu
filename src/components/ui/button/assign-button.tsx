@@ -13,7 +13,7 @@ import { Button } from './button';
 type AssignTaskButtonProps = {
   taskId: string;
   groupId: string;
-  onAssign?: (taskId: string) => void;
+  setOptimistic?: (taskId: string) => void;
   setTasks: React.Dispatch<React.SetStateAction<Task[]>>;
 };
 
@@ -24,19 +24,20 @@ const INITIAL_STATE = {
 };
 
 /**
- * 「担当する」ボタン。押すとサーバーアクションを呼び出して、タスクの担当者を自分に設定する。
+ * タスク担当ボタンコンポーネント
+ * クリックするとサーバーアクションを呼び出し、タスクを自分に割り当てる
  */
 export function AssignButton({
   taskId,
   groupId,
-  onAssign,
+  setOptimistic,
   setTasks,
 }: AssignTaskButtonProps) {
   const { addNotification } = useNotifications();
 
   const handleAssignFunction = async (prevState: any, formData: FormData) => {
-    if (onAssign) {
-      onAssign(taskId);
+    if (setOptimistic) {
+      setOptimistic(taskId);
     }
     const result = await assignTask(prevState, formData);
 
@@ -53,11 +54,9 @@ export function AssignButton({
       assigneeId: null,
     });
 
-    if (!data) {
-      return;
+    if (data) {
+      setTasks(data);
     }
-
-    setTasks(data);
 
     return result;
   };

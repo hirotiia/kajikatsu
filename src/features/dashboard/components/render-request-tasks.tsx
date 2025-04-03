@@ -13,14 +13,18 @@ type RenderRequestTasksProps = {
   initialData: Task[];
 };
 
+/**
+ * 未担当のタスク一覧を表示するコンポーネント
+ * グループIDに紐づく未割り当てのタスクを表示し、リアルタイム更新を処理する
+ */
 export const RenderRequestTasks = ({
   groupId,
   initialData,
 }: RenderRequestTasksProps) => {
-  const [tasks, setTasks] = useState(initialData);
+  const [tasks, setTasks] = useState<Task[]>(initialData);
   const [optimisticTasks, addOptimisticTask] = useOptimistic(
     tasks,
-    (currentTasks, taskIdToRemove) => {
+    (currentTasks, taskIdToRemove: string) => {
       return currentTasks.filter((task) => task.id !== taskIdToRemove);
     },
   );
@@ -31,11 +35,9 @@ export const RenderRequestTasks = ({
       assigneeId: null,
     });
 
-    if (error || !data) {
-      return;
+    if (!error && data) {
+      setTasks(data);
     }
-
-    setTasks(data);
   }, [groupId]);
 
   useEffect(() => {
@@ -64,13 +66,13 @@ export const RenderRequestTasks = ({
   }
 
   const renderActions = (
-    card: Omit<Task, 'createdAt' | 'updatedAt' | 'assigneeId'>,
+    task: Omit<Task, 'createdAt' | 'updatedAt' | 'assigneeId'>,
   ) => {
     return [
       <AssignButton
         key="assign"
-        taskId={card.id}
-        onAssign={() => handleAssign(card.id)}
+        taskId={task.id}
+        setOptimistic={() => handleAssign(task.id)}
         groupId={groupId}
         setTasks={setTasks}
       />,
