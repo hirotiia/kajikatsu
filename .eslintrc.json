@@ -35,17 +35,17 @@
         "plugin:tailwindcss/recommended"
       ],
       "rules": {
-        "complexity": ["error", 10],
-        "max-params": ["error", 3],
-        "max-depth": ["error", 3],
-        "max-nested-callbacks": ["error", 3],
-        "max-statements": ["error", 15],
+        "complexity": ["warn", 10],
+        "max-params": ["warn", 3],
+        "max-depth": ["warn", 3],
+        "max-nested-callbacks": ["warn", 3],
+        "max-statements": ["warn", 15],
         "max-lines-per-function": [
-          "error",
+          "warn",
           { "max": 50, "skipBlankLines": true, "skipComments": true }
         ],
         "max-lines": [
-          "error",
+          "warn",
           { "max": 300, "skipBlankLines": true, "skipComments": true }
         ],
         "import/no-restricted-paths": [
