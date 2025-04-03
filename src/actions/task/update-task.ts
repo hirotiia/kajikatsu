@@ -19,7 +19,7 @@ export async function updateTask(state: any, formData: FormData): Promise<any> {
 
     if (!parsed.success) {
       return {
-        status: null,
+        status: 0,
         formValidationStatus: {
           errors: parsed.error.flatten().fieldErrors,
         },
@@ -57,7 +57,6 @@ export async function updateTask(state: any, formData: FormData): Promise<any> {
       type: 'success',
       status: 200,
       message: 'タスクを更新しました。',
-      formValidationStatus: { errors: {}, message: null },
     };
   } catch (error: any) {
     return {

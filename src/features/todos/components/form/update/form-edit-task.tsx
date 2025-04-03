@@ -1,6 +1,6 @@
 'use client';
 
-import { FormEvent, startTransition, useActionState, useEffect } from 'react';
+import { FormEvent, startTransition, useActionState } from 'react';
 
 import { updateTask } from '@/actions/task/update-task';
 import { Button } from '@/components/ui/button';
@@ -50,16 +50,6 @@ export function FormEditTask({
     INITAL_DATA,
   );
 
-  useEffect(() => {
-    if (state.type !== null || state.status !== 0) {
-      addNotification(state);
-
-      if (!state.formValidationStatus?.errors) {
-        opener.close();
-      }
-    }
-  }, [state, addNotification, opener]);
-
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -91,7 +81,9 @@ export function FormEditTask({
 
     startTransition(() => {
       updateTaskAction(formData);
-      opener.close();
+      if (state.type === 'success' || state.type === 'error') {
+        opener.close();
+      }
     });
   };
 
