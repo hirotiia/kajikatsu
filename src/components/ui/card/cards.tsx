@@ -43,41 +43,44 @@ export function Cards({
         const formatedExpiresAt = toFormatJST(expiresAt);
 
         return (
-          <li
-            key={id}
-            className={cn(
-              'rounded-lg p-4 shadow-sm',
-              cardItemVariants({ background }),
-            )}
-          >
-            <Text
-              className="text-lg font-semibold text-foreground"
-              spacing="none"
-            >
-              <b>{title}</b>
-            </Text>
+          <li key={id}>
+            <div className="flex gap-1">
+              <div
+                className={cn(
+                  'rounded-lg p-4 shadow-sm flex-grow',
+                  cardItemVariants({ background }),
+                )}
+              >
+                <Text
+                  className="text-lg font-semibold text-foreground"
+                  spacing="none"
+                >
+                  <b>{title}</b>
+                </Text>
 
-            {description && (
-              <ReactMarkdown className="markdown mt-2">
-                {description}
-              </ReactMarkdown>
-            )}
+                {description && (
+                  <ReactMarkdown className="markdown mt-2">
+                    {description}
+                  </ReactMarkdown>
+                )}
 
-            <p className="mt-1 text-xs text-destructive">
-              期限：{formatedExpiresAt ?? '設定なし'}
-            </p>
+                <p className="mt-1 text-xs text-destructive">
+                  期限：{formatedExpiresAt ?? '設定なし'}
+                </p>
 
-            {statusName && (
-              <p className="mt-1 text-xs">ステータス：{statusName}</p>
-            )}
-
-            {actionButtons.length > 0 && (
-              <div className="mt-3 flex justify-end gap-2">
-                {actionButtons.map((btn, index) => (
-                  <React.Fragment key={index}>{btn}</React.Fragment>
-                ))}
+                {statusName && (
+                  <p className="mt-1 text-xs">ステータス：{statusName}</p>
+                )}
               </div>
-            )}
+
+              {actionButtons.length > 0 && (
+                <>
+                  {actionButtons.map((btn, index) => (
+                    <React.Fragment key={index}>{btn}</React.Fragment>
+                  ))}
+                </>
+              )}
+            </div>
           </li>
         );
       })}
