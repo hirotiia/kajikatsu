@@ -81,7 +81,6 @@ export const RenderRequestTasks = ({
 
   return (
     <Cards
-      background="glassmorphism"
       items={optimisticTasks.map((task) => ({
         id: task.id,
         title: task.title,
@@ -90,6 +89,7 @@ export const RenderRequestTasks = ({
         statusName: task.statusName,
       }))}
       renderActions={renderActions}
+      align="end"
     />
   );
 };

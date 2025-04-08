@@ -9,15 +9,16 @@ import { toFormatJST } from '@/utils/to-jst-string';
 
 type Card = Omit<Task, 'createdAt' | 'updatedAt' | 'assigneeId'>;
 
-const cardItemVariants = cva('rounded-lg p-4 shadow-sm transition-colors', {
+const cardItemVariants = cva('flex flex-col gap-1 md:flex-row', {
   variants: {
-    background: {
-      default: 'bg-background',
-      glassmorphism: 'glassmorphism',
+    align: {
+      default: '',
+      end: 'items-end',
+      center: 'items-center',
     },
   },
   defaultVariants: {
-    background: 'default',
+    align: 'default',
   },
 });
 
@@ -29,12 +30,7 @@ type CardsProps = CardItemVariants & {
   className?: string;
 };
 
-export function Cards({
-  items,
-  renderActions,
-  className,
-  background,
-}: CardsProps) {
+export function Cards({ items, renderActions, className, align }: CardsProps) {
   return (
     <ul className={cn('grid gap-4', className)}>
       {items.map((item) => {
@@ -44,13 +40,8 @@ export function Cards({
 
         return (
           <li key={id}>
-            <div className="flex gap-1">
-              <div
-                className={cn(
-                  'rounded-lg p-4 shadow-sm flex-grow',
-                  cardItemVariants({ background }),
-                )}
-              >
+            <div className={cn(cardItemVariants({ align }))}>
+              <div className="glassmorphism w-full rounded-lg p-4 shadow-sm md:grow">
                 <Text
                   className="text-lg font-semibold text-foreground"
                   spacing="none"
@@ -74,11 +65,11 @@ export function Cards({
               </div>
 
               {actionButtons.length > 0 && (
-                <>
+                <div className="flex w-full gap-1 md:w-auto">
                   {actionButtons.map((btn, index) => (
                     <React.Fragment key={index}>{btn}</React.Fragment>
                   ))}
-                </>
+                </div>
               )}
             </div>
           </li>

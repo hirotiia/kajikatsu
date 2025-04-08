@@ -27,7 +27,7 @@ export const DashboardContent = async () => {
           <Heading underline underlineSize="full">
             これお願い！
           </Heading>
-          <Box bg="primary">
+          <Box className="bg-transparent">
             <Suspense fallback={<p>読み込み中です...</p>}>
               <DashboardRequestTasks groupId={data.group.id} />
             </Suspense>

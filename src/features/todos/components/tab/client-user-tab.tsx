@@ -108,8 +108,8 @@ export const ClientUserTab = ({
             ) : tasksInThisStatus.length > 0 ? (
               <Cards
                 items={tasksInThisStatus}
-                background="glassmorphism"
                 renderActions={renderActions}
+                align="end"
               />
             ) : (
               <p className="text-base">タスクはありません。</p>

@@ -40,11 +40,10 @@ export const FormUpdateTask = ({
         onClick={opener.open}
         aria-controls="dialog-edit"
         aria-expanded={opener.isOpen}
-        className="rounded-md"
-        size="small"
-        icon={<Pencil size={20} />}
+        className="grid place-content-center rounded-md md:size-[50px]"
+        size="full"
       >
-        編集する
+        <Pencil size={20}>編集する</Pencil>
       </Button>
       <Dialog opener={opener} title="タスクを編集する" id="dialog-edit">
         <FormEditTask

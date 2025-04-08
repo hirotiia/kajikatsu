@@ -20,6 +20,7 @@ const buttonVariants = cva(
         default: 'min-w-custom',
         full: 'w-full',
         small: 'min-w-24 max-w-40',
+        auto: '',
       },
       rounded: {
         sm: 'rounded-sm',
