@@ -47,13 +47,12 @@ export const FormDeleteTask = ({ taskId }: FormDeleteTaskProps) => {
 
   return (
     <Button
-      className="rounded-md"
+      className="grid place-content-center rounded-md"
       variant="destructive"
       size="small"
       onClick={handleFormDeleteTask}
-      icon={<Trash2 size={20}>削除する</Trash2>}
     >
-      削除する
+      <Trash2 size={20}>削除する</Trash2>
     </Button>
   );
 };
