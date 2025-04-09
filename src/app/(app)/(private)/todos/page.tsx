@@ -6,9 +6,9 @@ import { DrawerTrigger, Drawer } from '@/components/ui/drawer';
 import { Heading } from '@/components/ui/heading';
 import { Text } from '@/components/ui/text';
 import { config } from '@/config/config';
+import { CreateTaskDrawerContent } from '@/features/todos/components/create-task-drawer-content/create-task-drawer-content';
 
 import { MyTaskTabContent } from './my-task-tab-content';
-import { TaskFormDrawerContent } from './task-form-drawer-content';
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
@@ -28,7 +28,7 @@ export default function TodosPage() {
             <SquarePen className="shrink-0">おしごとを作成</SquarePen>
             新規作成
           </DrawerTrigger>
-          <TaskFormDrawerContent />
+          <CreateTaskDrawerContent />
         </Drawer>
       </div>
       <Text>

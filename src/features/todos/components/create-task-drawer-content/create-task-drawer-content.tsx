@@ -6,7 +6,7 @@ import {
 } from '@/lib/supabase/data/users/fetch-group-members';
 import { fetchUserData } from '@/lib/supabase/user/fetch-user-data';
 
-export const TaskFormDrawerContent = async () => {
+export const CreateTaskDrawerContent = async () => {
   let joinedGroup = false;
   let groupMembers: GroupMember[] = [];
 
