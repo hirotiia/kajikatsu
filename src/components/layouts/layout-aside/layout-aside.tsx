@@ -33,7 +33,7 @@ export const LayoutAside = ({ className }: { className?: string }) => {
   return (
     <aside className={cn(className)}>
       <nav className="glassmorphism text-primary-foreground">
-        <ul className="items-center max-md:mx-auto max-md:flex max-md:max-w-[500px] max-md:gap-[5px] max-md:p-2">
+        <ul className="items-center max-md:mx-auto max-md:flex max-md:max-w-[500px] max-md:gap-[5px] max-md:px-1 max-md:py-2">
           {navigation.map(({ name, to, icon: Icon }) => {
             const isCurrent = pathname === to || pathname.startsWith(`${to}/`);
 
