@@ -2,7 +2,7 @@ import { GroupUserTab } from '@/features/todos/components/tab/group-user-tab';
 import { UserTab } from '@/features/todos/components/tab/user-tab';
 import { fetchUserData } from '@/lib/supabase/user/fetch-user-data';
 
-export const MyTaskTabContent = async () => {
+export const SelectTabContentHasGroup = async () => {
   const data = await fetchUserData();
 
   if (!data) {

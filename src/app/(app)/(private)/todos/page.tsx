@@ -7,8 +7,7 @@ import { Heading } from '@/components/ui/heading';
 import { Text } from '@/components/ui/text';
 import { config } from '@/config/config';
 import { CreateTaskDrawerContent } from '@/features/todos/components/create-task-drawer-content/create-task-drawer-content';
-
-import { MyTaskTabContent } from './my-task-tab-content';
+import { SelectTabContentHasGroup } from '@/features/todos/components/tab/select-tab-content-has-group';
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
@@ -34,7 +33,7 @@ export default function TodosPage() {
       <Text>
         このページでは、自分が担当になっているおしごとをステータスごとに見ることができます。
       </Text>
-      <MyTaskTabContent />
+      <SelectTabContentHasGroup />
     </Content>
   );
 }
