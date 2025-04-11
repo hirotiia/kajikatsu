@@ -28,6 +28,7 @@ export default defineConfig({
             name: 'chromium',
             provider: 'playwright',
           },
+          include: ['**/*.stories.[jt]s?(x)'],
           setupFiles: ['.storybook/vitest.setup.ts'],
         },
       },
