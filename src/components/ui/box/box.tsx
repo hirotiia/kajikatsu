@@ -7,7 +7,7 @@ type BoxProps = {
   className?: string;
 };
 
-const boxVariants = cva('border p-2 md:p-4', {
+const boxVariants = cva('border-2 p-2 md:p-4', {
   variants: {
     border: {
       default: 'border-foreground',
@@ -25,9 +25,6 @@ const boxVariants = cva('border p-2 md:p-4', {
       default: 'rounded-md',
       none: 'rounded-none',
     },
-    size: {
-      default: 'border-2',
-    },
     mt: {
       sm: 'mt-2',
       md: 'mt-3',
@@ -40,7 +37,6 @@ const boxVariants = cva('border p-2 md:p-4', {
     bg: 'default',
     color: 'default',
     rounded: 'default',
-    size: 'default',
     mt: 'md',
   },
 });
@@ -56,14 +52,13 @@ export const Box = ({
   bg,
   color,
   rounded,
-  size,
   mt,
 }: BoxVariantProps) => {
   return (
     <div
       className={cn(
         '[&>*:first-child]:mt-0',
-        boxVariants({ className, bg, color, border, rounded, size, mt }),
+        boxVariants({ className, bg, color, border, rounded, mt }),
       )}
     >
       {children}
