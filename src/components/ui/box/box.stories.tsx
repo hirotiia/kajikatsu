@@ -50,7 +50,6 @@ export const Default: Story = {
   },
 };
 
-// ボーダーバリエーション
 export const BorderVariants: Story = {
   args: {
     children: 'ボーダーバリエーション',
@@ -65,7 +64,6 @@ export const BorderVariants: Story = {
   ),
 };
 
-// 背景色バリエーション
 export const BackgroundVariants: Story = {
   args: {
     children: '背景色バリエーション',
@@ -78,7 +76,6 @@ export const BackgroundVariants: Story = {
   ),
 };
 
-// テキストカラーバリエーション
 export const TextColorVariants: Story = {
   args: {
     children: 'テキストカラーバリエーション',
@@ -93,7 +90,6 @@ export const TextColorVariants: Story = {
   ),
 };
 
-// 角丸バリエーション
 export const RoundedVariants: Story = {
   args: {
     children: '角丸バリエーション',
@@ -106,7 +102,6 @@ export const RoundedVariants: Story = {
   ),
 };
 
-// 上部マージンバリエーション
 export const MarginTopVariants: Story = {
   args: {
     children: '上マージンバリエーション',
@@ -121,7 +116,6 @@ export const MarginTopVariants: Story = {
   ),
 };
 
-// 組み合わせパターン例
 export const Combinations: Story = {
   args: {
     children: 'コンビネーションパターン',
@@ -144,7 +138,6 @@ export const Combinations: Story = {
   ),
 };
 
-// 長いコンテンツを持つボックス
 export const LongContent: Story = {
   args: {
     children:
@@ -152,7 +145,6 @@ export const LongContent: Story = {
   },
 };
 
-// 複数の子要素を持つボックス
 export const MultipleChildren: Story = {
   args: {
     children: (
@@ -165,7 +157,6 @@ export const MultipleChildren: Story = {
   },
 };
 
-// すべてのバリアントの組み合わせを表示
 export const AllVariantCombinations: Story = {
   args: {
     children: 'すべてのバリアントの組み合わせパターン',
