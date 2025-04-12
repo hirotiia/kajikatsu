@@ -23,6 +23,7 @@ const Logo = async () => {
         src="/images/logo.svg"
         width="80"
         height="80"
+        unoptimized={true}
       />
       <span className="text-sm font-bold md:text-base">{config.APP_NAME}</span>
     </Link>
