@@ -1,5 +1,4 @@
 import { Metadata, Viewport } from 'next';
-import { headers } from 'next/headers';
 
 import { config } from '@/config/config';
 import '@/styles/globals.css';
@@ -49,11 +48,8 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const headersList = await headers();
-  const nonce = headersList.get('x-nonce') || '';
   return (
     <html lang="ja">
-      <head nonce={nonce} />
       <body className={cn('h-full', zen_maru_gothic.className)}>
         <AppProvider>{children}</AppProvider>
       </body>
