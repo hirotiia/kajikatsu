@@ -7,6 +7,7 @@ export function middleware(request: NextRequest) {
     script-src 'self' 'nonce-${nonce}' 'strict-dynamic';
     style-src 'self' 'nonce-${nonce}';
     img-src 'self' blob: data: http://127.0.0.1:54321 https://${process.env.NEXT_PUBLIC_SUPABASE_PROJECT_ID}.supabase.co;
+    connect-src 'self' https://${process.env.NEXT_PUBLIC_SUPABASE_PROJECT_ID}.supabase.co;
     font-src 'self';
     object-src 'none';
     base-uri 'self';
