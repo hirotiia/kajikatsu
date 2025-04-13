@@ -13,8 +13,7 @@ export function CardSkeleton({ count = 3, className }: CardSkeletonProps) {
       {Array.from({ length: count }).map((_, i) => (
         <li
           key={i}
-          className="animate-pulse rounded-lg bg-primary p-4 shadow-sm"
-          style={{ minHeight: '120px' }}
+          className="min-h-[120px] animate-pulse rounded-lg bg-primary p-4 shadow-sm"
         >
           <div className="mb-3 h-4 w-1/2 rounded bg-muted" />
           <div className="mb-2 h-3 w-3/4 rounded bg-muted" />
