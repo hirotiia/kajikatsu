@@ -1,6 +1,6 @@
 'use client';
 
-import { useActionState, useEffect } from 'react';
+import { useActionState } from 'react';
 
 import { signUp } from '@/actions/auth/auth';
 import { Button } from '@/components/ui/button';
@@ -16,16 +16,19 @@ const INITIAL_STATE = {
 
 export function RegistrationForm() {
   const { addNotification } = useNotifications();
+
+  const handleSignUp = async (prevState: any, formData: FormData) => {
+    const result = await signUp(prevState, formData);
+    if (result.status !== undefined) {
+      addNotification(result);
+    }
+    return result;
+  };
+
   const [state, actionSubmit, isPending] = useActionState(
-    signUp,
+    handleSignUp,
     INITIAL_STATE,
   );
-
-  useEffect(() => {
-    if (state.status !== undefined) {
-      addNotification(state);
-    }
-  }, [state, addNotification]);
 
   return (
     <form
