@@ -1,7 +1,6 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
-import { useActionState, useEffect } from 'react';
+import { useActionState } from 'react';
 
 import { forgotPasswordAction } from '@/actions/auth/forgot-password-action';
 import { Button } from '@/components/ui/button';
@@ -16,18 +15,22 @@ const INITIAL_STATE = {
 };
 
 export const ForgotPasswordForm = () => {
-  const router = useRouter();
   const { addNotification } = useNotifications();
-  const [state, submitAction, isPending] = useActionState(
-    forgotPasswordAction,
-    INITIAL_STATE,
-  );
 
-  useEffect(() => {
-    if (state.status !== undefined) {
+  const forgotPasswordHandler = async (prevState: any, formData: FormData) => {
+    const result = await forgotPasswordAction(prevState, formData);
+
+    if (result.status !== undefined) {
       addNotification(state);
     }
-  }, [state, addNotification, router]);
+
+    return result;
+  };
+
+  const [state, submitAction, isPending] = useActionState(
+    forgotPasswordHandler,
+    INITIAL_STATE,
+  );
 
   return (
     <form action={submitAction} className="mt-20 grid w-full gap-6">
