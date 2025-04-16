@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { useActionState, useEffect } from 'react';
+import { useActionState } from 'react';
 
 import { signIn } from '@/actions/auth/auth';
 import { Button } from '@/components/ui/button';
@@ -18,22 +18,31 @@ const INITIAL_STATE = {
 export const LoginForm = () => {
   const router = useRouter();
   const { addNotification } = useNotifications();
-  const [state, handleSignIn, isPending] = useActionState(
-    signIn,
-    INITIAL_STATE,
-  );
 
-  useEffect(() => {
-    if (state.status !== undefined) {
-      addNotification(state);
+  const handleSignInWithNotification = async (
+    prevState: any,
+    formData: FormData,
+  ) => {
+    const result = await signIn(prevState, formData);
 
-      if (state.type === 'success') {
+    if (result.status !== undefined) {
+      addNotification(result);
+
+      if (result.type === 'success') {
         router.push('/dashboard');
       }
     }
-  }, [state, addNotification, router]);
+
+    return result;
+  };
+
+  const [state, handleSubmit, isPending] = useActionState(
+    handleSignInWithNotification,
+    INITIAL_STATE,
+  );
+
   return (
-    <form action={handleSignIn} className="grid w-full gap-6 pt-12">
+    <form action={handleSubmit} className="grid w-full gap-6 pt-12">
       <FormInput
         label="メールアドレス"
         id="email"
