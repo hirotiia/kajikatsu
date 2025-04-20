@@ -1,7 +1,7 @@
 'use client';
 import { Plus } from 'lucide-react';
 import { QRCodeCanvas } from 'qrcode.react';
-import { useActionState, useEffect, useState } from 'react';
+import { useActionState, useState } from 'react';
 
 import { inviteGroup } from '@/actions/group/invite-group';
 import { Button } from '@/components/ui/button';
@@ -27,20 +27,27 @@ export const InviteGroup = ({ userId, groupId }: InviteGroupProps) => {
   const openerDialog = useOpener();
   const { addNotification } = useNotifications();
   const [url, setUrl] = useState(INITIAL_STATE.url);
-  const [state, inviteGroupAction, isPending] = useActionState(
-    inviteGroup,
-    INITIAL_STATE,
-  );
 
-  useEffect(() => {
-    if (state.status !== 0) {
-      addNotification(state);
+  const handleInviteGroupAction = async (
+    prevState: any,
+    formData: FormData,
+  ) => {
+    const result = await inviteGroup(prevState, formData);
 
-      if (state.type === 'success') {
-        setUrl(state.url);
+    if (result.status !== 0) {
+      addNotification(result);
+
+      if (result.type === 'success') {
+        setUrl(result.url);
       }
     }
-  }, [state, addNotification]);
+
+    return result;
+  };
+  const [, inviteGroupAction, isPending] = useActionState(
+    handleInviteGroupAction,
+    INITIAL_STATE,
+  );
 
   return (
     <>
