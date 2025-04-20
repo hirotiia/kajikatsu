@@ -54,7 +54,7 @@ export const JoinRequestList = ({ userId }: JoinRequestListProps) => {
 
   return (
     <div>
-      <p>{joinRequests.length}件のお知らせがあります。</p>
+      <Text>{joinRequests.length}件のお知らせがあります。</Text>
       {joinRequests.map((request) => (
         <div
           key={request.id}
