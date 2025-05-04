@@ -1,6 +1,5 @@
-module.exports = {
+const mockedFonts = {
   'https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;700&display=swap': `
-    /* モックフォント：Zen Maru Gothic */
     @font-face {
       font-family: 'Zen Maru Gothic';
       font-style: normal;
@@ -17,3 +16,5 @@ module.exports = {
     }
   `,
 };
+
+export default mockedFonts;
