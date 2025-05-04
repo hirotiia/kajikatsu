@@ -22,6 +22,8 @@ jobs:
         run: npm ci
       - name: Run Chromatic
         uses: chromaui/action@v11.28.2
+        env:
+          NEXT_FONT_GOOGLE_MOCKED_RESPONSES: ${{ github.workspace }}/mocked-google-fonts.js
         with:
           # ⚠️ Make sure to configure a `CHROMATIC_PROJECT_TOKEN` repository secret
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
