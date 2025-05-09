@@ -19,7 +19,22 @@ export default defineConfig({
   test: {
     coverage: {
       reporter: ['text', 'html'],
-      include: ['src/components/*/**'],
+      exclude: [
+        '**/*.d.ts',
+        '**/*.stories.*',
+        '**/__tests__/**',
+        '**/node_modules/**',
+        '**/dist/**',
+        '**/public/**',
+        '**/.next/**',
+        '**/mocked-google-fonts.js',
+        '**/tailwind.config.ts',
+        '**/postcss.config.*',
+        '**/next.config.*',
+        '**/vitest.config.*',
+        '**/*.types.ts',
+        '**/types/**',
+      ],
     },
     workspace: [
       {
