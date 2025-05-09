@@ -7,40 +7,40 @@ on:
   pull_request:
 
 jobs:
-  install-deps:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 22.11.0
-          cache: 'npm'
-      - run: npm ci
+  _setup: &node-setup
+    uses: actions/setup-node@v4
+    with:
+      node-version: 22.11.0
+      cache: 'npm'
 
   lint:
-    needs: install-deps
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - *node-setup
+      - run: npm ci
       - run: npm run lint
 
   typecheck:
-    needs: install-deps
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - *node-setup
+      - run: npm ci
       - run: npm run check-types
 
   test:
-    needs: install-deps
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - *node-setup
+      - run: npm ci
       - run: npm run test
 
   secretlint:
-    needs: install-deps
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - *node-setup
+      - run: npm ci
       - run: npm run secretlint
