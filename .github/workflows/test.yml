@@ -38,6 +38,8 @@ jobs:
           node-version: 22.11.0
           cache: 'npm'
       - run: npm ci
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps
       - run: npm run test
 
   secretlint:
