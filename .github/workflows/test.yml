@@ -7,17 +7,14 @@ on:
   pull_request:
 
 jobs:
-  _setup: &node-setup
-    uses: actions/setup-node@v4
-    with:
-      node-version: 22.11.0
-      cache: 'npm'
-
   lint:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - *node-setup
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22.11.0
+          cache: 'npm'
       - run: npm ci
       - run: npm run lint
 
@@ -25,7 +22,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - *node-setup
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22.11.0
+          cache: 'npm'
       - run: npm ci
       - run: npm run check-types
 
@@ -33,7 +33,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - *node-setup
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22.11.0
+          cache: 'npm'
       - run: npm ci
       - run: npm run test
 
@@ -41,6 +44,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - *node-setup
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22.11.0
+          cache: 'npm'
       - run: npm ci
       - run: npm run secretlint
