@@ -17,6 +17,10 @@ export default defineConfig({
     },
   },
   test: {
+    coverage: {
+      reporter: ['text', 'html'],
+      include: ['src/components/*/**'],
+    },
     workspace: [
       {
         extends: true,
