@@ -1,9 +1,10 @@
 import type { StorybookConfig } from '@storybook/experimental-nextjs-vite';
 
 const config: StorybookConfig = {
+  staticDirs: ['../public'],
   stories: [
-    '../src/components/ui/**/*.stories.tsx',
-    '../src/components/layouts/**/*.stories.tsx',
+    '../src/components/ui/**/*.stories.@(js|jsx|ts|tsx)',
+    '../src/components/layouts/**/*.stories.@(js|jsx|ts|tsx)',
   ],
   addons: [
     '@storybook/addon-essentials',
@@ -15,7 +16,9 @@ const config: StorybookConfig = {
     name: '@storybook/experimental-nextjs-vite',
     options: {},
   },
-  staticDirs: ['../public'],
+  docs: {
+    autodocs: true,
+  },
   features: {
     experimentalRSC: true,
   },
