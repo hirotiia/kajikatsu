@@ -24,6 +24,7 @@ export default defineConfig({
         '**/*.stories.*',
         '**/__tests__/**',
         '**/node_modules/**',
+        '**/coverage/**',
         '**/dist/**',
         '**/public/**',
         '**/.next/**',
