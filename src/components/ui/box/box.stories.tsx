@@ -6,6 +6,28 @@ const meta: Meta<typeof Box> = {
   component: Box,
   title: 'Box',
   tags: ['autodocs'],
+  argTypes: {
+    border: {
+      control: 'select',
+      options: ['default', 'primary'],
+    },
+    bg: {
+      control: 'select',
+      options: ['default', 'primary'],
+    },
+    color: {
+      control: 'select',
+      options: ['default', 'primary'],
+    },
+    rounded: {
+      control: 'select',
+      options: ['default', 'none'],
+    },
+    mt: {
+      control: 'select',
+      options: ['sm', 'md', 'lg', 'none'],
+    },
+  },
 };
 
 export default meta;
@@ -21,5 +43,14 @@ export const Default: Story = {
     color: 'default',
     rounded: 'default',
     mt: 'md',
+  },
+};
+
+export const Primary: Story = {
+  args: {
+    ...Default.args,
+    border: 'primary',
+    bg: 'primary',
+    color: 'primary',
   },
 };
