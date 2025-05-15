@@ -4,7 +4,7 @@ import { Box } from './index';
 
 const meta: Meta<typeof Box> = {
   component: Box,
-  title: 'Box',
+  title: 'Ui/Box',
   tags: ['autodocs'],
   argTypes: {
     border: {
