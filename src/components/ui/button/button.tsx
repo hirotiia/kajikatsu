@@ -37,9 +37,8 @@ const buttonVariants = cva(
 
 type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> &
   React.AnchorHTMLAttributes<HTMLAnchorElement> &
-  React.HTMLAttributes<HTMLDivElement> &
   VariantProps<typeof buttonVariants> & {
-    as?: 'button' | 'a' | 'div';
+    as?: 'button' | 'a';
     icon?: React.ReactNode;
     children: React.ReactNode;
     href?: string;
