@@ -68,6 +68,7 @@ export const JoinRequestList = ({ userId }: JoinRequestListProps) => {
 
           <div className="flex gap-1">
             <Button
+              as="button"
               size="small"
               rounded="md"
               onClick={() => handleApprove(request.id)}
@@ -75,6 +76,7 @@ export const JoinRequestList = ({ userId }: JoinRequestListProps) => {
               承認
             </Button>
             <Button
+              as="button"
               size="small"
               rounded="md"
               variant="destructive"

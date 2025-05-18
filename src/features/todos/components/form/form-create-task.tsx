@@ -118,7 +118,7 @@ export const FormCreateTask = ({
         className="mt-4"
       />
 
-      <Button className="mt-10" size="full" disabled={isPending}>
+      <Button as="button" className="mt-10" size="full" disabled={isPending}>
         {isPending ? '作成中...' : '作成'}
       </Button>
     </form>

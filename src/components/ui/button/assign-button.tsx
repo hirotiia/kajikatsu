@@ -69,7 +69,7 @@ export function AssignButton({
   return (
     <form action={formAction} className="w-full md:w-auto">
       <input type="hidden" name="taskId" value={taskId} />
-      <Button disabled={isPending} className="w-full md:min-w-28">
+      <Button as="button" disabled={isPending} className="w-full md:min-w-28">
         {isPending ? '更新中...' : '担当する'}
       </Button>
     </form>

@@ -35,27 +35,21 @@ const buttonVariants = cva(
   },
 );
 
-type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> &
-  React.AnchorHTMLAttributes<HTMLAnchorElement> &
-  VariantProps<typeof buttonVariants> & {
-    as?: 'button' | 'a';
-    icon?: React.ReactNode;
-    children: React.ReactNode;
-    href?: string;
-  };
+type ButtonProps =
+  | ({ as: 'a'; icon?: React.ReactNode } & Omit<
+      React.ComponentPropsWithoutRef<'a'>,
+      never
+    > &
+      VariantProps<typeof buttonVariants>)
+  | ({ as: 'button'; icon?: React.ReactNode } & Omit<
+      React.ComponentPropsWithoutRef<'button'>,
+      never
+    > &
+      VariantProps<typeof buttonVariants>);
 
-const Button = ({
-  as: Component = 'button',
-  icon,
-  children,
-  variant,
-  size,
-  rounded,
-  className,
-  href,
-  ...props
-}: ButtonProps) => {
-  const buttonVariantsProps = { variant, size, rounded, className };
+const Button = (props: ButtonProps) => {
+  const { as, icon, children } = props;
+  const isLink = as === 'a';
 
   const content = (
     <>
@@ -64,18 +58,33 @@ const Button = ({
     </>
   );
 
-  return Component === 'a' && href ? (
+  if (isLink) {
+    const { href, variant, size, rounded, className, ...rest } = props;
+
+    if (!href) return;
+
     <Link
-      className={cn(buttonVariants(buttonVariantsProps))}
+      className={cn(className, buttonVariants({ variant, size, rounded }))}
       href={href}
-      {...props}
+      {...rest}
     >
       {content}
-    </Link>
-  ) : (
-    <Component className={cn(buttonVariants(buttonVariantsProps))} {...props}>
+    </Link>;
+  }
+
+  const { variant, size, rounded, className, ...rest } = props as Extract<
+    ButtonProps,
+    { as: 'button' }
+  >;
+
+  return (
+    <button
+      className={cn(className, buttonVariants({ variant, size, rounded }))}
+      type="button"
+      {...rest}
+    >
       {content}
-    </Component>
+    </button>
   );
 };
 

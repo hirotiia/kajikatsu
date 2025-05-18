@@ -51,6 +51,7 @@ export const DleteGroup = ({ userId, groupId, roleId }: DleteGroupProps) => {
   return (
     <>
       <Button
+        as="button"
         type="button"
         onClick={openerDialog.open}
         aria-controls="dialog-2"
@@ -71,7 +72,7 @@ export const DleteGroup = ({ userId, groupId, roleId }: DleteGroupProps) => {
           <input type="hidden" name="user_id" value={userId} />
           <input type="hidden" name="group_id" value={groupId} />
           <input type="hidden" name="role_id" value={roleId} />
-          <Button variant="destructive" disabled={isPending}>
+          <Button as="button" variant="destructive" disabled={isPending}>
             {isPending ? '脱退中です...' : 'グループを脱退する'}
           </Button>
         </form>

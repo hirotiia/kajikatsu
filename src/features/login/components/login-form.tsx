@@ -61,7 +61,11 @@ export const LoginForm = () => {
         error={state.fieldErrors?.password ?? []}
         required
       />
-      <Button disabled={isPending} className="mx-auto max-w-screen-sm">
+      <Button
+        as="button"
+        disabled={isPending}
+        className="mx-auto max-w-screen-sm"
+      >
         {isPending ? 'ログイン中...' : 'ログイン'}
       </Button>
     </form>

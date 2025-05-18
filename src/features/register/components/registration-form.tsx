@@ -59,7 +59,11 @@ export function RegistrationForm() {
         error={state.fieldErrors?.password ?? []}
         required
       />
-      <Button className="mx-auto max-w-screen-sm" disabled={isPending}>
+      <Button
+        as="button"
+        className="mx-auto max-w-screen-sm"
+        disabled={isPending}
+      >
         {isPending ? '登録中...' : '登録'}
       </Button>
     </form>

@@ -52,6 +52,7 @@ export const InviteGroup = ({ userId, groupId }: InviteGroupProps) => {
   return (
     <>
       <Button
+        as="button"
         type="button"
         onClick={openerDialog.open}
         aria-controls="dialog-1"
@@ -98,7 +99,7 @@ export const InviteGroup = ({ userId, groupId }: InviteGroupProps) => {
                 { value: '1440', title: '24時間' },
               ]}
             />
-            <Button className="mx-auto mt-6" disabled={isPending}>
+            <Button as="button" className="mx-auto mt-6" disabled={isPending}>
               {isPending ? '少々お待ちください...' : 'QRコードで招待する'}
             </Button>
           </form>

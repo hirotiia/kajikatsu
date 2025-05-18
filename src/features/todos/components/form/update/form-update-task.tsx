@@ -36,6 +36,7 @@ export const FormUpdateTask = ({
   return (
     <>
       <Button
+        as="button"
         type="button"
         onClick={opener.open}
         aria-controls="dialog-edit"

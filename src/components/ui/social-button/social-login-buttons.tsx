@@ -12,6 +12,7 @@ export function SocialLoginButtons() {
   return (
     <div className="mt-8 grid w-full max-w-screen-sm gap-5">
       <Button
+        as="button"
         type="button"
         onClick={handleGoogleLogin}
         icon={<GoogleIcon />}
@@ -21,7 +22,13 @@ export function SocialLoginButtons() {
       >
         Googleでログイン
       </Button>
-      <Button type="button" icon={<XIcon />} variant="login" rounded="sm">
+      <Button
+        as="button"
+        type="button"
+        icon={<XIcon />}
+        variant="login"
+        rounded="sm"
+      >
         Xでログイン
       </Button>
     </div>

@@ -160,10 +160,15 @@ export function FormEditTask({
         />
       )}
       <div className="mt-6 grid gap-y-2">
-        <Button variant="default" disabled={isPending}>
+        <Button as="button" variant="default" disabled={isPending}>
           {isPending ? '更新中です...' : '更新'}
         </Button>
-        <Button variant="destructive" type="button" onClick={opener.close}>
+        <Button
+          as="button"
+          variant="destructive"
+          type="button"
+          onClick={opener.close}
+        >
           キャンセル
         </Button>
       </div>

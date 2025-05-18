@@ -52,6 +52,7 @@ export const CreateGroup = ({ userId }: CreateGroupProps) => {
   return (
     <>
       <Button
+        as="button"
         type="button"
         onClick={openerDialog.open}
         aria-controls="dialog-3"
@@ -73,7 +74,7 @@ export const CreateGroup = ({ userId }: CreateGroupProps) => {
             error={state.fieldErrors?.groupName ?? []}
             required
           />
-          <Button disabled={isPending} className="mt-6">
+          <Button as="button" disabled={isPending} className="mt-6">
             {isPending ? '作成中です...' : 'グループを作成する'}
           </Button>
         </form>

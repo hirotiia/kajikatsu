@@ -42,7 +42,11 @@ export const ForgotPasswordForm = () => {
         error={state.fieldErrors?.email ?? []}
         required
       />
-      <Button className="mx-auto max-w-screen-sm" disabled={isPending}>
+      <Button
+        as="button"
+        className="mx-auto max-w-screen-sm"
+        disabled={isPending}
+      >
         {isPending ? '送信中です...' : 'メールを送信する'}
       </Button>
     </form>

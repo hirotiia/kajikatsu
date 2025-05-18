@@ -55,6 +55,7 @@ export const UserProfileClient = ({ content }: UserProfileClientProps) => {
                 <div className="min-w-[300px] p-3 md:max-w-[600px]">
                   {content}
                   <Button
+                    as="button"
                     variant="destructive"
                     onClick={handleSignOut}
                     disabled={isPending}

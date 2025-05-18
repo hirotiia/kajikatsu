@@ -87,7 +87,11 @@ export const ResetPasswordForm = ({ className }: { className?: string }) => {
         error={state.fieldErrors?.confirmPassword ?? []}
         required
       />
-      <Button className="mx-auto max-w-screen-sm" disabled={isPending}>
+      <Button
+        as="button"
+        className="mx-auto max-w-screen-sm"
+        disabled={isPending}
+      >
         {isPending ? 'リセット中...' : 'リセット'}
       </Button>
     </form>
