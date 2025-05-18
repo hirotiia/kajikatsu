@@ -59,8 +59,16 @@ const Button = (props: ButtonProps) => {
   );
 
   if (isLink) {
-    const { href, variant, size, rounded, className, ...rest } =
-      props as Extract<ButtonProps, { as: 'a' }>;
+    const {
+      as: _as,
+      icon: _icon,
+      href,
+      variant,
+      size,
+      rounded,
+      className,
+      ...rest
+    } = props as Extract<ButtonProps, { as: 'a' }>;
 
     if (!href) return;
 
@@ -73,10 +81,16 @@ const Button = (props: ButtonProps) => {
     </Link>;
   }
 
-  const { type, variant, size, rounded, className, ...rest } = props as Extract<
-    ButtonProps,
-    { as: 'button' }
-  >;
+  const {
+    as: _as,
+    icon: _icon,
+    type,
+    variant,
+    size,
+    rounded,
+    className,
+    ...rest
+  } = props as Extract<ButtonProps, { as: 'button' }>;
 
   return (
     <button
