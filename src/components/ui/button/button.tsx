@@ -59,7 +59,7 @@ const Button = (props: ButtonProps) => {
   );
 
   if (isLink) {
-    const { href, variant, size, rounded, className, ...rest } = props;
+    const { as: _, href, variant, size, rounded, className, ...rest } = props;
 
     if (!href) return;
 
@@ -72,15 +72,20 @@ const Button = (props: ButtonProps) => {
     </Link>;
   }
 
-  const { variant, size, rounded, className, ...rest } = props as Extract<
-    ButtonProps,
-    { as: 'button' }
-  >;
+  const {
+    as: _,
+    type,
+    variant,
+    size,
+    rounded,
+    className,
+    ...rest
+  } = props as Extract<ButtonProps, { as: 'button' }>;
 
   return (
     <button
       className={cn(className, buttonVariants({ variant, size, rounded }))}
-      type="button"
+      type={type}
       {...rest}
     >
       {content}
