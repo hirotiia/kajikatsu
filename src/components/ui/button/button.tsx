@@ -49,7 +49,7 @@ const Button = <TElementType extends React.ElementType>(
   const { as, icon, children, className, variant, size, rounded, ...rest } =
     props;
 
-  const classes = cn(className, buttonVariants({ variant, size, rounded }));
+  const classes = cn(buttonVariants({ variant, size, rounded }), className);
 
   if (as === 'a' && 'href' in rest) {
     const { href, ...anchorRest } = rest as React.ComponentPropsWithoutRef<'a'>;
