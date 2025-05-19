@@ -65,11 +65,7 @@ const Button = <TElementType extends React.ElementType>(
   const Component = (as ?? 'button') as React.ElementType;
 
   return (
-    <Component
-      className={classes}
-      {...(as === 'button' && { type: 'button' })}
-      {...rest}
-    >
+    <Component className={classes} {...rest}>
       {icon && <span>{icon}</span>}
       <span>{children}</span>
     </Component>
