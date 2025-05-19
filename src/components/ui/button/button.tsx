@@ -35,71 +35,44 @@ const buttonVariants = cva(
   },
 );
 
-type ButtonProps =
-  | ({ as: 'a'; icon?: React.ReactNode } & Omit<
-      React.ComponentPropsWithoutRef<'a'>,
-      never
-    > &
-      VariantProps<typeof buttonVariants>)
-  | ({ as: 'button'; icon?: React.ReactNode } & Omit<
-      React.ComponentPropsWithoutRef<'button'>,
-      never
-    > &
-      VariantProps<typeof buttonVariants>);
+type ButtonProps<TElementType extends React.ElementType> = Omit<
+  React.ComponentPropsWithoutRef<TElementType>,
+  'as'
+> & {
+  as?: TElementType;
+  icon?: React.ReactNode;
+} & VariantProps<typeof buttonVariants>;
 
-const Button = (props: ButtonProps) => {
-  const { as, icon, children } = props;
-  const isLink = as === 'a';
+const Button = <TElementType extends React.ElementType>(
+  props: ButtonProps<TElementType>,
+): React.ReactElement => {
+  const { as, icon, children, className, variant, size, rounded, ...rest } =
+    props;
 
-  const content = (
-    <>
-      {icon && <span>{icon}</span>}
-      <span>{children}</span>
-    </>
-  );
+  const classes = cn(className, buttonVariants({ variant, size, rounded }));
 
-  if (isLink) {
-    const {
-      as: _as,
-      icon: _icon,
-      href,
-      variant,
-      size,
-      rounded,
-      className,
-      ...rest
-    } = props as Extract<ButtonProps, { as: 'a' }>;
+  if (as === 'a' && 'href' in rest) {
+    const { href, ...anchorRest } = rest as React.ComponentPropsWithoutRef<'a'>;
 
-    if (!href) return;
-
-    <Link
-      className={cn(className, buttonVariants({ variant, size, rounded }))}
-      href={href}
-      {...rest}
-    >
-      {content}
-    </Link>;
+    return (
+      <Link href={href as string} {...anchorRest} className={classes}>
+        {icon && <span>{icon}</span>}
+        <span>{children}</span>
+      </Link>
+    );
   }
 
-  const {
-    as: _as,
-    icon: _icon,
-    type,
-    variant,
-    size,
-    rounded,
-    className,
-    ...rest
-  } = props as Extract<ButtonProps, { as: 'button' }>;
+  const Component = (as ?? 'button') as React.ElementType;
 
   return (
-    <button
-      className={cn(className, buttonVariants({ variant, size, rounded }))}
-      type={type}
+    <Component
+      className={classes}
+      {...(as === 'button' && { type: 'button' })}
       {...rest}
     >
-      {content}
-    </button>
+      {icon && <span>{icon}</span>}
+      <span>{children}</span>
+    </Component>
   );
 };
 
