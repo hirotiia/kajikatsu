@@ -8,6 +8,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "lint-staged": "lint-staged",
     "test": "vitest",
     "coverage": "vitest run --coverage",
     "supabase": "npx supabase start",

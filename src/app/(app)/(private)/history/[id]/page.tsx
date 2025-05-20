@@ -14,7 +14,7 @@ type Params = {
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const { id } = await params;
   return {
-    title: `詳細 id:${id}｜履歴｜${config.APP_NAME}`,
+    title: `詳細 ${id}｜履歴｜${config.APP_NAME}`,
   };
 }
 
