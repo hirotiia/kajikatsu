@@ -12,7 +12,7 @@ import { toJstString } from '@/utils/to-jst-string';
 import {
   formatTaskHistoryComparisonForDefinitionList,
   formatTaskHistoryForDefinitionList,
-} from './format-task-hisotry-for-definition-list';
+} from './format-task-history-for-definition-list';
 
 type HistoryDetailProps = {
   id: string;
