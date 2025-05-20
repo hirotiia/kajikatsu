@@ -1,13 +1,12 @@
 import path from 'path';
 
-const quote = (f) => `"${f.replace(/(["$`\\])/g, '\\$1')}"`;
+const escapeGlob = (f) => f.replace(/([*?[\]{}()!+@])/g, '\\$1');
+const quote = (f) =>
+  `"${escapeGlob(path.relative(process.cwd(), f)).replace(/(["$`\\])/g, '\\$1')}"`;
 
 const buildEslintCommand = (filenames) => {
-  const filteredFiles = filenames
-    .filter((f) => f.includes('/src/'))
-    .map((f) => quote(path.relative(process.cwd(), f)));
+  const filteredFiles = filenames.filter((f) => f.includes('/src/')).map(quote);
 
-  // srcディレクトリ内のファイルがない場合はスキップ
   if (filteredFiles.length === 0) {
     return 'echo "src/ 配下の対象ファイルが存在しなかったため、ESlintをスキップします。"';
   }
@@ -20,7 +19,7 @@ const buildSecretlintCommand = (filenames) => {
     return 'echo "シークレットリントのチェック対象ファイルはありません。"';
   }
 
-  return `npx secretlint ${filenames.map((f) => quote(path.relative(process.cwd(), f))).join(' ')}`;
+  return `npx secretlint ${filenames.map(quote).join(' ')}`;
 };
 
 const config = {

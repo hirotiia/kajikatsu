@@ -7,15 +7,16 @@ import { Text } from '@/components/ui/text';
 import { config } from '@/config/config';
 import { HistoryDetail } from '@/features/history/components/history-detail';
 
-export async function generateMetadata(): Promise<Metadata> {
-  return {
-    title: `履歴詳細｜履歴｜${config.APP_NAME}`,
-  };
-}
-
 type Params = {
   params: Promise<{ id: string }>;
 };
+
+export async function generateMetadata({ params }: Params): Promise<Metadata> {
+  const { id } = await params;
+  return {
+    title: `詳細：${id}｜履歴｜${config.APP_NAME}`,
+  };
+}
 
 export default async function HistoryDetailPage({ params }: Params) {
   const { id } = await params;
