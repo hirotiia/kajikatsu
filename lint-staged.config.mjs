@@ -1,8 +1,7 @@
 import path from 'path';
 
-const escapeGlob = (f) => f.replace(/([*?[\]{}()!+@])/g, '\\$1');
 const quote = (f) =>
-  `"${escapeGlob(path.relative(process.cwd(), f)).replace(/(["$`\\])/g, '\\$1')}"`;
+  `"${path.relative(process.cwd(), f).replace(/(["$`\\])/g, '\\$1')}"`;
 
 const buildEslintCommand = (filenames) => {
   const filteredFiles = filenames.filter((f) => f.includes('/src/')).map(quote);
