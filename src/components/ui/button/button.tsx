@@ -40,7 +40,7 @@ type ButtonProps<TElementType extends React.ElementType> = Omit<
   'as'
 > & {
   as?: TElementType;
-  icon?: React.ReactNode;
+  icon?: React.ReactElement;
 } & VariantProps<typeof buttonVariants>;
 
 const Button = <TElementType extends React.ElementType>(
