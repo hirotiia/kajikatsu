@@ -1,9 +1,11 @@
 import path from 'path';
 
+const quote = (f) => `"${f.replace(/(["$`\\])/g, '\\$1')}"`;
+
 const buildEslintCommand = (filenames) => {
   const filteredFiles = filenames
     .filter((f) => f.includes('/src/'))
-    .map((f) => path.relative(process.cwd(), f));
+    .map((f) => quote(path.relative(process.cwd(), f)));
 
   // srcディレクトリ内のファイルがない場合はスキップ
   if (filteredFiles.length === 0) {
@@ -18,7 +20,7 @@ const buildSecretlintCommand = (filenames) => {
     return 'echo "シークレットリントのチェック対象ファイルはありません。"';
   }
 
-  return `npx secretlint ${filenames.map((f) => path.relative(process.cwd(), f)).join(' ')}`;
+  return `npx secretlint ${filenames.map((f) => quote(path.relative(process.cwd(), f))).join(' ')}`;
 };
 
 const config = {

@@ -13,11 +13,11 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-type HistoryPageProps = {
+type Params = {
   params: Promise<{ id: string }>;
 };
 
-export default async function HistoryDetailPage({ params }: HistoryPageProps) {
+export default async function HistoryDetailPage({ params }: Params) {
   const { id } = await params;
 
   return (
