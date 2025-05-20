@@ -14,11 +14,11 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 type HistoryPageProps = {
-  params: Promise<{ page: string }>;
+  params: Promise<{ id: string }>;
 };
 
 export default async function HistoryDetailPage({ params }: HistoryPageProps) {
-  const resolvedParams = await params;
+  const { id } = await params;
 
   return (
     <Content>
@@ -63,7 +63,7 @@ export default async function HistoryDetailPage({ params }: HistoryPageProps) {
         を確認できます。
       </Text>
       <Box>
-        <HistoryDetail historyId={resolvedParams.page} />
+        <HistoryDetail historyId={id} />
       </Box>
     </Content>
   );

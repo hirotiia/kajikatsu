@@ -1,8 +1,8 @@
 import { Metadata, Viewport } from 'next';
 
 import { config } from '@/config/config';
-import '@/styles/globals.css';
 import { zen_maru_gothic } from '@/font/font';
+import '@/styles/globals.css';
 import { cn } from '@/utils/cn';
 
 import { AppProvider } from './provider';
