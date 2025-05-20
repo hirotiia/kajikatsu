@@ -63,7 +63,7 @@ export default async function HistoryDetailPage({ params }: Params) {
         を確認できます。
       </Text>
       <Box>
-        <HistoryDetail historyId={id} />
+        <HistoryDetail id={id} />
       </Box>
     </Content>
   );

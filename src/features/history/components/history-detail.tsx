@@ -10,20 +10,17 @@ import { cn } from '@/utils/cn';
 import { toJstString } from '@/utils/to-jst-string';
 
 import {
-  formatTaskHistoryForDefinitionList,
   formatTaskHistoryComparisonForDefinitionList,
+  formatTaskHistoryForDefinitionList,
 } from './format-task-hisotry-for-definition-list';
 
 type HistoryDetailProps = {
-  historyId: string;
+  id: string;
   className?: string;
 };
 
-export const HistoryDetail = async ({
-  historyId,
-  className,
-}: HistoryDetailProps) => {
-  const taskHistory = await fetchTaskHistoryById(historyId);
+export const HistoryDetail = async ({ id, className }: HistoryDetailProps) => {
+  const taskHistory = await fetchTaskHistoryById(id);
   if (!taskHistory) {
     notFound();
   }
