@@ -15,10 +15,12 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default function Error({ error }: { error: Error }) {
   return (
-    <div className="grid min-h-full place-items-center bg-white px-6 py-24 sm:py-32 lg:px-8">
+    <div className="grid min-h-full place-items-center px-6 py-24 sm:py-32 lg:px-8">
       <div className="text-center">
         <Text spacing="none">500</Text>
-        <Heading as="h1">予期しないエラーが発生しました</Heading>
+        <Heading as="h1" className="text-center">
+          予期しないエラーが発生しました
+        </Heading>
         <Text>申し訳ありません。ページの表示中に問題が発生しました。</Text>
         <Text>詳細：{error.message}</Text>
         <div className="mt-10 flex items-center justify-center gap-x-6">

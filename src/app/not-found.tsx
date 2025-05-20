@@ -13,10 +13,12 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default function NotFound() {
   return (
-    <div className="grid min-h-full place-items-center bg-white px-6 py-24 sm:py-32 lg:px-8">
+    <div className="grid min-h-full place-items-center px-6 py-24 sm:py-32 lg:px-8">
       <div className="text-center">
         <Text spacing="none">404</Text>
-        <Heading as="h1">お探しのページが見つかりません</Heading>
+        <Heading as="h1" className="text-center">
+          お探しのページが見つかりません
+        </Heading>
         <Text>
           申し訳ありません。お探しのページは存在しないか、削除された可能性があります。
         </Text>
