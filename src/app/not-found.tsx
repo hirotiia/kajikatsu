@@ -23,7 +23,7 @@ export default function NotFound() {
           申し訳ありません。お探しのページは存在しないか、削除された可能性があります。
         </Text>
         <div className="mt-10 flex items-center justify-center gap-x-6">
-          <Button as="a" href="/" size="small">
+          <Button as="a" href="/" size="small" rounded="md">
             ホームに戻る
           </Button>
         </div>

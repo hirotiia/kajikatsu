@@ -24,7 +24,7 @@ export default function Error({ error }: { error: Error }) {
         <Text>申し訳ありません。ページの表示中に問題が発生しました。</Text>
         <Text>詳細：{error.message}</Text>
         <div className="mt-10 flex items-center justify-center gap-x-6">
-          <Button as="a" href="/" size="small">
+          <Button as="a" href="/" size="small" rounded="md">
             ホームに戻る
           </Button>
         </div>
