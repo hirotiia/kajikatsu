@@ -33,9 +33,9 @@ export const HistoryContent = async () => {
 
   const historyList: HistoryItem[] = await Promise.all(
     historyData.map(async (item) => {
-      const changeUser = await fetchUserData(item.changed_by);
-      const userName = changeUser?.username ?? 'unknown user';
-      const avatarURL = changeUser?.avatar_url ?? '';
+      const editor = await fetchUserData(item.changed_by);
+      const userName = editor?.username ?? 'unknown user';
+      const avatarURL = editor?.avatar_url ?? '';
 
       const actionName = await fetchActionNameById(item.action_id);
       const action = actionName ?? '';
