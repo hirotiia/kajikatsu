@@ -3,13 +3,14 @@ import { JSX } from 'react';
 import { buildCreatedMessage } from '@/features/history/components/build-create-messages';
 import { buildDeletedMessage } from '@/features/history/components/build-delete-messages';
 import { buildDiffMessages } from '@/features/history/components/build-diff-messages';
+import { extractChangedFields } from '@/features/history/components/extract-changed-fields';
 import { FilteredHistoryList } from '@/features/history/components/filtered-history-list';
 import { fetchActionNameById } from '@/lib/supabase/data/actions/select/fetch-action-name-by-id';
 import { fetchStatusNameById } from '@/lib/supabase/data/statuses/select/fetch-status-name-by-id';
 import { fetchTaskHistory } from '@/lib/supabase/data/task-history/select/fetch-task-history';
 import { fetchUserNameById } from '@/lib/supabase/data/users/fetch-user-name-by-id';
 import { fetchUserData } from '@/lib/supabase/user/fetch-user-data';
-import { extractChangedFields } from '@/utils/extract-changed-fields';
+import { Tables } from '@/types/supabase/database.types';
 
 type HistoryItem = {
   id: string;
@@ -44,28 +45,32 @@ export const HistoryContent = async () => {
       let taskDiff: string | React.JSX.Element = '';
 
       if (actionName === 'updated') {
-        const diff = extractChangedFields(item.details);
+        const diff = extractChangedFields(
+          item.details.old as Tables<'tasks'>,
+          item.details.new as Tables<'tasks'>,
+        );
 
         if (diff) {
           if (diff.status_id) {
-            const oldStatusId = diff.status_id.old;
-            const newStatusId = diff.status_id.new;
-            const oldStatusName = await fetchStatusNameById(oldStatusId);
-            const newStatusName = await fetchStatusNameById(newStatusId);
+            const { old: beforeStatusId, new: afterStatusId } = diff.status_id;
+
+            const oldStatusName = await fetchStatusNameById(beforeStatusId);
+            const newStatusName = await fetchStatusNameById(afterStatusId);
 
             // 取得できなかった場合はIDをそのまま
-            diff.status_id.old = oldStatusName || oldStatusId;
-            diff.status_id.new = newStatusName || newStatusId;
+            diff.status_id.old = oldStatusName || beforeStatusId;
+            diff.status_id.new = newStatusName || afterStatusId;
           }
 
           if (diff.assignee_id) {
-            const oldAssigneeId = diff.assignee_id.old;
-            const newAssigneeId = diff.assignee_id.new;
-            const oldAssigneeName = oldAssigneeId
-              ? await fetchUserNameById(oldAssigneeId)
+            const { old: beforeAssigneeId, new: afterAssigneeId } =
+              diff.assignee_id;
+
+            const oldAssigneeName = beforeAssigneeId
+              ? await fetchUserNameById(beforeAssigneeId)
               : '未担当';
-            const newAssigneeName = newAssigneeId
-              ? await fetchUserNameById(newAssigneeId)
+            const newAssigneeName = afterAssigneeId
+              ? await fetchUserNameById(afterAssigneeId)
               : '未担当';
             diff.assignee_id = {
               old: oldAssigneeName,
