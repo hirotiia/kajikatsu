@@ -1,11 +1,12 @@
 import { createClient } from '@/lib/supabase/server';
+import { Tables } from '@/types/supabase/database.types';
 
-/**
- * 主キー (UUID) を引数に受け取り、対応するステータス名を返却する関数
- */
+type ActionName = Tables<'actions'>['action_name'];
+
+/** actions.id → action_name を取得して返す */
 export async function fetchActionNameById(
   actionId: string,
-): Promise<string | null> {
+): Promise<ActionName> {
   const supabase = await createClient();
 
   // クエリを実行
@@ -15,9 +16,7 @@ export async function fetchActionNameById(
     .eq('id', actionId)
     .single();
 
-  if (error || !data) {
-    return null;
-  }
+  if (error) throw error;
 
   return data.action_name;
 }

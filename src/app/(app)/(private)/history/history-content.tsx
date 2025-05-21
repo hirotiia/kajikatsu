@@ -16,7 +16,7 @@ type HistoryItem = {
   userName: string;
   changedAt: string;
   avatarURL: string;
-  action: string;
+  actionName: string;
   taskDiff: string | JSX.Element;
 };
 
@@ -31,18 +31,19 @@ export const HistoryContent = async () => {
     groupId: group?.id,
   });
 
-  const historyList: HistoryItem[] = await Promise.all(
+  const rawList: (HistoryItem | undefined)[] = await Promise.all(
     historyData.map(async (item) => {
       const editor = await fetchUserData(item.changed_by);
-      const userName = editor?.username ?? 'unknown user';
-      const avatarURL = editor?.avatar_url ?? '';
 
+      if (!editor) return undefined;
+
+      const userName = editor.username;
+      const avatarURL = editor.avatar_url ?? '';
       const actionName = await fetchActionNameById(item.action_id);
-      const action = actionName ?? '';
 
       let taskDiff: string | React.JSX.Element = '';
 
-      if (action === 'updated') {
+      if (actionName === 'updated') {
         const diff = extractChangedFields(item.details);
 
         if (diff) {
@@ -75,10 +76,10 @@ export const HistoryContent = async () => {
         } else {
           taskDiff = '変更なし';
         }
-      } else if (action === 'created') {
+      } else if (actionName === 'created') {
         const { new: newTask } = item.details;
         taskDiff = buildCreatedMessage(newTask);
-      } else if (action === 'deleted') {
+      } else if (actionName === 'deleted') {
         const { old: oldTask } = item.details;
         taskDiff = buildDeletedMessage(oldTask);
       }
@@ -88,10 +89,14 @@ export const HistoryContent = async () => {
         changedAt: item.changed_at ?? '',
         userName,
         avatarURL,
-        action,
+        actionName,
         taskDiff,
       };
     }),
+  );
+
+  const historyList: HistoryItem[] = rawList.filter(
+    (item): item is HistoryItem => item !== undefined,
   );
 
   if (!historyList || historyList.length === 0) {
@@ -100,7 +105,7 @@ export const HistoryContent = async () => {
 
   const historyListItems = historyList.map((item) => {
     let actionLabel = '';
-    switch (item.action) {
+    switch (item.actionName) {
       case 'created':
         actionLabel = '新しいおしごとを作成';
         break;
