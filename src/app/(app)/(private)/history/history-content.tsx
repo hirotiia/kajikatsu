@@ -1,4 +1,3 @@
-import { redirect } from 'next/navigation';
 import { JSX } from 'react';
 
 import { buildCreatedMessage } from '@/features/history/components/build-create-messages';
@@ -10,7 +9,6 @@ import { fetchStatusNameById } from '@/lib/supabase/data/statuses/select/fetch-s
 import { fetchTaskHistory } from '@/lib/supabase/data/task-history/select/fetch-task-history';
 import { fetchUserNameById } from '@/lib/supabase/data/users/fetch-user-name-by-id';
 import { fetchUserData } from '@/lib/supabase/user/fetch-user-data';
-import { getUser } from '@/lib/supabase/user/user';
 import { extractChangedFields } from '@/utils/extract-changed-fields';
 
 type HistoryItem = {
@@ -23,16 +21,14 @@ type HistoryItem = {
 };
 
 export const HistoryContent = async () => {
-  const { user } = await getUser();
-  const userId = user?.id ?? null;
+  const data = await fetchUserData();
 
-  if (!userId) {
-    redirect('/login');
-  }
-  const userData = await fetchUserData(userId);
+  if (!data) return;
+
+  const { userId, group } = data;
   const historyData = await fetchTaskHistory({
     userId,
-    groupId: userData?.group?.id,
+    groupId: group?.id,
   });
 
   const historyList: HistoryItem[] = await Promise.all(
