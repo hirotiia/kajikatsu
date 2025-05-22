@@ -1,6 +1,7 @@
 import { Content } from '@/components/layouts/content/content';
 import { Heading } from '@/components/ui/heading';
 import { Text } from '@/components/ui/text';
+import { HistoryFilter } from '@/features/history/components/filtered-history/history-filter';
 
 import { HistoryContent } from './history-content';
 
@@ -43,6 +44,7 @@ export default async function HistoryPage() {
       </Text>
       <Heading>絞り込み</Heading>
       <HistoryContent />
+      <HistoryFilter />
     </Content>
   );
 }
