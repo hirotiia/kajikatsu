@@ -139,5 +139,9 @@ export const HistoryContent = async () => {
     };
   });
 
-  return <FilteredHistoryList historyListItems={historyListItems} />;
+  return (
+    <>
+      <FilteredHistoryList historyListItems={historyListItems} />
+    </>
+  );
 };

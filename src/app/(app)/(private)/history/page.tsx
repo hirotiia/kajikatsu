@@ -1,10 +1,22 @@
+import { Suspense } from 'react';
+
 import { Content } from '@/components/layouts/content/content';
 import { Heading } from '@/components/ui/heading';
 import { Text } from '@/components/ui/text';
+import { Search, SearchResult } from '@/features/history/components/filter';
 
 import { HistoryContent } from './history-content';
 
-export default async function HistoryPage() {
+type Props = {
+  searchParams: Promise<{
+    query?: string;
+  }>;
+};
+
+export default async function HistoryPage(props: Props) {
+  const searchParams = await props.searchParams;
+  const query = searchParams.query || '';
+
   return (
     <Content>
       <Heading as="h1">
@@ -43,6 +55,12 @@ export default async function HistoryPage() {
       </Text>
       <Heading>絞り込み</Heading>
       <HistoryContent />
+      <div className="mt-6">
+        <Search placeholder="2025-05" />
+        <Suspense fallback={<Text>読み込み中...</Text>}>
+          <SearchResult query={query} />
+        </Suspense>
+      </div>
     </Content>
   );
 }
