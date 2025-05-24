@@ -1,7 +1,7 @@
 'use client';
 
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { ChangeEvent } from 'react';
+import { ChangeEvent, useState } from 'react';
 
 import { YYYYMM } from '@/types/date.types';
 
@@ -14,6 +14,7 @@ export const Search = ({ placeholder }: Props) => {
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const { replace } = useRouter();
+  const [date, setDate] = useState('');
 
   const now = new Date();
   const latestYear = now.getFullYear();
@@ -30,6 +31,7 @@ export const Search = ({ placeholder }: Props) => {
       params.delete('query');
     }
 
+    setDate(term);
     replace(`${pathname}?${params.toString()}`);
   };
 
@@ -41,7 +43,7 @@ export const Search = ({ placeholder }: Props) => {
           <input
             id="month-input"
             type="month"
-            value="2025-05"
+            value={date}
             defaultValue={searchParams.get('query')?.toString()}
             onChange={changeHandler}
             className="rounded-md border border-muted p-1"
@@ -57,7 +59,7 @@ export const Search = ({ placeholder }: Props) => {
           <input
             id="month-text-input"
             type="text"
-            value="2025-4"
+            value={date}
             defaultValue={searchParams.get('query')?.toString()}
             onChange={changeHandler}
             className="rounded-md border border-muted p-1"
