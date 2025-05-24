@@ -8,7 +8,7 @@ type Props = {
   query?: string;
 };
 export const SearchResult = async ({ query }: Props) => {
-  // 検索クエリと位置した履歴を表示する
+  // TODO: 検索クエリと位置した履歴を表示する
   const matchItems = await fetchFilteredHistory(query);
 
   return (
