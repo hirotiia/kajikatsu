@@ -1,24 +1,37 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { ChangeEvent } from 'react';
 
 import { YYYYMM } from '@/types/date.types';
+
+import { useMonthInputSupport } from './hook/use-month-input-support';
 
 type Props = {
   placeholder: YYYYMM;
 };
 export const Search = ({ placeholder }: Props) => {
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const { replace } = useRouter();
+
   const now = new Date();
   const latestYear = now.getFullYear();
   const currentMonth = now.getMonth() + 1;
-  const [isMonthInputSupported, setIsMonthInputSupported] =
-    useState<boolean>(true);
+  const isMonthInputSupported = useMonthInputSupport();
 
-  useEffect(() => {
-    const testInput = document.createElement('input');
-    testInput.setAttribute('type', 'month');
-    setIsMonthInputSupported(testInput.type === 'month');
-  }, []);
+  const changeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    const term = e.target.value;
+    const params = new URLSearchParams(searchParams);
+
+    if (term) {
+      params.set('query', term);
+    } else {
+      params.delete('query');
+    }
+
+    replace(`${pathname}?${params.toString()}`);
+  };
 
   return (
     <div className="flex gap-3 border-b border-foreground pb-3">
@@ -29,7 +42,8 @@ export const Search = ({ placeholder }: Props) => {
             id="month-input"
             type="month"
             value="2025-05"
-            onChange={(e) => console.log(e.target.value)}
+            defaultValue={searchParams.get('query')?.toString()}
+            onChange={changeHandler}
             className="rounded-md border border-muted p-1"
             aria-label="年と月を選択してください"
             min={`2024-01`}
@@ -44,7 +58,8 @@ export const Search = ({ placeholder }: Props) => {
             id="month-text-input"
             type="text"
             value="2025-4"
-            onChange={(e) => console.log(e.target.value)}
+            defaultValue={searchParams.get('query')?.toString()}
+            onChange={changeHandler}
             className="rounded-md border border-muted p-1"
             placeholder={placeholder}
             pattern="^\d{4}-([1-9]|0[1-9]|1[0-2])$"
