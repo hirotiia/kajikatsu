@@ -11,14 +11,14 @@ type Props = {
   placeholder: YYYYMM;
 };
 export const Search = ({ placeholder }: Props) => {
-  const searchParams = useSearchParams();
-  const pathname = usePathname();
-  const { replace } = useRouter();
-  const [date, setDate] = useState('');
-
   const now = new Date();
   const latestYear = now.getFullYear();
   const currentMonth = now.getMonth() + 1;
+
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const { replace } = useRouter();
+  const [date, setDate] = useState(`${latestYear}-${currentMonth}`);
   const isMonthInputSupported = useMonthInputSupport();
 
   const changeHandler = (e: ChangeEvent<HTMLInputElement>) => {
