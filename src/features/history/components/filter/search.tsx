@@ -7,10 +7,7 @@ import { YYYYMM } from '@/types/date.types';
 
 import { useMonthInputSupport } from './hook/use-month-input-support';
 
-type Props = {
-  placeholder: YYYYMM;
-};
-export const Search = ({ placeholder }: Props) => {
+export const Search = ({ placeholder }: { placeholder: YYYYMM }) => {
   const now = new Date();
   const latestYear = now.getFullYear();
   const currentMonth = now.getMonth() + 1;
