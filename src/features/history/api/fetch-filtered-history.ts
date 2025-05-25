@@ -1,4 +1,8 @@
 import { LinkListItem } from '@/components/ui/list';
+import { fetchTasksHistory } from '@/lib/supabase/data/task-history/select/fetch-tasks-history';
+
+import { formatForTaskHistoryList } from '../components/filter/utils/format-for-task-history-list';
+
 // TODO: 対象の履歴データを取得してくる
 /**
  * リクエストに応じた履歴データを取得する
@@ -10,6 +14,8 @@ import { LinkListItem } from '@/components/ui/list';
 export const fetchFilteredHistory = async (
   query: string | undefined,
 ): Promise<LinkListItem[]> => {
-  console.log(query);
+  const data = await fetchTasksHistory();
+  const formattedData = formatForTaskHistoryList(data);
+  console.log(formattedData, query);
   return [];
 };
