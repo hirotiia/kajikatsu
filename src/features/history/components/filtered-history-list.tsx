@@ -1,13 +1,13 @@
 'use client';
 
-import { useState, useEffect, useMemo, ChangeEvent, useCallback } from 'react';
+import { ChangeEvent, useCallback, useEffect, useMemo, useState } from 'react';
 
 import { Box } from '@/components/ui/box';
-import { NewsList, NewsListItem } from '@/components/ui/list';
+import { LinkList, LinkListItem } from '@/components/ui/list';
 import { Text } from '@/components/ui/text';
 
 type FilteredHistoryListProps = {
-  historyListItems: NewsListItem[];
+  historyListItems: LinkListItem[];
 };
 
 /**
@@ -18,10 +18,10 @@ type FilteredHistoryListProps = {
  * @returns フィルタリングされたNewsデータ
  */
 function filterNewsItemsByYearMonth(
-  items: NewsListItem[],
+  items: LinkListItem[],
   year: number,
   month: number,
-): NewsListItem[] {
+): LinkListItem[] {
   return items.filter((item) => {
     const date = new Date(item.updatedAt);
     return date.getFullYear() === year && date.getMonth() + 1 === month;
@@ -146,7 +146,7 @@ export const FilteredHistoryList = ({
         ) : (
           <div aria-live="polite" aria-atomic={true}>
             <Text>{filteredItems.length}件の結果が見つかりました。</Text>
-            <NewsList items={filteredItems} className="mt-6" />
+            <LinkList items={filteredItems} className="mt-6" />
           </div>
         )}
       </Box>

@@ -21,7 +21,7 @@ export function addAndSortHistory(
 /**
  * 表示用にフォーマットする例
  */
-export function formatHistoryItem(item: Tables<'task_history'>) {
+export function formatLinkListItem(item: Tables<'task_history'>) {
   return {
     displayTime: item.changed_at
       ? new Date(item.changed_at).toLocaleString()

@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { cn } from '@/utils/cn';
 import { toJstIsoString, toJstString } from '@/utils/to-jst-string';
 
-export type NewsListItem = {
+export type LinkListItem = {
   key: string;
   avatarUrl?: string;
   updatedAt: string;
@@ -13,12 +13,12 @@ export type NewsListItem = {
   link: string;
 };
 
-type NewsListProps = {
-  items: NewsListItem[];
+type LinkListProps = {
+  items: LinkListItem[];
   className?: string;
 };
 
-export const NewsList = ({ items = [], className }: NewsListProps) => {
+export const LinkList = ({ items = [], className }: LinkListProps) => {
   return (
     <ol className={cn('grid gap-y-3 grid-cols-[auto_auto_1fr]', className)}>
       {items.map(({ key, avatarUrl, updatedAt, link, title }) => {

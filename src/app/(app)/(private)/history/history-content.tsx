@@ -12,7 +12,7 @@ import { fetchUserNameById } from '@/lib/supabase/data/users/fetch-user-name-by-
 import { fetchUserData } from '@/lib/supabase/user/fetch-user-data';
 import { Tables } from '@/types/supabase/database.types';
 
-type HistoryItem = {
+type LinkListItem = {
   id: string;
   userName: string;
   changedAt: string;
@@ -32,7 +32,7 @@ export const HistoryContent = async () => {
     groupId: group?.id,
   });
 
-  const rawList: (HistoryItem | undefined)[] = await Promise.all(
+  const rawList: (LinkListItem | undefined)[] = await Promise.all(
     historyData.map(async (item) => {
       const editor = await fetchUserData(item.changed_by);
 
@@ -100,8 +100,8 @@ export const HistoryContent = async () => {
     }),
   );
 
-  const historyList: HistoryItem[] = rawList.filter(
-    (item): item is HistoryItem => item !== undefined,
+  const historyList: LinkListItem[] = rawList.filter(
+    (item): item is LinkListItem => item !== undefined,
   );
 
   if (!historyList || historyList.length === 0) {

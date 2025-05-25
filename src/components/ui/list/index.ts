@@ -1,3 +1,3 @@
-export * from './list';
 export * from './definition-list';
-export * from './news-list';
+export * from './link-list';
+export * from './list';

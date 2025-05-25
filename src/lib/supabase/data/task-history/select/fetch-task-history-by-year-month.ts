@@ -1,4 +1,4 @@
-import { NewsListItem } from '@/components/ui/list';
+import { LinkListItem } from '@/components/ui/list';
 
 type YearMonth = {
   year: number;
@@ -7,7 +7,7 @@ type YearMonth = {
 export async function fetchTaskHistoryByYearMonth({
   year,
   month,
-}: YearMonth): Promise<NewsListItem[]> {
+}: YearMonth): Promise<LinkListItem[]> {
   console.log(year, month);
 
   return [
