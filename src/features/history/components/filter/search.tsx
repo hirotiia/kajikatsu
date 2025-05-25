@@ -5,7 +5,7 @@ import { ChangeEvent, useState } from 'react';
 
 import { YYYYMM } from '@/types/date.types';
 
-import { useMonthInputSupport } from './hook/use-month-input-support';
+import { useMonthInputSupport } from './hooks/use-month-input-support';
 
 export const Search = ({ placeholder }: { placeholder: YYYYMM }) => {
   const now = new Date();
