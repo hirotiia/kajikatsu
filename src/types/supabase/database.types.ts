@@ -419,6 +419,20 @@ export type Database = {
         };
         Returns: Json;
       };
+      get_task_history_by_month: {
+        Args: {
+          p_user_id: string;
+          p_year: number;
+          p_month: number;
+        };
+        Returns: {
+          history_id: string;
+          changed_by_name: string;
+          changed_by_avatar_url: string;
+          changed_at: string;
+          action_description: string;
+        }[];
+      };
     };
     Enums: {
       [_ in never]: never;
