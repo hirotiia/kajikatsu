@@ -9,8 +9,8 @@ import { useMonthInputSupport } from './hooks/use-month-input-support';
 
 export const Search = ({ placeholder }: { placeholder: YYYYMM }) => {
   const now = new Date();
-  const latestYear = now.getFullYear();
-  const currentMonth = now.getMonth() + 1;
+  const latestYear = now.getFullYear().toString();
+  const currentMonth = String(now.getMonth() + 1).padStart(2, '0');
 
   const searchParams = useSearchParams();
   const pathname = usePathname();
@@ -41,7 +41,6 @@ export const Search = ({ placeholder }: { placeholder: YYYYMM }) => {
             id="month-input"
             type="month"
             value={date}
-            defaultValue={searchParams.get('query')?.toString()}
             onChange={changeHandler}
             className="rounded-md border border-muted p-1"
             aria-label="年と月を選択してください"
@@ -57,7 +56,6 @@ export const Search = ({ placeholder }: { placeholder: YYYYMM }) => {
             id="month-text-input"
             type="text"
             value={date}
-            defaultValue={searchParams.get('query')?.toString()}
             onChange={changeHandler}
             className="rounded-md border border-muted p-1"
             placeholder={placeholder}
