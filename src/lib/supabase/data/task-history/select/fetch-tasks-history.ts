@@ -2,7 +2,7 @@ import { createClient } from '@/lib/supabase/server';
 import { fetchUserData } from '@/lib/supabase/user/fetch-user-data';
 import { FunctionReturn } from '@/types/supabase/database.types';
 
-type TaskHistoryByMonth = FunctionReturn<'get_task_history_by_month'>;
+export type TaskHistoryByMonth = FunctionReturn<'get_task_history_by_month'>;
 type FilterOption = {
   year: number;
   month: number;

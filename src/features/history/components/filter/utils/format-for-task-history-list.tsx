@@ -1,4 +1,17 @@
-// TODO データをビューに渡すようにフォーマットする関数
-export const formatForTaskHistoryList = (data: any) => {
-  return data;
+import { LinkListItem } from '@/components/ui/list';
+import { TaskHistoryByMonth } from '@/lib/supabase/data/task-history/select/fetch-tasks-history';
+
+// TODO データをLinkListコンポーネントに渡すようにフォーマットする関数
+export const formatForTaskHistoryList = (
+  data: TaskHistoryByMonth,
+): LinkListItem[] => {
+  console.log(data);
+  return [
+    {
+      key: 'dummy',
+      updatedAt: 'dummy',
+      title: 'dummy',
+      link: 'dummy',
+    },
+  ];
 };
