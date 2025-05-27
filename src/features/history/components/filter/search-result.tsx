@@ -8,7 +8,6 @@ type Props = {
   query?: string;
 };
 export const SearchResult = async ({ query }: Props) => {
-  console.log(`SearchResult: ${query}`);
   const matchItems = await fetchFilteredHistory(query);
 
   return (
