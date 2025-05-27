@@ -14,8 +14,12 @@ import { formatForTaskHistoryList } from '../components/filter/utils/format-for-
 export const fetchFilteredHistory = async (
   query: string | undefined,
 ): Promise<LinkListItem[]> => {
-  const data = await fetchTasksHistory();
+  const now = new Date();
+  const [year, month] = query
+    ? query.split('-').map(Number)
+    : [now.getFullYear(), now.getMonth() + 1];
+  const data = await fetchTasksHistory({ year, month });
   const formattedData = formatForTaskHistoryList(data);
-  console.log(formattedData, query);
+  console.log(`formattedData: ${formattedData}`);
   return [];
 };
