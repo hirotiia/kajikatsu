@@ -539,3 +539,6 @@ export type CompositeTypes<
   : PublicCompositeTypeNameOrOptions extends keyof PublicSchema['CompositeTypes']
     ? PublicSchema['CompositeTypes'][PublicCompositeTypeNameOrOptions]
     : never;
+
+export type FunctionReturn<T extends keyof Database['public']['Functions']> =
+  Database['public']['Functions'][T]['Returns'];

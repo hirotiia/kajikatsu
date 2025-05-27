@@ -1,6 +1,8 @@
 import { createClient } from '@/lib/supabase/server';
 import { fetchUserData } from '@/lib/supabase/user/fetch-user-data';
+import { FunctionReturn } from '@/types/supabase/database.types';
 
+type TaskHistoryByMonth = FunctionReturn<'get_task_history_by_month'>;
 type FilterOption = {
   year: number;
   month: number;
@@ -8,7 +10,7 @@ type FilterOption = {
 // TODO: 履歴データ取得と加工を行う
 export const fetchTasksHistory = async (
   options: FilterOption,
-): Promise<string[]> => {
+): Promise<TaskHistoryByMonth> => {
   const supabase = await createClient();
   const data = await fetchUserData();
 
@@ -24,6 +26,7 @@ export const fetchTasksHistory = async (
       p_month: options.month,
     },
   );
+
   console.log('--------------------------------');
   console.log(data.userId);
   console.log(options);
@@ -31,5 +34,5 @@ export const fetchTasksHistory = async (
   console.log(error);
   console.log('--------------------------------');
 
-  return new Promise((resolve) => resolve(['fetchTasksHistory']));
+  return tasks ?? [];
 };
