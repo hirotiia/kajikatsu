@@ -48,12 +48,5 @@ export const fetchTargetHistory = async (
     );
   }
 
-  console.log('--------------------------------');
-  console.log(user.userId);
-  console.log(options);
-  console.log(tasks);
-  console.log(error);
-  console.log('--------------------------------');
-
   return tasks ?? [];
 };

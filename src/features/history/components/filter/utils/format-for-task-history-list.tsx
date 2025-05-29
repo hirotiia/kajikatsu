@@ -1,17 +1,15 @@
 import { LinkListItem } from '@/components/ui/list';
 import { FilteredItems } from '@/lib/supabase/data/task-history/select/fetch-target-history';
 
-// TODO データをLinkListコンポーネントに渡すようにフォーマットする関数
+// データをLinkListコンポーネントに渡すようにフォーマットする関数
 export const formatForTaskHistoryList = (
-  data: FilteredItems,
+  items: FilteredItems,
 ): LinkListItem[] => {
-  console.log(data);
-  return [
-    {
-      key: 'dummy',
-      updatedAt: 'dummy',
-      title: 'dummy',
-      link: 'dummy',
-    },
-  ];
+  return items.map((item) => ({
+    key: item.history_id,
+    avatarUrl: item.changed_by_avatar_url,
+    updatedAt: item.changed_at,
+    title: item.action_description,
+    link: `/history/${item.history_id}`,
+  }));
 };

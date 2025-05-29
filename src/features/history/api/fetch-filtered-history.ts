@@ -3,7 +3,6 @@ import { fetchTargetHistory } from '@/lib/supabase/data/task-history/select/fetc
 
 import { formatForTaskHistoryList } from '../components/filter/utils/format-for-task-history-list';
 
-// TODO: 対象の履歴データを取得してくる
 /**
  * リクエストに応じた履歴データを取得する
  * 取得したデータはIDで表示されるので、わかりやすく加工する（主キーをユーザー名に置き換えるなど）
@@ -20,6 +19,6 @@ export const fetchFilteredHistory = async (
     : [now.getFullYear(), now.getMonth() + 1];
   const filteredItems = await fetchTargetHistory({ year, month });
   const formattedItems = formatForTaskHistoryList(filteredItems);
-  console.log(`formattedItems: ${formattedItems}`);
-  return [];
+
+  return formattedItems;
 };
