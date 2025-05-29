@@ -17,7 +17,7 @@ type FilterOption = {
  * @param options - 検索フィルター用オプション
  * @returns タスク履歴の配列
  */
-export const fetchTasksHistory = async (
+export const fetchTargetHistory = async (
   options: FilterOption,
 ): Promise<TaskHistoryByMonth> => {
   const supabase = await createClient();
@@ -37,7 +37,7 @@ export const fetchTasksHistory = async (
   );
 
   if (error) {
-    console.error('[fetchTasksHistory] 履歴取得失敗', {
+    console.error('[fetchTargetHistory] 履歴取得失敗', {
       userId: user.userId,
       params: options,
       error,

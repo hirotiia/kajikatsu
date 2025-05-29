@@ -1,5 +1,5 @@
 import { LinkListItem } from '@/components/ui/list';
-import { fetchTasksHistory } from '@/lib/supabase/data/task-history/select/fetch-tasks-history';
+import { fetchTargetHistory } from '@/lib/supabase/data/task-history/select/fetch-target-history';
 
 import { formatForTaskHistoryList } from '../components/filter/utils/format-for-task-history-list';
 
@@ -18,7 +18,7 @@ export const fetchFilteredHistory = async (
   const [year, month] = query
     ? query.split('-').map(Number)
     : [now.getFullYear(), now.getMonth() + 1];
-  const data = await fetchTasksHistory({ year, month });
+  const data = await fetchTargetHistory({ year, month });
   const formattedData = formatForTaskHistoryList(data);
   console.log(`formattedData: ${formattedData}`);
   return [];
