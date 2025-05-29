@@ -1,5 +1,5 @@
-// This file configures the initialization of Sentry on the client.
-// The added config here will be used whenever a users loads a page in their browser.
+// このファイルは、クライアント側での Sentry の初期化を設定します。
+// ここで追加した設定は、ユーザーがブラウザでページを読み込むたびに使用されます。
 // https://docs.sentry.io/platforms/javascript/guides/nextjs/
 
 import * as Sentry from '@sentry/nextjs';
@@ -7,22 +7,21 @@ import * as Sentry from '@sentry/nextjs';
 Sentry.init({
   dsn: 'https://ad4d7de4716a75bbc610362ccd127445@o4509398321332224.ingest.us.sentry.io/4509398322577409',
 
-  // Add optional integrations for additional features
+  // 追加機能のために、オプションのインテグレーションを追加します
   // eslint-disable-next-line import/namespace
   integrations: [Sentry.replayIntegration()],
-
-  // Define how likely traces are sampled. Adjust this value in production, or use tracesSampler for greater control.
+  // トレースがサンプリングされる確率を定義します。
+  // 本番環境ではこの値を調整するか、より詳細に制御したい場合は tracesSampler を使用してください。
   tracesSampleRate: 1,
 
-  // Define how likely Replay events are sampled.
-  // This sets the sample rate to be 10%. You may want this to be 100% while
-  // in development and sample at a lower rate in production
+  // Replay イベントがどのくらいの確率でサンプリングされるかを定義します。
+  // この設定では本番環境の場合、サンプル率を 10%（10人に一人） にしています。
   replaysSessionSampleRate: 0.1,
 
-  // Define how likely Replay events are sampled when an error occurs.
+  // エラーが発生したときに Replay イベントがどのくらいの確率でサンプリングされるかを定義します。
   replaysOnErrorSampleRate: 1.0,
 
-  // Setting this option to true will print useful information to the console while you're setting up Sentry.
+  // このオプションを true に設定すると、Sentry のセットアップ中に有用な情報がコンソールに出力されます。
   debug: false,
 });
 
