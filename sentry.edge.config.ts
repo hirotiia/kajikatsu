@@ -1,16 +1,15 @@
-// This file configures the initialization of Sentry for edge features (middleware, edge routes, and so on).
-// The config you add here will be used whenever one of the edge features is loaded.
-// Note that this config is unrelated to the Vercel Edge Runtime and is also required when running locally.
+// このファイルは、Sentry を Edge 機能（ミドルウェアや Edge Routes など）で使用するための初期化設定を行います。
+// ここで追加した設定は、いずれかの Edge 機能が読み込まれるたびに使用されます。
+// この設定は Vercel の Edge Runtime とは無関係であり、ローカル環境で実行する場合にも必要です。
 // https://docs.sentry.io/platforms/javascript/guides/nextjs/
 
 import * as Sentry from '@sentry/nextjs';
 
 Sentry.init({
   dsn: 'https://ad4d7de4716a75bbc610362ccd127445@o4509398321332224.ingest.us.sentry.io/4509398322577409',
-
-  // Define how likely traces are sampled. Adjust this value in production, or use tracesSampler for greater control.
+  // トレースがサンプリングされる確率を定義します。
+  // 本番環境ではこの値を調整するか、より詳細に制御したい場合は tracesSampler を使用してください。
   tracesSampleRate: 1,
-
-  // Setting this option to true will print useful information to the console while you're setting up Sentry.
+  // このオプションを true に設定すると、Sentry のセットアップ中に有用な情報がコンソールに出力されます。
   debug: false,
 });
