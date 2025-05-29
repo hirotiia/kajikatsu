@@ -1,6 +1,11 @@
+import analyzer from '@next/bundle-analyzer';
 import { withSentryConfig } from '@sentry/nextjs';
 /** @type {import('next').NextConfig} */
 
+const withBundleAnalyzer = analyzer({
+  enabled: process.env.ANALYZE === 'true',
+});
+const isAnalyze = process.env.ANALYZE === 'true';
 const isLocalOrTest =
   process.env.NODE_ENV !== 'production' ||
   process.env.NEXT_PUBLIC_ENV === 'test';
@@ -66,7 +71,9 @@ const nextConfig = {
   },
 };
 
-export default withSentryConfig(nextConfig, {
+const enhancedConfig = isAnalyze ? withBundleAnalyzer(nextConfig) : nextConfig;
+
+export default withSentryConfig(enhancedConfig, {
   // For all available options, see:
   // https://www.npmjs.com/package/@sentry/webpack-plugin#options
 
