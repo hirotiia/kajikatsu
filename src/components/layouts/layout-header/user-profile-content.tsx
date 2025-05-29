@@ -1,18 +1,8 @@
 import { DefinitionList } from '@/components/ui/list';
-import { createClient } from '@/lib/supabase/server';
 import { fetchUserData } from '@/lib/supabase/user/fetch-user-data';
 
 export const UserProfileContent = async () => {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) {
-    return <p>ユーザー情報はありません</p>;
-  }
-
-  const data = await fetchUserData(user.id);
+  const data = await fetchUserData();
 
   if (!data) {
     return <p>ユーザー情報はありません</p>;
