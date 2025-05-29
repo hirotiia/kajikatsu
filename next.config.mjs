@@ -9,6 +9,7 @@ const supabaseProject = process.env.NEXT_PUBLIC_SUPABASE_PROJECT_ID;
 const cspDirectives = [
   "default-src 'self'",
   "script-src 'self' 'unsafe-eval' 'unsafe-inline'",
+  "worker-src 'self' blob:",
   "style-src 'self' 'unsafe-inline'",
   `img-src 'self' blob: data: http://127.0.0.1:54321 https://${supabaseProject}.supabase.co`,
   `connect-src 'self' https://${supabaseProject}.supabase.co wss://${supabaseProject}.supabase.co`,
