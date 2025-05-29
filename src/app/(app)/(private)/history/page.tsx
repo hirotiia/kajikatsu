@@ -5,8 +5,6 @@ import { Heading } from '@/components/ui/heading';
 import { Text } from '@/components/ui/text';
 import { Search, SearchResult } from '@/features/history/components/filter';
 
-import { HistoryContent } from './history-content';
-
 type Props = {
   searchParams: Promise<{
     query?: string;
@@ -54,7 +52,6 @@ export default async function HistoryPage(props: Props) {
         を確認できます。
       </Text>
       <Heading>絞り込み</Heading>
-      <HistoryContent />
       <div className="mt-6">
         <Search placeholder="2025-05" />
         <Suspense fallback={<Text>読み込み中...</Text>}>
