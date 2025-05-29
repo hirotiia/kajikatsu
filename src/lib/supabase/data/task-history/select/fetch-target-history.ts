@@ -2,7 +2,7 @@ import { createClient } from '@/lib/supabase/server';
 import { fetchUserData } from '@/lib/supabase/user/fetch-user-data';
 import { FunctionReturn } from '@/types/supabase/database.types';
 
-export type TaskHistoryByMonth = FunctionReturn<'get_task_history_by_month'>;
+export type FilteredItems = FunctionReturn<'get_task_history_by_month'>;
 
 // 検索用のフィルター条件を定義する型
 type FilterOption = {
@@ -19,7 +19,7 @@ type FilterOption = {
  */
 export const fetchTargetHistory = async (
   options: FilterOption,
-): Promise<TaskHistoryByMonth> => {
+): Promise<FilteredItems> => {
   const supabase = await createClient();
   const user = await fetchUserData();
 

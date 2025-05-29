@@ -18,8 +18,8 @@ export const fetchFilteredHistory = async (
   const [year, month] = query
     ? query.split('-').map(Number)
     : [now.getFullYear(), now.getMonth() + 1];
-  const data = await fetchTargetHistory({ year, month });
-  const formattedData = formatForTaskHistoryList(data);
+  const filteredItems = await fetchTargetHistory({ year, month });
+  const formattedData = formatForTaskHistoryList(filteredItems);
   console.log(`formattedData: ${formattedData}`);
   return [];
 };
