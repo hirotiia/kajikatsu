@@ -36,6 +36,7 @@ export const FormUpdateTask = ({
   return (
     <>
       <Button
+        aria-label="編集する"
         as="button"
         type="button"
         onClick={opener.open}
@@ -44,7 +45,7 @@ export const FormUpdateTask = ({
         className="grid place-content-center rounded-md md:size-[50px]"
         size="full"
       >
-        <Pencil size={20}>編集する</Pencil>
+        <Pencil size={20} />
       </Button>
       <Dialog opener={opener} title="タスクを編集する" id="dialog-edit">
         <FormEditTask

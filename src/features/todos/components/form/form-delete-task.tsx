@@ -47,13 +47,14 @@ export const FormDeleteTask = ({ taskId }: FormDeleteTaskProps) => {
 
   return (
     <Button
+      aria-label="削除する"
       as="button"
       className="grid place-content-center rounded-md md:size-[50px]"
       variant="destructive"
       size="full"
       onClick={handleFormDeleteTask}
     >
-      <Trash2 size={20}>削除する</Trash2>
+      <Trash2 size={20} />
     </Button>
   );
 };
