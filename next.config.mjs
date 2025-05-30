@@ -28,6 +28,7 @@ const cspDirectives = [
 
 if (isLocalOrTest) {
   cspDirectives[4] += ' http://127.0.0.1:54321 ws://127.0.0.1:54321';
+  cspDirectives[5] += ' http://127.0.0.1:54321 ws://127.0.0.1:54321';
 }
 
 const cspHeader = cspDirectives.join('; ');
