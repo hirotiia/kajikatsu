@@ -18,7 +18,8 @@
     "migrate": "supabase db diff --file local_schema",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "chromatic": "npx chromatic --project-token=$CHROMATIC_PROJECT_TOKEN"
+    "chromatic": "npx chromatic --project-token=$CHROMATIC_PROJECT_TOKEN",
+    "analyze": "ANALYZE=true next build"
   },
   "dependencies": {
     "@reduxjs/toolkit": "2.5.0",
