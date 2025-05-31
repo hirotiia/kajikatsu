@@ -433,6 +433,22 @@ export type Database = {
           action_description: string;
         }[];
       };
+      get_user_profile: {
+        Args: Record<string, never>;
+        Returns: {
+          userId: string;
+          username: string;
+          avatar_url: string | null;
+          group: {
+            id: string;
+            name: string;
+            role: {
+              id: string;
+              name: 'viewer' | 'editor' | 'admin' | 'owner';
+            };
+          } | null;
+        };
+      };
     };
     Enums: {
       [_ in never]: never;
