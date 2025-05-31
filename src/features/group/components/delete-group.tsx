@@ -2,6 +2,7 @@
 
 import { Trash2 } from 'lucide-react';
 import { useActionState } from 'react';
+import { useDispatch } from 'react-redux';
 
 import { deleteGroup } from '@/actions/group/delete-group';
 import { Button } from '@/components/ui/button';
@@ -9,6 +10,8 @@ import { Dialog } from '@/components/ui/dialog';
 import { useNotifications } from '@/components/ui/notifications';
 import { Text } from '@/components/ui/text';
 import { useOpener } from '@/hooks/use-opener';
+import { AppDispatch } from '@/stores';
+import { fetchAsyncUserData } from '@/stores/user/reducer';
 
 type DleteGroupProps = {
   userId: string;
@@ -19,6 +22,7 @@ type DleteGroupProps = {
 export const DleteGroup = ({ userId, groupId, roleId }: DleteGroupProps) => {
   const openerDialog = useOpener();
   const { addNotification } = useNotifications();
+  const dispatch = useDispatch<AppDispatch>();
 
   const deleteGroupWithNotifications = async (
     prevState: any,
@@ -29,6 +33,10 @@ export const DleteGroup = ({ userId, groupId, roleId }: DleteGroupProps) => {
     if (result !== null && result.status !== 0) {
       addNotification(result);
       openerDialog.close();
+
+      if (result.type === 'success') {
+        dispatch(fetchAsyncUserData());
+      }
     }
 
     // 結果を返す（state更新に使われる）
