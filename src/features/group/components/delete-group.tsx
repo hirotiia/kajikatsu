@@ -13,13 +13,13 @@ import { useOpener } from '@/hooks/use-opener';
 import { AppDispatch } from '@/stores';
 import { fetchAsyncUserData } from '@/stores/user/reducer';
 
-type DleteGroupProps = {
+type DeleteGroupProps = {
   userId: string;
   groupId: string;
   roleId: string;
 };
 
-export const DleteGroup = ({ userId, groupId, roleId }: DleteGroupProps) => {
+export const DleteGroup = ({ userId, groupId, roleId }: DeleteGroupProps) => {
   const openerDialog = useOpener();
   const { addNotification } = useNotifications();
   const dispatch = useDispatch<AppDispatch>();
