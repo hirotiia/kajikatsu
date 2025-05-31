@@ -2,19 +2,14 @@
 
 import { Loader2, Pen } from 'lucide-react';
 import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 
 import { uploadStorage } from '@/actions/storage/upload-storage';
 import { useNotifications } from '@/components/ui/notifications';
 import { UserInfo } from '@/components/ui/user';
-import { RootState } from '@/stores';
-import { updateAvatarUrl } from '@/stores/user/reducer';
 
 export const RenderUserProfile = () => {
   const { addNotification } = useNotifications();
-  const userState = useSelector((state: RootState) => state.user);
   const [isUploading, setIsUploading] = useState(false);
-  const dispatch = useDispatch();
 
   const handleFileChange = async (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -31,12 +26,8 @@ export const RenderUserProfile = () => {
 
     setIsUploading(true);
     try {
-      const { url, status = 200, type } = await uploadStorage({ file });
+      const { status = 200, type } = await uploadStorage({ file });
       addNotification({ type, status });
-
-      if (status === 200) {
-        dispatch(updateAvatarUrl(url));
-      }
     } catch (error: any) {
       addNotification({
         type: 'error',
@@ -54,11 +45,7 @@ export const RenderUserProfile = () => {
         {isUploading ? (
           <Loader2 className="animate-spin text-foreground" size={50} />
         ) : (
-          <UserInfo
-            avatarUrl={userState.data?.avatar_url}
-            username={userState.data?.username || '未設定'}
-            size={50}
-          />
+          <UserInfo avatarUrl={''} username={''} size={50} />
         )}
       </div>
       <label
