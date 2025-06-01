@@ -1,7 +1,6 @@
-import * as Sentry from '@sentry/nextjs';
-
 import { createClient } from '@/lib/supabase/server';
 import { FunctionReturn } from '@/types/supabase/database.types';
+import { logErrorToSentry } from '@/utils/log-error-to-sentry';
 
 export type FilteredItems = FunctionReturn<'get_task_history_by_month'>;
 
@@ -31,16 +30,15 @@ export const fetchTargetHistory = async (
   );
 
   if (error) {
-    Sentry.captureException(error, {
-      extra: {
-        location: 'fetchTaskHistoryByMonth',
-        timestamp: new Date().toISOString(),
-        year: options.year,
-        month: options.month,
-      },
+    logErrorToSentry(error, {
+      location: 'fetchTaskHistoryByMonth',
       tags: {
         function: 'get_task_history_by_month',
         severity: 'auth',
+      },
+      extra: {
+        year: options.year,
+        month: options.month,
       },
     });
 

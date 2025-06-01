@@ -1,7 +1,6 @@
-import * as Sentry from '@sentry/nextjs';
-
 import { createClient } from '@/lib/supabase/server';
 import { FunctionReturn } from '@/types/supabase/database.types';
+import { logErrorToSentry } from '@/utils/log-error-to-sentry';
 
 export type UserProfile = FunctionReturn<'get_user_profile'>;
 
@@ -16,16 +15,11 @@ export async function fetchUserProfileRpc(): Promise<UserProfile | null> {
   const { data, error } = await supabase.rpc('get_user_profile', {});
 
   if (error) {
-    Sentry.captureException(error, {
+    logErrorToSentry(error, {
+      location: 'fetchUserProfileRpc',
       tags: {
-        feature: 'user-profile',
-        layer: 'server',
-        severity: 'high',
-        env: process.env.NODE_ENV,
-      },
-      extra: {
-        location: 'fetchUserProfileRsc',
-        timestamp: new Date().toISOString(),
+        function: 'get_user_profile',
+        severity: 'auth',
       },
     });
 
