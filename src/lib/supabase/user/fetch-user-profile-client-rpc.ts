@@ -5,6 +5,7 @@ import { FunctionReturn } from '@/types/supabase/database.types';
 
 export type UserProfile = FunctionReturn<'get_user_profile'>;
 
+// TODO: 最終的にはユーザー情報の取得はこのファイルのみにする。
 /**
  * 指定したユーザーIDに基づいてユーザーデータとグループ情報を取得する。
  * userId が指定されていない場合は、現在ログイン中のユーザーIDを利用する。

@@ -2,7 +2,7 @@
 import { NextResponse } from 'next/server';
 
 import { createClient } from '@/lib/supabase/server';
-import { fetchUserData } from '@/lib/supabase/user/fetch-user-data';
+import { fetchUserProfileRpc } from '@/lib/supabase/user/fetch-user-profile-rpc';
 
 type SuccessResponse = {
   message: string;
@@ -63,7 +63,7 @@ export async function POST(
   }
 
   // fetchUserData でユーザー（承認する人）の追加情報を取得（必要に応じて活用）
-  const userState = await fetchUserData(user.id);
+  const userState = await fetchUserProfileRpc();
   if (!userState) {
     // userState が null の場合、ユーザー情報を取れなかったと判断
     return NextResponse.json<ErrorResponse>(
