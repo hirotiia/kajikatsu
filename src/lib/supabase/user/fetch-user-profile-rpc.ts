@@ -13,7 +13,6 @@ export type UserProfile = FunctionReturn<'get_user_profile'>;
  */
 export async function fetchUserProfileRpc(): Promise<UserProfile | null> {
   const supabase = await createClient();
-
   const { data, error } = await supabase.rpc('get_user_profile', {});
 
   if (error) {
