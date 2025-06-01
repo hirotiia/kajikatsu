@@ -38,7 +38,7 @@ export const LayoutHeader = async ({
   return (
     <header
       className={cn(
-        'sticky top-3 md:top-6 flex items-center justify-between p-2 md:p-4 glassmorphism z-49',
+        'sticky top-3 md:top-6 flex items-center justify-between p-2 md:p-4 glassmorphism z-49 h-[56px] md:h-[82px]',
         className,
       )}
     >
