@@ -421,7 +421,6 @@ export type Database = {
       };
       get_task_history_by_month: {
         Args: {
-          p_user_id: string;
           p_year: number;
           p_month: number;
         };
