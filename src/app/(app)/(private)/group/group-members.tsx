@@ -1,28 +1,20 @@
 import { RenderGroupMembers } from '@/features/group/components/render-group-members';
 import { checkPendingJoinRequest } from '@/lib/supabase/data/join-requests/select/check-pending-join-request';
-import { fetchUserData } from '@/lib/supabase/user/fetch-user-data';
-import { getUser } from '@/lib/supabase/user/user';
-import { UserState } from '@/types/user-state.types';
+import { fetchUserProfileRpc } from '@/lib/supabase/user/fetch-user-profile-rpc';
 
 export const GroupMembers = async () => {
-  const { user } = await getUser();
+  const user = await fetchUserProfileRpc();
 
   if (!user) {
-    return <p>ユーザー情報が取得できませんでした。</p>;
-  }
-
-  const userState: UserState | null = await fetchUserData(user.id);
-
-  if (!userState) {
     return <h2>ユーザー情報を取得できませんでした。</h2>;
   }
 
-  const hasPendingRequest = await checkPendingJoinRequest(user.id);
+  const hasPendingRequest = await checkPendingJoinRequest(user.userId);
 
   if (hasPendingRequest) {
     return <h2>リクエスト申請中です。</h2>;
   }
-  const groupId = userState.group?.id ?? null;
+  const groupId = user.group?.id ?? null;
   return (
     <>
       {groupId ? (

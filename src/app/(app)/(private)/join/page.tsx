@@ -3,7 +3,7 @@ import { Metadata } from 'next';
 import { Content } from '@/components/layouts/content/content';
 import { config } from '@/config/config';
 import { requestGroupMember } from '@/lib/supabase/action/request-group-member';
-import { fetchUserData } from '@/lib/supabase/user/fetch-user-data';
+import { fetchUserProfileRpc } from '@/lib/supabase/user/fetch-user-profile-rpc';
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
@@ -29,7 +29,7 @@ export default async function JoinPage({
       </Content>
     );
   }
-  const userData = await fetchUserData();
+  const userData = await fetchUserProfileRpc();
 
   if (!userData) {
     return (

@@ -2,10 +2,10 @@ import { DefinitionList } from '@/components/ui/list';
 import { CreateGroup } from '@/features/group/components/create-group';
 import { DleteGroup } from '@/features/group/components/delete-group';
 import { InviteGroup } from '@/features/group/components/invite-group';
-import { fetchUserData } from '@/lib/supabase/user/fetch-user-data';
+import { fetchUserProfileRpc } from '@/lib/supabase/user/fetch-user-profile-rpc';
 
 export const GroupDetails = async () => {
-  const data = await fetchUserData();
+  const data = await fetchUserProfileRpc();
 
   if (!data) {
     throw new Error('ユーザー情報の取得に失敗しました。');

@@ -1,8 +1,8 @@
 import { DefinitionList } from '@/components/ui/list';
-import { fetchUserData } from '@/lib/supabase/user/fetch-user-data';
+import { fetchUserProfileRpc } from '@/lib/supabase/user/fetch-user-profile-rpc';
 
 export const UserProfileContent = async () => {
-  const data = await fetchUserData();
+  const data = await fetchUserProfileRpc();
 
   if (!data) {
     return <p>ユーザー情報はありません</p>;

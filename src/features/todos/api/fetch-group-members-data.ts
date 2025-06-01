@@ -2,7 +2,7 @@ import {
   GroupMember,
   fetchGroupMembers,
 } from '@/lib/supabase/data/users/fetch-group-members';
-import { fetchUserData } from '@/lib/supabase/user/fetch-user-data';
+import { fetchUserProfileRpc } from '@/lib/supabase/user/fetch-user-profile-rpc';
 
 /**
  * グループに入っているかと、グループのメンバーの配列を返却する関数
@@ -11,7 +11,7 @@ export const fetchGroupMembersData = async () => {
   let joinedGroup = false;
   let groupMembers: GroupMember[] = [];
 
-  const data = await fetchUserData();
+  const data = await fetchUserProfileRpc();
 
   if (!data) {
     return { error: true, data: null, joinedGroup, groupMembers };

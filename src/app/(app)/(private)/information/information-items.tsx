@@ -1,7 +1,7 @@
 import { JoinRequestList } from '@/features/information/components/join-request-list';
-import { fetchUserData } from '@/lib/supabase/user/fetch-user-data';
+import { fetchUserProfileRpc } from '@/lib/supabase/user/fetch-user-profile-rpc';
 
 export const InformationItems = async () => {
-  const data = await fetchUserData();
+  const data = await fetchUserProfileRpc();
   return data?.userId && <JoinRequestList userId={data.userId} />;
 };

@@ -1,9 +1,9 @@
 import { GroupUserTab } from '@/features/todos/components/tab/group-user-tab';
 import { UserTab } from '@/features/todos/components/tab/user-tab';
-import { fetchUserData } from '@/lib/supabase/user/fetch-user-data';
+import { fetchUserProfileRpc } from '@/lib/supabase/user/fetch-user-profile-rpc';
 
 export const SelectTabContentHasGroup = async () => {
-  const data = await fetchUserData();
+  const data = await fetchUserProfileRpc();
 
   if (!data) {
     return <p>ユーザー情報を取得できませんでした。</p>;
