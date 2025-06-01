@@ -1,10 +1,17 @@
 import { Metadata } from 'next';
+import { Suspense } from 'react';
 
 import { Content } from '@/components/layouts/content/content';
+import { Box } from '@/components/ui/box';
 import { Heading } from '@/components/ui/heading';
+import { Text } from '@/components/ui/text';
 import { config } from '@/config/config';
-
-import { DashboardContent } from './dashboard-content';
+import { AllMembersTasks } from '@/features/dashboard/components/all-members-tasks/all-members-tasks';
+import { UnAssignedTasks } from '@/features/dashboard/components/un-assigned-tasks';
+import {
+  UserGreeting,
+  UserGreetingSkelton,
+} from '@/features/dashboard/components/user-greeting/index';
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
@@ -16,8 +23,24 @@ export default function Dashboard() {
   return (
     <Content>
       <Heading as="h1">ホーム</Heading>
-
-      <DashboardContent />
+      <Suspense fallback={<UserGreetingSkelton />}>
+        <UserGreeting />
+      </Suspense>
+      <Heading underline underlineSize="full">
+        これお願い！
+      </Heading>
+      <Text>グループ内の未担当のおしごと一覧です。</Text>
+      <Box className="bg-transparent">
+        <Suspense fallback={<p>読み込み中です...</p>}>
+          <UnAssignedTasks />
+        </Suspense>
+      </Box>
+      <Heading underline underlineSize="full">
+        グループメンバーごとのおしごと
+      </Heading>
+      <Suspense fallback={<p>読み込み中です...</p>}>
+        <AllMembersTasks />
+      </Suspense>
     </Content>
   );
 }

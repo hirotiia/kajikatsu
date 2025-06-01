@@ -1,8 +1,11 @@
-import { RenderMembersTasks } from '@/features/dashboard/components/render-members-tasks';
+import { Text } from '@/components/ui/text';
 import { fetchTasks } from '@/lib/supabase/data/tasks/select/fetch-tasks';
 import { fetchMembersId } from '@/lib/supabase/data/users/fetch-members-id';
 import { fetchUserData } from '@/lib/supabase/user/fetch-user-data';
+import { fetchUserProfileRpc } from '@/lib/supabase/user/fetch-user-profile-rpc';
 import { Task } from '@/types/task.types';
+
+import { RenderMembersTasks } from './render-members-tasks';
 
 type MemberWithTasks = {
   user_id: string;
@@ -12,14 +15,18 @@ type MemberWithTasks = {
   tasks: Task[];
 };
 
-type DashboardAllMembersTasksProps = {
-  groupId: string;
-  className?: string;
-};
-export const DashboardAllMembersTasks = async ({
-  groupId,
-  className,
-}: DashboardAllMembersTasksProps) => {
+export const AllMembersTasks = async () => {
+  const user = await fetchUserProfileRpc();
+
+  if (!user) {
+    return <Text>ユーザー情報の取得に失敗しました。</Text>;
+  }
+
+  if (!user.group) {
+    return <Text>グループ内の未担当タスクが表示されます。</Text>;
+  }
+
+  const groupId = user?.group.id;
   const [groupTasksResult, groupMembersId] = await Promise.all([
     fetchTasks({ groupId }),
     fetchMembersId(groupId),
@@ -56,7 +63,7 @@ export const DashboardAllMembersTasks = async ({
   return (
     <RenderMembersTasks
       groupId={groupId}
-      className={className}
+      className="mt-6"
       initialState={membersWithTasks}
     />
   );
