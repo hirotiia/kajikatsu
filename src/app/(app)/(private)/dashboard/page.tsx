@@ -3,7 +3,9 @@ import { Suspense } from 'react';
 
 import { Content } from '@/components/layouts/content/content';
 import { Box } from '@/components/ui/box';
+import { CardsSkeleton } from '@/components/ui/card';
 import { Heading } from '@/components/ui/heading';
+import { TabSkeleton } from '@/components/ui/tab';
 import { Text } from '@/components/ui/text';
 import { config } from '@/config/config';
 import { AllMembersTasks } from '@/features/dashboard/components/all-members-tasks/all-members-tasks';
@@ -31,14 +33,20 @@ export default function Dashboard() {
       </Heading>
       <Text>グループ内の未担当のおしごと一覧です。</Text>
       <Box className="bg-transparent">
-        <Suspense fallback={<p>読み込み中です...</p>}>
+        <Suspense fallback={<CardsSkeleton />}>
           <UnAssignedTasks />
         </Suspense>
       </Box>
       <Heading underline underlineSize="full">
         グループメンバーごとのおしごと
       </Heading>
-      <Suspense fallback={<p>読み込み中です...</p>}>
+      <Suspense
+        fallback={
+          <TabSkeleton tabCount={3} panelHeight={300}>
+            <CardsSkeleton count={5} />
+          </TabSkeleton>
+        }
+      >
         <AllMembersTasks />
       </Suspense>
     </Content>

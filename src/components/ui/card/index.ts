@@ -1,2 +1,2 @@
 export * from './cards';
-export * from './card-skeleton';
+export * from './cards-skeleton';
