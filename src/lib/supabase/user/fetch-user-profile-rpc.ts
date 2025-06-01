@@ -17,15 +17,13 @@ export async function fetchUserProfileRpc(): Promise<UserProfile | null> {
 
   if (error) {
     Sentry.captureException(error, {
-      tags: {
-        feature: 'user-profile',
-        layer: 'server',
-        severity: 'high',
-        env: process.env.NODE_ENV,
-      },
       extra: {
-        location: 'fetchUserProfileRsc',
+        location: 'fetchUserProfileRpc',
         timestamp: new Date().toISOString(),
+      },
+      tags: {
+        function: 'get_user_profile',
+        severity: 'auth',
       },
     });
 

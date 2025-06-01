@@ -33,7 +33,7 @@ export const fetchTargetHistory = async (
   if (error) {
     Sentry.captureException(error, {
       extra: {
-        location: 'fetchTaskHistoryByMonth',
+        location: 'fetchTargetHistory',
         timestamp: new Date().toISOString(),
         year: options.year,
         month: options.month,
