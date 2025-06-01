@@ -1,8 +1,8 @@
-import { fetchUserDataClient } from '@/lib/supabase/user/fetch-user-data-client';
+import { fetchUserProfileClientRpc } from '@/lib/supabase/user/fetch-user-profile-client-rpc';
 import userReducer from '@/stores/user/reducer';
 
 // actions がほかにもあるならここでまとめてexportする
-export { fetchUserDataClient };
+export { fetchUserProfileClientRpc };
 
 // userSliceのreducerをstoreに登録できるようにexport
 export const reducer = userReducer;

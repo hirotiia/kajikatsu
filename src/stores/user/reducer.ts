@@ -1,10 +1,12 @@
 import { createAsyncThunk, createSlice, Reducer } from '@reduxjs/toolkit';
 
-import { fetchUserDataClient } from '@/lib/supabase/user/fetch-user-data-client';
-import { UserState } from '@/types/user-state.types';
+import {
+  fetchUserProfileClientRpc,
+  UserProfile,
+} from '@/lib/supabase/user/fetch-user-profile-client-rpc';
 
 export type UserStoreState = {
-  data: UserState | null;
+  data: UserProfile | null;
   loading: boolean;
   error: string | null;
 };
@@ -19,9 +21,9 @@ const initialState: UserStoreState = {
  * ユーザーデータを取得する非同期アクション
  */
 export const fetchAsyncUserData = createAsyncThunk(
-  'user/fetchUserData',
+  'user/fetchUserProfileClientRpc',
   async () => {
-    const userData = await fetchUserDataClient();
+    const userData = await fetchUserProfileClientRpc();
     if (!userData) throw new Error('ユーザーデータの取得に失敗しました。');
     return userData;
   },
