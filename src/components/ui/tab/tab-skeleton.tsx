@@ -14,7 +14,7 @@ export const TabSkeleton = ({
   children,
 }: TabSkeletonProps) => {
   return (
-    <div className={cn('w-full', className)}>
+    <div className={cn('w-full mt-3', className)}>
       <ul
         className="flex overflow-hidden rounded-t border-2 border-foreground"
         role="tablist"
