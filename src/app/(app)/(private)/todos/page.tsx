@@ -1,12 +1,15 @@
 import { SquarePen } from 'lucide-react';
 import { Metadata } from 'next';
+import dynamic from 'next/dynamic';
+import { Suspense } from 'react';
 
 import { Content } from '@/components/layouts/content/content';
-import { DrawerTrigger, Drawer } from '@/components/ui/drawer';
+import { CardsSkeleton } from '@/components/ui/card';
+import { Drawer, DrawerTrigger } from '@/components/ui/drawer';
 import { Heading } from '@/components/ui/heading';
+import { TabSkeleton } from '@/components/ui/tab';
 import { Text } from '@/components/ui/text';
 import { config } from '@/config/config';
-import { CreateTaskDrawerContent } from '@/features/todos/components/create-task-drawer-content/create-task-drawer-content';
 import { SelectTabContentHasGroup } from '@/features/todos/components/tab/select-tab-content-has-group';
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -16,6 +19,12 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default function TodosPage() {
+  const LazyCreateTaskDrawerContent = dynamic(
+    () =>
+      import(
+        '@/features/todos/components/create-task-drawer-content/create-task-drawer-content'
+      ),
+  );
   return (
     <Content>
       <div className="flex flex-wrap items-center justify-between gap-4">
@@ -27,13 +36,23 @@ export default function TodosPage() {
             <SquarePen className="shrink-0">おしごとを作成</SquarePen>
             新規作成
           </DrawerTrigger>
-          <CreateTaskDrawerContent />
+          <Suspense fallback={<Text>読み込み中です...</Text>}>
+            <LazyCreateTaskDrawerContent />
+          </Suspense>
         </Drawer>
       </div>
       <Text>
         このページでは、自分が担当になっているおしごとをステータスごとに見ることができます。
       </Text>
-      <SelectTabContentHasGroup />
+      <Suspense
+        fallback={
+          <TabSkeleton tabCount={4} panelHeight={326}>
+            <CardsSkeleton count={2} />
+          </TabSkeleton>
+        }
+      >
+        <SelectTabContentHasGroup />
+      </Suspense>
     </Content>
   );
 }
