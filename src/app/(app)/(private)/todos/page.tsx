@@ -5,6 +5,7 @@ import { Suspense } from 'react';
 import { Content } from '@/components/layouts/content/content';
 import { CardsSkeleton } from '@/components/ui/card';
 import { Drawer, DrawerTrigger } from '@/components/ui/drawer';
+import { DrawerTriggerSkeleton } from '@/components/ui/drawer/drawer-trigger-skelton';
 import { Heading } from '@/components/ui/heading';
 import { TabSkeleton } from '@/components/ui/tab';
 import { Text } from '@/components/ui/text';
@@ -25,13 +26,15 @@ export default function TodosPage() {
         <Heading as="h1" className="mb-0 first:mt-0 md:mb-0">
           おしごと
         </Heading>
-        <Drawer name="create_task">
-          <DrawerTrigger className="flex items-center justify-center gap-2 rounded-full text-sm md:text-base">
-            <SquarePen className="shrink-0">おしごとを作成</SquarePen>
-            新規作成
-          </DrawerTrigger>
-          <CreateTaskDrawerContent />
-        </Drawer>
+        <Suspense fallback={<DrawerTriggerSkeleton />}>
+          <Drawer name="create_task">
+            <DrawerTrigger className="flex items-center justify-center gap-2 rounded-full text-sm md:text-base">
+              <SquarePen className="shrink-0">おしごとを作成</SquarePen>
+              新規作成
+            </DrawerTrigger>
+            <CreateTaskDrawerContent />
+          </Drawer>
+        </Suspense>
       </div>
       <Text>
         このページでは、自分が担当になっているおしごとをステータスごとに見ることができます。
