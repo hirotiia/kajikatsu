@@ -1,9 +1,12 @@
 import { SquarePen } from 'lucide-react';
 import { Metadata } from 'next';
+import { Suspense } from 'react';
 
 import { Content } from '@/components/layouts/content/content';
-import { DrawerTrigger, Drawer } from '@/components/ui/drawer';
+import { CardsSkeleton } from '@/components/ui/card';
+import { Drawer, DrawerTrigger } from '@/components/ui/drawer';
 import { Heading } from '@/components/ui/heading';
+import { TabSkeleton } from '@/components/ui/tab';
 import { Text } from '@/components/ui/text';
 import { config } from '@/config/config';
 import { CreateTaskDrawerContent } from '@/features/todos/components/create-task-drawer-content/create-task-drawer-content';
@@ -33,7 +36,15 @@ export default function TodosPage() {
       <Text>
         このページでは、自分が担当になっているおしごとをステータスごとに見ることができます。
       </Text>
-      <SelectTabContentHasGroup />
+      <Suspense
+        fallback={
+          <TabSkeleton tabCount={4} panelHeight={300}>
+            <CardsSkeleton count={2} />
+          </TabSkeleton>
+        }
+      >
+        <SelectTabContentHasGroup />
+      </Suspense>
     </Content>
   );
 }

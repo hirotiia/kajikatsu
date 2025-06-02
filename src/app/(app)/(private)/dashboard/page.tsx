@@ -42,8 +42,8 @@ export default function Dashboard() {
       </Heading>
       <Suspense
         fallback={
-          <TabSkeleton tabCount={3} panelHeight={300}>
-            <CardsSkeleton count={5} />
+          <TabSkeleton tabCount={4} panelHeight={300}>
+            <CardsSkeleton count={2} />
           </TabSkeleton>
         }
       >
