@@ -25,7 +25,9 @@ const Logo = async () => {
         height="80"
         unoptimized={true}
       />
-      <span className="text-sm font-bold md:text-base">{config.APP_NAME}</span>
+      <span className="min-h-[20px] text-sm font-bold md:min-h-[24px] md:text-base">
+        {config.APP_NAME}
+      </span>
     </Link>
   );
 };
