@@ -33,7 +33,7 @@ export default function Dashboard() {
       </Heading>
       <Text>グループ内の未担当のおしごと一覧です。</Text>
       <Box className="bg-transparent">
-        <Suspense fallback={<CardsSkeleton />}>
+        <Suspense fallback={<CardsSkeleton count={1} />}>
           <UnAssignedTasks />
         </Suspense>
       </Box>
