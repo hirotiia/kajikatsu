@@ -21,8 +21,8 @@ const Logo = async () => {
         className="h-8 w-auto md:h-12"
         alt="家事活アイコン"
         src="/images/logo.svg"
-        width="80"
-        height="80"
+        width="383"
+        height="279"
         unoptimized={true}
       />
       <span className="min-h-[20px] text-sm font-bold md:min-h-[24px] md:text-base">
