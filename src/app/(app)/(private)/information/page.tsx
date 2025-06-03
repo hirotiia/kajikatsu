@@ -1,12 +1,12 @@
 import { Metadata } from 'next';
+import { Suspense } from 'react';
 
 import { Content } from '@/components/layouts/content/content';
 import { Box } from '@/components/ui/box';
 import { Heading } from '@/components/ui/heading';
 import { Text } from '@/components/ui/text';
 import { config } from '@/config/config';
-
-import { InformationItems } from './information-items';
+import { InformationItems } from '@/features/information/components/information-items';
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
@@ -22,7 +22,9 @@ export default function InformationPage() {
         このページでは、グループへの参加リクエストなどの通知を確認できます。
       </Text>
       <Box>
-        <InformationItems />
+        <Suspense fallback={<Text>読み込み中です...</Text>}>
+          <InformationItems />
+        </Suspense>
       </Box>
     </Content>
   );
