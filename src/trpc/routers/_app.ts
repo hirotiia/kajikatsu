@@ -1,19 +1,13 @@
 /* eslint-disable check-file/filename-naming-convention */
-import { z } from 'zod';
 
-import { baseProcedure, createTRPCRouter } from '../init';
+import { createTRPCRouter } from '../init';
+
+import { targetHistoryRouter } from './supabase/rpc/target-history';
+import { userProfileRouter } from './supabase/rpc/user-profile';
+
 export const appRouter = createTRPCRouter({
-  hello: baseProcedure
-    .input(
-      z.object({
-        text: z.string(),
-      }),
-    )
-    .query((opts) => {
-      return {
-        greeting: `hello ${opts.input.text}`,
-      };
-    }),
+  targetHistory: targetHistoryRouter,
+  userProfile: userProfileRouter,
 });
 // export type definition of API
 export type AppRouter = typeof appRouter;
