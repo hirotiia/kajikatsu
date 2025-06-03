@@ -5,13 +5,13 @@ import { Content } from '@/components/layouts/content/content';
 import { Box } from '@/components/ui/box';
 import { Heading } from '@/components/ui/heading';
 import { Text } from '@/components/ui/text';
+import { UserInfoSkeleton } from '@/components/ui/user';
 import { config } from '@/config/config';
 import {
   GroupInformation,
   GroupInformationSkeleton,
 } from '@/features/group/components/group-information';
-
-import { GroupMembers } from './group-members';
+import { GroupMembers } from '@/features/group/components/group-members';
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
@@ -34,7 +34,9 @@ export default function GroupPage() {
       </Box>
       <Heading>メンバー</Heading>
       <Box bg="primary" className="mt-5">
-        <GroupMembers />
+        <Suspense fallback={<UserInfoSkeleton size={35} />}>
+          <GroupMembers />
+        </Suspense>
       </Box>
     </Content>
   );
