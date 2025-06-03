@@ -6,6 +6,7 @@ import { Provider, useDispatch } from 'react-redux';
 import { Notifications } from '@/components/ui/notifications';
 import { AppDispatch, store } from '@/stores/index';
 import { fetchAsyncUserData } from '@/stores/user/reducer';
+import { TRPCProvider } from '@/trpc/client';
 
 type AppProviderProps = {
   children: React.ReactNode;
@@ -23,11 +24,11 @@ function AppProviderInner({ children }: { children: React.ReactNode }) {
 
 export const AppProvider = ({ children }: AppProviderProps) => {
   return (
-    <>
-      <Provider store={store}>
-        <Notifications />
+    <Provider store={store}>
+      <Notifications />
+      <TRPCProvider>
         <AppProviderInner>{children}</AppProviderInner>
-      </Provider>
-    </>
+      </TRPCProvider>
+    </Provider>
   );
 };
