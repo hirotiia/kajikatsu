@@ -1,12 +1,16 @@
 import { Metadata } from 'next';
+import { Suspense } from 'react';
 
 import { Content } from '@/components/layouts/content/content';
 import { Box } from '@/components/ui/box';
 import { Heading } from '@/components/ui/heading';
 import { Text } from '@/components/ui/text';
 import { config } from '@/config/config';
+import {
+  GroupInformation,
+  GroupInformationSkeleton,
+} from '@/features/group/components/group-information';
 
-import { GroupDetails } from './group-details';
 import { GroupMembers } from './group-members';
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -24,7 +28,9 @@ export default function GroupPage() {
       <Text>このページでは、グループの作成や管理ができます。</Text>
       <Text spacing="none">複数のグループに同時に入ることはできません。</Text>
       <Box>
-        <GroupDetails />
+        <Suspense fallback={<GroupInformationSkeleton />}>
+          <GroupInformation />
+        </Suspense>
       </Box>
       <Heading>メンバー</Heading>
       <Box bg="primary" className="mt-5">

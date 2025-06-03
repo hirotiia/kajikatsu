@@ -4,7 +4,7 @@ import { DleteGroup } from '@/features/group/components/delete-group';
 import { InviteGroup } from '@/features/group/components/invite-group';
 import { fetchUserProfileRpc } from '@/lib/supabase/user/fetch-user-profile-rpc';
 
-export const GroupDetails = async () => {
+export const GroupInformation = async () => {
   const data = await fetchUserProfileRpc();
 
   if (!data) {
