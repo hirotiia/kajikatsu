@@ -1,3 +1,4 @@
+import { Box } from 'lucide-react';
 import { Suspense } from 'react';
 
 import { Content } from '@/components/layouts/content/content';
@@ -54,7 +55,13 @@ export default async function HistoryPage(props: Props) {
       <Heading>絞り込み</Heading>
       <div className="mt-6">
         <Search placeholder="2025-05" />
-        <Suspense fallback={<Text>読み込み中...</Text>}>
+        <Suspense
+          fallback={
+            <Box className="mt-6">
+              <Text>読み込み中です...</Text>
+            </Box>
+          }
+        >
           <SearchResult query={query} />
         </Suspense>
       </div>
