@@ -1,7 +1,7 @@
-import { Box } from 'lucide-react';
 import { Suspense } from 'react';
 
 import { Content } from '@/components/layouts/content/content';
+import { Box } from '@/components/ui/box';
 import { Heading } from '@/components/ui/heading';
 import { Text } from '@/components/ui/text';
 import { Search, SearchResult } from '@/features/history/components/filter';
