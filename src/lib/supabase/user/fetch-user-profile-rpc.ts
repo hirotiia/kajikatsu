@@ -1,7 +1,7 @@
 import * as Sentry from '@sentry/nextjs';
 
-import { createClient } from '@/lib/supabase/server';
 import { FunctionReturn } from '@/types/supabase/database.types';
+import { TRPCContext } from '@/types/trpc';
 
 export type UserProfile = FunctionReturn<'get_user_profile'>;
 
@@ -12,8 +12,10 @@ export type UserProfile = FunctionReturn<'get_user_profile'>;
  * @param userId ユーザーID(任意)
  * @returns State 型に一致するオブジェクト
  */
-export async function fetchUserProfileRpc(): Promise<UserProfile | null> {
-  const supabase = await createClient();
+export async function fetchUserProfileRpc(
+  ctx: Pick<TRPCContext, 'supabase'>,
+): Promise<UserProfile | null> {
+  const { supabase } = ctx;
   const { data, error } = await supabase.rpc('get_user_profile', {});
 
   if (error) {

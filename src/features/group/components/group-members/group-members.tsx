@@ -1,9 +1,12 @@
 import { RenderGroupMembers } from '@/features/group/components/render-group-members';
 import { checkPendingJoinRequest } from '@/lib/supabase/data/join-requests/select/check-pending-join-request';
-import { fetchUserProfileRpc } from '@/lib/supabase/user/fetch-user-profile-rpc';
+import { createTRPCContext } from '@/trpc/init';
+import { createCaller } from '@/trpc/routers/_app';
 
 export const GroupMembers = async () => {
-  const user = await fetchUserProfileRpc();
+  const ctx = await createTRPCContext();
+  const caller = createCaller(ctx);
+  const user = await caller.userProfile.getUserProfile();
 
   if (!user) {
     return <h2>ユーザー情報を取得できませんでした。</h2>;

@@ -1,7 +1,7 @@
 import * as Sentry from '@sentry/nextjs';
 
-import { createClient } from '@/lib/supabase/server';
 import { FunctionReturn } from '@/types/supabase/database.types';
+import { TRPCContext } from '@/types/trpc';
 
 export type FilteredItems = FunctionReturn<'get_task_history_by_month'>;
 
@@ -19,9 +19,10 @@ type FilterOption = {
  * @returns タスク履歴の配列
  */
 export const fetchTargetHistory = async (
+  ctx: Pick<TRPCContext, 'supabase'>,
   options: FilterOption,
 ): Promise<FilteredItems> => {
-  const supabase = await createClient();
+  const { supabase } = ctx;
   const { data: tasks, error } = await supabase.rpc(
     'get_task_history_by_month',
     {

@@ -1,10 +1,13 @@
 import { DefinitionList } from '@/components/ui/list';
-import { fetchUserProfileRpc } from '@/lib/supabase/user/fetch-user-profile-rpc';
+import { createTRPCContext } from '@/trpc/init';
+import { createCaller } from '@/trpc/routers/_app';
 
 export const UserProfileContent = async () => {
-  const data = await fetchUserProfileRpc();
+  const ctx = await createTRPCContext();
+  const caller = createCaller(ctx);
+  const user = await caller.userProfile.getUserProfile();
 
-  if (!data) {
+  if (!user) {
     return <p>ユーザー情報はありません</p>;
   }
 
@@ -18,11 +21,11 @@ export const UserProfileContent = async () => {
         items={[
           {
             term: 'グループ名',
-            definitions: [data?.group?.name ?? '未加入'],
+            definitions: [user?.group?.name ?? '未加入'],
           },
           {
             term: 'ステータス',
-            definitions: [data?.group?.role.name ?? 'なし'],
+            definitions: [user?.group?.role.name ?? 'なし'],
           },
         ]}
       />

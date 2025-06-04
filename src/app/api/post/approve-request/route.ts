@@ -1,8 +1,8 @@
 /** 参加リクエストを承認 */
 import { NextResponse } from 'next/server';
 
-import { createClient } from '@/lib/supabase/server';
-import { fetchUserProfileRpc } from '@/lib/supabase/user/fetch-user-profile-rpc';
+import { createTRPCContext } from '@/trpc/init';
+import { createCaller } from '@/trpc/routers/_app';
 
 type SuccessResponse = {
   message: string;
@@ -20,7 +20,9 @@ type ApiResponse = SuccessResponse | ErrorResponse;
 export async function POST(
   request: Request,
 ): Promise<NextResponse<ApiResponse>> {
-  const supabase = await createClient();
+  const ctx = await createTRPCContext();
+  const { supabase } = ctx;
+  const caller = createCaller(ctx);
 
   // リクエスト body から requestId を取得
   const json = await request.json();
@@ -63,7 +65,8 @@ export async function POST(
   }
 
   // fetchUserData でユーザー（承認する人）の追加情報を取得（必要に応じて活用）
-  const userState = await fetchUserProfileRpc();
+  const userState = await caller.userProfile.getUserProfile();
+
   if (!userState) {
     // userState が null の場合、ユーザー情報を取れなかったと判断
     return NextResponse.json<ErrorResponse>(

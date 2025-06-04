@@ -2,7 +2,8 @@ import {
   GroupMember,
   fetchGroupMembers,
 } from '@/lib/supabase/data/users/fetch-group-members';
-import { fetchUserProfileRpc } from '@/lib/supabase/user/fetch-user-profile-rpc';
+import { createTRPCContext } from '@/trpc/init';
+import { createCaller } from '@/trpc/routers/_app';
 
 /**
  * グループに入っているかと、グループのメンバーの配列を返却する関数
@@ -11,7 +12,9 @@ export const fetchGroupMembersData = async () => {
   let joinedGroup = false;
   let groupMembers: GroupMember[] = [];
 
-  const data = await fetchUserProfileRpc();
+  const ctx = await createTRPCContext();
+  const caller = createCaller(ctx);
+  const data = await caller.userProfile.getUserProfile();
 
   if (!data) {
     return { error: true, data: null, joinedGroup, groupMembers };

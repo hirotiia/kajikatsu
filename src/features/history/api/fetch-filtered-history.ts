@@ -1,5 +1,6 @@
 import { LinkListItem } from '@/components/ui/list';
-import { fetchTargetHistory } from '@/lib/supabase/data/task-history/select/fetch-target-history';
+import { createTRPCContext } from '@/trpc/init';
+import { createCaller } from '@/trpc/routers/_app';
 
 import { formatForTaskHistoryList } from '../components/filter/utils/format-for-task-history-list';
 
@@ -13,11 +14,17 @@ import { formatForTaskHistoryList } from '../components/filter/utils/format-for-
 export const fetchFilteredHistory = async (
   query: string | undefined,
 ): Promise<LinkListItem[]> => {
+  const ctx = await createTRPCContext();
+  const caller = createCaller(ctx);
   const now = new Date();
   const [year, month] = query
     ? query.split('-').map(Number)
     : [now.getFullYear(), now.getMonth() + 1];
-  const filteredItems = await fetchTargetHistory({ year, month });
+  const filteredItems = await caller.targetHistory.getTargetHistory({
+    year,
+    month,
+  });
+
   const formattedItems = formatForTaskHistoryList(filteredItems);
 
   return formattedItems;

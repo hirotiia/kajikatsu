@@ -1,19 +1,22 @@
 import { GroupUserTab } from '@/features/todos/components/tab/group-user-tab';
 import { UserTab } from '@/features/todos/components/tab/user-tab';
-import { fetchUserProfileRpc } from '@/lib/supabase/user/fetch-user-profile-rpc';
+import { createTRPCContext } from '@/trpc/init';
+import { createCaller } from '@/trpc/routers/_app';
 
 export const SelectTabContentHasGroup = async () => {
-  const data = await fetchUserProfileRpc();
+  const ctx = await createTRPCContext();
+  const caller = createCaller(ctx);
+  const user = await caller.userProfile.getUserProfile();
 
-  if (!data) {
+  if (!user) {
     return <p>ユーザー情報を取得できませんでした。</p>;
   }
 
-  const hasGroup: boolean = !!data?.group;
+  const hasGroup: boolean = !!user?.group;
 
   return hasGroup ? (
-    <GroupUserTab userId={data.userId} groupId={data.group?.id ?? ''} />
+    <GroupUserTab userId={user.userId} groupId={user.group?.id ?? ''} />
   ) : (
-    <UserTab userId={data.userId} />
+    <UserTab userId={user.userId} />
   );
 };

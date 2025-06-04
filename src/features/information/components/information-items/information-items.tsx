@@ -1,7 +1,10 @@
 import { JoinRequestList } from '@/features/information/components/join-request-list';
-import { fetchUserProfileRpc } from '@/lib/supabase/user/fetch-user-profile-rpc';
+import { createTRPCContext } from '@/trpc/init';
+import { createCaller } from '@/trpc/routers/_app';
 
 export const InformationItems = async () => {
-  const data = await fetchUserProfileRpc();
-  return data?.userId && <JoinRequestList userId={data.userId} />;
+  const ctx = await createTRPCContext();
+  const caller = createCaller(ctx);
+  const user = await caller.userProfile.getUserProfile();
+  return user?.userId && <JoinRequestList userId={user.userId} />;
 };

@@ -3,7 +3,8 @@ import { Metadata } from 'next';
 import { Content } from '@/components/layouts/content/content';
 import { config } from '@/config/config';
 import { requestGroupMember } from '@/lib/supabase/action/request-group-member';
-import { fetchUserProfileRpc } from '@/lib/supabase/user/fetch-user-profile-rpc';
+import { createTRPCContext } from '@/trpc/init';
+import { createCaller } from '@/trpc/routers/_app';
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
@@ -16,6 +17,8 @@ export default async function JoinPage({
 }: {
   searchParams: Promise<{ invitation_token: string; expires_at: string }>;
 }) {
+  const ctx = await createTRPCContext();
+  const caller = createCaller(ctx);
   const resolvedParams = await searchParams;
   const invitationToken = resolvedParams.invitation_token;
   const expiresAt = resolvedParams.expires_at;
@@ -29,7 +32,7 @@ export default async function JoinPage({
       </Content>
     );
   }
-  const userData = await fetchUserProfileRpc();
+  const userData = await caller.userProfile.getUserProfile();
 
   if (!userData) {
     return (

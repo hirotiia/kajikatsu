@@ -2,7 +2,8 @@ import { Text } from '@/components/ui/text';
 import { fetchTasks } from '@/lib/supabase/data/tasks/select/fetch-tasks';
 import { fetchMembersId } from '@/lib/supabase/data/users/fetch-members-id';
 import { fetchUserData } from '@/lib/supabase/user/fetch-user-data';
-import { fetchUserProfileRpc } from '@/lib/supabase/user/fetch-user-profile-rpc';
+import { createTRPCContext } from '@/trpc/init';
+import { createCaller } from '@/trpc/routers/_app';
 import { Task } from '@/types/task.types';
 
 import { RenderMembersTasks } from './render-members-tasks';
@@ -16,7 +17,9 @@ type MemberWithTasks = {
 };
 
 export const AllMembersTasks = async () => {
-  const user = await fetchUserProfileRpc();
+  const ctx = await createTRPCContext();
+  const caller = createCaller(ctx);
+  const user = await caller.userProfile.getUserProfile();
 
   if (!user) {
     return <Text>ユーザー情報の取得に失敗しました。</Text>;

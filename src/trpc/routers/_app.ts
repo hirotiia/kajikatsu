@@ -1,6 +1,6 @@
 /* eslint-disable check-file/filename-naming-convention */
 
-import { createTRPCRouter } from '../init';
+import { createCallerFactory, createTRPCRouter } from '../init';
 
 import { targetHistoryRouter } from './supabase/rpc/target-history';
 import { userProfileRouter } from './supabase/rpc/user-profile';
@@ -11,3 +11,4 @@ export const appRouter = createTRPCRouter({
 });
 // export type definition of API
 export type AppRouter = typeof appRouter;
+export const createCaller = createCallerFactory(appRouter);
