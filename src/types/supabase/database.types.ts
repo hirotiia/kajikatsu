@@ -448,6 +448,30 @@ export type Database = {
           } | null;
         };
       };
+      get_my_tasks_and_group_members: {
+        Args: Record<string, never>;
+        Returns: {
+          tasks: {
+            id: string;
+            title: string;
+            description: string | null;
+            status_id: string;
+            status_name: string;
+            created_at: string | null;
+            updated_at: string | null;
+            expires_at: string | null;
+            group_id: string | null;
+            assignee_id: string | null;
+            created_by: string;
+          }[];
+          groupMembers:
+            | {
+                userId: string;
+                username: string | null;
+              }[]
+            | null;
+        };
+      };
     };
     Enums: {
       [_ in never]: never;
