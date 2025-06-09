@@ -3,6 +3,8 @@ import { UserTab } from '@/features/todos/components/tab/user-tab';
 import { createTRPCContext } from '@/trpc/init';
 import { createCaller } from '@/trpc/routers/_app';
 
+// import { TodoTab } from '../todo-tab';
+
 export const SelectTabContentHasGroup = async () => {
   const ctx = await createTRPCContext();
   const caller = createCaller(ctx);
@@ -15,7 +17,10 @@ export const SelectTabContentHasGroup = async () => {
   const hasGroup: boolean = !!user?.group;
 
   return hasGroup ? (
-    <GroupUserTab userId={user.userId} groupId={user.group?.id ?? ''} />
+    <>
+      <GroupUserTab userId={user.userId} groupId={user.group?.id ?? ''} />
+      {/* <TodoTab /> */}
+    </>
   ) : (
     <UserTab userId={user.userId} />
   );

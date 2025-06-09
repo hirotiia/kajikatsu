@@ -470,6 +470,12 @@ export type Database = {
                 username: string | null;
               }[]
             | null;
+          statusList:
+            | {
+                id: string;
+                name: string;
+              }[]
+            | null;
         };
       };
     };
