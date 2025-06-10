@@ -27,7 +27,7 @@ type TableBodyProps<T extends object> = Pick<
 };
 
 const TableElement = ({ className, ...props }: TableElementProps) => (
-  <div className="glassmorphism relative mt-3 w-full overflow-auto">
+  <div className="relative mt-3 w-full overflow-x-auto rounded-md bg-muted p-3">
     <table
       className={cn('w-full caption-bottom text-sm', className)}
       {...props}
@@ -40,7 +40,7 @@ const TableHead = <T extends object>({
   className,
 }: TableHeadProps<T>) => {
   return (
-    <thead className={cn('bottom-1', className)}>
+    <thead className={cn(className)}>
       <tr>
         {headCols.map((col, index) => (
           <th
@@ -62,7 +62,12 @@ const TableBody = <T extends object>({
 }: TableBodyProps<T>) => {
   console.log(rows);
   return (
-    <tbody className={className}>
+    <tbody
+      className={cn(
+        'bg-background rounded-md [&>tr:not(:last-child)]:border-b',
+        className,
+      )}
+    >
       {rows.map((row, index) => (
         <tr key={index}>
           {headCols.map((col, index) => (
