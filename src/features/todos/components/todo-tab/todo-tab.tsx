@@ -1,4 +1,4 @@
-import { Table } from '@/components/ui/table';
+import { Table, TableScroll } from '@/components/ui/table';
 import { createTRPCContext } from '@/trpc/init';
 import { createCaller } from '@/trpc/routers/_app';
 
@@ -45,7 +45,9 @@ export const TodoTab = async () => {
         groupMembers={myTasksAndGroupMembersData?.groupMembers ?? []}
         statusList={myTasksAndGroupMembersData?.statusList ?? []}
       />
-      <Table<Row> rows={rows} headCols={headCols} />
+      <TableScroll>
+        <Table<Row> rows={rows} headCols={headCols} />
+      </TableScroll>
     </>
   );
 };
