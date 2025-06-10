@@ -42,11 +42,8 @@ const TableHead = <T extends object>({
   return (
     <thead className={cn(className)}>
       <tr>
-        {headCols.map((col, index) => (
-          <th
-            key={col.id as string}
-            className={cn('p-3 text-left md:text-lg', index === 0 && 'pl-0')}
-          >
+        {headCols.map((col) => (
+          <th key={col.id as string} className={cn('p-3 text-left md:text-lg')}>
             {col.label}
           </th>
         ))}
@@ -70,11 +67,8 @@ const TableBody = <T extends object>({
     >
       {rows.map((row, index) => (
         <tr key={index}>
-          {headCols.map((col, index) => (
-            <td
-              key={col.id as string}
-              className={cn('p-3', index === 0 && 'pl-0')}
-            >
+          {headCols.map((col) => (
+            <td key={col.id as string} className={cn('p-3')}>
               <>{row[col.id]}</>
             </td>
           ))}
