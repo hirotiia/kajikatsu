@@ -1,3 +1,5 @@
+'use client';
+
 import { ComponentPropsWithRef } from 'react';
 
 import { useScrollCells } from './hooks/use-scroll-cells';
