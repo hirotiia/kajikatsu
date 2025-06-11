@@ -46,7 +46,7 @@ export const TodoTab = async () => {
         statusList={myTasksAndGroupMembersData?.statusList ?? []}
       />
       <TableScroll>
-        <Table<Row> rows={rows} headCols={headCols} />
+        <Table<Row> className="mt-3" rows={rows} headCols={headCols} />
       </TableScroll>
     </>
   );

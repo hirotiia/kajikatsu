@@ -13,7 +13,7 @@ export const TableScroll = ({
   const { tableWrapperRef, showShadow } = useScrollCells(children);
   return (
     <div className={scrollShadowClassNameGenerator({ showShadow, className })}>
-      <div {...props} ref={tableWrapperRef} className="">
+      <div {...props} ref={tableWrapperRef} className="overflow-x-auto">
         {children}
       </div>
     </div>

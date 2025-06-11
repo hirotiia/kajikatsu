@@ -11,7 +11,16 @@ export const useScrollCells = (children: ReactNode) => {
       return;
     }
 
+    const handleScroll = () => {
+      console.log('scroll');
+    };
+
+    wrapper.addEventListener('scroll', handleScroll);
+
     setShowShadow(true);
+    return () => {
+      wrapper.removeEventListener('scroll', handleScroll);
+    };
   }, [children]);
 
   return { tableWrapperRef, showShadow };

@@ -27,12 +27,10 @@ type TableBodyProps<T extends object> = Pick<
 };
 
 const TableElement = ({ className, ...props }: TableElementProps) => (
-  <div className="relative mt-3 w-full overflow-x-auto rounded-md bg-muted p-3">
-    <table
-      className={cn('w-full caption-bottom text-sm', className)}
-      {...props}
-    />
-  </div>
+  <table
+    className={cn('w-full caption-bottom text-sm bg-muted p-3', className)}
+    {...props}
+  />
 );
 
 const TableHead = <T extends object>({
@@ -43,7 +41,12 @@ const TableHead = <T extends object>({
     <thead className={cn(className)}>
       <tr>
         {headCols.map((col) => (
-          <th key={col.id as string} className={cn('p-3 text-left md:text-lg')}>
+          <th
+            key={col.id as string}
+            className={cn(
+              'p-3 text-left md:text-lg min-w-[95px] md:min-w-[150px]',
+            )}
+          >
             {col.label}
           </th>
         ))}
