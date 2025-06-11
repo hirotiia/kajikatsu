@@ -21,7 +21,7 @@ export const Content = ({ children, bg, className }: ContentProps) => {
   return (
     <div
       className={cn(
-        '[&>*:first-child]:mt-0',
+        '[&>*:first-child]:mt-0 min-w-0',
         ContentVariant({ bg, className }),
       )}
     >
