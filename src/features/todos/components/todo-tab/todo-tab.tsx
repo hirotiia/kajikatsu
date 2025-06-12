@@ -4,39 +4,39 @@ import { createCaller } from '@/trpc/routers/_app';
 
 import { ClientTodoTab } from './client-todo-tab';
 
-type Row = {
-  id: string;
-  title: string;
-  description: string;
-  statusName: string;
-  expiresAt: string;
-};
+// type Row = {
+//   id: string;
+//   title: string;
+//   description: string;
+//   statusName: string;
+//   expiresAt: string;
+// };
 export const TodoTab = async () => {
   const ctx = await createTRPCContext();
   const caller = createCaller(ctx);
   const myTasksAndGroupMembersData =
     await caller.myTasksAndGroupMembers.getMyTasksAndGroupMembers();
-  const myTasks = myTasksAndGroupMembersData?.tasks ?? [];
+  // const myTasks = myTasksAndGroupMembersData?.tasks ?? [];
 
-  const headCols = [
-    {
-      id: 'title',
-      label: 'タイトル',
-    },
-    { id: 'description', label: 'メモ' },
-    { id: 'statusName', label: 'ステータス' },
-    { id: 'expiresAt', label: '期限日' },
-  ] as const;
+  // const headCols = [
+  //   {
+  //     id: 'title',
+  //     label: 'タイトル',
+  //   },
+  //   { id: 'description', label: 'メモ' },
+  //   { id: 'statusName', label: 'ステータス' },
+  //   { id: 'expiresAt', label: '期限日' },
+  // ] as const;
 
-  const rows = myTasks.map((task) => {
-    return {
-      id: task.id,
-      title: task.title,
-      description: task.description ?? '',
-      statusName: task.status_name,
-      expiresAt: task.expires_at ?? '',
-    };
-  });
+  // const rows = myTasks.map((task) => {
+  //   return {
+  //     id: task.id,
+  //     title: task.title,
+  //     description: task.description ?? '',
+  //     statusName: task.status_name,
+  //     expiresAt: task.expires_at ?? '',
+  //   };
+  // });
 
   return (
     <>
@@ -46,7 +46,26 @@ export const TodoTab = async () => {
         statusList={myTasksAndGroupMembersData?.statusList ?? []}
       />
       <TableScroll>
-        <Table<Row> className="mt-3" rows={rows} headCols={headCols} />
+        <Table rounded={true}>
+          <thead>
+            <tr>
+              <th>テスト</th>
+              <th>テスト</th>
+              <th>テスト</th>
+              <th>テスト</th>
+              <th>テスト</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>テスト</td>
+              <td>テスト</td>
+              <td>テスト</td>
+              <td>テスト</td>
+              <td>テスト</td>
+            </tr>
+          </tbody>
+        </Table>
       </TableScroll>
     </>
   );

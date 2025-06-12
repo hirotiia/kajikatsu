@@ -1,98 +1,144 @@
-import { cn } from '@/utils/cn';
+import { ComponentProps, Fragment, PropsWithChildren, useMemo } from 'react';
+import { tv, VariantProps } from 'tailwind-variants';
 
-type TableElementProps = React.HTMLAttributes<HTMLTableElement> & {
-  className?: string;
+import { TableScroll } from './table-scroll/table-scroll';
+
+type TableProps = VariantProps<typeof classNameGenerator> &
+  ComponentProps<'table'>;
+
+const classNameGenerator = tv({
+  slots: {
+    wrapper: '',
+    table: [
+      'w-full border-collapse',
+      'caption-bottom',
+      'bg-muted',
+      '[&_:is(th,td)]:p-3',
+      '[&_:is(th,td)]:min-w-[100px] [&_:is(th,td)]:md:min-w-[150px]',
+      'text-sm',
+      '[&_tbody]:bg-background',
+    ],
+  },
+  variants: {
+    borderType: {
+      vertical: {},
+      horizontal: {},
+      both: {},
+      outer: {
+        table: 'border border-solid border-foreground',
+      },
+      all: {
+        table: 'border border-solid border-foreground',
+      },
+    },
+    borderStyle: {
+      solid: {
+        table: '[&_:is(th,td)]:border-solid',
+      },
+      dotted: {
+        table: '[&_:is(th,td)]:border-dotted',
+      },
+      dashed: {
+        table: '[&_:is(th,td)]:border-dashed',
+      },
+    },
+    rounded: {
+      true: {},
+    },
+    layout: {
+      auto: {},
+      fixed: {
+        table: 'table-fixed',
+      },
+    },
+    fixedHead: {
+      true: {
+        table:
+          '[&_tbody]:relative [&_tbody]:z-10 [&_thead]:sticky [&_thead]:start-0 [&_thead]:top-0 [&_thead]:z-[2]',
+      },
+    },
+  },
+  compoundVariants: [
+    {
+      borderType: ['outer', 'all'],
+      rounded: true,
+      className: {
+        table: 'border-none',
+        wrapper: 'border-shorthand',
+      },
+    },
+    {
+      borderType: ['vertical', 'both', 'all'],
+      className: {
+        table: [
+          '[&_:is(th:not(:first-child),td:not(:first-child))]:border-l',
+          '[&_:is(th:not(:first-child),td:not(:first-child))]:border-l-default',
+        ],
+      },
+    },
+    {
+      borderType: ['horizontal', 'both', 'all'],
+      className: {
+        table: [
+          [
+            '[&:has(thead)_tr:not(:where(thead_tr))_:is(th,td)]:border-t',
+            '[&:has(thead)_tr:not(:where(thead_tr))_:is(th,td)]:border-t-default',
+          ],
+          [
+            '[&:not(:has(thead))_tr:not(:first-of-type)_:is(th,td)]:border-t',
+            '[&:not(:has(thead))_tr:not(:first-of-type)_:is(th,td)]:border-t-default',
+          ],
+        ],
+      },
+    },
+  ],
+  defaultVariants: {
+    borderType: 'horizontal',
+    borderStyle: 'solid',
+    layout: 'auto',
+    fixedHead: false,
+  },
+});
+
+export const Table = ({
+  rounded,
+  borderStyle,
+  borderType,
+  layout,
+  fixedHead,
+  className,
+  ...rest
+}: TableProps) => {
+  const classNames = useMemo(() => {
+    const { table, wrapper } = classNameGenerator({
+      borderType,
+      borderStyle,
+      fixedHead,
+      layout,
+      rounded,
+      className,
+    });
+    return { table: table({ className }), wrapper: wrapper() };
+  }, [borderType, borderStyle, className, fixedHead, layout, rounded]);
+  const [Wrapper, wrapperProps] = useMemo(
+    () =>
+      rounded
+        ? [RoundedWrapper, { className: classNames.wrapper }]
+        : [Fragment],
+    [rounded, classNames.wrapper],
+  );
+
+  return (
+    <Wrapper {...wrapperProps}>
+      <table {...rest} className={classNames.table} />
+    </Wrapper>
+  );
 };
 
-type HeadColProps<T extends object> = {
-  id: keyof T;
-  label: string;
-};
-
-type TableProps<T extends object> = {
-  rows: T[];
-  headCols: readonly HeadColProps<T>[];
-  caption?: string;
-  className?: string;
-};
-
-type TableHeadProps<T extends object> = Pick<TableProps<T>, 'headCols'> & {
-  className?: string;
-};
-type TableBodyProps<T extends object> = Pick<
-  TableProps<T>,
-  'rows' | 'headCols'
-> & {
-  className?: string;
-};
-
-const TableElement = ({ className, ...props }: TableElementProps) => (
-  <table
-    className={cn('w-full caption-bottom text-sm bg-muted p-3', className)}
-    {...props}
-  />
+const RoundedWrapper = ({
+  children,
+}: PropsWithChildren<{ className?: string }>) => (
+  <div className="overflow-hidden rounded-md">
+    <TableScroll>{children}</TableScroll>
+  </div>
 );
-
-const TableHead = <T extends object>({
-  headCols,
-  className,
-}: TableHeadProps<T>) => {
-  return (
-    <thead className={cn(className)}>
-      <tr>
-        {headCols.map((col) => (
-          <th
-            key={col.id as string}
-            className={cn(
-              'p-3 text-left md:text-lg min-w-[95px] md:min-w-[150px]',
-            )}
-          >
-            {col.label}
-          </th>
-        ))}
-      </tr>
-    </thead>
-  );
-};
-
-const TableBody = <T extends object>({
-  headCols,
-  rows,
-  className,
-}: TableBodyProps<T>) => {
-  console.log(rows);
-  return (
-    <tbody
-      className={cn(
-        'bg-background rounded-md [&>tr:not(:last-child)]:border-b',
-        className,
-      )}
-    >
-      {rows.map((row, index) => (
-        <tr key={index}>
-          {headCols.map((col) => (
-            <td key={col.id as string} className={cn('p-3')}>
-              <>{row[col.id]}</>
-            </td>
-          ))}
-        </tr>
-      ))}
-    </tbody>
-  );
-};
-export { TableBody, TableElement, TableHead };
-
-export const Table = <T extends object>({
-  headCols,
-  rows,
-  caption,
-  className,
-}: TableProps<T>) => {
-  return (
-    <TableElement className={className}>
-      {caption && <caption>props.caption</caption>}
-      <TableHead headCols={headCols} />
-      <TableBody rows={rows} headCols={headCols} />
-    </TableElement>
-  );
-};
