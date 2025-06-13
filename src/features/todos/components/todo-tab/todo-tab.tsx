@@ -1,4 +1,4 @@
-import { Table, TableScroll } from '@/components/ui/table';
+import { Table, TableScroll, Td, Th } from '@/components/ui/table';
 import { createTRPCContext } from '@/trpc/init';
 import { createCaller } from '@/trpc/routers/_app';
 
@@ -45,24 +45,24 @@ export const TodoTab = async () => {
         groupMembers={myTasksAndGroupMembersData?.groupMembers ?? []}
         statusList={myTasksAndGroupMembersData?.statusList ?? []}
       />
-      <TableScroll>
-        <Table rounded={true}>
+      <TableScroll className="mt-3">
+        <Table rounded>
           <thead>
             <tr>
-              <th>テスト</th>
-              <th>テスト</th>
-              <th>テスト</th>
-              <th>テスト</th>
-              <th>テスト</th>
+              <Th fixed="left">テストテストテスト</Th>
+              <Th>テスト</Th>
+              <Th>テスト</Th>
+              <Th>テスト</Th>
+              <Th>テスト</Th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td>テスト</td>
-              <td>テスト</td>
-              <td>テスト</td>
-              <td>テスト</td>
-              <td>テスト</td>
+              <Td fixed="left">テスト</Td>
+              <Td>テスト</Td>
+              <Td>テスト</Td>
+              <Td>テスト</Td>
+              <Td>テスト</Td>
             </tr>
           </tbody>
         </Table>

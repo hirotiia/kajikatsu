@@ -1,6 +1,8 @@
 import { ComponentProps, Fragment, PropsWithChildren, useMemo } from 'react';
 import { tv, VariantProps } from 'tailwind-variants';
 
+import { cn } from '@/utils/cn';
+
 import { TableScroll } from './table-scroll/table-scroll';
 
 type TableProps = VariantProps<typeof classNameGenerator> &
@@ -8,13 +10,14 @@ type TableProps = VariantProps<typeof classNameGenerator> &
 
 const classNameGenerator = tv({
   slots: {
-    wrapper: '',
+    wrapper: 'overflow-auto',
     table: [
       'w-full border-collapse',
       'caption-bottom',
       'bg-muted',
       '[&_:is(th,td)]:p-3',
       '[&_:is(th,td)]:min-w-[100px] [&_:is(th,td)]:md:min-w-[150px]',
+      '[&_:is(td)]:bg-background [&_:is(th)]:bg-muted',
       'text-sm',
       '[&_tbody]:bg-background',
     ],
@@ -137,8 +140,9 @@ export const Table = ({
 
 const RoundedWrapper = ({
   children,
+  className,
 }: PropsWithChildren<{ className?: string }>) => (
-  <div className="overflow-hidden rounded-md">
+  <div className={cn('overflow-hidden rounded-md', className)}>
     <TableScroll>{children}</TableScroll>
   </div>
 );
