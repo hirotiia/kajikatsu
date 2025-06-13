@@ -21,6 +21,14 @@ export const useScrollCells = (children: ReactNode) => {
       if (!wrapper.querySelector(HAS_FIXED_SELECTOR)) {
         return;
       }
+
+      wrapper.querySelectorAll<HTMLElement>(TR_SELECTOR).forEach((tr) => {
+        const leftCells = tr.querySelectorAll<HTMLElement>(FIXED_LEFT_SELECTOR);
+        const rightCells =
+          tr.querySelectorAll<HTMLElement>(FIXED_RIGHT_SELECTOR);
+
+        console.log(leftCells, rightCells);
+      });
       console.log('scroll');
     };
 
