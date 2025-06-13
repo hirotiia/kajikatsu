@@ -21,6 +21,10 @@ const classNameGenerator = tv({
       baseline: 'align-baseline',
       bottom: 'align-bottom',
     },
+    fixed: {
+      left: 'sticky left-0 z-[1]',
+      right: 'sticky right-0 z-[1]',
+    },
   },
   defaultVariants: {
     align: 'left',
@@ -44,7 +48,7 @@ export const Th = ({
     }
 
     const shadow = scrollShadowClassNameGenerator({
-      showShadow: true,
+      showShadow: false,
       direction: fixed,
     });
 
