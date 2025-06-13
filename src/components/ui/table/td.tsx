@@ -51,7 +51,7 @@ export const Td = ({
     return `${base} ${shadow}`;
   }, [className, align, vAlign, fixed]);
   return (
-    <td {...props} className={actualClassName}>
+    <td {...props} data-fixed={fixed} className={actualClassName}>
       {children}
     </td>
   );
