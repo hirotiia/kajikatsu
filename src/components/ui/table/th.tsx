@@ -10,7 +10,6 @@ type Props = PropsWithChildren<{
 type ThElement = Omit<ComponentPropsWithoutRef<'th'>, keyof Props | 'onClick'>;
 
 const classNameGenerator = tv({
-  base: [],
   variants: {
     align: {
       left: '',
@@ -20,10 +19,6 @@ const classNameGenerator = tv({
       middle: '',
       baseline: 'align-baseline',
       bottom: 'align-bottom',
-    },
-    fixed: {
-      left: 'sticky left-0 z-[1]',
-      right: 'sticky right-0 z-[1]',
     },
   },
   defaultVariants: {
