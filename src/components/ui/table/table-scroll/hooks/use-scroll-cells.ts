@@ -22,14 +22,42 @@ export const useScrollCells = (children: ReactNode) => {
         return;
       }
 
+      const commonAction = (
+        cells: HTMLElement[] | NodeListOf<HTMLElement>,
+        direction: 'left' | 'right',
+        visible: boolean,
+      ) => {
+        const action = () => {
+          let position = 0;
+
+          cells.forEach((cell) => {
+            cell.classList.toggle('fixed', visible);
+            cell.style[direction] = `${position}px`;
+            cell.style.zIndex = '1';
+
+            position += cell.offsetWidth;
+          });
+        };
+
+        action();
+      };
+
       wrapper.querySelectorAll<HTMLElement>(TR_SELECTOR).forEach((tr) => {
         const leftCells = tr.querySelectorAll<HTMLElement>(FIXED_LEFT_SELECTOR);
         const rightCells =
           tr.querySelectorAll<HTMLElement>(FIXED_RIGHT_SELECTOR);
 
-        console.log(leftCells, rightCells);
+        if (leftCells.length > 0) {
+          commonAction(leftCells, 'left', wrapper.scrollLeft > 0);
+        }
+        if (rightCells.length > 0) {
+          commonAction(
+            rightCells,
+            'right',
+            wrapper.scrollLeft < wrapper.scrollWidth - wrapper.clientWidth - 1,
+          );
+        }
       });
-      console.log('scroll');
     };
 
     wrapper.addEventListener('scroll', handleScroll);
