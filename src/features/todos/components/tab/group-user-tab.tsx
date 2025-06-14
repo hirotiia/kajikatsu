@@ -21,12 +21,7 @@ export const GroupUserTab = async ({ userId, groupId }: GroupUserTabProps) => {
 
   const { data: tasksData } = tasksResult;
   const { data: groupMembersData } = groupMembersResult;
-
   const groupMembers = groupMembersData?.group_members ?? [];
-  console.log('----------------------');
-  console.log(tasksData);
-  console.log(groupMembers);
-  console.log('----------------------');
 
   return (
     <>
