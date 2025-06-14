@@ -12,7 +12,7 @@ const classNameGenerator = tv({
   slots: {
     wrapper: 'overflow-auto',
     table: [
-      'w-full border-collapse',
+      'sticky w-full border-collapse',
       'caption-bottom',
       'bg-muted',
       '[&_:is(th,td)]:p-3',
