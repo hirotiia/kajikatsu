@@ -16,27 +16,21 @@ export const TodoTab = async () => {
   const caller = createCaller(ctx);
   const myTasksAndGroupMembersData =
     await caller.myTasksAndGroupMembers.getMyTasksAndGroupMembers();
-  // const myTasks = myTasksAndGroupMembersData?.tasks ?? [];
+  const myTasks = myTasksAndGroupMembersData?.tasks ?? [];
 
-  // const headCols = [
-  //   {
-  //     id: 'title',
-  //     label: 'タイトル',
-  //   },
-  //   { id: 'description', label: 'メモ' },
-  //   { id: 'statusName', label: 'ステータス' },
-  //   { id: 'expiresAt', label: '期限日' },
-  // ] as const;
+  console.log('-------------------');
+  console.log(myTasks);
+  console.log('-------------------');
 
-  // const rows = myTasks.map((task) => {
-  //   return {
-  //     id: task.id,
-  //     title: task.title,
-  //     description: task.description ?? '',
-  //     statusName: task.status_name,
-  //     expiresAt: task.expires_at ?? '',
-  //   };
-  // });
+  const headCols = [
+    {
+      id: 'title',
+      label: 'タイトル',
+    },
+    { id: 'description', label: 'メモ' },
+    { id: 'status_name', label: 'ステータス' },
+    { id: 'expires_at', label: '期限日' },
+  ] as const;
 
   return (
     <>
@@ -49,21 +43,23 @@ export const TodoTab = async () => {
         <Table rounded>
           <thead>
             <tr>
-              <Th fixed="left">テストテストテスト</Th>
-              <Th>テスト</Th>
-              <Th>テスト</Th>
-              <Th>テスト</Th>
-              <Th>テスト</Th>
+              {headCols.map((col, i) => (
+                <Th key={col.id} fixed={i === 0 ? 'left' : undefined}>
+                  {col.label}
+                </Th>
+              ))}
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <Td fixed="left">テスト</Td>
-              <Td>テスト</Td>
-              <Td>テスト</Td>
-              <Td>テスト</Td>
-              <Td>テスト</Td>
-            </tr>
+            {myTasks.map((task) => (
+              <tr key={task.id}>
+                {headCols.map((col, id) => (
+                  <Td key={col.id} fixed={id === 0 ? 'left' : undefined}>
+                    {task[col.id]}
+                  </Td>
+                ))}
+              </tr>
+            ))}
           </tbody>
         </Table>
       </TableScroll>
