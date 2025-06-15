@@ -16,7 +16,7 @@ export const PrivateLayout = async ({
             className="z-30 col-start-1 col-end-3 mt-2 md:mt-6"
             isUserProfile={true}
           />
-          <main className="col-start-1 col-end-3 row-start-2 row-end-3 mt-8 grid min-w-0 grid-rows-[auto_1fr] gap-y-6 md:col-start-2 md:row-start-2 md:mt-0 md:py-0 md:pb-24">
+          <main className="col-start-1 col-end-3 row-start-2 row-end-3 mt-8 grid min-w-0 grid-rows-[auto_1fr] gap-y-6 md:col-start-2 md:row-start-2 md:mt-0 md:grid-rows-[1fr] md:py-0 md:pb-24">
             <Breadcrumbs />
             {children}
           </main>
