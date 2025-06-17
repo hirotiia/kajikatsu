@@ -1,4 +1,10 @@
+'use client';
+
+import { useState } from 'react';
+
 import { Table, TableScroll, Td, Th } from '@/components/ui/table';
+
+import { useSubscribeDBChanges } from './hooks/use-subscribe-db-changes';
 
 type Column<T extends string> = {
   id: T;
@@ -14,6 +20,11 @@ export const ClientTodoTable = <T extends string>({
   cols,
   initialData,
 }: ClientTodoTableProps<T>) => {
+  const [todos, setTodos] = useState(initialData);
+  const { data, error } = useSubscribeDBChanges();
+  console.log(data, error);
+  console.log(setTodos);
+
   return (
     <TableScroll className="mt-3">
       <Table rounded>
@@ -27,11 +38,11 @@ export const ClientTodoTable = <T extends string>({
           </tr>
         </thead>
         <tbody>
-          {initialData.map((data) => (
-            <tr key={data.id}>
+          {todos.map((todo) => (
+            <tr key={todo.id}>
               {cols.map((col, id) => (
                 <Td key={col.id} fixed={id === 0 ? 'left' : undefined}>
-                  {data[col.id]}
+                  {todo[col.id]}
                 </Td>
               ))}
             </tr>
