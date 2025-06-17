@@ -4,9 +4,11 @@ import { subscribeDBChanges } from '@/lib/supabase/realtime/subscribe-db-changes
 import { trpc } from '@/trpc/client';
 
 export const useSubscribeDBChanges = () => {
-  const { data, refetch, error } =
-    trpc.myTasksAndGroupMembers.getMyTasksAndGroupMembers.useQuery();
   const { data: userProfile } = trpc.userProfile.getUserProfile.useQuery();
+  const { data, refetch, error } =
+    trpc.myTasksAndGroupMembers.getMyTasksAndGroupMembers.useQuery(undefined, {
+      enabled: !!userProfile,
+    });
   const filter = userProfile?.group?.id
     ? `group_id=eq.${userProfile?.group?.id}`
     : `created_by=eq.${userProfile?.userId}`;
