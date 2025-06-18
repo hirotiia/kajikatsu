@@ -3,8 +3,6 @@ import { createCaller } from '@/trpc/routers/_app';
 
 import { ClientTodoTable } from '../create-todo-table';
 
-import { ClientTodoTab } from './client-todo-tab';
-
 type HeadColId = (typeof HEAD_COLS)[number]['id'];
 
 const HEAD_COLS = [
@@ -24,14 +22,5 @@ export const TodoTab = async () => {
     await caller.myTasksAndGroupMembers.getMyTasksAndGroupMembers();
   const myTasks = myTasksAndGroupMembersData?.tasks ?? [];
 
-  return (
-    <>
-      <ClientTodoTab
-        initialTasks={myTasksAndGroupMembersData?.tasks ?? []}
-        groupMembers={myTasksAndGroupMembersData?.groupMembers ?? []}
-        statusList={myTasksAndGroupMembersData?.statusList ?? []}
-      />
-      <ClientTodoTable<HeadColId> cols={HEAD_COLS} initialData={myTasks} />
-    </>
-  );
+  return <ClientTodoTable<HeadColId> cols={HEAD_COLS} initialData={myTasks} />;
 };

@@ -1,12 +1,10 @@
 'use client';
 
-import { useState } from 'react';
-
 import { Table, TableScroll, Td, Th } from '@/components/ui/table';
 
-import { useSubscribeDBChanges } from './hooks/use-subscribe-db-changes';
+import { useTodos } from './hooks/use-todos';
 
-type Column<T extends string> = {
+export type Column<T extends string> = {
   id: T;
   label: string;
 };
@@ -20,10 +18,7 @@ export const ClientTodoTable = <T extends string>({
   cols,
   initialData,
 }: ClientTodoTableProps<T>) => {
-  const [todos, setTodos] = useState(initialData);
-  const { data, error } = useSubscribeDBChanges();
-  console.log(data, error);
-  console.log(setTodos);
+  const { todos } = useTodos(initialData);
 
   return (
     <TableScroll className="mt-3">
