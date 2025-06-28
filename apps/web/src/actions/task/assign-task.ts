@@ -38,7 +38,7 @@ export async function assignTask(
 
     const taskId = formData.get('taskId');
 
-    if (!taskId) {
+    if (!taskId || typeof taskId !== 'string') {
       throw new Error('タスク情報が取得できませんでした。');
     }
 

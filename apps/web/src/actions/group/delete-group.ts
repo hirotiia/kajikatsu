@@ -20,6 +20,18 @@ export const deleteGroup = async (
     const groupId = formData.get('group_id');
     const roleId = formData.get('role_id');
 
+    if (
+      typeof userId !== 'string' ||
+      typeof groupId !== 'string' ||
+      typeof roleId !== 'string'
+    ) {
+      return {
+        type: 'error',
+        status: 400,
+        message: 'ユーザー情報の取得に失敗しました。',
+      };
+    }
+
     if (!userId || !groupId || !roleId) {
       return {
         type: 'error',

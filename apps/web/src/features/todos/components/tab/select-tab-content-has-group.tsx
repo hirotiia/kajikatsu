@@ -1,3 +1,4 @@
+import { Text } from '@/components/ui/text';
 import { GroupUserTab } from '@/features/todos/components/tab/group-user-tab';
 import { UserTab } from '@/features/todos/components/tab/user-tab';
 import { createTRPCContext } from '@/trpc/init';
@@ -11,7 +12,7 @@ export const SelectTabContentHasGroup = async () => {
   const user = await caller.userProfile.getUserProfile();
 
   if (!user) {
-    return <p>ユーザー情報を取得できませんでした。</p>;
+    return <Text>ユーザー情報を取得できませんでした。</Text>;
   }
 
   const hasGroup: boolean = !!user?.group;

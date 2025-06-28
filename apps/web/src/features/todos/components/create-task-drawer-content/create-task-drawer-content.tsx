@@ -1,4 +1,5 @@
-import { DrawerTitle, DrawerBody, DrawerContent } from '@/components/ui/drawer';
+import { DrawerBody, DrawerContent, DrawerTitle } from '@/components/ui/drawer';
+import { Text } from '@/components/ui/text';
 import { FormCreateTask } from '@/features/todos/components/form/form-create-task';
 
 import { fetchGroupMembersData } from '../../api/fetch-group-members-data';
@@ -8,7 +9,7 @@ export const CreateTaskDrawerContent = async () => {
     await fetchGroupMembersData();
 
   if (error || !data) {
-    return <p>ユーザー情報の取得に失敗しました。</p>;
+    return <Text>ユーザー情報の取得に失敗しました。</Text>;
   }
 
   return (

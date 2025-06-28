@@ -81,7 +81,8 @@
   }
 
   body {
-    @apply text-foreground overflow-y-scroll;
+    overflow-y: scroll;
+    color: var(--foreground);
     margin: 0;
     color: var(--foreground);
     background: var(--background);

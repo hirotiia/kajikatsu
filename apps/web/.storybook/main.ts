@@ -1,4 +1,6 @@
 import type { StorybookConfig } from '@storybook/experimental-nextjs-vite';
+import path from 'path';
+import { mergeConfig } from 'vite';
 
 const config: StorybookConfig = {
   staticDirs: ['../public'],
@@ -6,6 +8,15 @@ const config: StorybookConfig = {
     '../src/components/ui/**/*.stories.@(js|jsx|ts|tsx)',
     '../src/components/layouts/**/*.stories.@(js|jsx|ts|tsx)',
   ],
+  viteFinal: async (config) => {
+    return mergeConfig(config, {
+      resolve: {
+        alias: {
+          '@': path.resolve(__dirname, '../src'), // ← `@` を `apps/web/src` に解決
+        },
+      },
+    });
+  },
   addons: [
     '@storybook/addon-essentials',
     '@storybook/addon-onboarding',
