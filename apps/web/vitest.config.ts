@@ -1,7 +1,6 @@
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-import { storybookTest } from '@storybook/experimental-addon-test/vitest-plugin';
 import { defineConfig } from 'vitest/config';
 
 const dirname =
@@ -17,6 +16,8 @@ export default defineConfig({
     },
   },
   test: {
+    environment: 'jsdom',
+    globals: true,
     coverage: {
       reporter: ['text', 'html'],
       exclude: [
@@ -28,37 +29,14 @@ export default defineConfig({
         '**/dist/**',
         '**/public/**',
         '**/.next/**',
-        '**/mocked-google-fonts.js',
-        '**/tailwind.config.ts',
-        '**/postcss.config.*',
-        '**/next.config.*',
-        '**/vitest.config.*',
         '**/*.types.ts',
         '**/types/**',
       ],
     },
-    workspace: [
-      {
-        extends: true,
-        plugins: [
-          // The plugin will run tests for the stories defined in your Storybook config
-          // See options at: https://storybook.js.org/docs/writing-tests/test-addon#storybooktest
-          storybookTest({
-            configDir: path.join(dirname, '.storybook'),
-            tags: { exclude: ['skip'] },
-          }),
-        ],
-        test: {
-          name: 'storybook',
-          browser: {
-            enabled: true,
-            headless: true,
-            name: 'chromium',
-            provider: 'playwright',
-          },
-          setupFiles: ['.storybook/vitest.setup.ts'],
-        },
-      },
-    ],
+    include: ['src/**/*.{test,spec}.{ts,tsx}'],
+    setupFiles: [path.resolve(dirname, './src/test/setup.ts')],
+  },
+  esbuild: {
+    jsx: 'automatic',
   },
 });
