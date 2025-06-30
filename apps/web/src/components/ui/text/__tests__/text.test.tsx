@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 
-import { Text } from './text';
+import { Text } from '../text';
 
 test('applies textSize, spacing, and weight variants', () => {
   render(
