@@ -5,22 +5,22 @@ import * as React from 'react';
 import { cn } from '@/utils/cn';
 
 const buttonVariants = cva(
-  'inline-flex items-start justify-center gap-1 px-1 py-2 text-sm focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 md:text-base',
+  'focus-visible:ring-ring inline-flex items-start justify-center gap-1 px-1 py-2 text-sm focus-visible:ring-1 disabled:pointer-events-none disabled:opacity-50 md:text-base',
   {
     variants: {
       variant: {
         default:
-          'border-2 border-primary bg-primary text-primary-foreground transition-colors delay-200 duration-200 ease-out hover:border-primary hover:bg-primary-foreground hover:text-primary',
+          'border-primary bg-primary text-primary-foreground hover:border-primary hover:bg-primary-foreground hover:text-primary border-2 transition-colors delay-200 duration-200 ease-out',
         login:
-          'border-2 border-background bg-background text-foreground transition-colors delay-200 duration-200 ease-out hover:border-background hover:bg-foreground hover:text-background',
+          'border-foreground bg-background text-foreground hover:border-background hover:bg-foreground hover:text-background border-2 transition-colors delay-200 duration-200 ease-out',
         destructive:
-          'border-2 border-destructive bg-destructive text-destructive-foreground transition-colors delay-200 duration-200 ease-out hover:border-destructive hover:bg-destructive-foreground hover:text-destructive',
+          'border-destructive bg-destructive text-destructive-foreground hover:border-destructive hover:bg-destructive-foreground hover:text-destructive border-2 transition-colors delay-200 duration-200 ease-out',
       },
       size: {
         default: 'min-w-custom',
         full: 'w-full',
         small: 'min-w-24 max-w-40',
-        auto: '',
+        auto: 'w-auto',
       },
       rounded: {
         sm: 'rounded-sm',

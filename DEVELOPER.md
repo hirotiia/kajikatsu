@@ -90,7 +90,7 @@
 | `npm run lint`        | ESLint を実行し、コードの静的解析                                   |
 | `npm run supabase`    | ローカルで Supabase を起動                                          |
 | `npm run secretlint`  | 秘密情報が含まれていないかチェック                                  |
-| `npm run check-types` | TypeScript の型チェック                                             |
+| `npm run check:types` | TypeScript の型チェック                                             |
 | `npm run prepare`     | Husky をセットアップ（Git コミット前のフックを有効化）              |
 | `npm run migrate`     | Supabase のスキーマ変更を出力 (`supabase db diff`)                  |
 

@@ -15,9 +15,11 @@ const config = {
   '*.{ts,tsx}': [
     buildNextLintCommand('web'),
     buildNextLintCommand('mobile'),
-    "bash -c 'npm run check-types'",
+    "bash -c 'npm run check:types'",
   ],
-  '**/*': 'secretlint --maskSecrets',
+  '*.{ts,tsx,js,json,yml,md}': (files) => {
+    return `npx secretlint --maskSecrets ${files.join(' ')}`;
+  },
 };
 
 export default config;
