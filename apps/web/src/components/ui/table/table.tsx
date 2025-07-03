@@ -28,10 +28,10 @@ const classNameGenerator = tv({
       horizontal: {},
       both: {},
       outer: {
-        table: 'border border-solid border-foreground',
+        table: 'border-foreground border border-solid',
       },
       all: {
-        table: 'border border-solid border-foreground',
+        table: 'border-foreground border border-solid',
       },
     },
     borderStyle: {

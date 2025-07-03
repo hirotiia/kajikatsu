@@ -1,0 +1,62 @@
+import { Meta, StoryObj } from '@storybook/react';
+
+import { FormInput } from './form-input';
+
+const meta: Meta<typeof FormInput> = {
+  title: 'UI/Form',
+  component: FormInput,
+  tags: ['autodocs'],
+  argTypes: {
+    label: {
+      control: 'text',
+      description: 'The label for the input field',
+      defaultValue: 'Input Label',
+    },
+    id: {
+      control: 'text',
+      description: 'The unique identifier for the input field',
+      defaultValue: 'input-id',
+    },
+    name: {
+      control: 'text',
+      description: 'The name attribute for the input field',
+      defaultValue: 'input-name',
+    },
+    type: {
+      control: 'select',
+      options: ['text', 'email', 'password', 'number'],
+      description: 'The type of the input field',
+      defaultValue: 'text',
+    },
+    className: {
+      control: 'text',
+      description: 'Additional CSS classes for the input field',
+      defaultValue: '',
+    },
+    layout: {
+      control: 'select',
+      options: ['horizontal', 'vertical'],
+      description: 'The layout of the form input',
+      defaultValue: 'horizontal',
+    },
+    required: {
+      control: 'boolean',
+      description: 'Whether the input field is required',
+      defaultValue: false,
+    },
+  },
+};
+export default meta;
+type Story = StoryObj<typeof FormInput>;
+
+export const Input: Story = {
+  args: {
+    label: 'ラベルテキスト',
+    id: 'input-id',
+    name: 'input-name',
+    type: 'text',
+    className: '',
+    layout: 'horizontal',
+    required: false,
+  },
+};
