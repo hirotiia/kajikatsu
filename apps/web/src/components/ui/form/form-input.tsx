@@ -22,7 +22,7 @@ export const FormInput: React.FC<FormInputProps> = ({
   name,
   type = 'text',
   className,
-  error,
+  error = [],
   layout = 'horizontal',
   required,
   ...props
