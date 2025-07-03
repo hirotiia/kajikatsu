@@ -27,6 +27,11 @@
         "plugin:prettier/recommended",
         "plugin:tailwindcss/recommended"
       ],
+      "settings": {
+        "tailwindcss": {
+          "config": "./tailwind.config.ts"
+        }
+      },
       "rules": {
         "import/no-restricted-paths": [
           "error",
@@ -59,6 +64,7 @@
             ]
           }
         ],
+        "tailwindcss/no-custom-classname": "error",
         "import/no-cycle": "error",
         "linebreak-style": ["error", "unix"],
         "react/prop-types": "off",
