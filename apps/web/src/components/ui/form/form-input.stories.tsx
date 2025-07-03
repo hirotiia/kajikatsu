@@ -1,5 +1,6 @@
 import { Meta, StoryObj } from '@storybook/react';
 
+import { within } from '@storybook/test';
 import { FormInput } from './form-input';
 
 const meta: Meta<typeof FormInput> = {
@@ -58,5 +59,13 @@ export const Input: Story = {
     className: '',
     layout: 'horizontal',
     required: false,
+  },
+};
+
+export const Testing: Story = {
+  play: ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const input = canvas.getByRole('ラベルテキスト');
+    expect(input).toHaveTextContent('');
   },
 };
