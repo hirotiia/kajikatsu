@@ -1,5 +1,5 @@
+import { expect } from '@storybook/jest';
 import { Meta, StoryObj } from '@storybook/react';
-
 import { within } from '@storybook/test';
 import { FormInput } from './form-input';
 
@@ -62,16 +62,23 @@ export const Input: Story = {
     id: 'input-id',
     name: 'input-name',
     type: 'text',
-    className: '',
     layout: 'horizontal',
     required: false,
   },
 };
 
 export const Testing: Story = {
+  args: {
+    label: 'テスト用ラベル',
+    id: 'test-id',
+    name: 'input-name',
+    type: 'text',
+    layout: 'horizontal',
+    required: false,
+  },
   play: ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    const input = canvas.getByRole('ラベルテキスト');
+    const input = canvas.getByRole('textbox');
     expect(input).toHaveTextContent('');
   },
 };
