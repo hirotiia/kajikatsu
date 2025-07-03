@@ -45,6 +45,12 @@ const meta: Meta<typeof FormInput> = {
       description: 'Whether the input field is required',
       defaultValue: false,
     },
+    error: {
+      control: { type: 'multi-select' },
+      options: ['Error message 1', 'Error message 2', 'Error message 3'],
+      description: 'An array of error messages for the input field',
+      defaultValue: [],
+    },
   },
 };
 export default meta;

@@ -50,21 +50,6 @@ export const FormInput: React.FC<FormInputProps> = ({
           </Label>
         )}
       </label>
-      <div className={cn('', hasError && 'border-destructive')}>
-        <input
-          id={id}
-          name={name}
-          type={type}
-          aria-invalid={hasError}
-          aria-describedby={hasError ? `${id}-error` : undefined}
-          className={cn(
-            'block w-full h-12 p-2 text-primary rounded-md border border-muted',
-            className,
-          )}
-          {...props}
-        />
-      </div>
-
       {error?.map((errMsg, idx) => (
         <p
           key={`${id}-error-${idx}`}
@@ -80,6 +65,20 @@ export const FormInput: React.FC<FormInputProps> = ({
           {errMsg}
         </p>
       ))}
+      <div className={cn('', hasError && 'border-destructive')}>
+        <input
+          id={id}
+          name={name}
+          type={type}
+          aria-invalid={hasError}
+          aria-describedby={hasError ? `${id}-error` : undefined}
+          className={cn(
+            'block w-full h-12 p-2 text-primary rounded-md border border-muted',
+            className,
+          )}
+          {...props}
+        />
+      </div>
     </div>
   );
 };
