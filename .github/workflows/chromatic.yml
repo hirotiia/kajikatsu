@@ -30,5 +30,5 @@ jobs:
           onlyChanged: true
           zip: true
           externals: |
-            tailwind.config.js
+            tailwind.config.ts
             public/**

@@ -4,15 +4,12 @@ import { mergeConfig } from 'vite';
 
 const config: StorybookConfig = {
   staticDirs: ['../public'],
-  stories: [
-    '../src/components/ui/**/*.stories.@(js|jsx|ts|tsx)',
-    '../src/components/layouts/**/*.stories.@(js|jsx|ts|tsx)',
-  ],
+  stories: ['../src/components/ui/**/*.stories.@(js|jsx|ts|tsx)'],
   viteFinal: async (config) => {
     return mergeConfig(config, {
       resolve: {
         alias: {
-          '@': path.resolve(__dirname, '../src'), // ← `@` を `apps/web/src` に解決
+          '@': path.resolve(__dirname, '../src'),
         },
       },
     });

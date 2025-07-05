@@ -12,7 +12,6 @@
     "test:storybook": "vitest --config vitest.storybook.config.ts",
     "coverage": "vitest run --coverage  --config vitest.config.ts",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build",
     "analyze": "ANALYZE=true next build",
     "chromatic": "npx chromatic --project-token=$CHROMATIC_PROJECT_TOKEN"
   },
